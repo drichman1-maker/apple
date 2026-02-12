@@ -17,13 +17,6 @@ class MockClient:
         print(f"✅ Generated Code: {code}")
         assert code.startswith("TES-")
 
-    def test_clawi_logic(self):
-        print("Testing Clawi Worker Logic...")
-        from apps.clawi.src.worker import generate_draft_content
-        content = generate_draft_content()
-        print(f"✅ Generated Draft: {content}")
-        assert "Generated at" in content
-
     def test_cleanup_logic(self):
         print("Testing Cleanup Logic...")
         # Check imports and syntax
@@ -37,7 +30,6 @@ if __name__ == "__main__":
     
     client = MockClient()
     client.test_referral()
-    client.test_clawi_logic()
     client.test_cleanup_logic()
 
     print("------------------------------------------------")

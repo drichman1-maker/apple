@@ -47,40 +47,8 @@ except Exception as e:
     print(f"❌ App ID validation failed: {e}")
     sys.exit(1)
 
-# Test 3: Per-Task Commits (Duplicate Webhook Prevention)
-print("\n[TEST 3] Validating Per-Task Commits...")
-try:
-    with open('apps/clawi/src/worker.py', 'r') as f:
-        content = f.read()
-    
-    # Check that commit happens inside the for loop for each task
-    assert 'session.commit()' in content, "Missing commit"
-    assert '# COMMIT PER TASK' in content, "Per-task commit pattern not found"
-    assert 'session.rollback()' in content, "Missing rollback on error"
-    
-    print("✅ Per-task commits implemented (prevents duplicate webhooks)")
-except Exception as e:
-    print(f"❌ Per-task commit validation failed: {e}")
-    sys.exit(1)
-
-# Test 4: SSRF Protection in Worker
-print("\n[TEST 4] Validating Worker SSRF Protection...")
-try:
-    with open('apps/clawi/src/worker.py', 'r') as f:
-        content = f.read()
-    
-    assert 'is_safe_webhook_url' in content, "Missing SSRF check function"
-    assert 'blocked_patterns' in content, "Missing blocked patterns"
-    assert '169.254' in content, "AWS metadata not blocked"
-    assert 'Blocked unsafe URL' in content, "Missing block logging"
-    
-    print("✅ Worker SSRF protection implemented")
-except Exception as e:
-    print(f"❌ Worker SSRF validation failed: {e}")
-    sys.exit(1)
-
-# Test 5: Batched Cleanup
-print("\n[TEST 5] Validating Batched Cleanup...")
+# Test 3: Batched Cleanup
+print("\n[TEST 3] Validating Batched Cleanup...")
 try:
     with open('apps/backend/src/tasks.py', 'r') as f:
         content = f.read()
@@ -95,8 +63,8 @@ except Exception as e:
     print(f"❌ Batched cleanup validation failed: {e}")
     sys.exit(1)
 
-# Test 6: Connection Pool Configuration
-print("\n[TEST 6] Validating Connection Pool...")
+# Test 4: Connection Pool Configuration
+print("\n[TEST 4] Validating Connection Pool...")
 try:
     with open('apps/backend/src/database.py', 'r') as f:
         content = f.read()
@@ -111,31 +79,8 @@ except Exception as e:
     print(f"❌ Connection pool validation failed: {e}")
     sys.exit(1)
 
-# Test 7: Model Definition Location
-print("\n[TEST 7] Validating Model Definitions...")
-try:
-    with open('apps/clawi/src/worker.py', 'r') as f:
-        content = f.read()
-    
-    # Check that models are defined at module level, not inside functions
-    lines = content.split('\n')
-    draft_class_line = None
-    for i, line in enumerate(lines):
-        if 'class Draft(' in line:
-            draft_class_line = i
-            break
-    
-    # Models should be defined before run_worker (around line 20-40)
-    assert draft_class_line is not None, "Draft class not found"
-    assert draft_class_line < 50, f"Draft class defined too late (line {draft_class_line}), should be at module level"
-    
-    print("✅ Models defined at module level (not inside functions)")
-except Exception as e:
-    print(f"❌ Model definition validation failed: {e}")
-    sys.exit(1)
-
-# Test 8: Shared Models Package
-print("\n[TEST 8] Validating Shared Models...")
+# Test 5: Shared Models Package
+print("\n[TEST 5] Validating Shared Models...")
 try:
     assert os.path.exists('packages/shared/models.py'), "Shared models package not found"
     
@@ -158,10 +103,8 @@ print("=" * 60)
 print("\n🛡️ Security Fixes Verified:")
 print("   1. SSRF Protection - Blocks private IPs and metadata endpoints")
 print("   2. App ID Validation - Length/character restrictions")
-print("   3. Per-Task Commits - Prevents duplicate webhooks")
-print("   4. Batched Cleanup - Prevents table locks")
-print("   5. Connection Pooling - Production-ready database config")
-print("   6. Module-Level Models - Prevents memory leaks")
+print("   3. Batched Cleanup - Prevents table locks")
+print("   4. Connection Pooling - Production-ready database config")
 
 print("\n📋 Remaining Manual Tests:")
 print("   - Test actual webhook delivery to external endpoints")

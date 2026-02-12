@@ -53,36 +53,8 @@ except Exception as e:
     print(f"❌ Main app validation failed: {e}")
     sys.exit(1)
 
-# Test 4: Worker Model Compatibility
-print("\n[TEST 4] Validating Worker Model...")
-try:
-    from apps.clawi.src.worker import BotOutput as WorkerBotOutput
-    
-    worker_fields = WorkerBotOutput.__fields__.keys()
-    assert 'draft_id' in worker_fields, "Worker BotOutput missing draft_id"
-    
-    print("✅ Worker model has draft_id field")
-except Exception as e:
-    print(f"❌ Worker model validation failed: {e}")
-    sys.exit(1)
-
-# Test 5: Webhook Logic
-print("\n[TEST 5] Validating Webhook Logic...")
-try:
-    from apps.clawi.src.worker import process_pending_tasks
-    import inspect
-    
-    source = inspect.getsource(process_pending_tasks)
-    assert 'draft.webhook_url' in source, "Webhook dispatch logic not found"
-    assert 'timeout=15' in source, "Webhook timeout not increased to 15s"
-    
-    print("✅ Webhook dispatch logic present with 15s timeout")
-except Exception as e:
-    print(f"❌ Webhook validation failed: {e}")
-    sys.exit(1)
-
-# Test 6: Rate Limiter Configuration
-print("\n[TEST 6] Validating Rate Limiter...")
+# Test 4: Rate Limiter Configuration
+print("\n[TEST 4] Validating Rate Limiter...")
 try:
     from apps.backend.src.main import limiter
     
@@ -101,6 +73,5 @@ print("=" * 60)
 print("\nNext Steps:")
 print("1. Set DATABASE_URL environment variable")
 print("2. Run: uvicorn apps.backend.src.main:app --reload")
-print("3. Run: python apps/clawi/src/worker.py")
-print("4. Test with real HTTP requests")
+print("3. Test with real HTTP requests")
 print("\nSee PRODUCTION_CHECKLIST.md for deployment requirements.")

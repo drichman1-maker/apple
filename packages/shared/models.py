@@ -25,7 +25,7 @@ class Draft(EphemeralBase, table=True):
 
 
 class BotOutput(EphemeralBase, table=True):
-    """Generated content from Clawi bot."""
+    """Generated content from bot processing."""
     id: Optional[uuid.UUID] = Field(default_factory=uuid.uuid4, primary_key=True)
     draft_id: uuid.UUID = Field(foreign_key="draft.id")
     generated_content: Optional[str] = None

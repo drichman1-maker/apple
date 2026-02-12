@@ -36,4 +36,4 @@ Without Redis, each backend instance maintains its own rate limit counter. A ten
 - Set `SENDGRID_API_KEY` for email notifications
 - Set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` for S3 storage
 - Configure S3 bucket lifecycle policy to delete objects tagged with `retention=24h`
-- Set `OPENAI_API_KEY` for Clawi worker (if using real LLM generation)
+
