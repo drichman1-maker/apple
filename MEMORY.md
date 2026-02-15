@@ -26,6 +26,24 @@
 - 2026-02-08: Request to track and notify when Claude is used (for API credit monitoring)
 - 2026-02-08: Final model strategy — Groq Llama SpecDec (paid tier) as primary for text, auto-fallback to Claude for PDFs/images; 16 subagents using DeepSeek ($0.14/$0.28) for coding/routine work, Grok 2 for creative tasks; avoid free tiers (hit limits)
 
+## 2026-02-15 — Overnight Work
+
+### Progress
+- **MacTrackr backend** — FIXED and live (env vars resolved)
+- **Twitter handles claimed:** @lowkeymodeapp, @healthindexHQ, @mactrackrapp
+- **BaselineDesigns & CodeMode** — CSS fixes deployed (mobile spacing, whitespace)
+
+### Blockers Cleared
+- MacTrackr backend crash — RESOLVED
+- eBay API — Still waiting for exemption response
+
+### Morning Priorities
+- LowKeyMode Xcode shipping (9 AM)
+- Affiliate applications (Amazon, ShareASale, Best Buy)
+- eBay API exemption follow-up
+
+---
+
 ## 2026-02-13 — Today's Session
 
 ### Progress
