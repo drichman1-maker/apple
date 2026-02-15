@@ -1,0 +1,34 @@
+# Crontab Configuration for Scraper Scripts
+
+# Edit the crontab with: crontab -e
+# Add the following lines to schedule the scrapers:
+
+# Rumble (FastAPI) - Every 2 hours
+0 */2 * * * /bin/bash /path/to/rumble_scraper.sh
+
+# MintCondition (Flask) - Every 4 hours
+0 */4 * * * /bin/bash /path/to/mintcondition_scraper.sh
+
+# CoinCurator (Node.js) - Every 6 hours
+0 */6 * * * /bin/bash /path/to/coincurator_scraper.sh
+
+# DiamondData (FastAPI) - Every 6 hours
+0 */6 * * * /bin/bash /path/to/diamonddata_scraper.sh
+
+# MacTrackr (FastAPI) - Every 2 hours
+0 */2 * * * /bin/bash /path/to/mactrackr_scraper.sh
+
+# Log Rotation Configuration (save as /etc/logrotate.d/scrapers)
+
+/var/log/scrapers/*.log {
+    daily
+    rotate 7
+    compress
+    missingok
+    notifempty
+    create 644 root root
+    sharedscripts
+    postrotate
+        /usr/bin/systemctl reload rsyslog >/dev/null 2>&1 || true
+    endscript
+}

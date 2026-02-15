@@ -1,0 +1,51 @@
+{
+  "models": {
+    "providers": {
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com/v1",
+        "apiKey": "sk-3c16d66e1d0145fda5eade766a3b2e26",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "deepseek-chat",
+            "name": "DeepSeek Chat",
+            "contextWindow": 64000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "openai": {
+        "baseUrl": "https://api.openai.com/v1",
+        "apiKey": "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",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-4o",
+            "name": "GPT-4o",
+            "contextWindow": 128000,
+            "maxTokens": 16384
+          },
+          {
+            "id": "gpt-4o-mini",
+            "name": "GPT-4o Mini",
+            "contextWindow": 128000,
+            "maxTokens": 16384
+          }
+        ]
+      },
+      "aimlapi": {
+        "baseUrl": "https://api.aimlapi.com/v1",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-4o",
+            "name": "AIML GPT-4o",
+            "contextWindow": 128000,
+            "maxTokens": 16384
+          }
+        ]
+      }
+    }
+  }
+}

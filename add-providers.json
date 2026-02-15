@@ -1,0 +1,58 @@
+{
+  "models": {
+    "providers": {
+      "groq": {
+        "baseUrl": "https://api.groq.com/openai/v1",
+        "apiKey": "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",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "llama-3.3-70b-versatile",
+            "name": "Llama 3.3 70B",
+            "contextWindow": 128000,
+            "maxTokens": 32768
+          }
+        ]
+      },
+      "openrouter": {
+        "baseUrl": "https://openrouter.ai/api/v1",
+        "apiKey": "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",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "google/gemini-2.0-flash-exp:free",
+            "name": "Gemini 2.0 Flash (Free)",
+            "contextWindow": 1000000,
+            "maxTokens": 8192
+          }
+        ]
+      },
+      "xai": {
+        "baseUrl": "https://api.x.ai/v1",
+        "apiKey": "xai-hhnHYCuwlWRssKlFZ2wtoD1NxpVZIq17pTMOP6fszHtB9OGwd6OrGHJ5K26qpDLbGAwCjT3NtItOj44x",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "grok-2-latest",
+            "name": "Grok 2",
+            "contextWindow": 131072,
+            "maxTokens": 32768
+          }
+        ]
+      },
+      "moonshot": {
+        "baseUrl": "https://api.moonshot.cn/v1",
+        "apiKey": "sk-W1KY790PWRnlD3oBAEKWyRTt3D6cftOgoUKlOswElo9oSNBc",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "moonshot-v1-8k",
+            "name": "Moonshot 8K",
+            "contextWindow": 8192,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  }
+}
