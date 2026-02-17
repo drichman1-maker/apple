@@ -32,7 +32,8 @@ const MarketTrendsChart = ({ data }) => {
       </div>
       <div className="flex justify-end gap-4 mt-4 text-xs text-gray-500">
         <span>30d</span>
-        <span>60d</n        <span className="text-cyan-400 font-medium">90d</span>
+        <span>60d</span>
+        <span className="text-cyan-400 font-medium">90d</span>
       </div>
     </div>
   )
