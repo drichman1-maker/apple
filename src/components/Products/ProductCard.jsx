@@ -124,13 +124,31 @@ const ProductCard = ({ product }) => {
 
   const specPills = getSpecPills()
 
+  // Generate retailer links
+  const getRetailerUrl = (retailer, productName) => {
+    const encoded = encodeURIComponent(productName)
+    const urls = {
+      apple: `https://apple.com/search/${encoded}`,
+      amazon: `https://amazon.com/s?k=${encoded}`,
+      bestbuy: `https://bestbuy.com/site/searchpage.jsp?st=${encoded}`,
+      bh: `https://bhphotovideo.com/c/search?q=${encoded}`,
+      adorama: `https://adorama.com/search?q=${encoded}`,
+      walmart: `https://walmart.com/search?q=${encoded}`,
+      target: `https://target.com/s?searchTerm=${encoded}`,
+      ebay: `https://ebay.com/sch/i.html?_nkw=${encoded}`,
+      cdw: `https://cdw.com/search/?key=${encoded}`
+    }
+    return urls[retailer] || '#'
+  }
+
   return (
-    <Link 
-      to={`/product/${product.id}`}
-      className="group block hi-card-hover overflow-hidden"
-    >
-      {/* Header with category badge */}
-      <div className="p-5">
+    <div className="hi-card-hover overflow-hidden flex flex-col">
+      {/* Clickable area for product detail */}
+      <Link 
+        to={`/product/${product.id}`}
+        className="group flex-1 p-5"
+      >
+        {/* Header with category badge */}
         <div className="flex items-start justify-between mb-3">
           <span className={`hi-pill ${getCategoryColor(product.category)}`}>
             {getCategoryDisplay(product.category)}
@@ -186,8 +204,36 @@ const ProductCard = ({ product }) => {
             </div>
           )}
         </div>
+      </Link>
+
+      {/* Retailer Links - outside Link so they work independently */}
+      <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
+        <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
+        <div className="flex flex-wrap gap-2">
+          {prices.slice(0, 3).map(({ retailer, price }) => (
+            <a
+              key={retailer}
+              href={getRetailerUrl(retailer, product.name)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 min-w-[70px] text-center px-2 py-1.5 bg-white/5 hover:bg-white/10 rounded text-xs transition-colors"
+            >
+              <span className="block text-gray-500 text-[10px]">{getRetailerDisplayName(retailer)}</span>
+              <span className="block text-blue-400 font-medium">${price.toLocaleString()}</span>
+            </a>
+          ))}
+          {prices.length > 3 && (
+            <Link
+              to={`/product/${product.id}`}
+              className="flex-1 min-w-[70px] text-center px-2 py-1.5 bg-white/5 hover:bg-white/10 rounded text-xs transition-colors"
+            >
+              <span className="block text-gray-500 text-[10px]">More</span>
+              <span className="block text-gray-400 font-medium">+{prices.length - 3}</span>
+            </Link>
+          )}
+        </div>
       </div>
-    </Link>
+    </div>
   )
 }
 
