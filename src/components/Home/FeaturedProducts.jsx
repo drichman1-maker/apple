@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { TrendingDown, TrendingUp, Loader2, AlertCircle } from 'lucide-react'
 import { getProducts } from '../../api'
+import { getProductImage } from '../../utils/productImages'
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([])
@@ -36,8 +37,8 @@ const FeaturedProducts = () => {
     {
       id: 'iphone-15-pro',
       name: 'iPhone 15 Pro',
-      category: 'iPhone',
-      image: null,
+      category: 'iphone',
+      image: getProductImage('iphone-15-pro', 'iphone'),
       currentPrice: 999,
       originalPrice: 1199,
       discount: 17,
@@ -46,24 +47,24 @@ const FeaturedProducts = () => {
       inStock: true
     },
     {
-      id: 'macbook-air-m2',
-      name: 'MacBook Air M2',
-      category: 'Mac',
-      image: null,
-      currentPrice: 1099,
-      originalPrice: 1199,
-      discount: 8,
+      id: 'macbook-air-m3-15',
+      name: 'MacBook Air 15" M3',
+      category: 'mac',
+      image: getProductImage('macbook-air-15-m3', 'mac'),
+      currentPrice: 1299,
+      originalPrice: 1499,
+      discount: 13,
       trend: 'down',
       retailer: 'Best Buy',
       inStock: true
     },
     {
-      id: 'ipad-pro-12-9',
-      name: 'iPad Pro 12.9"',
-      category: 'iPad',
-      image: null,
-      currentPrice: 1099,
-      originalPrice: 1099,
+      id: 'ipad-pro-13-m4',
+      name: 'iPad Pro 13" M4',
+      category: 'ipad',
+      image: getProductImage('ipad-pro-13-m4', 'ipad'),
+      currentPrice: 1299,
+      originalPrice: 1299,
       discount: 0,
       trend: 'up',
       retailer: 'Apple',
@@ -72,8 +73,8 @@ const FeaturedProducts = () => {
     {
       id: 'airpods-pro-2',
       name: 'AirPods Pro (2nd Gen)',
-      category: 'AirPods',
-      image: null,
+      category: 'airpods',
+      image: getProductImage('airpods-pro-2', 'airpods'),
       currentPrice: 199,
       originalPrice: 249,
       discount: 20,
@@ -82,28 +83,28 @@ const FeaturedProducts = () => {
       inStock: true
     },
     {
-      id: 'apple-watch-series-9',
-      name: 'Apple Watch Series 9',
-      category: 'Apple Watch',
-      image: null,
-      currentPrice: 359,
-      originalPrice: 399,
-      discount: 10,
+      id: 'apple-watch-series-10-46',
+      name: 'Apple Watch Series 10',
+      category: 'watch',
+      image: getProductImage('apple-watch-series-10', 'watch'),
+      currentPrice: 399,
+      originalPrice: 449,
+      discount: 11,
       trend: 'down',
-      retailer: 'B&H',
+      retailer: 'Amazon',
       inStock: true
     },
     {
-      id: 'mac-studio-m2',
-      name: 'Mac Studio M2',
-      category: 'Mac',
-      image: null,
-      currentPrice: 1999,
-      originalPrice: 1999,
+      id: 'mac-mini-m4',
+      name: 'Mac mini M4',
+      category: 'mac',
+      image: getProductImage('mac-mini-m4', 'mac'),
+      currentPrice: 599,
+      originalPrice: 599,
       discount: 0,
-      trend: 'up',
+      trend: 'stable',
       retailer: 'Apple',
-      inStock: false
+      inStock: true
     }
   ]
 
