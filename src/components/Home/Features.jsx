@@ -1,5 +1,5 @@
 import React from 'react'
-import { BarChart3, Bell, Zap, Shield, Smartphone, Laptop } from 'lucide-react'
+import { BarChart3, Bell, Zap, Shield, Smartphone, Laptop, Sparkles } from 'lucide-react'
 
 const Features = () => {
   const features = [
@@ -36,30 +36,43 @@ const Features = () => {
   ]
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 bg-black relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-black to-black" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Everything You Need to Save Money
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 mb-6">
+            <Sparkles className="h-4 w-4 mr-2 text-apple-blue" />
+            Why Choose MacTrackr
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            Shop Smarter,{' '}
+            <span className="bg-gradient-to-r from-apple-blue via-cyan-400 to-purple-500 bg-clip-text text-transparent">
+              Save More
+            </span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Our comprehensive tracking system helps you find the best deals on Apple products
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            Join thousands of Apple users who never miss a deal
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="card p-8 text-center hover:shadow-xl transition-all duration-300"
+              className="group glass-card-dark p-8 rounded-2xl hover:shadow-[0_0_40px_rgba(0,122,255,0.15)] transition-all duration-500 hover:-translate-y-2"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-apple-blue/10 rounded-full mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-apple-blue/20 to-purple-500/20 rounded-2xl mb-6 group-hover:from-apple-blue/30 group-hover:to-purple-500/30 transition-all">
                 <feature.icon className="h-8 w-8 text-apple-blue" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-apple-blue transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-400 leading-relaxed">
                 {feature.description}
               </p>
             </div>

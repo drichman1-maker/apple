@@ -14,7 +14,7 @@ const ProductCatalog = () => {
     priceRange: [0, 5000],
     inStock: false,
     onSale: false,
-    sortBy: 'price-asc'
+    sortBy: 'popular'
   })
 
   useEffect(() => {
@@ -32,7 +32,481 @@ const ProductCatalog = () => {
 
   const getMockProducts = (categoryFilter) => {
     const allProducts = [
-      // iPhone Products
+      // === 2026 MACBOOKS ===
+      {
+        id: 'macbook-pro-16-m5',
+        name: 'MacBook Pro 16" M5',
+        category: 'mac',
+        image: '/images/macbook-pro-16-m5.jpg',
+        prices: {
+          apple: { price: 2499, inStock: true },
+          bestbuy: { price: 2499, inStock: true }
+        },
+        specifications: {
+          chip: ['M5 Pro', 'M5 Max'],
+          memory: ['24GB', '36GB', '48GB', '64GB', '128GB'],
+          storage: ['512GB', '1TB', '2TB', '4TB', '8TB']
+        }
+      },
+      {
+        id: 'macbook-pro-14-m5',
+        name: 'MacBook Pro 14" M5',
+        category: 'mac',
+        image: '/images/macbook-pro-14-m5.jpg',
+        prices: {
+          apple: { price: 1599, inStock: true },
+          bestbuy: { price: 1599, inStock: true }
+        },
+        specifications: {
+          chip: ['M5', 'M5 Pro', 'M5 Max'],
+          memory: ['18GB', '24GB', '36GB', '48GB', '64GB', '128GB'],
+          storage: ['512GB', '1TB', '2TB', '4TB', '8TB']
+        }
+      },
+      {
+        id: 'macbook-air-13-m4',
+        name: 'MacBook Air 13" M4',
+        category: 'mac',
+        image: '/images/macbook-air-13-m4.jpg',
+        prices: {
+          apple: { price: 999, inStock: true },
+          amazon: { price: 949, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 (8-core)', 'M4 (10-core)'],
+          memory: ['16GB', '24GB', '32GB'],
+          storage: ['256GB', '512GB', '1TB', '2TB']
+        }
+      },
+      {
+        id: 'macbook-air-15-m4',
+        name: 'MacBook Air 15" M4',
+        category: 'mac',
+        image: '/images/macbook-air-15-m4.jpg',
+        prices: {
+          apple: { price: 1299, inStock: true },
+          amazon: { price: 1249, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 (10-core)'],
+          memory: ['16GB', '24GB', '32GB'],
+          storage: ['256GB', '512GB', '1TB', '2TB']
+        }
+      },
+      // === 2026 MAC DESKTOPS ===
+      {
+        id: 'mac-mini-m4',
+        name: 'Mac mini M4',
+        category: 'mac',
+        image: '/images/mac-mini-m4.jpg',
+        prices: {
+          apple: { price: 599, inStock: true },
+          amazon: { price: 549, inStock: true }
+        },
+        specifications: {
+          chip: ['M4', 'M4 Pro'],
+          memory: ['16GB', '24GB', '32GB'],
+          storage: ['256GB', '512GB', '1TB', '2TB']
+        }
+      },
+      {
+        id: 'mac-studio',
+        name: 'Mac Studio',
+        category: 'mac',
+        image: '/images/mac-studio.jpg',
+        prices: {
+          apple: { price: 1999, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 Max', 'M4 Ultra'],
+          memory: ['36GB', '64GB', '96GB', '128GB', '192GB'],
+          storage: ['512GB', '1TB', '2TB', '4TB', '8TB']
+        }
+      },
+      {
+        id: 'imac-m4',
+        name: 'iMac M4',
+        category: 'mac',
+        image: '/images/imac-m4.jpg',
+        prices: {
+          apple: { price: 1299, inStock: true }
+        },
+        specifications: {
+          chip: ['M4'],
+          memory: ['16GB', '24GB', '32GB'],
+          storage: ['256GB', '512GB', '1TB', '2TB'],
+          display: ['24" 4.5K']
+        }
+      },
+      // === 2026 IPADS ===
+      {
+        id: 'ipad-pro-13-m5',
+        name: 'iPad Pro 13" M5',
+        category: 'ipad',
+        image: '/images/ipad-pro-13-m5.jpg',
+        prices: {
+          apple: { price: 1099, inStock: true },
+          amazon: { price: 1049, inStock: true }
+        },
+        specifications: {
+          chip: ['M5'],
+          storage: ['256GB', '512GB', '1TB', '2TB'],
+          colors: ['Silver', 'Space Black']
+        }
+      },
+      {
+        id: 'ipad-pro-11-m5',
+        name: 'iPad Pro 11" M5',
+        category: 'ipad',
+        image: '/images/ipad-pro-11-m5.jpg',
+        prices: {
+          apple: { price: 799, inStock: true },
+          amazon: { price: 749, inStock: true }
+        },
+        specifications: {
+          chip: ['M5'],
+          storage: ['256GB', '512GB', '1TB', '2TB'],
+          colors: ['Silver', 'Space Black']
+        }
+      },
+      {
+        id: 'ipad-air-m3-13',
+        name: 'iPad Air 13" M3',
+        category: 'ipad',
+        image: '/images/ipad-air-m3-13.jpg',
+        prices: {
+          apple: { price: 599, inStock: true },
+          amazon: { price: 549, inStock: true }
+        },
+        specifications: {
+          chip: ['M3'],
+          storage: ['128GB', '256GB', '512GB', '1TB'],
+          colors: ['Blue', 'Purple', 'Starlight', 'Space Gray']
+        }
+      },
+      {
+        id: 'ipad-air-m3-11',
+        name: 'iPad Air 11" M3',
+        category: 'ipad',
+        image: '/images/ipad-air-m3-11.jpg',
+        prices: {
+          apple: { price: 499, inStock: true },
+          amazon: { price: 449, inStock: true }
+        },
+        specifications: {
+          chip: ['M3'],
+          storage: ['128GB', '256GB', '512GB', '1TB'],
+          colors: ['Blue', 'Purple', 'Starlight', 'Space Gray']
+        }
+      },
+      {
+        id: 'ipad-mini',
+        name: 'iPad mini',
+        category: 'ipad',
+        image: '/images/ipad-mini.jpg',
+        prices: {
+          apple: { price: 499, inStock: true }
+        },
+        specifications: {
+          chip: ['A17 Pro'],
+          storage: ['128GB', '256GB', '512GB'],
+          colors: ['Starlight', 'Purple', 'Space Gray']
+        }
+      },
+      {
+        id: 'ipad-10',
+        name: 'iPad (10th Gen)',
+        category: 'ipad',
+        image: '/images/ipad-10.jpg',
+        prices: {
+          apple: { price: 349, inStock: true },
+          amazon: { price: 299, inStock: true }
+        },
+        specifications: {
+          chip: ['A14 Bionic'],
+          storage: ['64GB', '256GB'],
+          colors: ['Blue', 'Pink', 'Yellow', 'Silver']
+        }
+      },
+      // === 2026 AIRPODS ===
+      {
+        id: 'airpods-pro-3',
+        name: 'AirPods Pro 3',
+        category: 'airpods',
+        image: '/images/airpods-pro-3.jpg',
+        prices: {
+          apple: { price: 249, inStock: true },
+          amazon: { price: 229, inStock: true }
+        },
+        specifications: {
+          features: ['Active Noise Cancellation', 'Adaptive Audio', 'USB-C'],
+          chip: ['H3']
+        }
+      },
+      {
+        id: 'airpods-4-nc',
+        name: 'AirPods 4 with ANC',
+        category: 'airpods',
+        image: '/images/airpods-4-nc.jpg',
+        prices: {
+          apple: { price: 179, inStock: true },
+          amazon: { price: 159, inStock: true }
+        },
+        specifications: {
+          features: ['Active Noise Cancellation', 'Adaptive Audio', 'USB-C'],
+          chip: ['H2']
+        }
+      },
+      // === 2026 WATCH ===
+      {
+        id: 'apple-watch-series-11-46',
+        name: 'Apple Watch Series 11 46mm',
+        category: 'watch',
+        image: '/images/apple-watch-series-11.jpg',
+        prices: {
+          apple: { price: 429, inStock: true },
+          amazon: { price: 399, inStock: true }
+        },
+        specifications: {
+          size: ['42mm', '46mm'],
+          materials: ['Aluminum', 'Titanium'],
+          colors: ['Jet Black', 'Natural Titanium', 'Rose Gold']
+        }
+      },
+      // === 2026 IPHONES (secondary) ===
+      {
+        id: 'iphone-17-pro-max',
+        name: 'iPhone 17 Pro Max',
+        category: 'iphone',
+        image: '/images/iphone-17-pro-max.jpg',
+        prices: {
+          apple: { price: 1199, inStock: true },
+          amazon: { price: 1149, inStock: true }
+        },
+        specifications: {
+          storage: ['256GB', '512GB', '1TB'],
+          colors: ['Desert Titanium', 'Natural Titanium', 'White', 'Black']
+        }
+      },
+      {
+        id: 'iphone-17-pro',
+        name: 'iPhone 17 Pro',
+        category: 'iphone',
+        image: '/images/iphone-17-pro.jpg',
+        prices: {
+          apple: { price: 999, inStock: true },
+          amazon: { price: 949, inStock: true }
+        },
+        specifications: {
+          storage: ['128GB', '256GB', '512GB', '1TB'],
+          colors: ['Desert Titanium', 'Natural Titanium', 'White', 'Black']
+        }
+      },
+      {
+        id: 'iphone-17-air',
+        name: 'iPhone 17 Air',
+        category: 'iphone',
+        image: '/images/iphone-17-air.jpg',
+        prices: {
+          apple: { price: 799, inStock: true },
+          amazon: { price: 749, inStock: true }
+        },
+        specifications: {
+          storage: ['128GB', '256GB', '512GB'],
+          colors: ['Blue', 'Green', 'Pink', 'White', 'Black']
+        }
+      },
+      {
+        id: 'iphone-16-pro-max',
+        name: 'iPhone 16 Pro Max',
+        category: 'iphone',
+        image: '/images/iphone-16-pro-max.jpg',
+        prices: {
+          apple: { price: 1199, inStock: true },
+          amazon: { price: 1149, inStock: true },
+          bestbuy: { price: 1199, inStock: true }
+        },
+        specifications: {
+          storage: ['256GB', '512GB', '1TB'],
+          colors: ['Desert Titanium', 'Natural Titanium', 'White Titanium', 'Black Titanium']
+        }
+      },
+      {
+        id: 'iphone-16-pro',
+        name: 'iPhone 16 Pro',
+        category: 'iphone',
+        image: '/images/iphone-16-pro.jpg',
+        prices: {
+          apple: { price: 999, inStock: true },
+          amazon: { price: 949, inStock: true },
+          bestbuy: { price: 999, inStock: true }
+        },
+        specifications: {
+          storage: ['128GB', '256GB', '512GB', '1TB'],
+          colors: ['Desert Titanium', 'Natural Titanium', 'White Titanium', 'Black Titanium']
+        }
+      },
+      {
+        id: 'iphone-16',
+        name: 'iPhone 16',
+        category: 'iphone',
+        image: '/images/iphone-16.jpg',
+        prices: {
+          apple: { price: 799, inStock: true },
+          amazon: { price: 749, inStock: true },
+          bestbuy: { price: 799, inStock: true }
+        },
+        specifications: {
+          storage: ['128GB', '256GB', '512GB'],
+          colors: ['Ultramarine', 'Teal', 'Pink', 'White', 'Black']
+        }
+      },
+      // 2025 MacBook Air M4
+      {
+        id: 'macbook-air-13-m4',
+        name: 'MacBook Air 13" M4',
+        category: 'mac',
+        image: '/images/macbook-air-13-m4.jpg',
+        prices: {
+          apple: { price: 999, inStock: true },
+          amazon: { price: 949, inStock: true },
+          bestbuy: { price: 999, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 (8-core CPU/GPU)', 'M4 (10-core CPU/GPU)'],
+          memory: ['16GB', '24GB', '32GB'],
+          storage: ['256GB', '512GB', '1TB', '2TB']
+        }
+      },
+      {
+        id: 'macbook-air-15-m4',
+        name: 'MacBook Air 15" M4',
+        category: 'mac',
+        image: '/images/macbook-air-15-m4.jpg',
+        prices: {
+          apple: { price: 1299, inStock: true },
+          amazon: { price: 1249, inStock: true },
+          bestbuy: { price: 1299, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 (10-core CPU/GPU)', 'M4 (10-core CPU/GPU)'],
+          memory: ['16GB', '24GB', '32GB'],
+          storage: ['256GB', '512GB', '1TB', '2TB']
+        }
+      },
+      // 2024 MacBook Pro M4
+      {
+        id: 'macbook-pro-14-m4',
+        name: 'MacBook Pro 14" M4',
+        category: 'mac',
+        image: '/images/macbook-pro-14-m4.jpg',
+        prices: {
+          apple: { price: 1599, inStock: true },
+          bestbuy: { price: 1599, inStock: true }
+        },
+        specifications: {
+          chip: ['M4', 'M4 Pro', 'M4 Max'],
+          memory: ['18GB', '24GB', '36GB', '48GB', '64GB', '128GB'],
+          storage: ['512GB', '1TB', '2TB', '4TB', '8TB']
+        }
+      },
+      {
+        id: 'macbook-pro-16-m4',
+        name: 'MacBook Pro 16" M4',
+        category: 'mac',
+        image: '/images/macbook-pro-16-m4.jpg',
+        prices: {
+          apple: { price: 2499, inStock: true },
+          bestbuy: { price: 2499, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 Pro', 'M4 Max'],
+          memory: ['24GB', '36GB', '48GB', '64GB', '128GB'],
+          storage: ['512GB', '1TB', '2TB', '4TB', '8TB']
+        }
+      },
+      // 2024 iPad Pro M4
+      {
+        id: 'ipad-pro-13-m4',
+        name: 'iPad Pro 13" M4',
+        category: 'ipad',
+        image: '/images/ipad-pro-13-m4.jpg',
+        prices: {
+          apple: { price: 999, inStock: true },
+          amazon: { price: 949, inStock: true },
+          bestbuy: { price: 999, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 (9-core CPU)', 'M4 (10-core CPU)'],
+          storage: ['256GB', '512GB', '1TB', '2TB'],
+          colors: ['Silver', 'Space Black']
+        }
+      },
+      {
+        id: 'ipad-pro-11-m4',
+        name: 'iPad Pro 11" M4',
+        category: 'ipad',
+        image: '/images/ipad-pro-11-m4.jpg',
+        prices: {
+          apple: { price: 799, inStock: true },
+          amazon: { price: 749, inStock: true },
+          bestbuy: { price: 799, inStock: true }
+        },
+        specifications: {
+          chip: ['M4 (9-core CPU)', 'M4 (10-core CPU)'],
+          storage: ['256GB', '512GB', '1TB', '2TB'],
+          colors: ['Silver', 'Space Black']
+        }
+      },
+      // 2024 iPad Air M2
+      {
+        id: 'ipad-air-13-m2',
+        name: 'iPad Air 13" M2',
+        category: 'ipad',
+        image: '/images/ipad-air-13-m2.jpg',
+        prices: {
+          apple: { price: 599, inStock: true },
+          amazon: { price: 549, inStock: true }
+        },
+        specifications: {
+          chip: ['M2'],
+          storage: ['128GB', '256GB', '512GB', '1TB'],
+          colors: ['Blue', 'Purple', 'Starlight', 'Space Gray']
+        }
+      },
+      {
+        id: 'ipad-air-11-m2',
+        name: 'iPad Air 11" M2',
+        category: 'ipad',
+        image: '/images/ipad-air-11-m2.jpg',
+        prices: {
+          apple: { price: 499, inStock: true },
+          amazon: { price: 449, inStock: true }
+        },
+        specifications: {
+          chip: ['M2'],
+          storage: ['128GB', '256GB', '512GB', '1TB'],
+          colors: ['Blue', 'Purple', 'Starlight', 'Space Gray']
+        }
+      },
+      // 2024 Apple Watch Series 10
+      {
+        id: 'apple-watch-series-10-46',
+        name: 'Apple Watch Series 10 46mm',
+        category: 'watch',
+        image: '/images/apple-watch-series-10.jpg',
+        prices: {
+          apple: { price: 429, inStock: true },
+          amazon: { price: 399, inStock: true },
+          bestbuy: { price: 429, inStock: true }
+        },
+        specifications: {
+          size: ['42mm', '46mm'],
+          materials: ['Aluminum', 'Titanium'],
+          colors: ['Jet Black', 'Natural Titanium', 'Rose Gold', 'Slate']
+        }
+      },
+      // iPhone 15 (2023 - now older)
       {
         id: 'iphone-15-pro-max',
         name: 'iPhone 15 Pro Max',
@@ -258,7 +732,18 @@ const ProductCatalog = () => {
   const sortProducts = (products) => {
     const sorted = [...products]
     
+    // Popular products - 2026: MacBooks, iPads, Watch, AirPods first
+    const popularProducts = ['macbook-pro', 'macbook-air', 'ipad-pro', 'ipad-air', 'ipad-mini', 'mac-mini', 'mac-studio', 'imac', 'apple-watch', 'airpods', 'iphone-17']
+    
     switch (filters.sortBy) {
+      case 'popular':
+        return sorted.sort((a, b) => {
+          const aIndex = popularProducts.findIndex(p => a.id?.includes(p) || a.name?.toLowerCase().includes(p))
+          const bIndex = popularProducts.findIndex(p => b.id?.includes(p) || b.name?.toLowerCase().includes(p))
+          const aScore = aIndex === -1 ? 999 : aIndex
+          const bScore = bIndex === -1 ? 999 : bIndex
+          return aScore - bScore
+        })
       case 'price-asc':
         return sorted.sort((a, b) => {
           const priceA = Math.min(...Object.values(a.prices).map(p => p.price))
@@ -276,7 +761,14 @@ const ProductCatalog = () => {
       case 'name-desc':
         return sorted.sort((a, b) => b.name.localeCompare(a.name))
       default:
-        return sorted
+        // Default to popular
+        return sorted.sort((a, b) => {
+          const aIndex = popularProducts.findIndex(p => a.id?.includes(p) || a.name?.toLowerCase().includes(p))
+          const bIndex = popularProducts.findIndex(p => b.id?.includes(p) || b.name?.toLowerCase().includes(p))
+          const aScore = aIndex === -1 ? 999 : aIndex
+          const bScore = bIndex === -1 ? 999 : bIndex
+          return aScore - bScore
+        })
     }
   }
 

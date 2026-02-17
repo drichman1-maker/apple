@@ -100,9 +100,9 @@ const ProductDetail = () => {
   const savings = msrp - bestPrice.price
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-black">
       {/* Header */}
-      <header className="border-b border-gray-800">
+      <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link 
@@ -113,7 +113,7 @@ const ProductDetail = () => {
               Back
             </Link>
             <h1 className="text-xl font-bold text-white">{product.name}</h1>
-            <div className="w-20" /> {/* Spacer for alignment */}
+            <div className="w-20" />
           </div>
         </div>
       </header>
@@ -122,7 +122,7 @@ const ProductDetail = () => {
         {/* Product Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">{product.name}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">{product.name}</h2>
             {product.modelNumber && (
               <p className="text-gray-500">
                 Model: {product.modelNumber} | SKU: {product.sku}
@@ -133,7 +133,7 @@ const ProductDetail = () => {
             href={bestPrice.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-colors"
+            className="btn-neon flex items-center gap-2 px-6 py-3"
           >
             <ShoppingCart className="w-5 h-5" />
             BUY NOW
@@ -141,10 +141,10 @@ const ProductDetail = () => {
         </div>
 
         {/* Specs List */}
-        <div className="bg-gray-800 rounded-xl p-6 mb-8">
+        <div className="glass-card-dark p-6 rounded-2xl mb-8">
           <div className="grid grid-cols-2 gap-4">
             {product.specs && Object.entries(product.specs).map(([key, value]) => (
-              <div key={key} className="flex justify-between items-center py-2 border-b border-gray-700">
+              <div key={key} className="flex justify-between items-center py-2 border-b border-white/5">
                 <span className="text-gray-500 uppercase text-sm tracking-wide">{key}</span>
                 <span className="text-white font-medium">{value}</span>
               </div>
@@ -155,7 +155,7 @@ const ProductDetail = () => {
         {/* Price Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Best Market Price */}
-          <div className="bg-gray-800 rounded-xl p-6 border border-blue-500/30">
+          <div className="glass-card-dark p-6 rounded-2xl border border-apple-blue/30">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-gray-500 uppercase tracking-wide">Best Market Price</span>
               <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">

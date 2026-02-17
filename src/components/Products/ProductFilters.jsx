@@ -55,10 +55,10 @@ const ProductFilters = ({ filters, onFilterChange }) => {
         <div className="space-y-6">
           {/* Price Range */}
           <div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Price Range</h4>
+            <h4 className="font-medium text-white mb-3">Price Range</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400 w-8">$0</span>
+                <span className="text-sm text-gray-400 w-8">$0</span>
                 <input
                   type="range"
                   min="0"
@@ -66,12 +66,12 @@ const ProductFilters = ({ filters, onFilterChange }) => {
                   step="50"
                   value={filters.priceRange[0]}
                   onChange={(e) => handlePriceRangeChange(e.target.value, 0)}
-                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                  className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
                 />
-                <span className="text-sm text-gray-600 dark:text-gray-400 w-12">${filters.priceRange[0]}</span>
+                <span className="text-sm text-gray-400 w-12">${filters.priceRange[0]}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400 w-8">Max</span>
+                <span className="text-sm text-gray-400 w-8">Max</span>
                 <input
                   type="range"
                   min="0"
@@ -79,46 +79,47 @@ const ProductFilters = ({ filters, onFilterChange }) => {
                   step="50"
                   value={filters.priceRange[1]}
                   onChange={(e) => handlePriceRangeChange(e.target.value, 1)}
-                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                  className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
                 />
-                <span className="text-sm text-gray-600 dark:text-gray-400 w-12">${filters.priceRange[1]}</span>
+                <span className="text-sm text-gray-400 w-12">${filters.priceRange[1]}</span>
               </div>
             </div>
           </div>
 
           {/* Availability */}
           <div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Availability</h4>
+            <h4 className="font-medium text-white mb-3">Availability</h4>
             <div className="space-y-2">
               <label className="flex items-center">
                 <input
                   type="checkbox"
                   checked={filters.inStock}
                   onChange={() => handleCheckboxChange('inStock')}
-                  className="w-4 h-4 text-apple-blue bg-gray-100 border-gray-300 rounded focus:ring-apple-blue focus:ring-2"
+                  className="w-4 h-4 text-apple-blue bg-white/10 border-white/20 rounded focus:ring-apple-blue focus:ring-2"
                 />
-                <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">In Stock Only</span>
+                <span className="ml-2 text-sm text-gray-300">In Stock Only</span>
               </label>
               <label className="flex items-center">
                 <input
                   type="checkbox"
                   checked={filters.onSale}
                   onChange={() => handleCheckboxChange('onSale')}
-                  className="w-4 h-4 text-apple-blue bg-gray-100 border-gray-300 rounded focus:ring-apple-blue focus:ring-2"
+                  className="w-4 h-4 text-apple-blue bg-white/10 border-white/20 rounded focus:ring-apple-blue focus:ring-2"
                 />
-                <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">On Sale</span>
+                <span className="ml-2 text-sm text-gray-300">On Sale</span>
               </label>
             </div>
           </div>
 
           {/* Sort By */}
           <div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Sort By</h4>
+            <h4 className="font-medium text-white mb-3">Sort By</h4>
             <select
               value={filters.sortBy}
               onChange={(e) => handleSortChange(e.target.value)}
-              className="w-full input-field"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-apple-blue transition-colors"
             >
+              <option value="popular">Most Popular</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
               <option value="name-asc">Name: A to Z</option>
@@ -131,7 +132,7 @@ const ProductFilters = ({ filters, onFilterChange }) => {
       {/* Active Filters */}
       {(filters.inStock || filters.onSale || filters.priceRange[0] > 0 || filters.priceRange[1] < 5000) && (
         <div className="card p-4">
-          <h4 className="font-medium text-gray-900 dark:text-white mb-3">Active Filters</h4>
+          <h4 className="font-medium text-white mb-3">Active Filters</h4>
           <div className="flex flex-wrap gap-2">
             {filters.inStock && (
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-apple-blue text-white">

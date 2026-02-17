@@ -15,11 +15,15 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-apple-blue hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply bg-apple-blue hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-apple-blue/25;
   }
   
   .btn-secondary {
-    @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-lg transition-all duration-300;
+  }
+  
+  .btn-glow {
+    @apply bg-gradient-to-r from-apple-blue to-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:shadow-[0_0_30px_rgba(0,122,255,0.5)] transition-all duration-300;
   }
   
   .bg-amazon {
@@ -31,11 +35,11 @@
   }
   
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300;
+    @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg transition-all duration-300;
   }
   
   .product-card {
-    @apply card hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer;
+    @apply card hover:shadow-xl hover:shadow-apple-blue/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer;
   }
   
   .input-field {
@@ -44,5 +48,22 @@
   
   .price-card {
     @apply bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700;
+  }
+  
+  .glass-card-dark {
+    @apply bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl;
+  }
+  
+  .btn-neon {
+    @apply relative overflow-hidden bg-gradient-to-r from-apple-blue to-blue-600 text-white font-semibold rounded-xl hover:shadow-[0_0_30px_rgba(0,122,255,0.4)] transition-all duration-300;
+  }
+  
+  .btn-neon:before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700;
+  }
+  
+  .btn-neon:hover:before {
+    @apply translate-x-full;
   }
 }

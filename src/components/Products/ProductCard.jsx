@@ -57,15 +57,22 @@ const ProductCard = ({ product }) => {
       )}
 
       {/* Product Image */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1a25] to-[#12121a] overflow-hidden">
+      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1a25]/50 to-[#12121a]/50 overflow-hidden group">
+        {/* Glow Effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/10 group-hover:via-cyan-500/5 group-hover:to-cyan-500/10 transition-all duration-700" />
+        
         <img 
           src={getProductImage(product.id, product.category)} 
           alt={product.name}
-          className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-all duration-700 hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.15)]"
           loading="lazy"
         />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#12121a] via-transparent to-transparent opacity-60" />
+        
+        {/* Subtle Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#12121a]/40 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-700" />
+        
+        {/* Ambient Light Effect */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/0 via-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/10 group-hover:via-cyan-500/5 group-hover:to-cyan-500/10 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700" />
       </div>
 
       {/* Content */}
@@ -160,7 +167,7 @@ const ProductCard = ({ product }) => {
         <div className="flex gap-3 pt-4">
           <Link
             to={`/product/${product.id}`}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/25"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-cyan-300 text-black font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:-translate-y-0.5"
           >
             View Details
             <ExternalLink className="w-4 h-4" />
@@ -169,16 +176,16 @@ const ProductCard = ({ product }) => {
             href={getAffiliateSearchUrl(product.name)}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors duration-200"
+            className="flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-white/10 hover:-translate-y-0.5 hover:border-cyan-500/50"
             title="Shop on Amazon"
           >
-            <ShoppingCart className="w-5 h-5 text-gray-300" />
+            <ShoppingCart className="w-5 h-5 text-gray-300 group-hover:text-cyan-400" />
           </a>
           <button
-            className="flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors duration-200"
+            className="flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-white/10 hover:-translate-y-0.5 hover:border-cyan-500/50"
             title="Price Alert"
           >
-            <Bell className="w-5 h-5 text-gray-300" />
+            <Bell className="w-5 h-5 text-gray-300 group-hover:text-cyan-400" />
           </button>
         </div>
       </div>
