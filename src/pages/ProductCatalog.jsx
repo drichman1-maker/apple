@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import ProductGrid from '../components/Products/ProductGrid'
 import LoadingSpinner from '../components/UI/LoadingSpinner'
@@ -109,12 +109,22 @@ const ProductCatalog = () => {
     ]
   }
 
-  const filteredProducts = activeFilter === 'All' 
-    ? products 
-    : products.filter(p => {
-        if (!p.category) return false
-        return p.category.toLowerCase() === activeFilter.toLowerCase()
-      })
+  // Filter products by category with strict matching
+  const filteredProducts = useMemo(() => {
+    if (activeFilter === 'All') return products
+    
+    const filterLower = activeFilter.toLowerCase()
+    return products.filter(p => {
+      // Skip products without category
+      if (!p.category) return false
+      
+      // Normalize category to lowercase string
+      const productCategory = String(p.category).toLowerCase().trim()
+      
+      // Strict equality check
+      return productCategory === filterLower
+    })
+  }, [products, activeFilter])
 
   if (loading) {
     return (
