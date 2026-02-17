@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TrendingDown, TrendingUp, Bell, ExternalLink, ShoppingCart } from 'lucide-react'
+import { TrendingDown, TrendingUp, Bell, ShoppingCart, ExternalLink, Check, X } from 'lucide-react'
 import { getAffiliateSearchUrl } from '../../utils/affiliate'
 import { getProductImage } from '../../utils/productImages'
 
@@ -34,154 +34,151 @@ const ProductCard = ({ product }) => {
     return names[retailer] || retailer
   }
 
+  const getCategoryDisplay = (category) => {
+    const categories = {
+      iphone: 'iPhone',
+      ipad: 'iPad',
+      mac: 'Mac',
+      watch: 'Apple Watch',
+      airpods: 'AirPods'
+    }
+    return categories[category] || category
+  }
+
   return (
-    <div className="product-card p-6">
+    <div className="group relative bg-[#12121a] rounded-2xl border border-white/5 overflow-hidden hover:border-cyan-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/10">
+      {/* Best Deal Badge */}
+      {hasDiscount && discountPercent > 5 && (
+        <div className="absolute top-4 left-4 z-10">
+          <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+            Save {discountPercent}%
+          </div>
+        </div>
+      )}
+
       {/* Product Image */}
-      <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden group">
+      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1a25] to-[#12121a] overflow-hidden">
         <img 
           src={getProductImage(product.id, product.category)} 
           alt={product.name}
-          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
-          onError={(e) => {
-            e.target.style.display = 'none'
-            e.target.nextSibling.style.display = 'flex'
-          }}
         />
-        <span className="hidden text-gray-500 dark:text-gray-400 text-sm text-center">
-          {product.name}
-        </span>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#12121a] via-transparent to-transparent opacity-60" />
       </div>
 
-      {/* Product Info */}
-      <div className="space-y-4">
+      {/* Content */}
+      <div className="p-6 space-y-4">
         {/* Category & Name */}
         <div>
-          <span className="text-sm text-apple-blue font-medium capitalize">
-            {product.category === 'iphone' ? 'iPhone' : 
-             product.category === 'ipad' ? 'iPad' : 
-             product.category === 'mac' ? 'Mac' : 
-             product.category === 'watch' ? 'Apple Watch' : 
-             product.category === 'airpods' ? 'AirPods' : 
-             product.category}
+          <span className="text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+            {getCategoryDisplay(product.category)}
           </span>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+          <h3 className="text-xl font-bold text-white mt-1 group-hover:text-cyan-400 transition-colors">
             {product.name}
           </h3>
           {product.modelNumber && (
-            <p className="text-xs text-gray-500 mt-1">
-              Model: {product.modelNumber} | SKU: {product.sku}
+            <p className="text-sm text-gray-500 mt-1">
+              {product.modelNumber}
             </p>
           )}
         </div>
 
-        {/* Specs */}
+        {/* Specs Pills */}
         {product.specs && (
-          <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded p-2">
-            <div className="grid grid-cols-2 gap-1">
-              {product.specs.chip && <span><strong>Chip:</strong> {product.specs.chip}</span>}
-              {product.specs.ram && <span><strong>RAM:</strong> {product.specs.ram}</span>}
-              {product.specs.storage && <span><strong>Storage:</strong> {product.specs.storage}</span>}
-              {product.specs.color && <span><strong>Color:</strong> {product.specs.color}</span>}
-              {product.specs.display && <span className="col-span-2"><strong>Display:</strong> {product.specs.display}</span>}
-              {product.specs.case && <span><strong>Case:</strong> {product.specs.case}</span>}
-              {product.specs.connectivity && <span><strong>Cell:</strong> {product.specs.connectivity}</span>}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {product.specs.chip && (
+              <span className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400 border border-white/5">
+                {product.specs.chip}
+              </span>
+            )}
+            {product.specs.ram && (
+              <span className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400 border border-white/5">
+                {product.specs.ram}
+              </span>
+            )}
+            {product.specs.storage && (
+              <span className="px-2 py-1 bg-white/5 rounded text-xs text-gray-400 border border-white/5">
+                {product.specs.storage}
+              </span>
+            )}
           </div>
         )}
 
-        {/* Price Info */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                ${minPrice}
+        {/* Price Section */}
+        <div className="pt-4 border-t border-white/5">
+          <div className="flex items-baseline gap-3">
+            <span className="text-3xl font-bold text-white">
+              ${minPrice.toLocaleString()}
+            </span>
+            {hasDiscount && (
+              <span className="text-lg text-gray-500 line-through">
+                ${maxPrice.toLocaleString()}
               </span>
-              {hasDiscount && (
-                <>
-                  <span className="text-sm text-gray-500 line-through">
-                    ${maxPrice}
-                  </span>
-                  <span className="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded">
-                    -{discountPercent}%
-                  </span>
-                </>
-              )}
-            </div>
-            <div className="flex items-center space-x-1">
-              {hasDiscount ? (
-                <TrendingDown className="h-4 w-4 text-green-500" />
-              ) : (
-                <TrendingUp className="h-4 w-4 text-gray-400" />
-              )}
-            </div>
+            )}
           </div>
-
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            Best price at {getRetailerDisplayName(bestDeal.retailer)}
-          </div>
+          <p className="text-sm text-gray-400 mt-1">
+            Best at <span className="text-emerald-400 font-medium">{getRetailerDisplayName(bestDeal.retailer)}</span>
+          </p>
         </div>
 
         {/* Stock Status */}
-        <div className="flex items-center justify-between text-sm">
-          <span className={`font-medium ${
-            inStockCount > 0 ? 'text-green-600' : 'text-red-600'
-          }`}>
-            {inStockCount > 0 ? 
-              `In stock at ${inStockCount}/${totalRetailers} retailers` : 
-              'Out of stock'
-            }
+        <div className="flex items-center gap-2 text-sm">
+          <div className={`w-2 h-2 rounded-full ${inStockCount > 0 ? 'bg-emerald-500' : 'bg-red-500'}`} />
+          <span className={inStockCount > 0 ? 'text-emerald-400' : 'text-red-400'}>
+            {inStockCount > 0 ? `In stock at ${inStockCount} retailers` : 'Out of stock'}
           </span>
         </div>
 
-        {/* Price Comparison - All 9 Retailers */}
-        <div className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-900 dark:text-white">Price Comparison ({totalRetailers} retailers):</h4>
-          <div className="space-y-1 max-h-32 overflow-y-auto">
-            {prices
-              .sort((a, b) => a.price - b.price)
-              .map(({ retailer, price, inStock }) => (
-                <div key={retailer} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 dark:text-gray-400">
-                    {getRetailerDisplayName(retailer)}
-                  </span>
-                  <div className="flex items-center space-x-2">
-                    <span className={`font-medium ${
-                      price === minPrice ? 'text-green-600' : 'text-gray-900 dark:text-white'
-                    }`}>
-                      ${price}
-                    </span>
-                    <span className={`w-2 h-2 rounded-full ${
-                      inStock ? 'bg-green-500' : 'bg-red-500'
-                    }`} title={inStock ? 'In Stock' : 'Out of Stock'} />
-                  </div>
+        {/* Top 3 Prices */}
+        <div className="space-y-2 pt-2">
+          {prices
+            .sort((a, b) => a.price - b.price)
+            .slice(0, 3)
+            .map(({ retailer, price, inStock }, idx) => (
+              <div key={retailer} className="flex items-center justify-between text-sm py-1">
+                <div className="flex items-center gap-2">
+                  {idx === 0 && <span className="text-emerald-400 text-xs">★</span>}
+                  <span className="text-gray-400">{getRetailerDisplayName(retailer)}</span>
                 </div>
-              ))}
-          </div>
+                <div className="flex items-center gap-2">
+                  <span className={`font-semibold ${price === minPrice ? 'text-emerald-400' : 'text-white'}`}>
+                    ${price.toLocaleString()}
+                  </span>
+                  {inStock ? (
+                    <Check className="w-3 h-3 text-emerald-500" />
+                  ) : (
+                    <X className="w-3 h-3 text-red-500" />
+                  )}
+                </div>
+              </div>
+            ))}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex space-x-2 pt-4">
+        {/* Actions */}
+        <div className="flex gap-3 pt-4">
           <Link
             to={`/product/${product.id}`}
-            className="flex-1 btn-primary text-center"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/25"
           >
             View Details
+            <ExternalLink className="w-4 h-4" />
           </Link>
           <a
             href={getAffiliateSearchUrl(product.name)}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center px-3 py-2 bg-amazon text-white rounded-lg hover:bg-amazon-dark transition-colors duration-200"
+            className="flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors duration-200"
             title="Shop on Amazon"
           >
-            <ShoppingCart className="w-4 h-4" />
+            <ShoppingCart className="w-5 h-5 text-gray-300" />
           </a>
           <button
-            className="flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
-            title="Create Price Alert"
+            className="flex items-center justify-center px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors duration-200"
+            title="Price Alert"
           >
-            <Bell className="h-4 w-4" />
+            <Bell className="w-5 h-5 text-gray-300" />
           </button>
         </div>
       </div>
