@@ -41,15 +41,17 @@
 |---------|-----------|--------|-------|
 | **Health Index** | healthindex.com | 🟢 Own domain | Wellness machines aggregator |
 | **MacTrackr** | mactrackr.com | 🟢 Own domain | Apple price tracker |
-| **MintCondition** | mintcondition.com | 🟢 Own domain | Comics & collectibles |
+| **MintCondition** | mintcondition.app | 🟢 Own domain | Pokemon cards (primary focus) |
 | **BaselineDesigns** | baselinedesigns.com | 🟢 Own domain | Portfolio site |
 | **CodeMode** | codemodeapps.com | 🟢 Own domain | Main studio site |
 | **SluggerData** | sluggerdata.com | 🟢 Own domain | Baseball cards (not built) |
 | **Appliances** | appliances.codemodeapps.com | 🟡 Subdomain | Need DNS |
 | **Baby Gear** | babygear.codemodeapps.com | 🟡 Subdomain | Need DNS |
 | **Fixed Income** | fixedincome.codemodeapps.com | 🟡 Subdomain | Need DNS |
-| **RetroRefine** | retrorefine.codemodeapps.com | 🟡 Subdomain | Video games |
-| **Pokémon** | pokemon.mintcondition.com | 🟡 Subdomain | Need build |
+| **RumbleGames** | rumbledeals.com | 🟢 Own domain | Video games (was retrorefine placeholder) |
+| **Books** | books.mintcondition.app | 🟡 Subdomain | Book price aggregator |
+| **LowkeyMode** | lowkeymode.app | 🟢 Own domain | Meditation app |
+| **TaskBidder** | taskbidder.app | 🟡 On hold | Gig marketplace (iOS app) |
 
 **DNS Pattern:** All subdomains → CNAME → cname.vercel-dns.com
 
@@ -85,6 +87,43 @@
 | Robot Aggregator | drichman1-maker/*room | 🆕 New (check after meditation) |
 
 ---
+
+## Priority Roadmap (Revised Feb 17, 2026)
+
+**Phase 1: Ship + UI Overhaul (Now)**
+- [ ] Rebuild all 6 sites with high-grade UI (glassmorphism, neon accents)
+- [ ] Fix Health Index dark mode layout
+- [ ] Enhance MacTrackr ProductCard design
+- [ ] Deploy Books Aggregator (books.mintcondition.app)
+
+**Phase 2: Backend Infrastructure**
+- [ ] Deploy individual backends (Render)
+- [ ] Build unified shared backend API
+- [ ] Database consolidation strategy
+- [ ] Price scraping automation
+
+**Phase 3: Growth + Monetization**
+- [ ] SEO optimization for all sites
+- [ ] Content creation (blog posts, guides)
+- [ ] Social media presence
+- [ ] Affiliate applications (Amazon, etc.)
+- [ ] Revenue tracking + reinvestment plan
+
+**Active Projects:**
+- ✅ MacTrackr (Apple) - mactrackr.com
+- ✅ Health Index (Wellness) - healthindex.app
+- ✅ MintCondition (Pokemon) - mintcondition.app
+- ✅ CoinCurator (Coins) - coincurator.app
+- ✅ RumbleGames (Video games) - rumbledeals.com
+- 🔄 Robot Atlas (Robotics) - robots.codemodeapps.com
+- 🔄 Books Aggregator - books.mintcondition.app
+- ⏳ SluggerData (Baseball) - sluggerdata.com
+- ⏳ Music Instruments - TBD
+- ✅ LowkeyMode (Meditation) - lowkeymode.app
+- ⏸️ TaskBidder (On hold) - taskbidder.app
+
+**Core Principle:**
+Ship → Monetize → Reinvest → Ship More
 
 ## Tonight's Wins (Feb 16, 2026)
 

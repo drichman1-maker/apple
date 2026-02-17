@@ -130,7 +130,21 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 ### 🎨 Creative & Marketing
-**Model:** `openrouter/x-ai/grok-2-1212` ($2/$10)
+**Model:** `openrouter/x-ai/grok-2-1212` ($2/$10) — Current default
+
+**Alternative Creative Models (rotate based on need):**
+| Model | Cost | Best For | Vibe |
+|-------|------|-----------|------|
+| **Claude Sonnet** | $3/$15 | Thoughtful copy, nuanced brand voice | Sophisticated |
+| **Llama 3.3 70B** | $0.20/$0.40 | Fast marketing, bulk content | Efficient |
+| **Amazon Nova Pro** | $0.80/$3.20 | AWS-integrated campaigns | Modern |
+| **Pony Alpha** | TBD | Raw/edgy creative, no restrictions | Uncensored |
+
+**Selection Strategy:**
+- Brand voice + campaign: Claude Sonnet
+- Bulk social content: Llama 3.3
+- AWS ecosystem: Nova Pro
+- Edgy/raw: Pony Alpha
 
 **Use for:**
 - Marketing copy and taglines

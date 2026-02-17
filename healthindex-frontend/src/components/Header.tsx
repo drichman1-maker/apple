@@ -1,35 +1,34 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { useTheme } from 'next-themes'
-import { Sun, Moon, Menu, X } from 'lucide-react'
+import { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X, Search } from 'lucide-react';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
     { name: 'Equipment', href: '/equipment' },
     { name: 'Categories', href: '/categories' },
     { name: 'Solutions', href: '/solutions' },
-    { name: 'About', href: '/about' },
-  ]
+    { name: 'Market Pulse', href: '/market' },
+  ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all duration-300">
-              <span className="text-white font-bold text-lg">H</span>
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#00e5ff] to-[#7c3aed] flex items-center justify-center shadow-lg shadow-[#00e5ff]/20 group-hover:shadow-[#00e5ff]/40 transition-all duration-300">
+              <span className="text-white font-bold text-xl">H</span>
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#00e5ff] to-[#7c3aed] opacity-0 group-hover:opacity-50 blur-xl transition-opacity" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-white tracking-tight">
+              <span className="text-xl font-bold bg-gradient-to-r from-white to-[#00e5ff] bg-clip-text text-transparent">
                 Health Index
               </span>
-              <span className="text-xs text-gray-500 hidden sm:block">Equipment Intelligence</span>
+              <span className="text-xs text-white/40 hidden sm:block">Recovery Equipment Intelligence</span>
             </div>
           </Link>
 
@@ -39,41 +38,33 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-400 hover:text-white font-medium transition-colors duration-200 text-sm"
+                className="text-sm font-medium text-white/60 hover:text-white transition-colors duration-200 relative group"
               >
                 {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#00e5ff] to-[#7c3aed] group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
           </nav>
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            {/* CTA Button */}
-            <Link
-              href="/consultation"
-              className="hidden sm:inline-flex items-center px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-lg transition-all duration-200 text-sm"
-            >
-              Book Consultation
-            </Link>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors duration-200"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-amber-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-gray-400" />
-              )}
+            {/* Search */}
+            <button className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+              <Search className="w-5 h-5 text-white/60" />
             </button>
 
-            {/* Mobile Menu Button */}
+            {/* CTA */}
+            <Link
+              href="/consultation"
+              className="hidden md:flex items-center px-5 py-2.5 bg-gradient-to-r from-[#00e5ff] to-[#00b8d9] text-black font-semibold rounded-xl hover:shadow-[0_0_20px_rgba(0,229,255,0.4)] transition-all duration-300 text-sm"
+            >
+              Get Quote
+            </Link>
+
+            {/* Mobile Menu */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors duration-200"
-              aria-label="Toggle menu"
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
             >
               {isMenuOpen ? (
                 <X className="w-5 h-5 text-white" />
@@ -87,12 +78,12 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-white/10">
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col gap-2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-400 hover:text-white font-medium transition-colors duration-200"
+                  className="px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
@@ -100,14 +91,15 @@ export default function Header() {
               ))}
               <Link
                 href="/consultation"
-                className="inline-flex items-center justify-center px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-lg transition-all duration-200 mt-2"
+                className="mx-4 mt-2 flex items-center justify-center px-4 py-3 bg-gradient-to-r from-[#00e5ff] to-[#00b8d9] text-black font-semibold rounded-xl"
+                onClick={() => setIsMenuOpen(false)}
               >
-                Book Consultation
+                Get Quote
               </Link>
             </nav>
           </div>
         )}
       </div>
     </header>
-  )
+  );
 }
