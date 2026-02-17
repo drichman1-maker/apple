@@ -1,14 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Moon, Sun, Apple, Sparkles, Package, RefreshCw } from 'lucide-react'
+import { Menu, X, Moon, Sun, Apple, Sparkles, Package, RefreshCw, ChevronDown } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [conditionDropdownOpen, setConditionDropdownOpen] = useState(false)
+  const dropdownRef = useRef(null)
   const { isDark, toggleTheme } = useTheme()
-  const { condition, toggleCondition, isNew } = useProductCondition()
+  const { condition, setCondition, isNew } = useProductCondition()
   const location = useLocation()
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setConditionDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -68,29 +81,66 @@ const Navbar = () => {
               Price Alerts
             </Link>
             
-            {/* Condition Toggle */}
-            <button
-              onClick={toggleCondition}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
-                isNew
-                  ? 'bg-white/5 border-white/10 text-white hover:bg-white/10'
-                  : 'bg-green-500/20 border-green-500/30 text-green-400 hover:bg-green-500/30'
-              }`}
-              aria-label="Toggle condition"
-              title={isNew ? 'New products' : 'Certified Refurbished'}
-            >
-              {isNew ? (
-                <>
+            {/* Condition Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setConditionDropdownOpen(!conditionDropdownOpen)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
+                  isNew
+                    ? 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                    : 'bg-green-500/20 border-green-500/30 text-green-400 hover:bg-green-500/30'
+                }`}
+                aria-label="Select condition"
+              >
+                {isNew ? (
                   <Package className="h-4 w-4" />
-                  <span className="hidden sm:inline">New</span>
-                </>
-              ) : (
-                <>
+                ) : (
                   <RefreshCw className="h-4 w-4" />
-                  <span className="hidden sm:inline">Refurb</span>
-                </>
+                )}
+                <span className="hidden sm:inline">{isNew ? 'New' : 'Refurb'}</span>
+                <ChevronDown className="h-4 w-4 ml-1" />
+              </button>
+              
+              {conditionDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-lg bg-[#1a1a1a] border border-[#333] shadow-xl py-1 z-50">
+                  <button
+                    onClick={() => {
+                      setCondition('new')
+                      setConditionDropdownOpen(false)
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors text-left ${
+                      isNew ? 'bg-blue-500/20 text-white' : 'text-gray-400 hover:bg-white/5'
+                    }`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isNew ? 'bg-blue-400' : 'bg-gray-600'}`} />
+                    <div className="flex-1">
+                      <div className="text-white">New</div>
+                      <div className="text-xs text-gray-500">Latest models, sealed</div>
+                    </div>
+                    {isNew && <span className="text-blue-400 text-xs">✓</span>}
+                  </button>
+                  
+                  <div className="mx-3 my-1 border-t border-[#333]"></div>
+                  
+                  <button
+                    onClick={() => {
+                      setCondition('refurbished')
+                      setConditionDropdownOpen(false)
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors text-left ${
+                      !isNew ? 'bg-green-500/20 text-white' : 'text-gray-400 hover:bg-white/5'
+                    }`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${!isNew ? 'bg-green-400' : 'bg-gray-600'}`} />
+                    <div className="flex-1">
+                      <div className="text-white">Certified Refurbished</div>
+                      <div className="text-xs text-gray-500">Apple tested, 1yr warranty</div>
+                    </div>
+                    {!isNew && <span className="text-green-400 text-xs">✓</span>}
+                  </button>
+                </div>
               )}
-            </button>
+            </div>
 
             {/* Theme Toggle */}
             <button

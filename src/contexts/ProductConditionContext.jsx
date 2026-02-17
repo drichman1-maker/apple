@@ -17,10 +17,6 @@ export const ProductConditionProvider = ({ children }) => {
     return savedCondition || 'new'
   })
 
-  const toggleCondition = () => {
-    setCondition(prev => prev === 'new' ? 'refurbished' : 'new')
-  }
-
   const setToNew = () => setCondition('new')
   const setToRefurbished = () => setCondition('refurbished')
 
@@ -32,7 +28,7 @@ export const ProductConditionProvider = ({ children }) => {
     condition,
     isNew: condition === 'new',
     isRefurbished: condition === 'refurbished',
-    toggleCondition,
+    setCondition,
     setToNew,
     setToRefurbished
   }
