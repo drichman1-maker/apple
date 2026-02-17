@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import ProductCatalog from './pages/ProductCatalog'
 import ProductDetail from './pages/ProductDetail'
 import Privacy from './pages/Privacy'
+import PriceAlerts from './pages/PriceAlerts'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/products" element={<ProductCatalog />} />
           <Route path="/products/:category" element={<ProductCatalog />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/alerts" element={<PriceAlerts />} />
           <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </main>
