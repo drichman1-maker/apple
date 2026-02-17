@@ -27,7 +27,7 @@ const MarketTrendsChart = ({ data }: MarketTrendsChartProps) => {
             <Tooltip 
               contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #06b6d4', borderRadius: '8px' }}
               itemStyle={{ color: '#fff' }}
-              formatter={(value) => [`$${value.toLocaleString()}`, '']}
+              formatter={(value) => [`$${Number(value).toLocaleString()}`, '']}
             />
             <Line type="monotone" dataKey="amazon" stroke="#06b6d4" strokeWidth={2} dot={false} name="Amazon" />
             <Line type="monotone" dataKey="market" stroke="#8b5cf6" strokeWidth={2} dot={false} name="Market Avg" />
