@@ -10,19 +10,20 @@ interface Equipment {
   id: string
   name: string
   description: string
-  benefits: string[]
-  pricing: {
-    single: number
-    package: {
-      sessions: number
+  category: string
+  prices: {
+    [retailer: string]: {
       price: number
+      originalPrice?: number
+      inStock: boolean
+      url: string
     }
   }
-  specs: Record<string, string>
-  affiliateLinks: {
-    amazon?: string
-    directBuy?: string
+  specs?: {
+    [key: string]: string
   }
+  image?: string
+  savings?: number
 }
 
 export default function EquipmentGrid() {
@@ -33,7 +34,11 @@ export default function EquipmentGrid() {
   
   useEffect(() => {
     setMounted(true)
-    fetchEquipment()
+    // Show fallback data immediately (backend not deployed yet)
+    setEquipment(getFallbackEquipment())
+    setLoading(false)
+    // TODO: Enable API call when backend is deployed
+    // fetchEquipment()
   }, [])
 
   const fetchEquipment = async () => {
@@ -57,29 +62,38 @@ export default function EquipmentGrid() {
     {
       id: 'cryotherapy',
       name: 'Cryotherapy Chamber',
-      description: 'Advanced whole-body cryotherapy systems for rapid recovery and performance enhancement. Multi-person units available.',
-      benefits: ['Reduces inflammation', 'Accelerates recovery', 'Boosts metabolism'],
-      pricing: { single: 45000, package: { sessions: 1, price: 45000 } },
+      description: 'Advanced whole-body cryotherapy systems for rapid recovery and performance enhancement.',
+      category: 'cryotherapy',
+      prices: {
+        amazon: { price: 45000, originalPrice: 55000, inStock: true, url: 'https://amazon.com' },
+        direct: { price: 42000, originalPrice: 42000, inStock: true, url: 'https://example.com' }
+      },
       specs: { temperatureRange: '-110°C to -150°C', capacity: '1-3 people', power: '220V, 30A' },
-      affiliateLinks: { amazon: 'https://amazon.com' }
+      savings: 18
     },
     {
       id: 'hyperbaric',
       name: 'Hyperbaric Oxygen Chamber',
-      description: 'Medical-grade mild and hard chambers delivering concentrated oxygen therapy for accelerated healing.',
-      benefits: ['Accelerates healing', 'Improves cognition', 'Reduces inflammation'],
-      pricing: { single: 65000, package: { sessions: 1, price: 65000 } },
+      description: 'Medical-grade mild and hard chambers delivering concentrated oxygen therapy.',
+      category: 'hyperbaric',
+      prices: {
+        amazon: { price: 65000, originalPrice: 75000, inStock: true, url: 'https://amazon.com' },
+        direct: { price: 62000, originalPrice: 62000, inStock: false, url: 'https://example.com' }
+      },
       specs: { pressureRange: '1.3 - 3.0 ATA', capacity: '1 person', power: '110V, 15A' },
-      affiliateLinks: { amazon: 'https://amazon.com' }
+      savings: 13
     },
     {
       id: 'redlight',
       name: 'Red Light Therapy System',
-      description: 'High-irradiance full-body panels and beds for pain management, skin health, and cellular optimization.',
-      benefits: ['Pain relief', 'Skin rejuvenation', 'Cellular repair'],
-      pricing: { single: 8500, package: { sessions: 1, price: 8500 } },
+      description: 'High-irradiance full-body panels for pain management and cellular optimization.',
+      category: 'redlight',
+      prices: {
+        amazon: { price: 8500, originalPrice: 9500, inStock: true, url: 'https://amazon.com' },
+        direct: { price: 7800, originalPrice: 7800, inStock: true, url: 'https://example.com' }
+      },
       specs: { wavelengthRange: '630-850nm', coverage: 'Full body', power: '110V, 10A' },
-      affiliateLinks: { amazon: 'https://amazon.com' }
+      savings: 11
     }
   ]
 
@@ -131,7 +145,7 @@ export default function EquipmentGrid() {
 
         <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {equipment.map((item, index) => (
-            <EquipmentCard key={item.id} equipment={item} index={index} />
+            <EquipmentCard key={item.id} equipment={item} />
           ))}
         </div>
       </div>
