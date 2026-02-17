@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { TrendingDown, TrendingUp, Bell, ExternalLink } from 'lucide-react'
+import { TrendingDown, TrendingUp, Bell, ExternalLink, ShoppingCart } from 'lucide-react'
+import { getAffiliateSearchUrl } from '../../utils/affiliate'
 
 const ProductCard = ({ product }) => {
   const prices = Object.entries(product.prices).map(([retailer, data]) => ({
@@ -135,6 +136,15 @@ const ProductCard = ({ product }) => {
           >
             View Details
           </Link>
+          <a
+            href={getAffiliateSearchUrl(product.name)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center px-3 py-2 bg-amazon text-white rounded-lg hover:bg-amazon-dark transition-colors duration-200"
+            title="Shop on Amazon"
+          >
+            <ShoppingCart className="w-4 h-4" />
+          </a>
           <button
             className="flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
             title="Create Price Alert"
