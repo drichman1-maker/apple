@@ -37,10 +37,11 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ## Model Strategy
 
-**Main session:** Groq Llama 3.3 70B SpecDec (paid tier) — fast, reliable for text
+**Main session:** MiniMax-M2 via OpenRouter — fast, code specialist, SWE-Bench leader
 **Fallbacks:** 
 1. OpenRouter Claude Sonnet ($3/$15) — handles PDFs/images automatically
-2. Direct Anthropic Claude Sonnet — backup if OpenRouter fails
+2. Kimi K2.5 (2M context) — for long context tasks
+3. Direct Anthropic Claude Sonnet — backup if OpenRouter fails
 
 **Subagents:** 16 concurrent workers (increased from 8 for heavy parallelization)
 
@@ -281,39 +282,41 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 | Tier | Models | Use Case |
 |------|--------|----------|
-| **Main** | Kimi K2.5, Claude Sonnet | Coordination, complex decisions |
+| **Main** | MiniMax-M2, Kimi K2.5, Claude Sonnet | Coordination, complex decisions |
 | **Subagent Default** | Claude Haiku | Assessments, quick tasks |
 | **Long Context** | MiniMax-M1, GLM-4 | Codebase analysis, research |
 | **Code** | MiniMax-M2, Claude Sonnet | Generation, debugging |
 | **Fast/Cheap** | Phi-4, Haiku | Data processing, simple tasks |
 | **Creative** | Grok 2 | Marketing, copywriting |
 | **Uncensored** | Pony Alpha | Raw output, unrestricted |
+| **AWS/Amazon** | Amazon Spark (Nova) | AWS ecosystem, Bedrock integration |
 
 ### Quick Model Selection (NEW)
 
 | Task | First Choice | Backup | Avoid |
 |------|--------------|--------|-------|
 | File assessment | Haiku | Sonnet | DeepSeek |
-| Code generation | Sonnet | MiniMax-M2 | DeepSeek |
+| Code generation | MiniMax-M2 | Sonnet | DeepSeek |
 | Long context (100K+) | MiniMax-M1 | GLM-4 | Groq |
 | Quick/cheap tasks | Phi-4 | Haiku | Ollama |
 | Research | GLM-4 | MiniMax-M1 | DeepSeek |
 | Creative copy | Grok 2 | Sonnet | — |
 | Uncensored/raw | Pony Alpha | — | — |
+| AWS/Bedrock | Amazon Spark (Nova) | — | — |
 
 ### Extended Model Portfolio (Recommended to Add)
 
 | Model | Provider | Cost (in/out) | Best For | Priority |
 |-------|----------|---------------|----------|----------|
+| **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | SWE-Bench leader, complex code | ✅ Added |
 | **MiniMax-M1** | OpenRouter | $0.42/$1.93 | 1M context, agents, coding | 🔥 ADD NOW |
-| **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | SWE-Bench leader, complex code | 🔥 ADD NOW |
 | **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, bilingual research | 🔥 ADD NOW |
+| **Amazon Nova Pro** | AWS Bedrock | ~$0.80/$3.20 | AWS ecosystem, Sparky integration | ✅ Added |
 | **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Coding, math, multilingual | Medium |
 | **Pony Alpha** | OpenRouter | TBD | Uncensored, raw output | Medium |
 | **Kimi K2.5** | OpenRouter | TBD | 2M context (current main) | ✅ Already using |
 | **Mistral Large 2** | OpenRouter | $2/$6 | European, compliance, reasoning | Low |
 | **Command R+** | Cohere | $3/$15 | 128K, RAG, document search | Low |
-| **Nova Pro** | Amazon Bedrock | ~$0.80/$3.20 | AWS ecosystem, reliable | Consider |
 | **Llama 3.3 70B** | OpenRouter | ~$0.20/$0.40 | Meta model, good balance | Consider |
 
 ### Model Categories
@@ -338,6 +341,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 **Specialized:**
 - Grok 2 — Personality/creative
 - Pony Alpha — Uncensored/raw
+- Amazon Nova (Spark) — AWS/Bedrock, fast
 - Gemini Pro — Video analysis
 
 ---

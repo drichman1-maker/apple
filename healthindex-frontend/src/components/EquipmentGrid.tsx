@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ArrowRight, Loader2, AlertCircle } from 'lucide-react'
+import { Loader2, AlertCircle } from 'lucide-react'
+import EquipmentCard from './EquipmentCard'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -17,6 +18,7 @@ interface Equipment {
       price: number
     }
   }
+  specs: Record<string, string>
   affiliateLinks: {
     amazon?: string
     directBuy?: string
@@ -57,23 +59,26 @@ export default function EquipmentGrid() {
       name: 'Cryotherapy Chamber',
       description: 'Advanced whole-body cryotherapy systems for rapid recovery and performance enhancement. Multi-person units available.',
       benefits: ['Reduces inflammation', 'Accelerates recovery', 'Boosts metabolism'],
-      pricing: { single: 75, package: { sessions: 5, price: 325 } },
+      pricing: { single: 45000, package: { sessions: 1, price: 45000 } },
+      specs: { temperatureRange: '-110°C to -150°C', capacity: '1-3 people', power: '220V, 30A' },
       affiliateLinks: { amazon: 'https://amazon.com' }
     },
     {
       id: 'hyperbaric',
-      name: 'Hyperbaric Oxygen',
+      name: 'Hyperbaric Oxygen Chamber',
       description: 'Medical-grade mild and hard chambers delivering concentrated oxygen therapy for accelerated healing.',
       benefits: ['Accelerates healing', 'Improves cognition', 'Reduces inflammation'],
-      pricing: { single: 150, package: { sessions: 5, price: 650 } },
+      pricing: { single: 65000, package: { sessions: 1, price: 65000 } },
+      specs: { pressureRange: '1.3 - 3.0 ATA', capacity: '1 person', power: '110V, 15A' },
       affiliateLinks: { amazon: 'https://amazon.com' }
     },
     {
       id: 'redlight',
-      name: 'Red Light Therapy',
+      name: 'Red Light Therapy System',
       description: 'High-irradiance full-body panels and beds for pain management, skin health, and cellular optimization.',
       benefits: ['Pain relief', 'Skin rejuvenation', 'Cellular repair'],
-      pricing: { single: 50, package: { sessions: 5, price: 200 } },
+      pricing: { single: 8500, package: { sessions: 1, price: 8500 } },
+      specs: { wavelengthRange: '630-850nm', coverage: 'Full body', power: '110V, 10A' },
       affiliateLinks: { amazon: 'https://amazon.com' }
     }
   ]
@@ -126,59 +131,7 @@ export default function EquipmentGrid() {
 
         <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {equipment.map((item, index) => (
-            <div
-              key={item.id}
-              className="glass-card hover-glow p-8 flex flex-col"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              {/* Equipment Icon */}
-              <div className="aspect-square mb-6 rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 flex items-center justify-center overflow-hidden">
-                <div className="text-6xl">
-                  {item.id === 'cryotherapy' ? '❄️' : 
-                   item.id === 'hyperbaric' ? '💨' : 
-                   item.id === 'redlight' ? '🔴' : '🔬'}
-                </div>
-              </div>
-
-              {/* Content */}
-              <h3 className="text-2xl font-bold text-white mb-3">{item.name}</h3>
-              <p className="text-gray-400 mb-4 flex-grow">{item.description}</p>
-
-              {/* Benefits */}
-              <div className="mb-4">
-                <ul className="space-y-1">
-                  {item.benefits?.slice(0, 3).map((benefit, i) => (
-                    <li key={i} className="text-sm text-gray-500 flex items-center gap-2">
-                      <span className="w-1 h-1 bg-cyan-400 rounded-full"></span>
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Pricing */}
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Single Session</span>
-                  <span className="text-cyan-400">${item.pricing?.single}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Package ({item.pricing?.package?.sessions} sessions)</span>
-                  <span className="text-cyan-400">${item.pricing?.package?.price}</span>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <a 
-                href={item.affiliateLinks?.amazon || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-neon w-full flex items-center justify-center gap-2"
-              >
-                View on Amazon
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
+            <EquipmentCard key={item.id} equipment={item} index={index} />
           ))}
         </div>
       </div>
