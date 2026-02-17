@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { TrendingDown, TrendingUp, Bell, ExternalLink, ShoppingCart } from 'lucide-react'
 import { getAffiliateSearchUrl } from '../../utils/affiliate'
+import { getProductImage } from '../../utils/productImages'
 
 const ProductCard = ({ product }) => {
   const prices = Object.entries(product.prices).map(([retailer, data]) => ({
@@ -36,8 +37,18 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card p-6">
       {/* Product Image */}
-      <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-        <span className="text-gray-500 dark:text-gray-400 text-sm text-center">
+      <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden group">
+        <img 
+          src={getProductImage(product.id, product.category)} 
+          alt={product.name}
+          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+          onError={(e) => {
+            e.target.style.display = 'none'
+            e.target.nextSibling.style.display = 'flex'
+          }}
+        />
+        <span className="hidden text-gray-500 dark:text-gray-400 text-sm text-center">
           {product.name}
         </span>
       </div>
