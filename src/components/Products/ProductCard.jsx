@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { getProductImage } from '../../utils/productImages'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
+import { getAffiliateUrl } from '../../config/affiliate'
 
 const ProductCard = ({ product }) => {
   const { isNew, isRefurbished } = useProductCondition()
@@ -124,23 +125,6 @@ const ProductCard = ({ product }) => {
 
   const specPills = getSpecPills()
 
-  // Generate retailer links
-  const getRetailerUrl = (retailer, productName) => {
-    const encoded = encodeURIComponent(productName)
-    const urls = {
-      apple: `https://apple.com/search/${encoded}`,
-      amazon: `https://amazon.com/s?k=${encoded}`,
-      bestbuy: `https://bestbuy.com/site/searchpage.jsp?st=${encoded}`,
-      bh: `https://bhphotovideo.com/c/search?q=${encoded}`,
-      adorama: `https://adorama.com/search?q=${encoded}`,
-      walmart: `https://walmart.com/search?q=${encoded}`,
-      target: `https://target.com/s?searchTerm=${encoded}`,
-      ebay: `https://ebay.com/sch/i.html?_nkw=${encoded}`,
-      cdw: `https://cdw.com/search/?key=${encoded}`
-    }
-    return urls[retailer] || '#'
-  }
-
   return (
     <div className="hi-card-hover overflow-hidden flex flex-col">
       {/* Clickable area for product detail */}
@@ -206,14 +190,14 @@ const ProductCard = ({ product }) => {
         </div>
       </Link>
 
-      {/* Retailer Links - outside Link so they work independently */}
+      {/* Retailer Links - with affiliate tracking */}
       <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
         <div className="flex flex-wrap gap-2">
           {prices.slice(0, 3).map(({ retailer, price }) => (
             <a
               key={retailer}
-              href={getRetailerUrl(retailer, product.name)}
+              href={getAffiliateUrl(retailer, product.name, product.sku)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 min-w-[70px] text-center px-2 py-1.5 bg-white/5 hover:bg-white/10 rounded text-xs transition-colors"
