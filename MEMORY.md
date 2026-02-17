@@ -297,3 +297,82 @@
 - Claude only for PDFs/images
 - Groq for fast text (already paying)
 - Batch work to minimize context switching
+
+---
+
+## Infrastructure Scaling & Upgrade Strategy (Ongoing Conversation)
+
+### Current State (Feb 2026)
+**Render Free Tier Issues:**
+- Free instances spin down after inactivity → 50-second cold starts
+- Impacts user experience significantly
+- Affects: Health Index, MacTrackr backends
+
+**Current Monthly Costs:**
+- Render: $0 (free tier)
+- Vercel: $0 (hobby plan)
+- Total hosting: **$0/month**
+
+### Upgrade Trigger Points
+**When to upgrade Render ($7/month Starter):**
+- [ ] When >100 daily active users
+- [ ] When cold start complaints increase
+- [ ] When affiliate revenue > $50/month (covers 7x the cost)
+
+**When to consolidate backends ($15/month Team):**
+- [ ] When managing 5+ separate services
+- [ ] When unified API makes sense architecturally
+- [ ] When costs are justified by traffic/revenue
+
+### Mac Studio Purchase Decision
+**Cost:** $2,000-4,000 (M2 Max/Ultra)
+**Current API spend:** ~$15/day active usage (~$450/month)
+**Break-even:** 133-266 days of heavy usage
+
+**Criteria for purchase:**
+- [ ] Consistent $1,000+/month API spend for 3 months
+- [ ] Need for 24/7 local inference
+- [ ] Privacy/compliance requirements for enterprise clients
+- [ ] MRR > $5K justifying capital investment
+
+**Better near-term alternatives:**
+- Optimize model selection (already doing)
+- Batch operations to reduce calls
+- Use cheaper models for routine tasks
+- Leverage free tiers (Groq, Ollama)
+
+### Ship First, Scale Later
+**Core principle:** Don't let infrastructure decisions block deployment.
+- Deploy on free tiers
+- Monitor usage/complaints
+- Upgrade when justified by metrics or revenue
+- Document upgrade triggers in this section
+
+**Red flags requiring immediate upgrade:**
+- User complaints about slowness
+- Lost affiliate conversions due to performance
+- Backend errors causing data loss
+
+### Scaling Milestones
+| Milestone | Action | Est. Cost | When |
+|-----------|--------|-----------|------|
+| 100 DAU | Upgrade Render to Starter | +$7/mo | TBD |
+| 500 DAU | Consolidate backends | +$15/mo | TBD |
+| $1K MRR | Dedicated database | +$25/mo | TBD |
+| $5K MRR | Consider Mac Studio | $2-4K one-time | TBD |
+| 10K DAU | CDN for static assets | +$20/mo | TBD |
+
+### Database Upgrade (MacTrackr Specific)
+**Current:** Render Postgres Free (expires March 16, 2026)
+**Issue:** 90-day data retention limit
+**Options:**
+1. Upgrade to Render Starter DB ($7/mo) — unlimited retention
+2. Migrate to Supabase free tier — 500MB limit
+3. Self-host on Railway/Fly.io — ~$5-10/mo
+
+**Decision pending:** Wait until Feb 28 reminder, then upgrade if affiliate revenue justifies.
+
+---
+
+**Last updated:** February 16, 2026
+**Next review:** When first site hits 100 DAU or $50/month revenue

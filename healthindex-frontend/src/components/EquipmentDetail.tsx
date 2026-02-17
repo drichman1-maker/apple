@@ -59,7 +59,7 @@ interface EquipmentDetailProps {
 export default function EquipmentDetail({ equipment }: EquipmentDetailProps) {
   const [showAlertModal, setShowAlertModal] = useState(false)
   const [targetPrice, setTargetPrice] = useState(Math.round(equipment.pricing.single * 0.85))
-  const [priceHistory, setPriceHistory] = useState([])
+  const [priceHistory, setPriceHistory] = useState<{ date: string; amazon: number; market: number }[]>([])
 
   useEffect(() => {
     // Generate 90-day price history

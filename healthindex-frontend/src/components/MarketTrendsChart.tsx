@@ -1,7 +1,11 @@
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
-const MarketTrendsChart = ({ data }) => {
+interface MarketTrendsChartProps {
+  data: { date: string; amazon: number; market: number }[]
+}
+
+const MarketTrendsChart = ({ data }: MarketTrendsChartProps) => {
   return (
     <div className="bg-gray-900/50 rounded-xl p-6 border border-cyan-500/20">
       <h3 className="text-lg font-semibold text-white mb-4 uppercase tracking-wide">
