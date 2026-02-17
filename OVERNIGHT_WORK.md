@@ -1,25 +1,16 @@
 # Overnight Work Summary — February 15, 2026
 
-## Active Subagent Tasks (In Progress)
+## Subagent Status ⚠️
 
-### 1. SEO Articles Publishing ⏳
-**Agent:** `publish-seo-articles`  
-**Task:** Deploy 3 ready articles to aggregator sites
-- ARTICLE_3_MintCondition.md → MintCondition.com
-- ARTICLE_4_DiamondData.md → DiamondData.com  
-- ARTICLE_5_Rumble.md → RumbleDeals.com
+**All 3 subagents stopped** — needed credentials/access that weren't provided:
 
-**Status:** In progress
+1. **MacTrackr Backend Fix** — Needs Render dashboard login
+2. **SEO Articles Publishing** — Needs site admin access (Vercel/Cloudflare)
+3. **Shared Backend Review** — Needs GitHub repos or local access
 
-### 2. MacTrackr Backend Fix ⏳
-**Agent:** `fix-mactrackr-backend`  
-**Task:** Diagnose Render crash (status 3), fix env vars, redeploy
-**Status:** In progress
-
-### 3. Shared Backend Review ⏳
-**Agent:** `review-shared-backend`  
-**Task:** Analyze shared-backend-architecture.md vs coin-agg implementation, provide gap analysis
-**Status:** In progress
+**Lesson:** For autonomous overnight work, either:
+- Provide credentials upfront, OR
+- Scope tasks to code-only changes (no external logins)
 
 ---
 

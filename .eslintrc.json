@@ -1,0 +1,15 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "prefer-const": "error",
+    "no-var": "error",
+    "object-shorthand": "error",
+    "prefer-template": "error",
+    "@next/next/no-img-element": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/aria-role": "warn"
+  }
+}

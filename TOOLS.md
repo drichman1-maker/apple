@@ -44,11 +44,48 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 **Subagents:** 16 concurrent workers (increased from 8 for heavy parallelization)
 
-### Default Subagent Model
-**DeepSeek via OpenRouter** ($0.14 in / $0.28 out)
-- Excellent for coding, refactoring, data processing
-- Cheap enough to run 10+ in parallel without worry
-- Good reasoning, reliable structured output
+### Default Subagent Model — CHANGED DUE TO FAILURES
+**~~DeepSeek via OpenRouter~~** ❌ DISCARDED — Repeatedly gave wrong assessments, wasted tokens
+
+**NEW DEFAULT: Claude 3.5 Haiku via OpenRouter** ($1/$5) 
+- Faster than Sonnet, cheaper, still reliable
+- Better file inspection and verification
+- Use for: assessments, research, fact-checking
+
+**Premium Subagent (critical tasks only):** Claude 3.5 Sonnet ($3/$15)
+- Use for: code generation, complex debugging, final reviews
+- Only when accuracy is worth the cost
+
+### Alternative Models to Explore (Replace Groq/Ollama)
+
+| Model | Provider | Cost (in/out) | Strengths | Best For |
+|-------|----------|---------------|-----------|----------|
+| **MiniMax-M1** | OpenRouter | $0.42/$1.93 | 1M context, MoE architecture, fast inference | Long docs, multi-file coding, agents |
+| **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | Code generation, SWE-Bench leader, reasoning | Complex coding, debug loops |
+| **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, Chinese/English bilingual | Research, analysis, long-context tasks |
+| **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Strong coding, math, multilingual | Coding tasks, data processing |
+| **Mistral Large** | OpenRouter | $2/$6 | European alternative, good reasoning | General tasks, compliance-sensitive work |
+| **Command R+** | Cohere | $3/$15 | 128K context, RAG-optimized | Document analysis, search, citations |
+| **Phi-4** (Microsoft) | OpenRouter | $0.07/$0.14 | Small (14B), efficient, surprisingly capable | Quick tasks, edge deployment |
+
+**My Recommendations:**
+1. **MiniMax-M1** — Replace Groq for fast text. 1M context, cheap, good for large codebases
+2. **GLM-4** — Strong bilingual model, good for research and long docs
+3. **Qwen2.5-72B** — Cheap coding alternative to DeepSeek, actually reliable
+4. **Phi-4** — Ultra-cheap for simple tasks, replace Ollama local when you need API consistency
+
+**Avoid:**
+- ~~Groq free tier~~ — Hit limits constantly, unreliable
+- ~~Ollama~~ — Local only, no API consistency, hardware-dependent
+- ~~DeepSeek~~ — Proven unreliable for assessments
+
+### Model Selection Rules (UPDATED 2026-02-16)
+1. **Assessments/status checks** → Haiku (verify files, check state)
+2. **Code generation/review** → Sonnet (reliable, fewer errors)
+3. **Simple data processing** → Haiku or Phi-4 (structured output)
+4. **Long context (100K+)** → MiniMax-M1, GLM-4, or Kimi
+5. **NEVER DeepSeek/Groq for:** File system assessments, deployment status, project state
+   - Failed 3x: reported skeleton when built, missed .vercel folders, bad priorities
 
 ---
 
@@ -74,7 +111,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ## 📋 Model Selection by Task Type
 
 ### 💻 Coding & Development
-**Model:** `openrouter/deepseek/deepseek-chat` ($0.14/$0.28)
+**Model:** `openrouter/anthropic/claude-3.5-sonnet` ($3/$15) — UPDATED
+- DeepSeek failed repeatedly on assessments, not worth the "savings"
 
 **Use for:**
 - Code reviews and refactoring
@@ -85,7 +123,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 **Example:**
 ```bash
-/spawn task="Review this React component for performance issues and suggest optimizations" model=openrouter/deepseek/deepseek-chat
+/spawn task="Review this React component for performance issues and suggest optimizations" model=openrouter/anthropic/claude-3.5-sonnet
 ```
 
 ---
@@ -126,7 +164,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 ### 📊 Data Processing & Analysis
-**Model:** `openrouter/deepseek/deepseek-chat` ($0.14/$0.28)
+**Model:** `openrouter/anthropic/claude-3.5-haiku` ($1/$5) — UPDATED
 
 **Use for:**
 - CSV/JSON parsing and transformation
@@ -136,7 +174,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 **Example:**
 ```bash
-/spawn task="Extract all user emails from this CSV and format as JSON" model=openrouter/deepseek/deepseek-chat
+/spawn task="Extract all user emails from this CSV and format as JSON" model=openrouter/anthropic/claude-3.5-haiku
 ```
 
 ---
@@ -237,7 +275,70 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
-**Remember:** Main session (Claude) coordinates. Subagents (DeepSeek default) do the heavy lifting. Override model for specific needs.
+**Remember:** Main session (Kimi K2.5) coordinates. Subagents (Haiku default, MiniMax-M1 for long context) do the heavy lifting. Override model for specific needs.
+
+### Active Model Stack (Feb 16, 2026)
+
+| Tier | Models | Use Case |
+|------|--------|----------|
+| **Main** | Kimi K2.5, Claude Sonnet | Coordination, complex decisions |
+| **Subagent Default** | Claude Haiku | Assessments, quick tasks |
+| **Long Context** | MiniMax-M1, GLM-4 | Codebase analysis, research |
+| **Code** | MiniMax-M2, Claude Sonnet | Generation, debugging |
+| **Fast/Cheap** | Phi-4, Haiku | Data processing, simple tasks |
+| **Creative** | Grok 2 | Marketing, copywriting |
+| **Uncensored** | Pony Alpha | Raw output, unrestricted |
+
+### Quick Model Selection (NEW)
+
+| Task | First Choice | Backup | Avoid |
+|------|--------------|--------|-------|
+| File assessment | Haiku | Sonnet | DeepSeek |
+| Code generation | Sonnet | MiniMax-M2 | DeepSeek |
+| Long context (100K+) | MiniMax-M1 | GLM-4 | Groq |
+| Quick/cheap tasks | Phi-4 | Haiku | Ollama |
+| Research | GLM-4 | MiniMax-M1 | DeepSeek |
+| Creative copy | Grok 2 | Sonnet | — |
+| Uncensored/raw | Pony Alpha | — | — |
+
+### Extended Model Portfolio (Recommended to Add)
+
+| Model | Provider | Cost (in/out) | Best For | Priority |
+|-------|----------|---------------|----------|----------|
+| **MiniMax-M1** | OpenRouter | $0.42/$1.93 | 1M context, agents, coding | 🔥 ADD NOW |
+| **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | SWE-Bench leader, complex code | 🔥 ADD NOW |
+| **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, bilingual research | 🔥 ADD NOW |
+| **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Coding, math, multilingual | Medium |
+| **Pony Alpha** | OpenRouter | TBD | Uncensored, raw output | Medium |
+| **Kimi K2.5** | OpenRouter | TBD | 2M context (current main) | ✅ Already using |
+| **Mistral Large 2** | OpenRouter | $2/$6 | European, compliance, reasoning | Low |
+| **Command R+** | Cohere | $3/$15 | 128K, RAG, document search | Low |
+| **Nova Pro** | Amazon Bedrock | ~$0.80/$3.20 | AWS ecosystem, reliable | Consider |
+| **Llama 3.3 70B** | OpenRouter | ~$0.20/$0.40 | Meta model, good balance | Consider |
+
+### Model Categories
+
+**High Context (100K+ tokens):**
+- MiniMax-M1 (1M) — Best for codebase ingestion
+- GLM-4 (128K) — Research, bilingual
+- Kimi K2.5 (2M) — Massive context
+- Command R+ (128K) — RAG-optimized
+
+**Code Specialists:**
+- Claude 3.5 Sonnet — Most reliable
+- MiniMax-M2 — SWE-Bench leader
+- Qwen2.5-72B — Cheap, good
+- o1/o3-mini — Reasoning (if needed)
+
+**Fast & Cheap:**
+- Phi-4 ($0.07/$0.14) — Quick tasks
+- Haiku ($1/$5) — Default subagent
+- Llama 3.3 70B — Balanced
+
+**Specialized:**
+- Grok 2 — Personality/creative
+- Pony Alpha — Uncensored/raw
+- Gemini Pro — Video analysis
 
 ---
 

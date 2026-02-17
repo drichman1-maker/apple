@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthIndex — Wellness Device Price Tracker</title>
+    <style>
+        :root {
+            --primary: #22c55e;
+            --bg: #fafafa;
+            --text: #171717;
+            --muted: #737373;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            padding: 2rem;
+            border-bottom: 1px solid #e5e5e5;
+            background: white;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; }
+        .logo span { color: var(--primary); }
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        .category {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            transition: box-shadow 0.2s;
+        }
+        .category:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .category h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .category p {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+        .status {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+        }
+        .status h2 {
+            margin-bottom: 1rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 4rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Health<span>Index</span></div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Find the Best Prices on Wellness Devices</h1>
+            <p>Track prices across red light therapy, PEMF devices, saunas, and recovery tools. Get alerts when prices drop.</p>
+        </section>
+        
+        <section class="categories">
+            <div class="category">
+                <h3>🟥 Red Light Therapy</h3>
+                <p>Joovv, Mito, PlatinumLED, and more. Compare panel sizes and irradiance.</p>
+            </div>
+            <div class="category">
+                <h3>⚡ PEMF Devices</h3>
+                <p>Compare pulsed electromagnetic field therapy mats and applicators.</p>
+            </div>
+            <div class="category">
+                <h3>🧊 Saunas & Cold Plunge</h3>
+                <p>Infrared saunas, traditional, and cold therapy solutions.</p>
+            </div>
+            <div class="category">
+                <h3>💆 Recovery Tools</h3>
+                <p>Mini massage guns, compression boots, and mobility devices.</p>
+            </div>
+            <div class="category">
+                <h3>😴 Sleep Optimization</h3>
+                <p>Blue light blockers, sleep trackers, and optimization gear.</p>
+            </div>
+            <div class="category">
+                <h3>💨 Air & Water</h3>
+                <p>Air purifiers, water filters, and environmental wellness.</p>
+            </div>
+        </section>
+        
+        <section class="status">
+            <h2>🚀 Coming Soon</h2>
+            <p>We're aggregating prices from Amazon, Best Buy, and direct manufacturers. <br>Sign up below to get notified when we launch.</p>
+            <br>
+            <p><strong>Status:</strong> Building product catalog • ETA: This week</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 HealthIndex. All rights reserved.</p>
+        <p>
+            <a href="/privacy">Privacy Policy</a> |
+            <a href="/terms">Terms of Service</a> |
+            <a href="/about">About</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.75rem;">
+            As an Amazon Associate, we earn from qualifying purchases.
+        </p>
+    </footer>
+</body>
+</html>
