@@ -22,8 +22,13 @@ const ProductCard = ({ product }) => {
     const names = {
       apple: 'Apple',
       amazon: 'Amazon',
+      walmart: 'Walmart',
+      target: 'Target',
       bestbuy: 'Best Buy',
-      bh: 'B&H Photo'
+      bh: 'B&H Photo',
+      adorama: 'Adorama',
+      ebay: 'eBay',
+      cdw: 'CDW'
     }
     return names[retailer] || retailer
   }
@@ -52,7 +57,27 @@ const ProductCard = ({ product }) => {
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
             {product.name}
           </h3>
+          {product.modelNumber && (
+            <p className="text-xs text-gray-500 mt-1">
+              Model: {product.modelNumber} | SKU: {product.sku}
+            </p>
+          )}
         </div>
+
+        {/* Specs */}
+        {product.specs && (
+          <div className="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded p-2">
+            <div className="grid grid-cols-2 gap-1">
+              {product.specs.chip && <span><strong>Chip:</strong> {product.specs.chip}</span>}
+              {product.specs.ram && <span><strong>RAM:</strong> {product.specs.ram}</span>}
+              {product.specs.storage && <span><strong>Storage:</strong> {product.specs.storage}</span>}
+              {product.specs.color && <span><strong>Color:</strong> {product.specs.color}</span>}
+              {product.specs.display && <span className="col-span-2"><strong>Display:</strong> {product.specs.display}</span>}
+              {product.specs.case && <span><strong>Case:</strong> {product.specs.case}</span>}
+              {product.specs.connectivity && <span><strong>Cell:</strong> {product.specs.connectivity}</span>}
+            </div>
+          </div>
+        )}
 
         {/* Price Info */}
         <div className="space-y-2">
@@ -98,33 +123,29 @@ const ProductCard = ({ product }) => {
           </span>
         </div>
 
-        {/* Price Comparison */}
+        {/* Price Comparison - All 9 Retailers */}
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-900 dark:text-white">Price Comparison:</h4>
-          <div className="space-y-1">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-white">Price Comparison ({totalRetailers} retailers):</h4>
+          <div className="space-y-1 max-h-32 overflow-y-auto">
             {prices
               .sort((a, b) => a.price - b.price)
-              .slice(0, 3)
               .map(({ retailer, price, inStock }) => (
                 <div key={retailer} className="flex items-center justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">
                     {getRetailerDisplayName(retailer)}
                   </span>
                   <div className="flex items-center space-x-2">
-                    <span className="font-medium text-gray-900 dark:text-white">
+                    <span className={`font-medium ${
+                      price === minPrice ? 'text-green-600' : 'text-gray-900 dark:text-white'
+                    }`}>
                       ${price}
                     </span>
                     <span className={`w-2 h-2 rounded-full ${
                       inStock ? 'bg-green-500' : 'bg-red-500'
-                    }`} />
+                    }`} title={inStock ? 'In Stock' : 'Out of Stock'} />
                   </div>
                 </div>
               ))}
-            {prices.length > 3 && (
-              <div className="text-xs text-gray-500 dark:text-gray-400 text-center pt-1">
-                +{prices.length - 3} more retailers
-              </div>
-            )}
           </div>
         </div>
 
