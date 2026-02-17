@@ -18,21 +18,25 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://twitter.com/mactrackr"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
                 aria-label="Twitter"
               >
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://github.com/drichman1-maker"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
                 aria-label="GitHub"
               >
                 <Github className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="mailto:hello@mactrackr.com"
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
                 aria-label="Email"
               >
@@ -109,20 +113,20 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/privacy"
                   className="text-gray-600 dark:text-gray-400 hover:text-apple-blue dark:hover:text-apple-blue transition-colors duration-200"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/terms"
                   className="text-gray-600 dark:text-gray-400 hover:text-apple-blue dark:hover:text-apple-blue transition-colors duration-200"
                 >
                   Terms of Service
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
