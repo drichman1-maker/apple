@@ -1,14 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { TrendingDown, TrendingUp } from 'lucide-react'
+import { TrendingDown, TrendingUp, Loader2, AlertCircle } from 'lucide-react'
+import { getProducts } from '../../api'
 
 const FeaturedProducts = () => {
-  const featuredProducts = [
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true)
+      const data = await getProducts({ featured: true, limit: 6 })
+      // If API returns empty, use fallback data
+      if (!data || data.length === 0) {
+        setProducts(getFallbackProducts())
+      } else {
+        setProducts(data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch products:', err)
+      setError('Unable to load products')
+      setProducts(getFallbackProducts())
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Fallback data if backend fails
+  const getFallbackProducts = () => [
     {
       id: 'iphone-15-pro',
       name: 'iPhone 15 Pro',
       category: 'iPhone',
-      image: '/images/iphone-15-pro.jpg',
+      image: null,
       currentPrice: 999,
       originalPrice: 1199,
       discount: 17,
@@ -20,7 +49,7 @@ const FeaturedProducts = () => {
       id: 'macbook-air-m2',
       name: 'MacBook Air M2',
       category: 'Mac',
-      image: '/images/macbook-air-m2.jpg',
+      image: null,
       currentPrice: 1099,
       originalPrice: 1199,
       discount: 8,
@@ -32,7 +61,7 @@ const FeaturedProducts = () => {
       id: 'ipad-pro-12-9',
       name: 'iPad Pro 12.9"',
       category: 'iPad',
-      image: '/images/ipad-pro-12-9.jpg',
+      image: null,
       currentPrice: 1099,
       originalPrice: 1099,
       discount: 0,
@@ -44,7 +73,7 @@ const FeaturedProducts = () => {
       id: 'airpods-pro-2',
       name: 'AirPods Pro (2nd Gen)',
       category: 'AirPods',
-      image: '/images/airpods-pro-2.jpg',
+      image: null,
       currentPrice: 199,
       originalPrice: 249,
       discount: 20,
@@ -56,7 +85,7 @@ const FeaturedProducts = () => {
       id: 'apple-watch-series-9',
       name: 'Apple Watch Series 9',
       category: 'Apple Watch',
-      image: '/images/apple-watch-series-9.jpg',
+      image: null,
       currentPrice: 359,
       originalPrice: 399,
       discount: 10,
@@ -68,7 +97,7 @@ const FeaturedProducts = () => {
       id: 'mac-studio-m2',
       name: 'Mac Studio M2',
       category: 'Mac',
-      image: '/images/mac-studio-m2.jpg',
+      image: null,
       currentPrice: 1999,
       originalPrice: 1999,
       discount: 0,
@@ -77,6 +106,68 @@ const FeaturedProducts = () => {
       inStock: false
     }
   ]
+
+  // Image component with fallback
+  const ProductImage = ({ product }) => {
+    const [imgError, setImgError] = useState(false)
+    
+    if (imgError || !product.image) {
+      return (
+        <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 rounded-lg mb-4 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-4xl mb-2">📱</div>
+            <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+              {product.category}
+            </span>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg mb-4 overflow-hidden">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover"
+          onError={() => setImgError(true)}
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <Loader2 className="h-12 w-12 animate-spin mx-auto text-apple-blue" />
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading deals...</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (error && products.length === 0) {
+    return (
+      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <AlertCircle className="h-12 w-12 mx-auto text-red-500" />
+            <p className="mt-4 text-gray-600 dark:text-gray-400">{error}</p>
+            <button
+              onClick={fetchProducts}
+              className="mt-4 text-apple-blue hover:underline"
+            >
+              Try again
+            </button>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-800">
@@ -91,18 +182,14 @@ const FeaturedProducts = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product) => (
+          {products.map((product) => (
             <Link
               key={product.id}
               to={`/product/${product.id}`}
-              className="product-card p-6 block"
+              className="product-card p-6 block hover:shadow-xl transition-all duration-300"
             >
               {/* Product Image */}
-              <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">
-                  {product.name} Image
-                </span>
-              </div>
+              <ProductImage product={product} />
 
               {/* Product Info */}
               <div className="space-y-3">
