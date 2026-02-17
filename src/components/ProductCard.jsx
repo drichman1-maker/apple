@@ -16,23 +16,26 @@ const ProductCard = ({ product }) => {
   return (
     <motion.div
       className="product-card"
+      role="article"
+      aria-label={`${name} - $${price.toLocaleString()}`}
       whileHover={{ 
         scale: 1.02,
         boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
       }}
       transition={{ duration: 0.2 }}
+      tabIndex="0"
     >
       <div className="product-card-inner">
         {/* Image Container */}
         <div className="product-image-container">
           <img 
             src={getProductImage(id, category)}
-            alt={name}
+            alt={`${name} - ${category} product image`}
             className="product-image"
             loading="lazy"
           />
           {isNew && (
-            <span className="new-badge">New</span>
+            <span className="new-badge" aria-label="New product">New</span>
           )}
         </div>
 
@@ -45,7 +48,11 @@ const ProductCard = ({ product }) => {
             <span className="product-price">
               ${price.toLocaleString()}
             </span>
-            <span className={`stock-status ${inStock ? 'in-stock' : 'out-of-stock'}`}>
+            <span 
+              className={`stock-status ${inStock ? 'in-stock' : 'out-of-stock'}`}
+              aria-label={`Stock status: ${inStock ? 'In Stock' : 'Out of Stock'}`}
+              role="status"
+            >
               {inStock ? 'In Stock' : 'Out of Stock'}
             </span>
           </div>

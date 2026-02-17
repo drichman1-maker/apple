@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Moon, Sun, Apple, Sparkles } from 'lucide-react'
+import { Menu, X, Moon, Sun, Apple, Sparkles, Package, RefreshCw } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
+import { useProductCondition } from '../../contexts/ProductConditionContext'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { isDark, toggleTheme } = useTheme()
+  const { condition, toggleCondition, isNew } = useProductCondition()
   const location = useLocation()
 
   const navigation = [
@@ -66,6 +68,31 @@ const Navbar = () => {
               Price Alerts
             </Link>
             
+            {/* Condition Toggle */}
+            <button
+              onClick={toggleCondition}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
+                isNew
+                  ? 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                  : 'bg-green-500/20 border-green-500/30 text-green-400 hover:bg-green-500/30'
+              }`}
+              aria-label="Toggle condition"
+              title={isNew ? 'New products' : 'Certified Refurbished'}
+            >
+              {isNew ? (
+                <>
+                  <Package className="h-4 w-4" />
+                  <span className="hidden sm:inline">New</span>
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4" />
+                  <span className="hidden sm:inline">Refurb</span>
+                </>
+              )}
+            </button>
+
+            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"

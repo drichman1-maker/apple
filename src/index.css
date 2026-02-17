@@ -3,67 +3,137 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-    @apply transition-colors duration-300;
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-surface: #141414;
+    --bg-surface-hover: #1a1a1a;
+    --bg-card: #1a1a1a;
+    --border-primary: #262626;
+    --border-light: #333333;
+    --text-primary: #fafafa;
+    --text-secondary: #a3a3a3;
+    --text-muted: #737373;
+    --accent-blue: #3b82f6;
+    --accent-blue-glow: rgba(59, 130, 246, 0.3);
+    --accent-green: #22c55e;
+    --accent-red: #ef4444;
+    --accent-yellow: #eab308;
   }
   
-  html.dark {
-    @apply bg-gray-900;
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-apple-blue hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-apple-blue/25;
+  /* Hardware Intelligence Design System */
+  .hi-card {
+    @apply bg-[#1a1a1a] border border-[#262626] rounded-2xl;
   }
   
-  .btn-secondary {
-    @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-lg transition-all duration-300;
+  .hi-card-hover {
+    @apply hi-card hover:border-[#3b82f6]/50 transition-all duration-300;
   }
   
-  .btn-glow {
-    @apply bg-gradient-to-r from-apple-blue to-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:shadow-[0_0_30px_rgba(0,122,255,0.5)] transition-all duration-300;
+  .hi-pill {
+    @apply inline-flex items-center px-2 py-1 text-xs font-medium rounded-md border;
   }
   
-  .bg-amazon {
-    background-color: #FF9900;
+  .hi-pill-blue {
+    @apply hi-pill bg-[#3b82f6]/10 border-[#3b82f6]/30 text-[#3b82f6];
   }
   
-  .hover\:bg-amazon-dark:hover {
-    background-color: #cc7a00;
+  .hi-pill-green {
+    @apply hi-pill bg-[#22c55e]/10 border-[#22c55e]/30 text-[#22c55e];
   }
   
-  .card {
-    @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl shadow-lg transition-all duration-300;
+  .hi-pill-gray {
+    @apply hi-pill bg-[#262626] border-[#333] text-[#a3a3a3];
   }
   
-  .product-card {
-    @apply card hover:shadow-xl hover:shadow-apple-blue/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer;
+  .hi-price-large {
+    @apply text-4xl font-bold tracking-tight;
   }
   
-  .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-apple-blue focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 transition-colors duration-200;
+  .hi-price-green {
+    @apply text-[#22c55e] font-semibold;
   }
   
-  .price-card {
-    @apply bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700;
+  .hi-section-title {
+    @apply text-sm font-semibold text-[#737373] uppercase tracking-wider mb-4;
   }
   
-  .glass-card-dark {
-    @apply bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl;
+  .hi-gradient-text {
+    @apply bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] bg-clip-text text-transparent;
   }
   
-  .btn-neon {
-    @apply relative overflow-hidden bg-gradient-to-r from-apple-blue to-blue-600 text-white font-semibold rounded-xl hover:shadow-[0_0_30px_rgba(0,122,255,0.4)] transition-all duration-300;
+  .hi-btn-primary {
+    @apply bg-gradient-to-r from-[#22c55e] to-[#16a34a] text-white font-semibold px-6 py-3 rounded-xl hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300;
   }
   
-  .btn-neon:before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700;
+  .hi-btn-secondary {
+    @apply bg-[#262626] border border-[#333] text-white font-medium px-4 py-2 rounded-lg hover:bg-[#333] transition-all duration-300;
   }
   
-  .btn-neon:hover:before {
-    @apply translate-x-full;
+  .hi-input {
+    @apply w-full bg-[#1a1a1a] border border-[#262626] rounded-xl px-4 py-3 text-white placeholder-[#737373] focus:outline-none focus:border-[#3b82f6] transition-all duration-300;
+  }
+  
+  .hi-toggle {
+    @apply relative inline-flex h-6 w-11 items-center rounded-full bg-[#262626] transition-colors;
+  }
+  
+  .hi-toggle-active {
+    @apply bg-[#3b82f6];
+  }
+  
+  /* Price cards */
+  .hi-price-card {
+    @apply bg-gradient-to-br from-[#1e3a5f] to-[#0f172a] border border-[#3b82f6]/30 rounded-2xl p-5;
+  }
+  
+  .hi-spec-grid {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-4;
+  }
+  
+  .hi-spec-item {
+    @apply bg-[#262626] rounded-xl p-4 border border-[#333];
+  }
+  
+  .hi-spec-label {
+    @apply text-xs text-[#737373] uppercase tracking-wider mb-1;
+  }
+  
+  .hi-spec-value {
+    @apply text-lg font-semibold text-white;
+  }
+  
+  /* Retailer row */
+  .hi-retailer-row {
+    @apply flex items-center justify-between p-4 bg-[#262626] rounded-xl border border-[#333] mb-2;
+  }
+  
+  /* Chart container */
+  .hi-chart-container {
+    @apply bg-[#1a1a1a] rounded-2xl border border-[#262626] p-6;
+  }
+  
+  /* Status indicators */
+  .hi-status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+  
+  .hi-status-green {
+    @apply hi-status-dot bg-[#22c55e];
+  }
+  
+  .hi-status-red {
+    @apply hi-status-dot bg-[#ef4444];
+  }
+  
+  .hi-status-yellow {
+    @apply hi-status-dot bg-[#eab308];
   }
 }
