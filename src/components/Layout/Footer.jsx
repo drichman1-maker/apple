@@ -1,8 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Apple } from 'lucide-react'
 
 const Footer = () => {
+  const navigate = useNavigate()
+
+  const handleCategoryClick = (category) => {
+    navigate(`/products/${category}`)
+    window.scrollTo(0, 0)
+  }
+
   return (
     <footer className="border-t border-[#262626] bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -24,11 +31,11 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-medium mb-4">Products</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/products/mac" className="text-gray-500 hover:text-white transition-colors">Mac</Link></li>
-              <li><Link to="/products/iphone" className="text-gray-500 hover:text-white transition-colors">iPhone</Link></li>
-              <li><Link to="/products/ipad" className="text-gray-500 hover:text-white transition-colors">iPad</Link></li>
-              <li><Link to="/products/watch" className="text-gray-500 hover:text-white transition-colors">Watch</Link></li>
-              <li><Link to="/products/airpods" className="text-gray-500 hover:text-white transition-colors">AirPods</Link></li>
+              <li><button onClick={() => handleCategoryClick('mac')} className="text-gray-500 hover:text-white transition-colors text-left">Mac</button></li>
+              <li><button onClick={() => handleCategoryClick('iphone')} className="text-gray-500 hover:text-white transition-colors text-left">iPhone</button></li>
+              <li><button onClick={() => handleCategoryClick('ipad')} className="text-gray-500 hover:text-white transition-colors text-left">iPad</button></li>
+              <li><button onClick={() => handleCategoryClick('watch')} className="text-gray-500 hover:text-white transition-colors text-left">Watch</button></li>
+              <li><button onClick={() => handleCategoryClick('airpods')} className="text-gray-500 hover:text-white transition-colors text-left">AirPods</button></li>
             </ul>
           </div>
 
