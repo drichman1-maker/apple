@@ -33,8 +33,8 @@ const Navbar = () => {
     { name: 'Mac', href: '/products/mac' },
     { name: 'Watch', href: '/products/watch' },
     { name: 'AirPods', href: '/products/airpods' },
+    { name: 'Blog', href: '/blog' },
     { name: 'Alerts', href: '/alerts' },
-    { name: 'About', href: '/about' },
   ]
 
   const isActive = (href) => {
