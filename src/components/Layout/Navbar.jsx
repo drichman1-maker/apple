@@ -76,6 +76,12 @@ const Navbar = () => {
           {/* Right side - CTA + Theme */}
           <div className="flex items-center space-x-3">
             <Link
+              to="/blog"
+              className="hidden sm:flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
+            >
+              Blog
+            </Link>
+            <Link
               to="/alerts"
               className="hidden sm:flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
             >
