@@ -10,7 +10,9 @@ const ProductCard = ({ product }) => {
     price,
     description,
     isNew,
-    inStock
+    inStock,
+    releaseDate,
+    specs
   } = product;
 
   return (
@@ -42,6 +44,11 @@ const ProductCard = ({ product }) => {
         {/* Product Info */}
         <div className="product-info">
           <h3 className="product-name">{name}</h3>
+          {releaseDate && (
+            <p className="product-year text-sm text-gray-500 mb-1">
+              Released: {new Date(releaseDate).getFullYear()}
+            </p>
+          )}
           <p className="product-description">{description}</p>
           
           <div className="product-footer">
