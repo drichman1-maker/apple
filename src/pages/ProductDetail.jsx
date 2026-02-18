@@ -150,8 +150,15 @@ const ProductDetail = () => {
     return product.image || categoryImages[product.category] || categoryImages.mac
   }
   
-  // Get retailer URL (fallback to search)
+  // Get retailer URL - use direct URL if available, fallback to search
   const getRetailerUrl = (retailer, productName) => {
+    // Check if we have a direct URL from the backend
+    const priceData = product.prices[retailer]
+    if (priceData && priceData.url) {
+      return priceData.url
+    }
+    
+    // Fallback to search URL
     const searchQuery = encodeURIComponent(productName)
     const urls = {
       apple: `https://www.apple.com/search/${searchQuery}`,
