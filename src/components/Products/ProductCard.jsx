@@ -52,6 +52,11 @@ const ProductCard = ({ product }) => {
   const bestDeal = prices.find(p => p.price === minPrice) || { retailer: 'apple', price: 0 }
   const hasDiscount = maxPrice > minPrice && maxPrice > 0
   const discountPercent = hasDiscount ? Math.round(((maxPrice - minPrice) / maxPrice) * 100) : 0
+  
+  // MSRP comparison - use Apple price as reference
+  const msrpPrice = priceData.apple?.price || maxPrice
+  const savingsFromMsrp = msrpPrice - minPrice
+  const savingsPercentFromMsrp = msrpPrice > 0 ? Math.round((savingsFromMsrp / msrpPrice) * 100) : 0
 
   const getRetailerDisplayName = (retailer) => {
     const names = {
@@ -64,6 +69,7 @@ const ProductCard = ({ product }) => {
       adorama: 'Adorama',
       ebay: 'eBay',
       cdw: 'CDW',
+      newegg: 'Newegg',
       hyperice: 'Hyperice',
       rei: 'REI',
       rogue: 'Rogue'
@@ -137,26 +143,27 @@ const ProductCard = ({ product }) => {
           <span className={`hi-pill ${getCategoryColor(product.category)}`}>
             {getCategoryDisplay(product.category)}
           </span>
-          {isRefurbished ? (
-            <span className="hi-pill bg-green-500/20 border-green-500/30 text-green-400 text-[10px]">
-              REFURB
-            </span>
-          ) : (
-            <span className="text-xs text-gray-500">{product.brand || 'Apple'}</span>
-          )}
+          <div className="text-right">
+            {isRefurbished ? (
+              <span className="hi-pill bg-green-500/20 border-green-500/30 text-green-400 text-[10px]">
+                REFURB
+              </span>
+            ) : (
+              <span className="text-xs text-gray-500 block">{product.brand || 'Apple'}</span>
+            )}
+            {/* Release Year */}
+            {product.releaseDate && (
+              <span className="text-xs text-gray-500 block mt-0.5">
+                {new Date(product.releaseDate).getFullYear()}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Product Name */}
         <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
           {product.name}
         </h3>
-        
-        {/* Release Year */}
-        {product.releaseDate && (
-          <p className="text-xs text-gray-500 mb-3">
-            {new Date(product.releaseDate).getFullYear()}
-          </p>
-        )}
 
         {/* Spec Pills */}
         {specPills.length > 0 && (
@@ -184,42 +191,49 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
           
-          {hasDiscount && discountPercent > 0 && (
-            <div className="text-right">
-              <p className="text-sm text-gray-500 line-through">
-                ${maxPrice.toLocaleString()}
-              </p>
+          <div className="text-right">
+            <p className="text-xs text-gray-500">
+              MSRP ${msrpPrice.toLocaleString()}
+            </p>
+            {savingsPercentFromMsrp > 0 ? (
               <span className="hi-pill-green text-xs">
-                -{discountPercent}%
+                -{savingsPercentFromMsrp}% savings
               </span>
-            </div>
-          )}
+            ) : (
+              <span className="text-xs text-gray-500">
+                At MSRP
+              </span>
+            )}
+          </div>
         </div>
       </Link>
 
-      {/* Retailer Links - with affiliate tracking */}
+      {/* Retailer Links - horizontal row format */}
       <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-2">
           {prices.slice(0, 3).map(({ retailer, price, url }) => (
             <a
               key={retailer}
               href={getAffiliateUrl(retailer, product.name, product.sku, url)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 min-w-[70px] text-center px-2 py-1.5 bg-white/5 hover:bg-white/10 rounded text-xs transition-colors"
+              className="flex items-center justify-between px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors"
             >
-              <span className="block text-gray-500 text-[10px]">{getRetailerDisplayName(retailer)}</span>
-              <span className="block text-blue-400 font-medium">${price.toLocaleString()}</span>
+              <span className="text-gray-300 text-sm font-medium">{getRetailerDisplayName(retailer)}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-green-400 font-semibold">${price.toLocaleString()}</span>
+                <span className="hi-pill-gray text-xs">Visit</span>
+              </div>
             </a>
           ))}
           {prices.length > 3 && (
             <Link
               to={`/product/${product.id}`}
-              className="flex-1 min-w-[70px] text-center px-2 py-1.5 bg-white/5 hover:bg-white/10 rounded text-xs transition-colors"
+              className="flex items-center justify-between px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors"
             >
-              <span className="block text-gray-500 text-[10px]">More</span>
-              <span className="block text-gray-400 font-medium">+{prices.length - 3}</span>
+              <span className="text-gray-300 text-sm font-medium">More retailers</span>
+              <span className="text-gray-400 text-sm">+{prices.length - 3}</span>
             </Link>
           )}
         </div>

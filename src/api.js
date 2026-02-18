@@ -27,6 +27,18 @@ export const checkHealth = async () => {
 export const getProducts = async (filters = {}) => {
   try {
     const { data } = await api.get('/api/products', { params: filters });
+    // Deduplicate products by ID, keeping first occurrence (with full data)
+    if (data && data.products) {
+      const seen = new Set();
+      data.products = data.products.filter(product => {
+        if (seen.has(product.id)) {
+          return false;
+        }
+        seen.add(product.id);
+        return true;
+      });
+      data.count = data.products.length;
+    }
     return data;
   } catch (error) {
     console.error('Failed to fetch products:', error);
