@@ -5,28 +5,28 @@ import { ArrowLeft, Calendar } from 'lucide-react'
 
 const blogPosts = [
   {
-    id: 'best-macbook-video-editing-2026',
+    id: 'Best-MacBook-Video-Editing-2026',
     title: 'Best MacBook for Video Editing 2026',
     excerpt: 'M4 Pro vs M3 Max: Which MacBook delivers the best performance for Final Cut Pro, DaVinci Resolve, and Adobe Premiere?',
     date: '2026-02-17',
     category: 'Buying Guide'
   },
   {
-    id: 'm4-vs-m3-upgrade-worth-it',
+    id: 'M4-vs-M3-Upgrade-Guide-2026',
     title: 'M4 vs M3: Is the Upgrade Worth It?',
     excerpt: 'Benchmark comparison, real-world performance gains, and whether you should buy M4 or save money on M3.',
     date: '2026-02-17',
     category: 'Comparison'
   },
   {
-    id: 'refurbished-mac-mini-worth-savings',
+    id: 'Refurbished-Mac-Mini-Worth-Savings-2026',
     title: 'Refurbished Mac Mini: Worth the Savings?',
     excerpt: 'Apple Certified Refurbished vs new: $150+ savings, same warranty, but are there any downsides?',
     date: '2026-02-17',
     category: 'Buying Guide'
   },
   {
-    id: 'when-do-macbooks-go-on-sale',
+    id: 'When-MacBooks-Go-On-Sale-2026',
     title: 'When Do MacBooks Go on Sale?',
     excerpt: 'The complete calendar: Black Friday, Back to School, WWDC, and secret sale periods throughout the year.',
     date: '2026-02-17',
