@@ -26,8 +26,8 @@ const Navbar = () => {
   }, [])
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
+    { name: 'Home', href: '/home' },
+    { name: 'Products', href: '/' },
     { name: 'iPhone', href: '/products/iphone' },
     { name: 'iPad', href: '/products/ipad' },
     { name: 'Mac', href: '/products/mac' },
