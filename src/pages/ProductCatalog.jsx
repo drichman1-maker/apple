@@ -11,6 +11,11 @@ const ProductCatalog = () => {
 
   const categories = ['All', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
 
+  // Update activeFilter when URL category changes
+  useEffect(() => {
+    setActiveFilter(category || 'All')
+  }, [category])
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true)
