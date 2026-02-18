@@ -151,10 +151,10 @@ const ProductCard = ({ product }) => {
           {product.name}
         </h3>
         
-        {/* Release Date */}
+        {/* Release Year */}
         {product.releaseDate && (
           <p className="text-xs text-gray-500 mb-3">
-            Released {new Date(product.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+            {new Date(product.releaseDate).getFullYear()}
           </p>
         )}
 
