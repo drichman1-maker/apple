@@ -116,10 +116,15 @@ const ProductCatalog = () => {
 
   // Filter products by category with strict matching
   const filteredProducts = useMemo(() => {
-    if (activeFilter === 'All') return products
+    // Remove duplicates by ID
+    const uniqueProducts = products.filter((p, index, self) => 
+      index === self.findIndex((t) => t.id === p.id)
+    )
+    
+    if (activeFilter === 'All') return uniqueProducts
     
     const filterLower = activeFilter.toLowerCase()
-    return products.filter(p => {
+    return uniqueProducts.filter(p => {
       // Skip products without category
       if (!p.category) return false
       
@@ -130,6 +135,15 @@ const ProductCatalog = () => {
       return productCategory === filterLower
     })
   }, [products, activeFilter])
+
+  // Debug: Log products with their categories
+  useEffect(() => {
+    if (products.length > 0) {
+      console.log('All products:', products.map(p => ({ id: p.id, category: p.category })))
+      console.log('Active filter:', activeFilter)
+      console.log('Filtered:', filteredProducts.map(p => ({ id: p.id, category: p.category })))
+    }
+  }, [products, activeFilter, filteredProducts])
 
   if (loading) {
     return (
