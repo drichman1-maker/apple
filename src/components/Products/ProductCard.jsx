@@ -147,9 +147,16 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Product Name */}
-        <h3 className="text-lg font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+        <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
           {product.name}
         </h3>
+        
+        {/* Release Date */}
+        {product.releaseDate && (
+          <p className="text-xs text-gray-500 mb-3">
+            Released {new Date(product.releaseDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+          </p>
+        )}
 
         {/* Spec Pills */}
         {specPills.length > 0 && (
