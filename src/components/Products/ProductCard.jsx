@@ -194,10 +194,10 @@ const ProductCard = ({ product }) => {
       <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
         <div className="flex flex-wrap gap-2">
-          {prices.slice(0, 3).map(({ retailer, price }) => (
+          {prices.slice(0, 3).map(({ retailer, price, url }) => (
             <a
               key={retailer}
-              href={getAffiliateUrl(retailer, product.name, product.sku)}
+              href={getAffiliateUrl(retailer, product.name, product.sku, url)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 min-w-[70px] text-center px-2 py-1.5 bg-white/5 hover:bg-white/10 rounded text-xs transition-colors"
