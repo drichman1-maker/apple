@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — MacTrackr</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface-elevated: #1a1a1a;
+            --border: #262626;
+            --border-light: #333;
+            --text: #fafafa;
+            --text-muted: #a3a3a3;
+            --cyan: #06b6d4;
+            --cyan-glow: rgba(6, 182, 212, 0.2);
+            --gradient-hero: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+        }
+        
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--cyan);
+        }
+        
+        /* Hero */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 6rem 1.5rem 4rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+        
+        /* Article Grid */
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--cyan);
+            margin-bottom: 1rem;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        .view-all {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .view-all:hover {
+            color: var(--cyan);
+        }
+        
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .article-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .article-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-2px);
+        }
+        
+        .article-image {
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.8) 100%);
+        }
+        
+        .article-content {
+            padding: 1.5rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-category {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cyan);
+        }
+        
+        .article-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .article-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        /* Comparison Table */
+        .comparison-section {
+            margin-bottom: 4rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background: var(--surface-elevated);
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--cyan);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:hover td {
+            background: rgba(6, 182, 212, 0.05);
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .spec-pill {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--cyan);
+        }
+        
+        .price {
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .price-best {
+            color: #22c55e;
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .newsletter h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .newsletter p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.875rem;
+            outline: none;
+        }
+        
+        .newsletter-form input:focus {
+            border-color: var(--cyan);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--cyan) 0%, #0891b2 100%);
+            border: none;
+            border-radius: 8px;
+            color: var(--bg);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            box-shadow: 0 0 20px var(--cyan-glow);
+            transform: translateY(-1px);
+        }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        
+        footer p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        footer a:hover {
+            color: var(--cyan);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">MacTrackr</div>
+            <nav>
+                <a href="/">Products</a>
+                <a href="/blog" class="active">Blog</a>
+                <a href="/alerts">Alerts</a>
+            </nav>
+            <button class="menu-btn">☰</button>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📊 Buying Intelligence</div>
+            <h1>Make Smarter Apple Purchases</h1>
+            <p>Data-driven buying guides, price analysis, and insider tips to help you get the best deal on Apple products.</p>
+        </div>
+    </section>
+    
+    <main>
+        <!-- Latest Articles -->
+        <div class="section-header">
+            <div>
+                <div class="section-title">Latest</div>
+                <h2>Fresh from the Lab</h2>
+            </div>
+            <a href="#" class="view-all">View all →</a>
+        </div>
+        
+        <div class="article-grid">
+            <article class="article-card">
+                <div class="article-image">💻</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Mac</span>
+                        <span class="article-date">Feb 18, 2026</span>
+                    </div>
+                    <h3>M4 MacBook Air: Is the 16GB Base Model Worth It?</h3>
+                    <p>Apple finally made 16GB RAM standard. We break down whether the $999 entry price delivers real value compared to Pro models.</p>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-image">📱</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">iPhone</span>
+                        <span class="article-date">Feb 17, 2026</span>
+                    </div>
+                    <h3>iPhone 16 vs 16 Pro: $200 Difference, Real-World Test</h3>
+                    <p>We compared camera performance, battery life, and daily use to see if the Pro upgrade justifies the price jump.</p>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-image">🎧</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Audio</span>
+                        <span class="article-date">Feb 15, 2026</span>
+                    </div>
+                    <h3>AirPods Pro 3: Hearing Aid Features Explained</h3>
+                    <p>Apple's new hearing health features are FDA-cleared. Here's what that means for users and whether it's worth the upgrade.</p>
+                </div>
+            </article>
+        </div>
+        
+        <!-- Comparison Section -->
+        <div class="comparison-section">
+            <div class="section-header">
+                <div>
+                    <div class="section-title">Compare</div>
+                    <h2>MacBook Air 13" vs 15" — Spec for Spec</h2>
+                </div>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Spec</th>
+                        <th>MacBook Air 13"</th>
+                        <th>MacBook Air 15"</th>
+                        <th>Winner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="product-name">Display</td>
+                        <td>13.6" Liquid Retina</td>
+                        <td>15.3" Liquid Retina</td>
+                        <td><span class="spec-pill">15"</span></td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Starting Price</td>
+                        <td class="price">$999</td>
+                        <td class="price">$1,199</td>
+                        <td><span class="spec-pill">13"</span></td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Base RAM</td>
+                        <td><span class="spec-pill">16GB</span></td>
+                        <td><span class="spec-pill">16GB</span></td>
+                        <td>Tie</td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Battery Life</td>
+                        <td>Up to 18 hours</td>
+                        <td>Up to 18 hours</td>
+                        <td>Tie</td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Weight</td>
+                        <td>2.7 lb</td>
+                        <td>3.3 lb</td>
+                        <td><span class="spec-pill">13"</span></td>
+                    </tr>
+                    <tr>
+                        <td class="product-name">Speakers</td>
+                        <td>Four-speaker</td>
+                        <td>Six-speaker + Spatial Audio</td>
+                        <td><span class="spec-pill">15"</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Newsletter -->
+        <div class="newsletter">
+            <h3>Get Price Drop Alerts</h3>
+            <p>We track Apple products across 9 retailers. Get notified when prices drop.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email">
+                <button type="submit" class="btn">Subscribe</button>
+            </form>
+        </div>
+        
+        <!-- More Articles -->
+        <div class="section-header">
+            <div>
+                <div class="section-title">Archive</div>
+                <h2>Previous Guides</h2>
+            </div>
+        </div>
+        
+        <div class="article-grid">
+            <article class="article-card">
+                <div class="article-image">⌚</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Watch</span>
+                        <span class="article-date">Feb 12, 2026</span>
+                    </div>
+                    <h3>Which Apple Watch Should You Buy in 2026?</h3>
+                    <p>SE, Series 11, or Ultra 3? Our flowchart helps you decide based on your actual needs.</p>
+                </div>
+            </article>
+            
+            <article class="article-card">
+                <div class="article-image">🔄</div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category">Deals</span>
+                        <span class="article-date">Feb 10, 2026</span>
+                    </div>
+                    <h3>Refurbished vs New: The Real Savings Breakdown</h3>
+                    <p>We analyzed 6 months of pricing data to find when refurbished deals actually beat new retail.</p>
+                </div>
+            </article>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2026 MacTrackr · <a href="/privacy">Privacy</a> · Anonymous price tracking</p>
+    </footer>
+</body>
+</html>

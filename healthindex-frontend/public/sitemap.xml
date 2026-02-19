@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://healthindex.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://healthindex.app/about</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/consultation</loc><priority>0.7</priority></url>
+  <url><loc>https://healthindex.app/products</loc><priority>0.9</priority></url>
+  <url><loc>https://healthindex.app/products/compression</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/contrast-therapy</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/cryotherapy</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/hyperbaric</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/red-light</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/pemf</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/sauna</loc><priority>0.8</priority></url>
+  <url><loc>https://healthindex.app/products/massage-gun</loc><priority>0.8</priority></url>
+</urlset>

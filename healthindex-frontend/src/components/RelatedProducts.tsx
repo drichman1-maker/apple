@@ -1,30 +1,34 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
-import { Product } from '@/types'
-import { products } from '@/data/products'
+import { Equipment, equipment } from '@/data/equipment'
 
 interface RelatedProductsProps {
-  currentProduct: Product
+  currentProduct: Equipment
 }
 
 export default function RelatedProducts({ currentProduct }: RelatedProductsProps) {
   // Find related products from the same category, excluding current product
-  const relatedProducts = products
+  const relatedProducts = equipment
     .filter(p => p.category === currentProduct.category && p.id !== currentProduct.id)
     .slice(0, 3)
 
-  const renderStars = (rating: number) => {
+  const renderStars = (rating?: number) => {
+    if (!rating) return null
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
         className={`w-4 h-4 ${
           i < Math.floor(rating)
             ? 'text-yellow-400 fill-current'
-            : 'text-gray-300 dark:text-gray-600'
+            : 'text-gray-600'
         }`}
       />
     ))
+  }
+
+  const getLowestPrice = (prices: Equipment['prices']) => {
+    return Math.min(...Object.values(prices).map(p => p.price))
   }
 
   if (relatedProducts.length === 0) {
@@ -32,8 +36,8 @@ export default function RelatedProducts({ currentProduct }: RelatedProductsProps
   }
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+    <div className="mt-16">
+      <h2 className="text-2xl font-bold text-white mb-8">
         You Might Also Like
       </h2>
       
@@ -42,41 +46,39 @@ export default function RelatedProducts({ currentProduct }: RelatedProductsProps
           <Link
             key={product.id}
             href={`/products/${product.slug}`}
-            className="product-card group"
+            className="bg-charcoal border border-gray-dark rounded-xl overflow-hidden hover:border-neon-cyan/50 transition-all group"
           >
-            <div className="relative aspect-square mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+            <div className="relative aspect-video overflow-hidden">
               <Image
                 src={product.image}
                 alt={product.name}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
 
-            <div className="space-y-2">
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                {product.brand}
-              </p>
-              
-              <h3 className="font-bold text-gray-900 dark:text-white leading-tight group-hover:text-primary-600 transition-colors">
+            <div className="p-4 space-y-2">
+              <h3 className="font-semibold text-white leading-tight group-hover:text-neon-cyan transition-colors">
                 {product.name}
               </h3>
 
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center">
-                  {renderStars(product.rating)}
+              {product.rating && (
+                <div className="flex items-center space-x-2">
+                  <div className="flex items-center">
+                    {renderStars(product.rating)}
+                  </div>
+                  <span className="text-sm text-gray-400">
+                    ({product.reviewCount || 0})
+                  </span>
                 </div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-                  ({product.reviewCount})
-                </span>
-              </div>
+              )}
 
-              <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+              <p className="text-gray-400 text-sm line-clamp-2">
                 {product.description}
               </p>
 
-              <div className="text-xl font-bold text-gray-900 dark:text-white">
-                ${product.price}
+              <div className="text-xl font-bold text-white">
+                From ${getLowestPrice(product.prices)}
               </div>
             </div>
           </Link>

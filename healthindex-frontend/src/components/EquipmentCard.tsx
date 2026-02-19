@@ -8,6 +8,7 @@ import { TrendingDown, TrendingUp, Bell, ExternalLink, ShoppingCart } from 'luci
 interface Equipment {
   id: string;
   name: string;
+  slug: string;
   description: string;
   category: string;
   prices: {
@@ -18,9 +19,7 @@ interface Equipment {
       url: string;
     };
   };
-  specs?: {
-    [key: string]: string;
-  };
+  specs?: Record<string, string | number | boolean>;
   image?: string;
   savings?: number;
 }
@@ -44,9 +43,16 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
   const isDeal = discount > 10 && discount <= 20;
 
   return (
-    <div className="group relative">
+    <article 
+      className="group relative"
+      aria-label={`${equipment.name} - $${lowestPrice.toLocaleString()}`}
+    >
       {/* Card Container - Glassmorphism */}
-      <div className="relative bg-[#1a1a25]/80 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:border-[#00e5ff]/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,229,255,0.15)]">
+      <div 
+        className="relative bg-[#1a1a25]/80 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden hover:border-[#00e5ff]/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,229,255,0.15)]"
+        role="region"
+        aria-labelledby={`equipment-${equipment.id}-title`}
+      >
         
         {/* Badges */}
         {isSteal && (
@@ -71,7 +77,7 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
           {equipment.image ? (
             <Image
               src={equipment.image}
-              alt={equipment.name}
+              alt={`${equipment.name} - ${equipment.category} wellness equipment`}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
@@ -184,7 +190,7 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
           {/* Actions */}
           <div className="flex gap-3 pt-2">
             <Link
-              href={`/equipment/${equipment.id}`}
+              href={`/products/${equipment.slug}`}
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#00e5ff] to-[#00b8d9] text-black font-semibold rounded-xl hover:shadow-[0_0_20px_rgba(0,229,255,0.4)] transition-all duration-300 text-sm"
             >
               View Details
@@ -196,6 +202,6 @@ export default function EquipmentCard({ equipment }: EquipmentCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

@@ -37,7 +37,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ## Model Strategy
 
-**Main session:** MiniMax-M2 via OpenRouter — fast, code specialist, SWE-Bench leader
+**Main session:** MiniMax-M2.5 via OpenRouter — latest SOTA, best performance
 **Fallbacks:** 
 1. OpenRouter Claude Sonnet ($3/$15) — handles PDFs/images automatically
 2. Kimi K2.5 (2M context) — for long context tasks
@@ -45,13 +45,13 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 **Subagents:** 16 concurrent workers (increased from 8 for heavy parallelization)
 
-### Default Subagent Model — CHANGED DUE TO FAILURES
-**~~DeepSeek via OpenRouter~~** ❌ DISCARDED — Repeatedly gave wrong assessments, wasted tokens
+### Default Subagent Model — UPDATED (Feb 18, 2026)
+**~~Haiku~~** ❌ User prefers MiniMax
 
-**NEW DEFAULT: Claude 3.5 Haiku via OpenRouter** ($1/$5) 
-- Faster than Sonnet, cheaper, still reliable
-- Better file inspection and verification
-- Use for: assessments, research, fact-checking
+**NEW DEFAULT: MiniMax-M2.1 via OpenRouter** ($0.27/$0.95) 
+- Better quality than Haiku in Doug's opinion
+- 200K context, good for coding
+- Cheaper than Haiku ($0.27 vs $1.00 input)
 
 **Premium Subagent (critical tasks only):** Claude 3.5 Sonnet ($3/$15)
 - Use for: code generation, complex debugging, final reviews
@@ -61,32 +61,31 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 | Model | Provider | Cost (in/out) | Strengths | Best For |
 |-------|----------|---------------|-----------|----------|
-| **MiniMax-M1** | OpenRouter | $0.42/$1.93 | 1M context, MoE architecture, fast inference | Long docs, multi-file coding, agents |
-| **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | Code generation, SWE-Bench leader, reasoning | Complex coding, debug loops |
-| **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, Chinese/English bilingual | Research, analysis, long-context tasks |
-| **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Strong coding, math, multilingual | Coding tasks, data processing |
-| **Mistral Large** | OpenRouter | $2/$6 | European alternative, good reasoning | General tasks, compliance-sensitive work |
-| **Command R+** | Cohere | $3/$15 | 128K context, RAG-optimized | Document analysis, search, citations |
-| **Phi-4** (Microsoft) | OpenRouter | $0.07/$0.14 | Small (14B), efficient, surprisingly capable | Quick tasks, edge deployment |
+| **MiniMax-M2.1** | OpenRouter | $0.27/$0.95 | Best price/performance, 200K context | Long docs, coding, agents - DEFAULT |
+| **MiniMax-M2.5** | OpenRouter | $0.30/$1.00 | Latest SOTA improvements | Main session, complex tasks |
+| **MiniMax-01** | OpenRouter | $0.20/$1.10 | Cheapest option | Simple/fast tasks |
+| **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, Chinese/English bilingual | Research, analysis |
+| **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Strong coding, cheap | Coding tasks |
+| **Phi-4** (Microsoft) | OpenRouter | $0.07/$0.14 | Ultra-cheap, efficient | Quick tasks |
 
-**My Recommendations:**
-1. **MiniMax-M1** — Replace Groq for fast text. 1M context, cheap, good for large codebases
-2. **GLM-4** — Strong bilingual model, good for research and long docs
-3. **Qwen2.5-72B** — Cheap coding alternative to DeepSeek, actually reliable
-4. **Phi-4** — Ultra-cheap for simple tasks, replace Ollama local when you need API consistency
+**UPDATED Recommendations (Feb 2026):**
+1. **MiniMax-M2.1** — Default subagent. $0.27/$0.95 saves ~46% vs M1
+2. **MiniMax-M2.5** — Main session upgrade. Only $0.03 more than M2.1
+3. **MiniMax-01** — Replace Haiku for very basic tasks at $0.20/$1.10
+4. **Phi-4** — Ultra-cheap for simple data processing
 
 **Avoid:**
 - ~~Groq free tier~~ — Hit limits constantly, unreliable
-- ~~Ollama~~ — Local only, no API consistency, hardware-dependent
+- ~~Ollama~~ — Local only, no API consistency
 - ~~DeepSeek~~ — Proven unreliable for assessments
+- ~~MiniMax-M1~~ — Replaced by M2.1 (cheaper + better)
 
-### Model Selection Rules (UPDATED 2026-02-16)
+### Model Selection Rules (UPDATED 2026-02-17)
 1. **Assessments/status checks** → Haiku (verify files, check state)
-2. **Code generation/review** → Sonnet (reliable, fewer errors)
-3. **Simple data processing** → Haiku or Phi-4 (structured output)
-4. **Long context (100K+)** → MiniMax-M1, GLM-4, or Kimi
+2. **Code generation/review** → MiniMax-M2.1 or Sonnet (reliable, cheaper than M1)
+3. **Simple data processing** → MiniMax-01 or Phi-4 (cheapest options)
+4. **Long context (100K+)** → MiniMax-M2.1 (200K context), Kimi, or GLM-4
 5. **NEVER DeepSeek/Groq for:** File system assessments, deployment status, project state
-   - Failed 3x: reported skeleton when built, missed .vercel folders, bad priorities
 
 ---
 
@@ -129,22 +128,28 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
-### 🎨 Creative & Marketing
-**Model:** `openrouter/x-ai/grok-2-1212` ($2/$10) — Current default
+### 🎨 Creative & Marketing (UPDATED Feb 18, 2026)
+**User feedback:** "I do not want Grok as the only creative. We need various and better models."
 
-**Alternative Creative Models (rotate based on need):**
-| Model | Cost | Best For | Vibe |
-|-------|------|-----------|------|
-| **Claude Sonnet** | $3/$15 | Thoughtful copy, nuanced brand voice | Sophisticated |
-| **Llama 3.3 70B** | $0.20/$0.40 | Fast marketing, bulk content | Efficient |
-| **Amazon Nova Pro** | $0.80/$3.20 | AWS-integrated campaigns | Modern |
-| **Pony Alpha** | TBD | Raw/edgy creative, no restrictions | Uncensored |
+**Creative Model Rotation:**
+
+| Model | Provider | Cost (in/out) | Best For | When to Use |
+|-------|----------|---------------|----------|-------------|
+| **Claude 3.5 Sonnet** | OpenRouter | $3/$15 | Brand voice, nuanced copy, storytelling | Premium campaigns, brand positioning |
+| **Amazon Nova Pro** | OpenRouter | $0.80/$3.20 | Multimodal creative (text+image), fast | Product descriptions, visual campaigns |
+| **Pony Alpha** | OpenRouter | FREE | Uncensored creative, raw/edgy content | Experimental, unfiltered brainstorming |
+| **Llama 3.3 70B** | OpenRouter | $0.20/$0.40 | Bulk social content, fast iterations | High-volume social posts |
+| **GPT-4 Turbo** | OpenAI | $10/$30 | Polished marketing copy, SEO content | Blog posts, landing pages |
+| **Mistral Large 2** | OpenRouter | $2/$6 | European markets, multilingual | International campaigns |
 
 **Selection Strategy:**
-- Brand voice + campaign: Claude Sonnet
-- Bulk social content: Llama 3.3
-- AWS ecosystem: Nova Pro
-- Edgy/raw: Pony Alpha
+1. **Brand/campaign work** → Claude Sonnet or GPT-4
+2. **High-volume social** → Llama 3.3 70B
+3. **Experimental/raw** → Pony Alpha
+4. **Product-focused** → Amazon Nova Pro
+5. **SEO content** → GPT-4 Turbo or Claude Sonnet
+
+**No more Grok as default.** Rotate based on task needs.
 
 **Use for:**
 - Marketing copy and taglines
@@ -290,9 +295,9 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
-**Remember:** Main session (Kimi K2.5) coordinates. Subagents (Haiku default, MiniMax-M1 for long context) do the heavy lifting. Override model for specific needs.
+**Remember:** Main session (MiniMax-M2.5) coordinates. Subagents (MiniMax-M2.1 default) do the heavy lifting. Override model for specific needs.
 
-### Active Model Stack (Feb 16, 2026)
+### Active Model Stack (Feb 17, 2026)
 
 | Tier | Models | Use Case |
 |------|--------|----------|
@@ -325,7 +330,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 | **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | SWE-Bench leader, complex code | ✅ Added |
 | **MiniMax-M1** | OpenRouter | $0.42/$1.93 | 1M context, agents, coding | 🔥 ADD NOW |
 | **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, bilingual research | 🔥 ADD NOW |
-| **Amazon Nova Pro** | AWS Bedrock | ~$0.80/$3.20 | AWS ecosystem, Sparky integration | ✅ Added |
+| **Amazon Nova Pro** | OpenRouter | $0.80/$3.20 | Multimodal, fast inference, creative | ✅ ACTIVE |
+| **Pony Alpha** | OpenRouter | FREE | Uncensored creative, coding, roleplay | ✅ ACTIVE |
 | **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Coding, math, multilingual | Medium |
 | **Pony Alpha** | OpenRouter | TBD | Uncensored, raw output | Medium |
 | **Kimi K2.5** | OpenRouter | TBD | 2M context (current main) | ✅ Already using |

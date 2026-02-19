@@ -9,24 +9,34 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Antigravity Design System - Cyan for Health Index
+        black: '#000000',
+        charcoal: '#1a1a1a',
+        'charcoal-light': '#2a2a2a',
+        'gray-dark': '#404040',
+        'neon-cyan': '#06b6d4',
+        'neon-cyan-dim': 'rgba(6, 182, 212, 0.1)',
+        'neon-purple': '#8b5cf6',
+        'neon-green': '#22c55e',
+        'neon-red': '#ef4444',
+        // Legacy compatibility
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          DEFAULT: '#06b6d4',
+          50: '#ecfeff',
+          100: '#cffafe',
+          200: '#a5f3fc',
+          300: '#67e8f9',
+          400: '#22d3ee',
+          500: '#06b6d4',
+          600: '#0891b2',
+          700: '#0e7490',
+          800: '#155e75',
+          900: '#164e63',
         },
-        wellness: {
-          red: '#ef4444',
-          purple: '#8b5cf6',
-          orange: '#f97316',
-          blue: '#3b82f6',
-        }
+      },
+      fontFamily: {
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

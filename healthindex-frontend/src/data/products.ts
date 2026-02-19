@@ -203,10 +203,270 @@ export const products: Product[] = [
     ],
     affiliateLink: 'https://hyperice.com/hypervolt-2-pro',
     inStock: true
+  },
+
+  // Compression Therapy
+  {
+    id: 'normatec-3',
+    name: 'Normatec 3 Plus',
+    slug: 'normatec-3-plus',
+    brand: 'Hyperice',
+    category: 'compression',
+    price: 599,
+    rating: 4.9,
+    reviewCount: 892,
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=600&fit=crop',
+    description: 'Premium compression recovery system with dynamic air pressure for legs, hips, and arms.',
+    features: [
+      '7 pressure levels',
+      'Full leg, hip, and arm coverage',
+      'FDA cleared',
+      'Quantified Recovery app',
+      '2-year warranty'
+    ],
+    specifications: {
+      'Zones': '7 overlapping zones',
+      'Pressure': '30-110 mmHg',
+      'Sessions': '15, 30, 45, 60 min',
+      'Weight': '2.5 lbs (control unit)'
+    },
+    affiliateLink: 'https://hyperice.com/normatec-3',
+    inStock: true
+  },
+  {
+    id: 'revix-compression',
+    name: 'Revix Compression Boots',
+    slug: 'revix-compression-boots',
+    brand: 'Revix',
+    category: 'compression',
+    price: 349,
+    rating: 4.6,
+    reviewCount: 445,
+    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=600&fit=crop',
+    description: 'Affordable compression boots with 4 chambers and adjustable pressure settings.',
+    features: [
+      '4 chambers for sequential compression',
+      '6 pressure levels',
+      'Multiple size options',
+      'Quiet pump motor',
+      '1-year warranty'
+    ],
+    specifications: {
+      'Chambers': '4',
+      'Pressure': '20-280 mmHg',
+      'Sizes': 'S, M, L, XL',
+      'Power': '110-240V'
+    },
+    affiliateLink: 'https://revixlife.com/products/compression-boots',
+    inStock: true
+  },
+
+  // Contrast Therapy
+  {
+    id: 'hot-cold-pod',
+    name: 'Hot Cold Pod Pro',
+    slug: 'hot-cold-pod-pro',
+    brand: 'SaunaBox',
+    category: 'contrast-therapy',
+    price: 1299,
+    rating: 4.7,
+    reviewCount: 234,
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=600&fit=crop',
+    description: 'Contrast therapy system combining hot and cold plunge in one compact unit.',
+    features: [
+      'Hot tub (95-104°F) and cold plunge (39-50°F)',
+      'Digital temperature control',
+      'Insulated cover included',
+      'Quick heat recovery',
+      '2-person capacity'
+    ],
+    specifications: {
+      'Hot Temp': '95-104°F',
+      'Cold Temp': '39-50°F',
+      'Capacity': '150 gallons',
+      'Power': '110V/15A'
+    },
+    affiliateLink: 'https://saunabox.com/hot-cold-pod',
+    inStock: true
+  },
+  {
+    id: 'plunge-pool',
+    name: 'Plunge Pool Chiller',
+    slug: 'plunge-pool-chiller',
+    brand: 'Plunge',
+    category: 'contrast-therapy',
+    price: 999,
+    rating: 4.8,
+    reviewCount: 567,
+    image: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=600&h=600&fit=crop',
+    description: 'Professional cold plunge with precise temperature control and UV sanitation.',
+    features: [
+      '38-103°F temperature range',
+      'UV-C sanitation system',
+      'Smartphone app control',
+      'Quick cool technology',
+      '3-year warranty'
+    ],
+    specifications: {
+      'Temperature': '38-103°F',
+      'Capacity': '100 gallons',
+      'Cooling': '1.5°F per hour',
+      'Power': '110V'
+    },
+    affiliateLink: 'https://plunge.com',
+    inStock: true
+  },
+
+  // Cryotherapy
+  {
+    id: 'cryo-pro-x',
+    name: 'Cryo Pro X Chamber',
+    slug: 'cryo-pro-x-chamber',
+    brand: 'Cryomed',
+    category: 'cryotherapy',
+    price: 45000,
+    rating: 4.9,
+    reviewCount: 89,
+    image: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&h=600&fit=crop',
+    description: 'Commercial whole-body cryotherapy chamber with nitrogen-free operation.',
+    features: [
+      'Nitrogen-free (electric) operation',
+      'Multiple safety sensors',
+      'Touchscreen interface',
+      'Largest treatment area',
+      'CE certified'
+    ],
+    specifications: {
+      'Temperature': '-166°F to -220°F',
+      'Chamber Size': '7.5 ft height',
+      'Session Time': '1-3 minutes',
+      'Power': '400V/32A'
+    },
+    affiliateLink: 'https://cryomed.pro',
+    inStock: false
+  },
+  {
+    id: 'cryo-tunnel',
+    name: 'Cryo Elite Tunnel',
+    slug: 'cryo-elite-tunnel',
+    brand: 'CryoScience',
+    category: 'cryotherapy',
+    price: 35000,
+    rating: 4.8,
+    reviewCount: 67,
+    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop',
+    description: 'Walk-in cryotherapy tunnel with comfortable entry and precise temperature control.',
+    features: [
+      'Walk-in design for comfort',
+      'Nitrogen gas powered',
+      'Rapid cool down (2 min)',
+      'Emergency stop button',
+      'Ventilation system'
+    ],
+    specifications: {
+      'Temperature': '-200°F',
+      'Entry': 'Walk-in tunnel',
+      'Session': 'Up to 3 minutes',
+      'Power': '220V'
+    },
+    affiliateLink: 'https://cryoscience.com',
+    inStock: false
+  },
+
+  // Hyperbaric
+  {
+    id: 'hyperbaric-soft',
+    name: 'Soft Hyperbaric Chamber',
+    slug: 'soft-hyperbaric-chamber',
+    brand: 'Oxygen Health',
+    category: 'hyperbaric',
+    price: 4995,
+    rating: 4.7,
+    reviewCount: 312,
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=600&fit=crop',
+    description: 'Soft-sided hyperbaric chamber reaching 1.3 ATA for home use.',
+    features: [
+      '1.3 ATA max pressure',
+      'Quiet air pump',
+      'Spacious interior',
+      'Viewing window',
+      '2-year warranty'
+    ],
+    specifications: {
+      'Pressure': '1.3 ATA',
+      'Diameter': '36 inches',
+      'Length': '7 feet',
+      'Power': '110V'
+    },
+    affiliateLink: 'https://oxygenhealth.com',
+    inStock: true
+  },
+  {
+    id: 'hyperbaric-hard',
+    name: 'Hard Hyperbaric Chamber',
+    slug: 'hard-hyperbaric-chamber',
+    brand: 'Hyperbaric Clear',
+    category: 'hyperbaric',
+    price: 14995,
+    rating: 4.9,
+    reviewCount: 156,
+    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&h=600&fit=crop',
+    description: 'Hard-sided monoplace hyperbaric chamber reaching 2.0+ ATA.',
+    features: [
+      '2.0+ ATA pressure capability',
+      'Medical-grade construction',
+      'Intercom system',
+      'TV/entertainment mount',
+      '5-year warranty'
+    ],
+    specifications: {
+      'Pressure': '2.0-3.0 ATA',
+      'Diameter': '36 inches',
+      'Length': '7.5 feet',
+      'Power': '110V/15A'
+    },
+    affiliateLink: 'https://hyperbaricclear.com',
+    inStock: true
   }
 ]
 
 export const categories = [
+  {
+    id: 'compression',
+    name: 'Compression Therapy',
+    slug: 'compression',
+    description: 'Dynamic air compression for lymphatic drainage and muscle recovery.',
+    icon: '💨',
+    color: 'cyan',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=400&fit=crop'
+  },
+  {
+    id: 'contrast-therapy',
+    name: 'Contrast Therapy',
+    slug: 'contrast-therapy',
+    description: 'Hot and cold therapy cycles for enhanced circulation and recovery.',
+    icon: '🔥',
+    color: 'orange',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=400&fit=crop'
+  },
+  {
+    id: 'cryotherapy',
+    name: 'Cryotherapy',
+    slug: 'cryotherapy',
+    description: 'Extreme cold therapy for inflammation reduction and rapid recovery.',
+    icon: '❄️',
+    color: 'blue',
+    image: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&h=400&fit=crop'
+  },
+  {
+    id: 'hyperbaric',
+    name: 'Hyperbaric Oxygen',
+    slug: 'hyperbaric',
+    description: 'Pressurized oxygen therapy for enhanced healing and cellular repair.',
+    icon: '🫁',
+    color: 'teal',
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=400&fit=crop'
+  },
   {
     id: 'red-light',
     name: 'Red Light Therapy',

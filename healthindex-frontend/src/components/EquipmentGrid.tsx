@@ -9,6 +9,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 interface Equipment {
   id: string
   name: string
+  slug: string
   description: string
   category: string
   prices: {
@@ -19,39 +20,49 @@ interface Equipment {
       url: string
     }
   }
-  specs?: {
-    [key: string]: string
-  }
+  specs?: Record<string, string | number | boolean>
   image?: string
   savings?: number
 }
 
-export default function EquipmentGrid() {
-  const [equipment, setEquipment] = useState<Equipment[]>([])
-  const [loading, setLoading] = useState(true)
+interface EquipmentGridProps {
+  initialEquipment?: Equipment[]
+}
+
+export default function EquipmentGrid({ initialEquipment = [] }: EquipmentGridProps) {
+  const [equipment, setEquipment] = useState<Equipment[]>(initialEquipment)
+  const [loading, setLoading] = useState(initialEquipment.length === 0)
   const [error, setError] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
   
   useEffect(() => {
     setMounted(true)
-    // Show fallback data immediately (backend not deployed yet)
-    setEquipment(getFallbackEquipment())
-    setLoading(false)
+    // If no initial equipment, try to fetch from API
+    if (initialEquipment.length === 0) {
+      setEquipment(getFallbackEquipment())
+      setLoading(false)
+    }
     // TODO: Enable API call when backend is deployed
     // fetchEquipment()
-  }, [])
+  }, [initialEquipment])
 
   const fetchEquipment = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`${API_URL}/api/products`)
-      if (!response.ok) throw new Error('Failed to fetch')
+      setError(null)
+      
+      const response = await fetch(`${API_URL}/api/equipment`)
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status}`)
+      }
+      
       const data = await response.json()
-      setEquipment(data.products || [])
+      setEquipment(data)
     } catch (err) {
-      console.error('Failed to fetch equipment:', err)
-      setError('Unable to load equipment data')
-      // Use fallback data
+      console.error('Error fetching equipment:', err)
+      setError('Failed to load equipment. Using fallback data.')
+      // Use fallback data on error
       setEquipment(getFallbackEquipment())
     } finally {
       setLoading(false)
@@ -61,6 +72,7 @@ export default function EquipmentGrid() {
   const getFallbackEquipment = (): Equipment[] => [
     {
       id: 'cryotherapy',
+      slug: 'cryotherapy-chamber',
       name: 'Cryotherapy Chamber',
       description: 'Advanced whole-body cryotherapy systems for rapid recovery and performance enhancement.',
       category: 'cryotherapy',
@@ -73,6 +85,7 @@ export default function EquipmentGrid() {
     },
     {
       id: 'hyperbaric',
+      slug: 'hyperbaric-oxygen-chamber',
       name: 'Hyperbaric Oxygen Chamber',
       description: 'Medical-grade mild and hard chambers delivering concentrated oxygen therapy.',
       category: 'hyperbaric',
@@ -85,15 +98,55 @@ export default function EquipmentGrid() {
     },
     {
       id: 'redlight',
+      slug: 'red-light-therapy-system',
       name: 'Red Light Therapy System',
       description: 'High-irradiance full-body panels for pain management and cellular optimization.',
-      category: 'redlight',
+      category: 'red-light',
       prices: {
         amazon: { price: 8500, originalPrice: 9500, inStock: true, url: 'https://amazon.com' },
         direct: { price: 7800, originalPrice: 7800, inStock: true, url: 'https://example.com' }
       },
       specs: { wavelengthRange: '630-850nm', coverage: 'Full body', power: '110V, 10A' },
       savings: 11
+    },
+    {
+      id: 'normatec',
+      slug: 'normatec-compression-system',
+      name: 'Normatec Compression System',
+      description: 'Advanced pneumatic compression for recovery and circulation enhancement.',
+      category: 'compression',
+      prices: {
+        amazon: { price: 1295, originalPrice: 1495, inStock: true, url: 'https://amazon.com' },
+        direct: { price: 1195, originalPrice: 1195, inStock: true, url: 'https://example.com' }
+      },
+      specs: { zones: '7 levels', sessions: 'Multiple programs', battery: '3 hours' },
+      savings: 15
+    },
+    {
+      id: 'plunge',
+      slug: 'cold-plunge-pro',
+      name: 'Cold Plunge Pro',
+      description: 'Professional cold water immersion tub with temperature control and filtration.',
+      category: 'contrast-therapy',
+      prices: {
+        amazon: { price: 5990, originalPrice: 6990, inStock: true, url: 'https://amazon.com' },
+        direct: { price: 5490, originalPrice: 5490, inStock: true, url: 'https://example.com' }
+      },
+      specs: { temperature: '39-55°F', filtration: 'UV + Ozone', capacity: '1 person' },
+      savings: 14
+    },
+    {
+      id: 'bemer',
+      slug: 'bemer-pemf-mat',
+      name: 'BEMER PEMF Mat',
+      description: ' PEMF therapy mat for improved microcirculation and recovery.',
+      category: 'pemf',
+      prices: {
+        amazon: { price: 5990, originalPrice: 6990, inStock: true, url: 'https://amazon.com' },
+        direct: { price: 5490, originalPrice: 5490, inStock: true, url: 'https://example.com' }
+      },
+      specs: { intensity: '3-100 μT', programs: '10 preset', blanket: 'Included' },
+      savings: 14
     }
   ]
 
@@ -114,12 +167,9 @@ export default function EquipmentGrid() {
     return (
       <section className="relative py-20 overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <AlertCircle className="h-12 w-12 mx-auto text-red-500" />
-            <p className="mt-4 text-gray-400">{error}</p>
-            <button onClick={fetchEquipment} className="mt-4 text-cyan-400 hover:underline">
-              Try again
-            </button>
+          <div className="text-center text-red-400">
+            <AlertCircle className="h-12 w-12 mx-auto mb-4" />
+            <p>{error}</p>
           </div>
         </div>
       </section>
@@ -128,23 +178,26 @@ export default function EquipmentGrid() {
 
   return (
     <section className="relative py-20 overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-grid opacity-30" />
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#12121a] to-[#0a0a0f]" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">
-            <span className="gradient-text">Premium Recovery</span>{' '}
-            <span className="text-white">Equipment</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+            Featured <span className="text-cyan-400">Equipment</span>
           </h2>
-          <p className="text-xl text-gray-400">
-            Enterprise-grade wellness technology for elite facilities
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+            Compare prices across multiple retailers and find the best deals on professional-grade wellness equipment
           </p>
+          {error && (
+            <p className="text-yellow-400 mt-4 text-sm">{error}</p>
+          )}
         </div>
 
+        {/* Grid */}
         <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {equipment.map((item, index) => (
+          {equipment.map((item) => (
             <EquipmentCard key={item.id} equipment={item} />
           ))}
         </div>

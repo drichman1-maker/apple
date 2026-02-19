@@ -3,7 +3,7 @@ export interface Product {
   name: string
   slug: string
   brand: string
-  category: 'red-light' | 'pemf' | 'sauna' | 'massage-gun'
+  category: 'red-light' | 'pemf' | 'sauna' | 'massage-gun' | 'compression' | 'contrast-therapy' | 'cryotherapy' | 'hyperbaric'
   price: number
   rating: number
   reviewCount: number

@@ -1,217 +1,258 @@
-# CoinCurator Frontend
+# MacTrackr Frontend
 
-A comprehensive Next.js frontend for the CoinCurator rare coins aggregator. Features a modern, responsive design with dark mode support, PCGS/NGC grading integration, price history charts, and advanced filtering capabilities.
+A React/Vite application for tracking Apple product prices across multiple retailers.
 
 ## Features
 
-- 🪙 **Comprehensive Coin Catalog** - Browse US, World, and Ancient coins
-- 🏆 **PCGS & NGC Integration** - View certified grades and population data
-- 📊 **Price History Charts** - Interactive charts with historical auction data
-- 🔍 **Advanced Search & Filters** - Filter by category, country, year, price, grade, and more
-- 🌙 **Dark Mode Support** - Automatic theme switching with user preference
-- 📱 **Fully Responsive** - Works seamlessly on desktop, tablet, and mobile
-- ⚡ **Fast Performance** - Optimized with Next.js 14 and modern React patterns
-- 🎨 **Modern UI/UX** - Beautiful design with Tailwind CSS and Lucide icons
+✅ **Apple Product Catalog**
+- Browse iPhone, iPad, Mac, Apple Watch, and AirPods
+- Filter by category, price range, availability
+- Sort by price, name, popularity
+
+✅ **Price Comparison**
+- Real-time prices from multiple retailers
+- Best price highlighting
+- Stock availability tracking
+
+✅ **Price History Charts**
+- Interactive historical price data
+- Multiple timeframe views (1M, 3M, 6M, 1Y)
+- Retailer-specific price tracking
+
+✅ **Deal Alerts System**
+- Create custom price alerts
+- Email notifications when targets are met
+- Manage and track alert status
+
+✅ **Dark Mode Support**
+- System preference detection
+- Manual theme toggle
+- Persistent user preference
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 with App Router
-- **Styling**: Tailwind CSS
+- **Frontend**: React 18, Vite 4
+- **Styling**: Tailwind CSS 3
+- **Charts**: Recharts
 - **Icons**: Lucide React
-- **Charts**: Chart.js with React-ChartJS-2
-- **HTTP Client**: Axios
-- **Date Handling**: date-fns
-- **Theme**: next-themes
-- **TypeScript**: Full type safety throughout
+- **Routing**: React Router 6
+- **HTTP**: Axios
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm/yarn/pnpm
-- Backend API running (coin-agg backend)
+- Node.js 16+ 
+- npm or yarn
 
 ### Installation
 
-1. **Clone the repository**
+1. **Clone and navigate to the project**
    ```bash
-   git clone <repository-url>
-   cd coincurator-frontend
+   cd mactrackr-frontend
    ```
 
 2. **Install dependencies**
    ```bash
    npm install
-   # or
-   yarn install
-   # or
-   pnpm install
    ```
 
-3. **Environment Setup**
+3. **Set up environment variables**
    ```bash
-   cp .env.example .env.local
-   ```
-   
-   Edit `.env.local` and configure:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3001
+   # Copy environment files (already provided)
+   cp .env.development.example .env.development
+   cp .env.production.example .env.production
    ```
 
-4. **Start the development server**
+4. **Start development server**
    ```bash
    npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
    ```
 
-5. **Open your browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-## Project Structure
-
-```
-├── app/                     # Next.js App Router
-│   ├── catalog/            # Catalog page
-│   ├── coins/[id]/         # Individual coin pages
-│   ├── globals.css         # Global styles
-│   ├── layout.tsx          # Root layout
-│   └── page.tsx           # Homepage
-├── components/             # React components
-│   ├── catalog/           # Catalog-specific components
-│   ├── coin-detail/       # Individual coin page components
-│   ├── coins/             # Coin-related components
-│   ├── home/              # Homepage components
-│   ├── layout/            # Layout components (navbar, footer)
-│   ├── providers/         # Context providers
-│   ├── search/            # Search functionality
-│   └── ui/                # Reusable UI components
-├── lib/                   # Utility functions
-│   ├── api.ts            # API client and endpoints
-│   └── utils.ts          # Helper functions
-└── types/                 # TypeScript type definitions
-    └── index.ts          # Main type definitions
-```
-
-## API Integration
-
-The frontend connects to a backend API with the following endpoints:
-
-### Coins API
-- `GET /api/coins` - Get all coins with filters and pagination
-- `GET /api/coins/:id` - Get specific coin details
-- `POST /api/coins/search` - Search coins by query
-- `GET /api/coins/category/:category` - Get coins by category
-- `GET /api/coins/featured` - Get featured coins
-- `GET /api/coins/recent` - Get recently added coins
-
-### Grades API
-- `GET /api/grades/coin/:coinId` - Get grades for a specific coin
-- `GET /api/grades/:id` - Get specific grade details
-- `POST /api/grades` - Create new grade record
-
-### Price History API
-- `GET /api/price-history/coin/:coinId` - Get price history for a coin
-- `GET /api/price-history/coin/:coinId/latest` - Get latest price
-- `POST /api/price-history` - Add price record
-
-### Collections API
-- `GET /api/collections` - Get user collections
-- `POST /api/collections` - Create collection
-- `POST /api/collections/:id/coins` - Add coin to collection
-
-## Key Components
-
-### CoinCard
-Reusable component for displaying coin information in grid layouts.
-
-### CatalogFilters
-Advanced filtering interface with category, country, year range, price range, grading service, and grade range filters.
-
-### PriceChart
-Interactive chart component displaying historical price data with multiple time ranges and statistics.
-
-### GradeDisplay
-Component for displaying PCGS/NGC grading information with population data and certification details.
-
-### SearchModal
-Global search interface with recent searches, popular searches, and real-time results.
-
-## Styling
-
-The application uses Tailwind CSS with a custom design system:
-
-- **Colors**: Primary (orange) and secondary (blue) color schemes
-- **Dark Mode**: Automatic theme switching with system preference detection
-- **Responsive**: Mobile-first design with breakpoints for all screen sizes
-- **Animations**: Smooth transitions and hover effects throughout
-
-## Performance Optimizations
-
-- **Image Optimization**: Next.js automatic image optimization
-- **Code Splitting**: Automatic code splitting with Next.js
-- **Caching**: API response caching and browser caching
-- **Lazy Loading**: Components and images loaded on demand
-- **Debounced Search**: Optimized search with request debouncing
-
-## Deployment
-
-### Vercel (Recommended)
-1. Connect your repository to Vercel
-2. Set environment variables in the Vercel dashboard
-3. Deploy automatically on every push
-
-### Traditional Hosting
-1. **Build the application**
-   ```bash
-   npm run build
+5. **Open browser**
    ```
-
-2. **Start production server**
-   ```bash
-   npm run start
-   ```
-
-3. **Static Export** (optional)
-   ```bash
-   npm run build && npm run export
+   http://localhost:3000
    ```
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_API_URL` | Backend API URL | `http://localhost:3001` |
-| `DATABASE_URL` | Database connection (if needed) | - |
-| `NEXTAUTH_URL` | Authentication URL | `http://localhost:3000` |
-| `NEXTAUTH_SECRET` | Authentication secret | - |
+### Development (.env.development)
+```
+VITE_API_URL=http://localhost:3001
+VITE_ENV=development
+```
+
+### Production (.env.production)
+```
+VITE_API_URL=https://api.mactrackr.com
+VITE_ENV=production
+```
+
+## Available Scripts
+
+```bash
+# Development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
+```
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Layout/         # Navigation, footer, layout
+│   ├── Home/           # Homepage components
+│   ├── Products/       # Product catalog components
+│   ├── Product/        # Single product components
+│   ├── Alerts/         # Alert management components
+│   └── UI/             # Generic UI components
+├── pages/              # Route components
+├── contexts/           # React contexts (theme, etc.)
+├── api.js              # API client functions
+├── index.css           # Global styles & Tailwind
+└── main.jsx            # Application entry point
+```
+
+## Key Components
+
+### Layout Components
+- **Navbar**: Navigation with dark mode toggle
+- **Footer**: Site-wide footer with links
+
+### Home Page
+- **Hero**: Landing section with CTAs
+- **Features**: Key feature showcase
+- **FeaturedProducts**: Popular product deals
+
+### Product Catalog
+- **ProductCategories**: Category filter tabs
+- **ProductFilters**: Price, availability filters
+- **ProductGrid**: Responsive product grid
+- **ProductCard**: Individual product cards
+
+### Product Detail
+- **PriceChart**: Historical price visualization
+- **PriceComparison**: Multi-retailer comparison
+- **ProductSpecs**: Specifications and features
+
+### Alerts System
+- **AlertCard**: Individual alert management
+- **AlertModal**: Create/edit alert form
+
+## API Integration
+
+The app expects a backend API with these endpoints:
+
+```
+GET  /api/health                    # Health check
+GET  /api/products                  # Get products with filters
+GET  /api/products/:id              # Get single product
+GET  /api/products/search           # Search products
+GET  /api/prices/:id                # Get current prices
+GET  /api/prices/:id/history        # Get price history
+POST /api/alerts                    # Create alert
+GET  /api/alerts                    # Get user alerts
+PUT  /api/alerts/:id                # Update alert
+DELETE /api/alerts/:id              # Delete alert
+```
+
+## Styling
+
+### Tailwind Configuration
+- Custom Apple-inspired color palette
+- Dark mode support via class strategy
+- Responsive breakpoints
+- Custom component classes
+
+### Custom CSS Classes
+```css
+.btn-primary        # Primary button style
+.btn-secondary      # Secondary button style
+.card              # Card container
+.product-card      # Product card with hover effects
+.price-card        # Price comparison card
+.input-field       # Form input styling
+```
+
+## Dark Mode
+
+Dark mode is implemented using:
+1. **Tailwind's class-based dark mode**
+2. **ThemeContext** for state management
+3. **localStorage** for persistence
+4. **System preference detection**
+
+## Responsive Design
+
+The app is fully responsive with:
+- Mobile-first approach
+- Tailwind's responsive utilities
+- Touch-friendly interactions
+- Optimized mobile navigation
 
 ## Browser Support
 
-- Chrome 90+
-- Firefox 88+
+- Chrome 88+
+- Firefox 85+
 - Safari 14+
-- Edge 90+
+- Edge 88+
+
+## Deployment
+
+### Build for Production
+```bash
+npm run build
+```
+
+### Deploy to Static Hosting
+The built files in `dist/` can be deployed to:
+- Vercel
+- Netlify  
+- AWS S3 + CloudFront
+- GitHub Pages
+- Any static hosting service
+
+### Environment Setup
+1. Set production environment variables
+2. Configure API endpoint
+3. Set up any required build hooks
+4. Configure redirect rules for SPA routing
+
+## Performance Optimizations
+
+- **Code splitting** via React Router
+- **Lazy loading** of route components
+- **Image optimization** placeholders
+- **Bundle analysis** available via tools
+- **Tree shaking** enabled by Vite
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
-## Acknowledgments
+## Support
 
-- PCGS and NGC for grading standards and population data
-- Chart.js for beautiful interactive charts
-- Tailwind CSS for the utility-first CSS framework
-- Lucide for the icon library
-- Next.js team for the excellent framework
+- 📧 Email: support@mactrackr.com
+- 🐛 Issues: GitHub Issues
+- 📖 Docs: This README
+
+---
+
+**MacTrackr** - Never miss an Apple deal again! 🍎

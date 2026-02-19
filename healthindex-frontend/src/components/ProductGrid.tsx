@@ -35,14 +35,14 @@ export default function ProductGrid({ products }: ProductGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {products.map((product, index) => (
         <div
           key={product.id}
-          className="product-card animate-slide-up"
-          style={{ animationDelay: `${index * 0.1}s` }}
+          className="glass-card p-3 hover-glow animate-slide-up cursor-pointer"
+          style={{ animationDelay: `${index * 0.05}s` }}
         >
-          <div className="relative aspect-square mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+          <div className="relative aspect-[4/3] mb-3 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
             <Image
               src={product.image}
               alt={product.name}
@@ -51,63 +51,53 @@ export default function ProductGrid({ products }: ProductGridProps) {
             />
             {!product.inStock && (
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <span className="text-white font-semibold px-3 py-1 bg-red-600 rounded-md">
+                <span className="text-white font-semibold px-2 py-1 bg-red-600 rounded text-xs">
                   Out of Stock
                 </span>
               </div>
             )}
           </div>
 
-          <div className="space-y-3">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                  {product.brand}
-                </p>
-                <h3 className="font-bold text-gray-900 dark:text-white text-lg leading-tight mt-1">
-                  {product.name}
-                </h3>
+          <div className="space-y-2">
+            <div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                {product.brand}
+              </p>
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm leading-tight mt-0.5 line-clamp-1">
+                {product.name}
+              </h3>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-bold text-gray-900 dark:text-white">
+                ${product.price}
               </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  ${product.price}
+              <div className="flex items-center space-x-1">
+                <div className="flex items-center">
+                  {renderStars(product.rating)}
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <div className="flex items-center">
-                {renderStars(product.rating)}
-              </div>
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                {product.rating} ({product.reviewCount})
-              </span>
-            </div>
-
-            <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 leading-relaxed">
-              {product.description}
-            </p>
-
-            <div className="flex space-x-2 pt-2">
+            <div className="flex space-x-2 pt-1">
               <Link
                 href={`/products/${product.slug}`}
-                className="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors text-center"
+                className="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-2 py-1.5 rounded text-xs font-medium transition-colors text-center"
               >
-                View Details
+                Details
               </Link>
               <Link
                 href={product.affiliateLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors text-center flex items-center justify-center space-x-1 ${
+                className={`flex-1 px-2 py-1.5 rounded text-xs font-medium transition-colors text-center flex items-center justify-center ${
                   product.inStock
                     ? 'bg-primary-600 hover:bg-primary-700 text-white'
                     : 'bg-gray-400 text-gray-200 cursor-not-allowed'
                 }`}
                 onClick={!product.inStock ? (e) => e.preventDefault() : undefined}
               >
-                <span>Buy Now</span>
-                {product.inStock && <ExternalLink className="w-3 h-3" />}
+                <span>Buy</span>
               </Link>
             </div>
           </div>
