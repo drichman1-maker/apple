@@ -95,19 +95,19 @@
   }
   
   .hi-spec-grid {
-    @apply grid grid-cols-2 md:grid-cols-4 gap-4;
+    @apply grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3;
   }
   
   .hi-spec-item {
-    @apply bg-[#262626] rounded-lg md:rounded-xl p-2 md:p-4 border border-[#333];
+    @apply bg-[#262626] rounded-md md:rounded-lg p-2 md:p-2.5 border border-[#333];
   }
   
   .hi-spec-label {
-    @apply text-[9px] md:text-xs text-[#737373] uppercase tracking-wider mb-0.5 md:mb-1;
+    @apply text-[8px] md:text-[10px] text-[#737373] uppercase tracking-wider mb-0;
   }
   
   .hi-spec-value {
-    @apply text-sm md:text-lg font-semibold text-white;
+    @apply text-xs md:text-sm font-semibold text-white leading-tight;
   }
   
   /* Retailer row */
