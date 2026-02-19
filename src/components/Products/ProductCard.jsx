@@ -151,27 +151,36 @@ const ProductCard = ({ product }) => {
             ) : (
               <span className="text-xs text-gray-500 block">{product.brand || 'Apple'}</span>
             )}
-            {/* Release Year */}
-            {product.releaseDate && (
-              <span className="text-xs text-gray-500 block mt-0.5">
-                {new Date(product.releaseDate).getFullYear()}
-              </span>
-            )}
           </div>
         </div>
 
-        {/* Product Name */}
+        {/* Product Name with Year */}
         <h3 className="text-lg font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
           {product.name}
         </h3>
+        
+        {/* Release Year - prominent placement */}
+        {product.releaseDate && (
+          <p className="text-sm text-gray-400 mb-3">
+            {new Date(product.releaseDate).getFullYear()}
+          </p>
+        )}
 
-        {/* Spec Pills */}
+        {/* Spec Pills - varied sizes */}
         {specPills.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
             {specPills.map((pill, idx) => (
               <span 
                 key={idx}
-                className="hi-pill-gray text-[10px] uppercase"
+                className={`inline-flex items-center px-2.5 py-1 rounded-full border text-[11px] font-medium uppercase tracking-wide ${
+                  pill.label === 'chip' 
+                    ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' 
+                    : pill.label === 'ram'
+                    ? 'bg-purple-500/10 border-purple-500/30 text-purple-400'
+                    : pill.label === 'storage'
+                    ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'
+                    : 'bg-gray-500/10 border-gray-500/30 text-gray-400'
+                }`}
               >
                 {pill.label}: {pill.value}
               </span>
