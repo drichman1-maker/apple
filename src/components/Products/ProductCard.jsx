@@ -7,45 +7,32 @@ import { getAffiliateUrl } from '../../config/affiliate'
 const ProductCard = ({ product }) => {
   const { isNew, isRefurbished } = useProductCondition()
   
-  // Get prices based on condition (new vs refurbished)
-  const priceData = isRefurbished && product.refurbishedPrices 
-    ? product.refurbishedPrices 
-    : product.prices
-  
-  // Authorized retailers for new products (prioritized order)
-  const authorizedRetailers = ['apple', 'amazon', 'bestbuy', 'bh', 'adorama', 'walmart', 'target', 'cdw']
-  
-  // For refurbished, include Apple Certified Refurbished and Amazon Renewed
-  const refurbishedRetailers = ['apple', 'amazon', 'bestbuy']
-  
-  const relevantRetailers = isRefurbished ? refurbishedRetailers : authorizedRetailers
-  
-  // Convert prices to array and filter for in-stock items
-  let prices = Object.entries(priceData)
-    .filter(([retailer, data]) => data.inStock && relevantRetailers.includes(retailer))
-    .map(([retailer, data]) => ({
-      retailer,
-      ...data
-    }))
-  
-  // Fallback logic
-  if (prices.length === 0) {
-    prices = Object.entries(priceData)
-      .filter(([retailer, data]) => data.inStock && retailer !== 'ebay')
-      .map(([retailer, data]) => ({
-        retailer,
-        ...data
+  // Handle both old format (object) and new format (array)
+  const getPricesArray = () => {
+    const priceData = isRefurbished && product.refurbishedPrices 
+      ? product.refurbishedPrices 
+      : product.prices
+    
+    // New format: array of {retailer, price, inStock, url}
+    if (Array.isArray(priceData)) {
+      return priceData.filter(p => p.inStock).map(p => ({
+        retailer: p.retailer,
+        price: p.price,
+        url: p.url,
+        inStock: true
       }))
-  }
-  
-  if (prices.length === 0) {
-    prices = Object.entries(priceData)
+    }
+    
+    // Old format: object {apple: {price, inStock}, ...}
+    return Object.entries(priceData || {})
       .filter(([retailer, data]) => data.inStock)
       .map(([retailer, data]) => ({
         retailer,
         ...data
       }))
   }
+  
+  const prices = getPricesArray()
 
   const minPrice = prices.length > 0 ? Math.min(...prices.map(p => p.price)) : 0
   const maxPrice = prices.length > 0 ? Math.max(...prices.map(p => p.price)) : 0
@@ -224,7 +211,7 @@ const ProductCard = ({ product }) => {
           {prices.slice(0, 3).map(({ retailer, price, url }) => (
             <a
               key={retailer}
-              href={getAffiliateUrl(retailer, product.name, product.sku, url)}
+              href={url || getAffiliateUrl(retailer, product.name, product.sku)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors"

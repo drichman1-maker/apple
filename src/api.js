@@ -1,7 +1,7 @@
 // api.js
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'https://price-aggregator-api-production.up.railway.app';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -27,17 +27,9 @@ export const checkHealth = async () => {
 export const getProducts = async (filters = {}) => {
   try {
     const { data } = await api.get('/api/products', { params: filters });
-    // Deduplicate products by ID, keeping first occurrence (with full data)
-    if (data && data.products) {
-      const seen = new Set();
-      data.products = data.products.filter(product => {
-        if (seen.has(product.id)) {
-          return false;
-        }
-        seen.add(product.id);
-        return true;
-      });
-      data.count = data.products.length;
+    // New API returns array directly, not wrapped
+    if (Array.isArray(data)) {
+      return { products: data, count: data.length };
     }
     return data;
   } catch (error) {

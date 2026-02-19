@@ -20,11 +20,12 @@ const ProductCatalog = () => {
     const fetchProducts = async () => {
       setLoading(true)
       try {
-        const url = 'https://mactrackr-backend-new.onrender.com/api/products'
+        const url = 'https://price-aggregator-api-production.up.railway.app/api/products'
         const response = await fetch(url)
         if (response.ok) {
           const data = await response.json()
-          setProducts(data.products || [])
+          // New API returns array directly
+          setProducts(data || [])
         } else {
           setProducts(getMockProducts())
         }
