@@ -1,7 +1,7 @@
 // api.js
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://price-aggregator-api-production.up.railway.app';
+const API_URL = 'https://mactrackr-api-backup.fly.dev';
 
 // Create axios instance with default config
 const api = axios.create({
