@@ -2,7 +2,7 @@
   "name": "n8n-price-monitor",
   "version": "1.0.0",
   "scripts": {
-    "start": "n8n start"
+    "start": "N8N_PORT=5678 N8N_HOST=0.0.0.0 n8n start"
   },
   "dependencies": {
     "n8n": "^1.0.0"
