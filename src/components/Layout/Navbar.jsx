@@ -47,22 +47,23 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center flex-shrink-0">
             <Link to="/" className="flex items-center space-x-2 group">
               <div className="w-10 h-10 bg-gradient-to-br from-apple-blue to-purple-500 rounded-xl flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-shadow">
                 <Apple className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">MacTrackr</span>
+              <span className="text-xl font-bold text-white hidden sm:inline">MacTrackr</span>
+              <span className="text-xl font-bold text-white sm:hidden">MT</span>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          {/* Desktop Navigation - Hidden on mobile */}
+          <div className="hidden lg:flex items-center space-x-1 overflow-x-auto">
             {navigation.slice(0, -2).map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                   isActive(item.href)
                     ? 'bg-white/10 text-apple-blue'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -75,20 +76,21 @@ const Navbar = () => {
 
           {/* Right side - CTA + Theme */}
           <div className="flex items-center space-x-2">
-            {/* Blog - Hidden on mobile/tablet, visible on lg+ */}
+            {/* Blog - Desktop only */}
             <Link
               to="/blog"
-              className="hidden lg:flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
+              className="hidden lg:inline-flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
             >
               Blog
             </Link>
-            {/* Price Alerts - Hidden on mobile/tablet, visible on lg+ */}
+            {/* Price Alerts - Desktop only */}
             <Link
               to="/alerts"
-              className="hidden lg:flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
+              className="hidden lg:inline-flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all whitespace-nowrap"
             >
-              <Sparkles className="h-4 w-4 mr-2" />
-              Price Alerts
+              <Sparkles className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span className="hidden xl:inline">Price Alerts</span>
+              <span className="xl:hidden">Alerts</span>
             </Link>
             
             {/* Condition Dropdown - Compact for mobile */}
