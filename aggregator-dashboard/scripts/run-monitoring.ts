@@ -9,7 +9,10 @@
 
 import { runMonitoringCycle, sendToN8NWebhook, DealAlert } from '../lib/monitoring';
 
-const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || '';
+// n8n Webhook URL for deal alerts
+// Get this from your n8n Webhook node: https://[your-app].up.railway.app/webhook/deal-alert
+// Set via: export N8N_WEBHOOK_URL="https://..."
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || 'https://price-tracker-production-8937.up.railway.app/webhook/deal-alert';
 
 async function main() {
   console.log('🔍 Starting monitoring cycle...');

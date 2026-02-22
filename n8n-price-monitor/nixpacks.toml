@@ -6,3 +6,10 @@ cmds = ["npm install -g n8n"]
 
 [start]
 cmd = "bash start.sh"
+
+[variables]
+N8N_PORT = "5678"
+N8N_HOST = "0.0.0.0"
+
+[expose]
+port = 5678
