@@ -74,26 +74,28 @@ const Navbar = () => {
           </div>
 
           {/* Right side - CTA + Theme */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
+            {/* Blog - Hidden on mobile/tablet, visible on lg+ */}
             <Link
               to="/blog"
-              className="hidden sm:flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
+              className="hidden lg:flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
             >
               Blog
             </Link>
+            {/* Price Alerts - Hidden on mobile/tablet, visible on lg+ */}
             <Link
               to="/alerts"
-              className="hidden sm:flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
+              className="hidden lg:flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
             >
               <Sparkles className="h-4 w-4 mr-2" />
               Price Alerts
             </Link>
             
-            {/* Condition Dropdown */}
+            {/* Condition Dropdown - Compact for mobile */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setConditionDropdownOpen(!conditionDropdownOpen)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
+                className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
                   isNew
                     ? 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                     : 'bg-green-500/20 border-green-500/30 text-green-400 hover:bg-green-500/30'
@@ -106,7 +108,7 @@ const Navbar = () => {
                   <RefreshCw className="h-4 w-4" />
                 )}
                 <span className="hidden sm:inline">{isNew ? 'New' : 'Refurb'}</span>
-                <ChevronDown className="h-4 w-4 ml-1" />
+                <ChevronDown className="h-4 w-4" />
               </button>
               
               {conditionDropdownOpen && (
@@ -187,7 +189,8 @@ const Navbar = () => {
       {isOpen && (
         <div className="lg:hidden">
           <div className="px-4 pt-2 pb-6 space-y-1 bg-black/95 backdrop-blur-xl border-t border-white/10">
-            {navigation.map((item) => (
+            {/* Main nav items */}
+            {navigation.slice(0, -2).map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
@@ -201,9 +204,27 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Divider */}
+            <div className="my-3 border-t border-white/10"></div>
+            
+            {/* Blog link */}
+            <Link
+              to="/blog"
+              className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                isActive('/blog')
+                  ? 'bg-white/10 text-apple-blue'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              Blog
+            </Link>
+            
+            {/* Price Alerts CTA */}
             <Link
               to="/alerts"
-              className="flex items-center justify-center w-full mt-4 px-4 py-3 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium"
+              className="flex items-center justify-center w-full mt-3 px-4 py-3 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
               onClick={() => setIsOpen(false)}
             >
               <Sparkles className="h-4 w-4 mr-2" />
