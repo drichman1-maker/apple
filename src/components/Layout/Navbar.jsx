@@ -1,16 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Apple, Sparkles, Package, RefreshCw, ChevronDown } from 'lucide-react'
-import { useTheme } from '../../contexts/ThemeContext'
+import { Menu, X, Apple, Sparkles, Package, RefreshCw } from 'lucide-react'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [conditionDropdownOpen, setConditionDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
-  // Theme toggle disabled - dark mode only
-  // const { isDark, toggleTheme } = useTheme()
-  const isDark = true
   const { condition, setCondition, isNew } = useProductCondition()
   const location = useLocation()
 
@@ -25,6 +21,11 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsOpen(false)
+  }, [location.pathname])
+
   const navigation = [
     { name: 'Home', href: '/home' },
     { name: 'Products', href: '/' },
@@ -33,8 +34,6 @@ const Navbar = () => {
     { name: 'Mac', href: '/products/mac' },
     { name: 'Watch', href: '/products/watch' },
     { name: 'AirPods', href: '/products/airpods' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Alerts', href: '/alerts' },
   ]
 
   const isActive = (href) => {
@@ -43,23 +42,22 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/80 backdrop-blur-xl border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center flex-shrink-0">
+    <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/90 backdrop-blur-xl border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        <div className="flex justify-between items-center h-14 sm:h-16">
+          {/* Logo - Simplified for mobile */}
+          <div className="flex items-center flex-shrink-0 min-w-0">
             <Link to="/" className="flex items-center space-x-2 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-apple-blue to-purple-500 rounded-xl flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-shadow">
-                <Apple className="h-6 w-6 text-white" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-apple-blue to-purple-500 rounded-xl flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-shadow flex-shrink-0">
+                <Apple className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-white hidden sm:inline">MacTrackr</span>
-              <span className="text-xl font-bold text-white sm:hidden">MT</span>
+              <span className="text-lg sm:text-xl font-bold text-white truncate">MacTrackr</span>
             </Link>
           </div>
 
-          {/* Desktop Navigation - Hidden on mobile */}
-          <div className="hidden lg:flex items-center space-x-1 overflow-x-auto">
-            {navigation.slice(0, -2).map((item) => (
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
@@ -74,8 +72,8 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right side - CTA + Theme */}
-          <div className="flex items-center space-x-2">
+          {/* Right side */}
+          <div className="flex items-center space-x-1 sm:space-x-2">
             {/* Blog - Desktop only */}
             <Link
               to="/blog"
@@ -83,38 +81,37 @@ const Navbar = () => {
             >
               Blog
             </Link>
+            
             {/* Price Alerts - Desktop only */}
             <Link
               to="/alerts"
               className="hidden lg:inline-flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all whitespace-nowrap"
             >
               <Sparkles className="h-4 w-4 mr-2 flex-shrink-0" />
-              <span className="hidden xl:inline">Price Alerts</span>
-              <span className="xl:hidden">Alerts</span>
+              <span>Alerts</span>
             </Link>
             
-            {/* Condition Dropdown - Compact for mobile */}
+            {/* Condition Toggle - Compact button */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setConditionDropdownOpen(!conditionDropdownOpen)}
-                className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg border transition-all duration-200 text-sm font-medium ${
+                className={`flex items-center justify-center w-10 h-10 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-lg border transition-all duration-200 ${
                   isNew
                     ? 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                     : 'bg-green-500/20 border-green-500/30 text-green-400 hover:bg-green-500/30'
                 }`}
-                aria-label="Select condition"
+                aria-label={isNew ? 'New products' : 'Refurbished products'}
               >
                 {isNew ? (
-                  <Package className="h-4 w-4" />
+                  <Package className="h-5 w-5 sm:mr-1.5" />
                 ) : (
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className="h-5 w-5 sm:mr-1.5" />
                 )}
-                <span className="hidden sm:inline">{isNew ? 'New' : 'Refurb'}</span>
-                <ChevronDown className="h-4 w-4" />
+                <span className="hidden sm:inline text-sm font-medium">{isNew ? 'New' : 'Refurb'}</span>
               </button>
               
               {conditionDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-lg bg-[#1a1a1a] border border-[#333] shadow-xl py-1 z-50">
+                <div className="absolute right-0 mt-2 w-48 sm:w-56 rounded-xl bg-[#1a1a1a] border border-[#333] shadow-2xl py-2 z-[101]">
                   <button
                     onClick={() => {
                       setCondition('new')
@@ -129,7 +126,7 @@ const Navbar = () => {
                       <div className="text-white">New</div>
                       <div className="text-xs text-gray-500">Latest models, sealed</div>
                     </div>
-                    {isNew && <span className="text-blue-400 text-xs">✓</span>}
+                    {isNew && <span className="text-blue-400">✓</span>}
                   </button>
                   
                   <div className="mx-3 my-1 border-t border-[#333]"></div>
@@ -148,33 +145,19 @@ const Navbar = () => {
                       <div className="text-white">Certified Refurbished</div>
                       <div className="text-xs text-gray-500">Apple tested, 1yr warranty</div>
                     </div>
-                    {!isNew && <span className="text-green-400 text-xs">✓</span>}
+                    {!isNew && <span className="text-green-400">✓</span>}
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Theme Toggle - Disabled (Dark mode only) */}
-            {/* 
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
-              aria-label="Toggle theme"
-            >
-              {isDark ? (
-                <Sun className="h-5 w-5 text-yellow-400" />
-              ) : (
-                <Moon className="h-5 w-5 text-gray-400" />
-              )}
-            </button>
-            */}
-
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Larger touch target */}
             <div className="lg:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
-                aria-label="Toggle menu"
+                className="flex items-center justify-center w-11 h-11 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isOpen}
               >
                 {isOpen ? (
                   <X className="h-6 w-6 text-white" />
@@ -187,38 +170,36 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Full screen overlay */}
       {isOpen && (
-        <div className="lg:hidden">
-          <div className="px-4 pt-2 pb-6 space-y-1 bg-black/95 backdrop-blur-xl border-t border-white/10">
+        <div className="lg:hidden fixed inset-0 top-14 bg-black/95 backdrop-blur-xl z-[99]">
+          <div className="px-4 py-4 space-y-1 h-full overflow-y-auto">
             {/* Main nav items */}
-            {navigation.slice(0, -2).map((item) => (
+            {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                className={`block px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                   isActive(item.href)
                     ? 'bg-white/10 text-apple-blue'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
                 }`}
-                onClick={() => setIsOpen(false)}
               >
                 {item.name}
               </Link>
             ))}
             
             {/* Divider */}
-            <div className="my-3 border-t border-white/10"></div>
+            <div className="my-4 border-t border-white/10"></div>
             
             {/* Blog link */}
             <Link
               to="/blog"
-              className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+              className={`block px-4 py-3.5 rounded-xl text-base font-medium transition-all duration-200 ${
                 isActive('/blog')
                   ? 'bg-white/10 text-apple-blue'
                   : 'text-gray-400 hover:text-white hover:bg-white/5'
               }`}
-              onClick={() => setIsOpen(false)}
             >
               Blog
             </Link>
@@ -226,10 +207,9 @@ const Navbar = () => {
             {/* Price Alerts CTA */}
             <Link
               to="/alerts"
-              className="flex items-center justify-center w-full mt-3 px-4 py-3 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
-              onClick={() => setIsOpen(false)}
+              className="flex items-center justify-center w-full mt-4 px-4 py-4 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-xl font-medium text-lg hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
             >
-              <Sparkles className="h-4 w-4 mr-2" />
+              <Sparkles className="h-5 w-5 mr-2" />
               Price Alerts
             </Link>
           </div>
