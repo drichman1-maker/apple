@@ -1,369 +1,77 @@
-# TOOLS.md - Local Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## What Goes Here
+### Additional Models (Feb 20, 2026)
 
-Things like:
+| Model ID | Cost (in/out) | Context | Best For |
+|----------|---------------|---------|----------|
+| `openrouter/deepseek/deepseek-chat` | $0.50/$0.80 | 64K | General chat, reasoning |
+| `openrouter/deepseek/deepseek-coder` | $0.50/$0.80 | 64K | Code generation, debugging |
+| `openrouter/deepseek/deepseek-v3` | $0.50/$0.80 | 64K | General purpose, cheap |
+| `openrouter/mistralai/mistral-large-2` | $2/$6 | 128K | European, compliance, reasoning |
+| `openrouter/thudm/glm-4` | ~$1/$2 | 128K | Bilingual, Chinese/English research |
+| `openrouter/cohere/command-r-plus` | $3/$15 | 128K | RAG, document search, enterprise |
+| `openrouter/openai/o3-mini` | $1.10/$4.40 | 200K | Reasoning tasks, math, coding |
+| `openrouter/google/gemini-1.5-flash` | $0.15/$0.60 | 1M | Fast vision, quick tasks |
+| `openrouter/moonshotai/kimi-k2.5` | $0.50/$2.80 | 2M | Long context, main session |
+| `openrouter/minimax/minimax-m2.1` | $0.27/$0.95 | 200K | Subagent default, cheap |
+| `openrouter/minimax/minimax-m2.5` | $0.20/$0.60 | 128K | Main session primary |
+| `openrouter/microsoft/phi-4` | $0.07/$0.14 | 16K | Ultra-cheap bulk tasks |
+| `openrouter/meta-llama/llama-3.3-70b` | $0.20/$0.40 | 128K | European, open source |
+| `openrouter/amazon/nova-pro` | $0.80/$3.20 | 300K | AWS, multimodal |
+| `openrouter/qwen/qwen-2.5-72b` | $0.30/$0.60 | 128K | Coding tasks |
+| `openrouter/qwen/qwen-3.5-plus` | $0.40/$2.40 | 128K | Vision + video |
+| `openrouter/mancer/pony-alpha` | FREE | 8K | Uncensored |
+| `openrouter/anthropic/claude-sonnet-4-6` | $3/$15 | 200K | Complex reasoning, audits |
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+### Updated Model Selection Matrix
 
-## Examples
+| Task Type | Primary | Fallback | Budget |
+|-----------|---------|----------|--------|
+| **Main Session** | MiniMax-M2.5 | Kimi K2.5 | MiniMax-M2.1 |
+| **Code/Review** | Claude Sonnet 4.6 | MiniMax-M2.1 | DeepSeek-Coder |
+| **Subagent Default** | MiniMax-M2.1 | MiniMax-01 | Phi-4 |
+| **Long Context** | Kimi K2.5 (2M) | Gemini 3.1 Pro (1M) | Gemini Flash (1M) |
+| **Creative/Marketing** | Claude Sonnet | Amazon Nova Pro | Llama 3.3 70B |
+| **Vision/Images** | Gemini 3.1 Pro | Qwen3.5 Plus | Gemini Flash |
+| **Audit/Debug** | Claude Sonnet 4.6 | Gemini 3.1 Pro | o3-mini |
+| **Bulk/Quick** | Phi-4 | MiniMax-01 | Gemini Flash |
+| **Uncensored** | Pony Alpha | — | — |
+| **RAG/Search** | Command R+ | Mistral Large 2 | — |
+| **Bilingual** | GLM-4 | Qwen models | — |
+| **Reasoning** | o3-mini | DeepSeek-V3 | — |
+| **European/Compliance** | Mistral Large 2 | — | — |
 
-```markdown
-### Cameras
+### Fallback Configuration
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+Add to `~/.openclaw/openclaw.json`:
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openrouter/minimax/minimax-m2.5",
+        "fallbacks": [
+          "openrouter/moonshotai/kimi-k2.5",
+          "openrouter/minimax/minimax-m2.1",
+          "openrouter/microsoft/phi-4",
+          "openrouter/google/gemini-2.0-flash-exp"
+        ]
+      },
+      "subagents": {
+        "model": "openrouter/minimax/minimax-m2.1"
+      }
+    }
+  }
+}
 ```
 
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
-## Model Strategy
-
-**Main session:** MiniMax-M2.5 via OpenRouter — latest SOTA, best performance
-**Fallbacks:** 
-1. OpenRouter Claude Sonnet ($3/$15) — handles PDFs/images automatically
-2. Kimi K2.5 (2M context) — for long context tasks
-3. Direct Anthropic Claude Sonnet — backup if OpenRouter fails
-
-**Subagents:** 16 concurrent workers (increased from 8 for heavy parallelization)
-
-### Default Subagent Model — UPDATED (Feb 18, 2026)
-**~~Haiku~~** ❌ User prefers MiniMax
-
-**NEW DEFAULT: MiniMax-M2.1 via OpenRouter** ($0.27/$0.95) 
-- Better quality than Haiku in Doug's opinion
-- 200K context, good for coding
-- Cheaper than Haiku ($0.27 vs $1.00 input)
-
-**Premium Subagent (critical tasks only):** Claude 3.5 Sonnet ($3/$15)
-- Use for: code generation, complex debugging, final reviews
-- Only when accuracy is worth the cost
-
-### Alternative Models to Explore (Replace Groq/Ollama)
-
-| Model | Provider | Cost (in/out) | Strengths | Best For |
-|-------|----------|---------------|-----------|----------|
-| **MiniMax-M2.1** | OpenRouter | $0.27/$0.95 | Best price/performance, 200K context | Long docs, coding, agents - DEFAULT |
-| **MiniMax-M2.5** | OpenRouter | $0.30/$1.00 | Latest SOTA improvements | Main session, complex tasks |
-| **MiniMax-01** | OpenRouter | $0.20/$1.10 | Cheapest option | Simple/fast tasks |
-| **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, Chinese/English bilingual | Research, analysis |
-| **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Strong coding, cheap | Coding tasks |
-| **Phi-4** (Microsoft) | OpenRouter | $0.07/$0.14 | Ultra-cheap, efficient | Quick tasks |
-
-**UPDATED Recommendations (Feb 2026):**
-1. **MiniMax-M2.1** — Default subagent. $0.27/$0.95 saves ~46% vs M1
-2. **MiniMax-M2.5** — Main session upgrade. Only $0.03 more than M2.1
-3. **MiniMax-01** — Replace Haiku for very basic tasks at $0.20/$1.10
-4. **Phi-4** — Ultra-cheap for simple data processing
-
-**Avoid:**
-- ~~Groq free tier~~ — Hit limits constantly, unreliable
-- ~~Ollama~~ — Local only, no API consistency
-- ~~DeepSeek~~ — Proven unreliable for assessments
-- ~~MiniMax-M1~~ — Replaced by M2.1 (cheaper + better)
-
-### Model Selection Rules (UPDATED 2026-02-17)
-1. **Assessments/status checks** → Haiku (verify files, check state)
-2. **Code generation/review** → MiniMax-M2.1 or Sonnet (reliable, cheaper than M1)
-3. **Simple data processing** → MiniMax-01 or Phi-4 (cheapest options)
-4. **Long context (100K+)** → MiniMax-M2.1 (200K context), Kimi, or GLM-4
-5. **NEVER DeepSeek/Groq for:** File system assessments, deployment status, project state
+**Fallback Priority:**
+1. **MiniMax-M2.5** — Primary, fast, cheap ($0.20/$0.60)
+2. **Kimi K2.5** — Long context (2M tokens)
+3. **MiniMax-M2.1** — Subagent default ($0.27/$0.95)
+4. **Phi-4** — Ultra-cheap backup ($0.07/$0.14)
+5. **Gemini Flash** — Fast vision, 1M context ($0.15/$0.60)
 
 ---
-
-## 🎯 Delegation Cheatsheet
-
-### When to Spawn Subagents
-
-**✅ Good candidates for delegation:**
-- Independent research tasks (5 topics → 5 parallel subagents)
-- Code reviews, refactoring, testing plans
-- Content generation (blog posts, docs, marketing copy)
-- Data processing and analysis
-- Background monitoring/alerts
-
-**❌ Keep in main session:**
-- Tasks requiring back-and-forth conversation
-- Decisions needing your immediate input
-- Complex coordination requiring full context
-- Quick one-off questions
-
----
-
-## 📋 Model Selection by Task Type
-
-### 💻 Coding & Development
-**Model:** `openrouter/anthropic/claude-3.5-sonnet` ($3/$15) — UPDATED
-- DeepSeek failed repeatedly on assessments, not worth the "savings"
-
-**Use for:**
-- Code reviews and refactoring
-- Bug fixing and debugging
-- Test suite generation
-- API integration code
-- Documentation generation
-
-**Example:**
-```bash
-/spawn task="Review this React component for performance issues and suggest optimizations" model=openrouter/anthropic/claude-3.5-sonnet
-```
-
----
-
-### 🎨 Creative & Marketing (UPDATED Feb 18, 2026)
-**User feedback:** "I do not want Grok as the only creative. We need various and better models."
-
-**Creative Model Rotation:**
-
-| Model | Provider | Cost (in/out) | Best For | When to Use |
-|-------|----------|---------------|----------|-------------|
-| **Claude 3.5 Sonnet** | OpenRouter | $3/$15 | Brand voice, nuanced copy, storytelling | Premium campaigns, brand positioning |
-| **Amazon Nova Pro** | OpenRouter | $0.80/$3.20 | Multimodal creative (text+image), fast | Product descriptions, visual campaigns |
-| **Pony Alpha** | OpenRouter | FREE | Uncensored creative, raw/edgy content | Experimental, unfiltered brainstorming |
-| **Llama 3.3 70B** | OpenRouter | $0.20/$0.40 | Bulk social content, fast iterations | High-volume social posts |
-| **GPT-4 Turbo** | OpenAI | $10/$30 | Polished marketing copy, SEO content | Blog posts, landing pages |
-| **Mistral Large 2** | OpenRouter | $2/$6 | European markets, multilingual | International campaigns |
-
-**Selection Strategy:**
-1. **Brand/campaign work** → Claude Sonnet or GPT-4
-2. **High-volume social** → Llama 3.3 70B
-3. **Experimental/raw** → Pony Alpha
-4. **Product-focused** → Amazon Nova Pro
-5. **SEO content** → GPT-4 Turbo or Claude Sonnet
-
-**No more Grok as default.** Rotate based on task needs.
-
-**Use for:**
-- Marketing copy and taglines
-- Brand voice content
-- Creative storytelling
-- Personality-driven writing
-- Social media content
-
-**Example:**
-```bash
-/spawn task="Write 5 witty Instagram captions for a meditation app launch" model=openrouter/x-ai/grok-2-1212
-```
-
----
-
-### ⚡ Fast Chat & Summaries
-**Model:** `groq/llama-3.3-70b-specdec` (paid tier)
-
-**Use for:**
-- Quick summaries
-- Fast Q&A
-- Simple formatting
-- Straightforward chat responses
-
-**Example:**
-```bash
-/spawn task="Summarize this 50-page PDF into 3 key takeaways" model=groq/llama-3.3-70b-specdec
-```
-
-**Note:** You're paying for Groq, so use it when speed matters more than sophistication.
-
----
-
-### 📊 Data Processing & Analysis
-**Model:** `openrouter/anthropic/claude-3.5-haiku` ($1/$5) — UPDATED
-
-**Use for:**
-- CSV/JSON parsing and transformation
-- Data extraction from documents
-- Simple statistical analysis
-- Structured output generation
-
-**Example:**
-```bash
-/spawn task="Extract all user emails from this CSV and format as JSON" model=openrouter/anthropic/claude-3.5-haiku
-```
-
----
-
-### 🔬 Research & Investigation
-**Model:** `openrouter/deepseek/deepseek-chat` ($0.14/$0.28)
-
-**Use for:**
-- Web research on specific topics
-- Competitive analysis
-- Technical documentation review
-- Fact-checking and verification
-
-**Example (parallel research fan-out):**
-```bash
-# Spawn 5 subagents to research different competitors in parallel
-/spawn task="Research competitor A's pricing model" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research competitor B's feature set" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research competitor C's marketing strategy" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research competitor D's user reviews" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research competitor E's tech stack" model=openrouter/deepseek/deepseek-chat
-```
-
----
-
-## 🔧 Subagent Management
-
-**List active workers:**
-```bash
-/subagents
-```
-
-**Stop a subagent:**
-```bash
-/subagents stop <session-id>
-```
-
-**Check subagent logs:**
-```bash
-/subagents log <session-id>
-```
-
-**Send message to running subagent:**
-```bash
-/subagents send <session-id> "Additional context or instruction"
-```
-
----
-
-## 💰 Cost Optimization Rules
-
-1. **Scope tasks tightly** — fewer iterations = fewer tokens
-2. **Monitor actively** — kill unused subagents with `/subagents`
-3. **Batch similar work** — spawn overhead exists for tiny tasks
-4. **Use cheapest model that works** — DeepSeek for most things, Grok 2 only when personality matters
-5. **Parallelize independent work** — don't wait sequentially for tasks that can run together
-
----
-
-## 🚀 Parallelization Patterns
-
-### Pattern: Content Generation Batch
-```bash
-# All run simultaneously
-/spawn task="Write blog post intro for LowkeyMode" model=openrouter/x-ai/grok-2-1212
-/spawn task="Write 3 tweet variants about our launch" model=openrouter/x-ai/grok-2-1212
-/spawn task="Draft welcome email for new users" model=openrouter/x-ai/grok-2-1212
-```
-
-### Pattern: Development Workflow
-```bash
-# All run in parallel
-/spawn task="Review authentication code for security issues" model=openrouter/deepseek/deepseek-chat
-/spawn task="Write unit tests for user registration flow" model=openrouter/deepseek/deepseek-chat
-/spawn task="Document API endpoints for mobile team" model=openrouter/deepseek/deepseek-chat
-```
-
-### Pattern: Research Fan-Out
-```bash
-# 5 independent research streams
-/spawn task="Research iOS meditation app best practices" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research privacy-first referral systems" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research Telegram bot integration patterns" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research subscription pricing psychology" model=openrouter/deepseek/deepseek-chat
-/spawn task="Research community engagement tactics" model=openrouter/deepseek/deepseek-chat
-```
-
----
-
-## 📊 Model Comparison Quick Ref
-
-| Model | Cost (in/out) | Best For | Speed | Notes |
-|-------|---------------|----------|-------|-------|
-| Claude Sonnet | $3/$15 | Main coordination | Fast | Your primary model |
-| DeepSeek | $0.14/$0.28 | Coding, research | Fast | Default subagent |
-| Grok 2 | $2/$10 | Creative, personality | Fast | Use sparingly |
-| Groq Llama | Paid tier | Fast summaries | Very Fast | You're paying anyway |
-
----
-
-**Remember:** Main session (MiniMax-M2.5) coordinates. Subagents (MiniMax-M2.1 default) do the heavy lifting. Override model for specific needs.
-
-### Active Model Stack (Feb 17, 2026)
-
-| Tier | Models | Use Case |
-|------|--------|----------|
-| **Main** | MiniMax-M2, Kimi K2.5, Claude Sonnet | Coordination, complex decisions |
-| **Subagent Default** | Claude Haiku | Assessments, quick tasks |
-| **Long Context** | MiniMax-M1, GLM-4 | Codebase analysis, research |
-| **Code** | MiniMax-M2, Claude Sonnet | Generation, debugging |
-| **Fast/Cheap** | Phi-4, Haiku | Data processing, simple tasks |
-| **Creative** | Grok 2 | Marketing, copywriting |
-| **Uncensored** | Pony Alpha | Raw output, unrestricted |
-| **AWS/Amazon** | Amazon Spark (Nova) | AWS ecosystem, Bedrock integration |
-
-### Quick Model Selection (NEW)
-
-| Task | First Choice | Backup | Avoid |
-|------|--------------|--------|-------|
-| File assessment | Haiku | Sonnet | DeepSeek |
-| Code generation | MiniMax-M2 | Sonnet | DeepSeek |
-| Long context (100K+) | MiniMax-M1 | GLM-4 | Groq |
-| Quick/cheap tasks | Phi-4 | Haiku | Ollama |
-| Research | GLM-4 | MiniMax-M1 | DeepSeek |
-| Creative copy | Grok 2 | Sonnet | — |
-| Uncensored/raw | Pony Alpha | — | — |
-| AWS/Bedrock | Amazon Spark (Nova) | — | — |
-
-### Extended Model Portfolio (Recommended to Add)
-
-| Model | Provider | Cost (in/out) | Best For | Priority |
-|-------|----------|---------------|----------|----------|
-| **MiniMax-M2** | OpenRouter | ~$0.50/$2.00 | SWE-Bench leader, complex code | ✅ Added |
-| **MiniMax-M1** | OpenRouter | $0.42/$1.93 | 1M context, agents, coding | 🔥 ADD NOW |
-| **GLM-4** (Zhipu) | OpenRouter | ~$1/$2 | 128K context, bilingual research | 🔥 ADD NOW |
-| **Amazon Nova Pro** | OpenRouter | $0.80/$3.20 | Multimodal, fast inference, creative | ✅ ACTIVE |
-| **Pony Alpha** | OpenRouter | FREE | Uncensored creative, coding, roleplay | ✅ ACTIVE |
-| **Qwen2.5-72B** | OpenRouter | $0.30/$0.60 | Coding, math, multilingual | Medium |
-| **Pony Alpha** | OpenRouter | TBD | Uncensored, raw output | Medium |
-| **Kimi K2.5** | OpenRouter | TBD | 2M context (current main) | ✅ Already using |
-| **Mistral Large 2** | OpenRouter | $2/$6 | European, compliance, reasoning | Low |
-| **Command R+** | Cohere | $3/$15 | 128K, RAG, document search | Low |
-| **Llama 3.3 70B** | OpenRouter | ~$0.20/$0.40 | Meta model, good balance | Consider |
-
-### Model Categories
-
-**High Context (100K+ tokens):**
-- MiniMax-M1 (1M) — Best for codebase ingestion
-- GLM-4 (128K) — Research, bilingual
-- Kimi K2.5 (2M) — Massive context
-- Command R+ (128K) — RAG-optimized
-
-**Code Specialists:**
-- Claude 3.5 Sonnet — Most reliable
-- MiniMax-M2 — SWE-Bench leader
-- Qwen2.5-72B — Cheap, good
-- o1/o3-mini — Reasoning (if needed)
-
-**Fast & Cheap:**
-- Phi-4 ($0.07/$0.14) — Quick tasks
-- Haiku ($1/$5) — Default subagent
-- Llama 3.3 70B — Balanced
-
-**Specialized:**
-- Grok 2 — Personality/creative
-- Pony Alpha — Uncensored/raw
-- Amazon Nova (Spark) — AWS/Bedrock, fast
-- Gemini Pro — Video analysis
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+Updated: Feb 20, 2026

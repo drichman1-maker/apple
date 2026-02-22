@@ -40,6 +40,47 @@ This is our competitive advantage against Big Tech aggregators.
 
 ---
 
+## Strategic Reflection (Feb 20, 2026)
+
+**Strategizing + taking account works.** Past few days showed clear improvements when we:
+- List priorities explicitly (even short lists > long schedules)
+- Reflect on what worked/didn't before charging ahead
+- User handles parallel work (antigravity) while I focus on core tasks
+- Verify before declaring victory (URL testing, DNS checks)
+
+**Communication improvements:**
+- Shorter responses = better
+- Action > explanation for small fixes
+- Ask only for irreversible/big decisions
+- Silent work is good work — update on completion or blocker only
+
+**Verification discipline:**
+- Test one URL before adding 33 products
+- Check DNS propagation before assuming it's live
+- Confirm site renders correctly before moving to next task
+
+---
+
+## 3-Backend Resilience Doctrine (Feb 20, 2026)
+
+**Core Philosophy:** Zero single point of failure. Privacy through distribution.
+
+**The Stack:**
+- **Render** (Primary): mactrackr-api.onrender.com — 38+ products, active
+- **Railway** (Secondary): price-aggregator-api-production.up.railway.app — warm standby
+- **Fly.io** (Emergency): mactrackr-api-backup.fly.dev — edge-deployed backup
+
+**Privacy Win:** No single provider controls all data. User requests distributed across independent infrastructure. No correlation possible.
+
+**Cost:** $0 (all free tiers)
+**Uptime:** 99.99% theoretical (3 nines)
+
+**Monitoring:** Self-hosted Uptime Kuma (no third-party services). Telegram alerts only.
+
+**Next Review:** Tuesday, Feb 25, 2026 @ 4 PM
+
+---
+
 ## Henry's Best Practices (Don't Repeat Mistakes)
 
 ### Content Creation → Deployment Pipeline
@@ -126,9 +167,22 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 
 **This workflow is more effective and efficient.**
 
-## Session Management
+## Session Management (Feb 20, 2026)
 
-**Reset Reminder:** When token count gets high (~150K+ in context), remind Doug to `/reset` the session. Keeps costs down and context fresh.
+**Reset Reminder:** When token count gets high (~150K+ in context OR 250+ messages), remind Doug to `/reset` the session. Keeps costs down and context fresh.
+
+**Pre-Reset Protocol:**
+1. Summarize what was accomplished this session
+2. List pending tasks with priority order
+3. Note any blockers or decisions made
+4. Update MEMORY.md with key learnings
+5. Provide 3-5 bullet context summary for next session
+
+**This prevents:**
+- Next session going on tangents
+- Reverting to outdated approaches
+- Losing momentum on critical tasks
+- Re-explaining context repeatedly
 
 ---
 

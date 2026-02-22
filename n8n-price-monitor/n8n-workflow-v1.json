@@ -1,0 +1,146 @@
+{
+  "name": "MacTrackr Price Monitor v1.0",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://price-aggregator-api-production.up.railway.app/api/products",
+        "options": {}
+      },
+      "name": "Get Products",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// 25 products to monitor (core + popular)\nconst products = $('Get Products').all()[0].json;\n\nconst monitoredProducts = [\n  // iPhones\n  'iphone-16-128-unlocked',\n  'iphone-16-256-unlocked',\n  'iphone-16-pro-128',\n  'iphone-16-pro-256',\n  'iphone-16-pro-max-256',\n  'iphone-16-pro-max-512',\n  'iphone-15-128',\n  'iphone-15-pro-128',\n  \n  // MacBooks\n  'macbook-air-13-m4-16gb',\n  'macbook-air-13-m4-24gb',\n  'macbook-air-15-m4-16gb',\n  'macbook-air-15-m4-24gb',\n  'macbook-pro-14-m4-pro-24gb',\n  'macbook-pro-16-m4-pro-36gb',\n  'macbook-pro-14-m4-max',\n  \n  // iPads\n  'ipad-pro-11-m4-256',\n  'ipad-pro-13-m4-256',\n  'ipad-pro-11-m4-512',\n  'ipad-air-11-m3-128',\n  'ipad-air-11-m3-256',\n  'ipad-air-13-m3-256',\n  \n  // Accessories\n  'airpods-pro-2',\n  'airpods-4',\n  'airpods-max',\n  'apple-watch-series-10-46mm',\n  'apple-watch-ultra-2'\n];\n\nconst alerts = [];\nconst priceUpdates = [];\n\nfor (const product of products) {\n  if (monitoredProducts.includes(product.id)) {\n    const bestPrice = Math.min(...product.prices.map(p => p.price));\n    const prevPrice = $getWorkflowStaticData('node-Get Products')[product.id];\n    \n    // Store price history\n    priceUpdates.push({\n      id: product.id,\n      name: product.name,\n      price: bestPrice,\n      prevPrice: prevPrice || null\n    });\n    \n    // Check for 5% price drop\n    if (prevPrice && bestPrice < prevPrice * 0.95) {\n      alerts.push({\n        id: product.id,\n        name: product.name,\n        category: product.category || 'Apple',\n        oldPrice: prevPrice,\n        newPrice: bestPrice,\n        drop: ((prevPrice - bestPrice) / prevPrice * 100).toFixed(1),\n        savings: prevPrice - bestPrice\n      });\n    }\n    \n    // Store current price\n    $getWorkflowStaticData('node-Get Products')[product.id] = bestPrice;\n  }\n}\n\nreturn alerts.length > 0 ? [{json: {alerts, priceUpdates, alertCount: alerts.length}}] : [{json: {alerts: [], priceUpdates, alertCount: 0}}];"
+      },
+      "name": "Check Price Drops",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c8b52c65-5c0e-417b-bb59-94a670e0f2ad",
+              "leftValue": "={{ $json.alertCount }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ]
+        }
+      },
+      "name": "Has Alerts?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [800, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "461595428",
+        "text": "=🚨 MacTrackr Price Drop Alert\n\n{{$json.alerts.map(a => `📱 ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (-${{a.drop}}%)`).join('\n')}}\n\n💰 Total potential savings: ${{ $json.alerts.reduce((sum, a) => sum + a.savings, 0) }}\n\n👉 Check mactrackr.com",
+        "options": {}
+      },
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1000, 200]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@mactrackr.com",
+        "toEmail": "doug@codemodeapps.com",
+        "subject": "=🚨 MacTrackr: {{$json.alertCount}} Price Drop{{$json.alertCount > 1 ? 's' : ''}} Detected",
+        "text": "=Hi Doug,\n\nWe detected {{$json.alertCount}} price drop{{$json.alertCount > 1 ? 's' : ''}} on MacTrackr:\n\n{{$json.alerts.map(a => `• ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (Save $${{a.savings}})`).join('\n')}}\n\nTotal savings opportunity: ${{ $json.alerts.reduce((sum, a) => sum + a.savings, 0) }}\n\nView all deals: https://mactrackr.com\n\n—\nMacTrackr Price Alerts\nUnsubscribe: https://mactrackr.com/unsubscribe",
+        "options": {}
+      },
+      "name": "Send Email Alert (Resend)",
+      "type": "n8n-nodes-base.resend",
+      "typeVersion": 1,
+      "position": [1000, 400]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Products": {
+      "main": [
+        [
+          {
+            "node": "Check Price Drops",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Price Drops": {
+      "main": [
+        [
+          {
+            "node": "Has Alerts?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Alerts?": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email Alert (Resend)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  }
+}

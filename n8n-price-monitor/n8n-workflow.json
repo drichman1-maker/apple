@@ -1,0 +1,105 @@
+{
+  "name": "MacTrackr Price Monitor v0.1",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [200, 400]
+    },
+    {
+      "parameters": {
+        "url": "https://price-aggregator-api-production.up.railway.app/api/products",
+        "options": {}
+      },
+      "name": "Get Products",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [400, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check 10 core products only\nconst products = $('Get Products').all()[0].json;\nconst coreProducts = [\n  'iphone-16-128-unlocked',\n  'iphone-16-pro-max-256',\n  'macbook-air-13-m4-24gb',\n  'macbook-air-15-m4-24gb',\n  'macbook-pro-14-m4-pro',\n  'macbook-pro-16-m4-pro',\n  'ipad-pro-13-m4-256',\n  'ipad-pro-11-m4-256',\n  'ipad-air-11-m3-256',\n  'airpods-pro-2'\n];\n\nconst alerts = [];\nfor (const product of products) {\n  if (coreProducts.includes(product.id)) {\n    const bestPrice = Math.min(...product.prices.map(p => p.price));\n    const prevPrice = $getWorkflowStaticData('node-Get Products')[product.id];\n    \n    if (prevPrice && bestPrice < prevPrice * 0.95) {\n      // 5% price drop\n      alerts.push({\n        id: product.id,\n        name: product.name,\n        oldPrice: prevPrice,\n        newPrice: bestPrice,\n        drop: ((prevPrice - bestPrice) / prevPrice * 100).toFixed(1)\n      });\n    }\n    \n    // Store current price\n    $getWorkflowStaticData('node-Get Products')[product.id] = bestPrice;\n  }\n}\n\nreturn alerts.length > 0 ? [{json: {alerts}}] : [];"
+      },
+      "name": "Check Price Drops",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 400]
+    },
+    {
+      "parameters": {
+        "chatId": "461595428",
+        "text": "=🚨 PRICE DROP ALERT 🚨\n\n{{$json.alerts.map(a => `• ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (${{a.drop}}% drop)`).join('\n')}}\n\nCheck mactrackr.com for details",
+        "options": {}
+      },
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [800, 400]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Products": {
+      "main": [
+        [
+          {
+            "node": "Check Price Drops",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Price Drops": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": false,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": {
+    "node:Get Products": {
+      "iphone-16-128-unlocked": 799,
+      "iphone-16-pro-max-256": 1199,
+      "macbook-air-13-m4-24gb": 1199,
+      "macbook-air-15-m4-24gb": 1399,
+      "macbook-pro-14-m4-pro": 1999,
+      "macbook-pro-16-m4-pro": 2499,
+      "ipad-pro-13-m4-256": 1299,
+      "ipad-pro-11-m4-256": 999,
+      "ipad-air-11-m3-256": 599,
+      "airpods-pro-2": 249
+    }
+  }
+}
