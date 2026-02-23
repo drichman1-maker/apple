@@ -112,13 +112,13 @@ const ProductCatalog = () => {
           <div className="flex items-center gap-3">
             <Link 
               to="/home" 
-              className="px-4 py-2 text-sm font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors"
+              className="hidden lg:flex px-4 py-2 text-sm font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors"
             >
               Home
             </Link>
             <Link 
               to="/blog" 
-              className="px-4 py-2 text-sm font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors"
+              className="hidden lg:flex px-4 py-2 text-sm font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors"
             >
               Blog
             </Link>
