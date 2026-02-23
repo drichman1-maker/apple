@@ -55,7 +55,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Completely hidden on mobile/tablet */}
           <div className="hidden lg:flex items-center space-x-1">
             {navigation.map((item) => (
               <Link
@@ -72,20 +72,23 @@ const Navbar = () => {
             ))}
           </div>
 
+          {/* Mobile-only: Empty spacer to balance layout */}
+          <div className="flex-1 lg:hidden" />
+
           {/* Right side */}
           <div className="flex items-center space-x-1 sm:space-x-2">
-            {/* Blog - Desktop only */}
+            {/* Blog - Desktop only (large screens 1024px+) */}
             <Link
               to="/blog"
-              className="hidden lg:inline-flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
+              className="hidden lg:flex items-center px-4 py-2 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium text-sm hover:bg-[#262626] transition-all"
             >
               Blog
             </Link>
             
-            {/* Price Alerts - Desktop only */}
+            {/* Price Alerts - Desktop only (large screens 1024px+) */}
             <Link
               to="/alerts"
-              className="hidden lg:inline-flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all whitespace-nowrap"
+              className="hidden lg:flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all whitespace-nowrap"
             >
               <Sparkles className="h-4 w-4 mr-2 flex-shrink-0" />
               <span>Alerts</span>
