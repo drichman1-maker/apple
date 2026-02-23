@@ -47,8 +47,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2 group">
+          <div className="flex items-center z-[101]">
+            <Link to="/" className="flex items-center space-x-2 group pointer-events-auto">
               <div className="w-10 h-10 bg-gradient-to-br from-apple-blue to-purple-500 rounded-xl flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-shadow">
                 <Apple className="h-6 w-6 text-white" />
               </div>
@@ -167,10 +167,10 @@ const Navbar = () => {
             */}
 
             {/* Mobile Menu Button */}
-            <div className="lg:hidden">
+            <div className="lg:hidden z-[101]">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
+                className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200 pointer-events-auto"
                 aria-label="Toggle menu"
               >
                 {isOpen ? (
