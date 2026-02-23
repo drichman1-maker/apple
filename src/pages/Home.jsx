@@ -84,7 +84,7 @@ const Home = () => {
 
           {/* Right Side */}
           <div className="flex items-center gap-3">
-            <Link to="/blog" className="px-4 py-2 text-sm font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors">
+            <Link to="/blog" className="hidden lg:flex px-4 py-2 text-sm font-medium text-[#a3a3a3] hover:text-[#fafafa] transition-colors">
               Blog
             </Link>
             <Link 
