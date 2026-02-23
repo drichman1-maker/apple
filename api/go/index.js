@@ -7,12 +7,12 @@ const products = [
     id: 'iphone-16-128gb',
     name: 'iPhone 16 128GB',
     retailerSkus: {
-      amazon: 'B0DHTYW7P5',
+      amazon: 'B0DHTYV9M3',
       bestbuy: '6616543',
       apple: 'MTX73LL/A'
     },
     canonicalUrls: {
-      amazon: 'https://www.amazon.com/dp/B0DHTYW7P5',
+      amazon: 'https://www.amazon.com/dp/B0DHTYV9M3',
       bestbuy: 'https://www.bestbuy.com/site/iphone-16/6616543.p',
       apple: 'https://apple.com/iphone-16'
     }
