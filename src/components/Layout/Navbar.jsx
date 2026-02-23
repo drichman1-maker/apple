@@ -5,6 +5,7 @@ import { useTheme } from '../../contexts/ThemeContext'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
 
 const Navbar = () => {
+  // Mobile hamburger menu fix - force rebuild
   const [isOpen, setIsOpen] = useState(false)
   const [conditionDropdownOpen, setConditionDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
