@@ -39,20 +39,22 @@ export function getRedirectUrl(product, retailer) {
 }
 
 // Build /go/ path
+// Formula: /go/{productId}/{retailer} → affiliate_link = template + encode(canonical_url)
 export function buildGoPath(productId, retailer) {
   return `/go/${productId}/${retailer.toLowerCase()}`
 }
 
 // Handle redirect (for use in click handlers or API routes)
+// Uses /go/{productId}/{retailer} endpoint which:
+// 1. Tracks the click
+// 2. Generates affiliate_link = template + encode(canonical_url)
+// 3. Redirects to affiliate URL
 export function handleRedirect(productId, retailer, productData) {
-  // Track the click
-  trackClick(productId, retailer)
+  // Build /go/ path
+  const goPath = buildGoPath(productId, retailer)
   
-  // Get redirect URL
-  const redirectUrl = getRedirectUrl(productData, retailer)
-  
-  // Perform redirect
-  window.open(redirectUrl, '_blank')
+  // Navigate to /go/ endpoint (opens in new tab)
+  window.open(goPath, '_blank')
 }
 
 // Get all available retailers for a product
