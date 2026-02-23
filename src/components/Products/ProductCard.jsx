@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { getProductImage } from '../../utils/productImages'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
 import { getAffiliateUrl } from '../../config/affiliate'
+import { buildGoPath, handleRedirect } from '../../utils/redirect'
 
 const ProductCard = ({ product }) => {
   const { isNew, isRefurbished } = useProductCondition()
@@ -209,19 +210,17 @@ const ProductCard = ({ product }) => {
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
         <div className="flex flex-col gap-2">
           {prices.slice(0, 3).map(({ retailer, price, url }) => (
-            <a
+            <button
               key={retailer}
-              href={url || getAffiliateUrl(retailer, product.name, product.sku)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors"
+              onClick={() => handleRedirect(product.id, retailer, product)}
+              className="flex items-center justify-between w-full px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors text-left"
             >
               <span className="text-gray-300 text-sm font-medium">{getRetailerDisplayName(retailer)}</span>
               <div className="flex items-center gap-2">
                 <span className="text-green-400 font-semibold">${price.toLocaleString()}</span>
                 <span className="hi-pill-gray text-xs">Visit</span>
               </div>
-            </a>
+            </button>
           ))}
           {prices.length > 3 && (
             <Link
