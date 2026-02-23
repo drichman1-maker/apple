@@ -94,11 +94,6 @@ const Home = () => {
               <Bell className="w-4 h-4" />
               Price Alerts
             </Link>
-            <button className="flex items-center gap-2 px-4 py-2 bg-[#141414] border border-[#262626] text-[#fafafa] text-sm font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-              <span>📦</span>
-              New
-              <span>▼</span>
-            </button>
           </div>
         </div>
       </header>
