@@ -46,8 +46,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo - Simplified for mobile */}
-          <div className="flex items-center flex-shrink-0 min-w-0">
-            <Link to="/" className="flex items-center space-x-2 group">
+          <div className="flex items-center flex-shrink-0 min-w-0 z-[101]">
+            <Link to="/" className="flex items-center space-x-2 group pointer-events-auto">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-apple-blue to-purple-500 rounded-xl flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-shadow flex-shrink-0">
                 <Apple className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
@@ -71,9 +71,6 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-
-          {/* Mobile-only: Empty spacer to balance layout */}
-          <div className="flex-1 lg:hidden" />
 
           {/* Right side */}
           <div className="flex items-center space-x-1 sm:space-x-2">
@@ -155,10 +152,10 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Menu Button - Larger touch target */}
-            <div className="lg:hidden">
+            <div className="lg:hidden z-[101]">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-center w-11 h-11 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200"
+                className="flex items-center justify-center w-11 h-11 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors duration-200 pointer-events-auto"
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isOpen}
               >
