@@ -13,7 +13,7 @@ export default function PriceAlertSignup({ product, onClose }) {
 
   // COMING SOON: Per-product alerts not yet implemented
   // TODO: Build backend endpoint /api/alerts/subscribe
-  // Current: Store interest locally for future migration
+  // Privacy-first: No local storage. Third-party email service only.
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -25,19 +25,9 @@ export default function PriceAlertSignup({ product, onClose }) {
     // Simulate API call delay
     setTimeout(() => {
       setStatus('coming-soon');
-      setMessage(`We'll notify you when price alerts for ${product.name} are live!`);
+      setMessage(`Price alerts for ${product.name} launching soon!`);
       setIsLoading(false);
-      
-      // Store in localStorage for future use
-      const alerts = JSON.parse(localStorage.getItem('mactrackr_alert_interest') || '[]');
-      alerts.push({
-        email: email.trim(),
-        productId: product.id,
-        productName: product.name,
-        targetPrice: targetPrice ? parseFloat(targetPrice) : null,
-        date: new Date().toISOString()
-      });
-      localStorage.setItem('mactrackr_alert_interest', JSON.stringify(alerts));
+      // Note: Email NOT stored locally. Third-party service will handle this.
     }, 1000);
   };
 

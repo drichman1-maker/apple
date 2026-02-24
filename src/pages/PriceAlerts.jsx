@@ -12,8 +12,8 @@ const PriceAlerts = () => {
   const [message, setMessage] = useState('')
 
   // COMING SOON: Backend endpoints not yet implemented
-  // TODO: Integrate third-party service (Mailchimp/ConvertKit) or build custom backend
-  // Current: Store email locally for future migration
+  // TODO: Integrate third-party service (Mailchimp/ConvertKit/ConvertKit)
+  // Privacy-first: No local storage of emails. Third-party only.
   const handleSubscribe = async (e) => {
     e.preventDefault()
     if (!email) return
@@ -24,14 +24,9 @@ const PriceAlerts = () => {
     // Simulate API call delay, then show coming soon
     setTimeout(() => {
       setStatus('coming-soon')
-      setMessage('Price alerts are coming soon! We\'ll notify you when they\'re live.')
+      setMessage('Price alerts launching soon! Join our waitlist for early access.')
       setIsLoading(false)
-      // Store email in localStorage for future use
-      const emails = JSON.parse(localStorage.getItem('mactrackr_waitlist') || '[]')
-      if (!emails.includes(email.trim())) {
-        emails.push({ email: email.trim(), date: new Date().toISOString() })
-        localStorage.setItem('mactrackr_waitlist', JSON.stringify(emails))
-      }
+      // Note: Email NOT stored locally. Will use third-party service (Mailchimp/ConvertKit).
     }, 1000)
   }
 
