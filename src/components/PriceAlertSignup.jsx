@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bell, Mail, Shield, X, Check, Loader2 } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://mactrackr-api.onrender.com';
+const API_BASE_URL = 'https://mactrackr-backend-fresh.fly.dev';
 
 export default function PriceAlertSignup({ product, onClose }) {
   const [email, setEmail] = useState('');

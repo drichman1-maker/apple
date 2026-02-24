@@ -18,7 +18,7 @@ const ProductDetail = () => {
   const fetchProductData = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`https://mactrackr-api-backup.fly.dev/api/products/${id}`)
+      const response = await fetch(`https://mactrackr-backend-fresh.fly.dev/api/products/${id}`)
       if (response.ok) {
         const data = await response.json()
         setProduct(data)

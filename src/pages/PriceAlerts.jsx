@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { Bell, Mail, ArrowLeft, Check, Shield, ArrowRight, Loader2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://mactrackr-api.onrender.com';
+const API_BASE_URL = 'https://mactrackr-backend-fresh.fly.dev';
 
 const PriceAlerts = () => {
   const [email, setEmail] = useState('')

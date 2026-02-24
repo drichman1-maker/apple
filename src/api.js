@@ -1,7 +1,7 @@
 // api.js
 import axios from 'axios';
 
-const API_URL = 'https://mactrackr-api-backup.fly.dev';
+const API_URL = 'https://mactrackr-backend-fresh.fly.dev';
 
 // Create axios instance with default config
 const api = axios.create({

@@ -12,7 +12,7 @@ const Home = () => {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await fetch('https://mactrackr-api-backup.fly.dev/api/products')
+      const response = await fetch('https://mactrackr-backend-fresh.fly.dev/api/products')
       if (response.ok) {
         const data = await response.json()
         const products = Array.isArray(data) ? data : (data.products || [])
@@ -26,10 +26,17 @@ const Home = () => {
   }
 
   const getBestPrice = (product) => {
-    if (!product?.prices || !Array.isArray(product.prices)) return null
-    const prices = product.prices.filter(p => p.inStock)
-    if (prices.length === 0) return null
-    return prices.reduce((min, p) => p.price < min.price ? p : min, prices[0])
+    if (!product?.prices) return null
+    // Handle both array and object formats from backend
+    const pricesArray = Array.isArray(product.prices) 
+      ? product.prices 
+      : Object.entries(product.prices)
+          .filter(([_, data]) => data && typeof data === 'object')
+          .map(([retailer, data]) => ({ retailer, ...data }))
+    
+    const inStockPrices = pricesArray.filter(p => p.inStock && p.price)
+    if (inStockPrices.length === 0) return null
+    return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
   }
 
   const formatPrice = (price) => {

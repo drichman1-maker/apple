@@ -20,7 +20,7 @@ const ProductCatalog = () => {
     const fetchProducts = async () => {
       setLoading(true)
       try {
-        const url = 'https://mactrackr-api-backup.fly.dev/api/products'
+        const url = 'https://mactrackr-backend-fresh.fly.dev/api/products'
         const response = await fetch(url)
         if (response.ok) {
           const data = await response.json()
@@ -36,15 +36,31 @@ const ProductCatalog = () => {
   }, [])
 
   const getBestPrice = (product) => {
-    if (!product?.prices || !Array.isArray(product.prices)) return null
-    const prices = product.prices.filter(p => p.inStock)
-    if (prices.length === 0) return null
-    return prices.reduce((min, p) => p.price < min.price ? p : min, prices[0])
+    if (!product?.prices) return null
+    // Handle both array and object formats from backend
+    const pricesArray = Array.isArray(product.prices) 
+      ? product.prices 
+      : Object.entries(product.prices)
+          .filter(([_, data]) => data && typeof data === 'object')
+          .map(([retailer, data]) => ({ retailer, ...data }))
+    
+    const inStockPrices = pricesArray.filter(p => p.inStock && p.price)
+    if (inStockPrices.length === 0) return null
+    return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
   }
 
   const getWorstPrice = (product) => {
-    if (!product?.prices || !Array.isArray(product.prices)) return null
-    return product.prices.reduce((max, p) => p.price > max.price ? p : max, product.prices[0])
+    if (!product?.prices) return null
+    // Handle both array and object formats from backend
+    const pricesArray = Array.isArray(product.prices) 
+      ? product.prices 
+      : Object.entries(product.prices)
+          .filter(([_, data]) => data && typeof data === 'object')
+          .map(([retailer, data]) => ({ retailer, ...data }))
+    
+    const pricedProducts = pricesArray.filter(p => p.price)
+    if (pricedProducts.length === 0) return null
+    return pricedProducts.reduce((max, p) => p.price > max.price ? p : max, pricedProducts[0])
   }
 
   const filteredProducts = useMemo(() => {
@@ -52,28 +68,38 @@ const ProductCatalog = () => {
       i === self.findIndex(t => t.id === p.id)
     )
     
-    if (activeFilter === 'All') return unique
+    // Filter by condition (new/refurbished)
+    let conditionFiltered = unique
+    if (condition === 'refurbished') {
+      // Only show products explicitly marked as refurbished
+      conditionFiltered = unique.filter(p => p.condition === 'refurbished')
+    } else {
+      // 'new' shows products where condition is NOT 'refurbished' (includes undefined)
+      conditionFiltered = unique.filter(p => !p.condition || p.condition !== 'refurbished')
+    }
+    
+    if (activeFilter === 'All') return conditionFiltered
     
     // Handle MacBook vs Mac separation (case-insensitive)
     if (activeFilter.toLowerCase() === 'macbook') {
-      return unique.filter(p => 
+      return conditionFiltered.filter(p => 
         p.category?.toLowerCase() === 'mac' && 
         (p.name?.toLowerCase().includes('macbook') || p.name?.toLowerCase().includes('mac book'))
       )
     }
     
     if (activeFilter.toLowerCase() === 'mac') {
-      return unique.filter(p => 
+      return conditionFiltered.filter(p => 
         p.category?.toLowerCase() === 'mac' && 
         !p.name?.toLowerCase().includes('macbook') && 
         !p.name?.toLowerCase().includes('mac book')
       )
     }
     
-    return unique.filter(p => 
+    return conditionFiltered.filter(p => 
       p.category?.toLowerCase() === activeFilter.toLowerCase()
     )
-  }, [products, activeFilter])
+  }, [products, activeFilter, condition])
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
@@ -171,7 +197,10 @@ const ProductCatalog = () => {
 
         {/* Condition Toggle & Results Count */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-[#a3a3a3] text-sm">Showing {filteredProducts.length} products</p>
+          <p className="text-[#a3a3a3] text-sm">
+            Showing {filteredProducts.length} {condition} products
+            {activeFilter !== 'All' && ` in ${activeFilter}`}
+          </p>
           
           {/* New/Refurbished Toggle */}
           <div className="flex items-center gap-2 bg-[#141414] border border-[#262626] rounded-full p-1">
@@ -269,40 +298,59 @@ const ProductCatalog = () => {
                 <div className="border-t border-[#262626] pt-4">
                   <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-3">Buy From</p>
                   <div className="space-y-2">
-                    {[...product.prices]
-                      .sort((a, b) => a.price - b.price)
-                      .slice(0, 3)
-                      .map((price, i) => (
-                        <div
-                          key={i}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.open(price.url, '_blank', 'noopener,noreferrer');
-                          }}
-                          className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded-xl hover:bg-[#1a1a1a] transition-colors cursor-pointer"
-                        >
-                          <span className="text-[#fafafa] font-medium capitalize">{price.retailer}</span>
-                          <div className="flex items-center gap-3">
-                            <span className={`font-bold ${price.price === bestPrice?.price ? 'text-[#10b981]' : 'text-[#fafafa]'}`}>
-                              {formatPrice(price.price)}
-                            </span>
-                            <span className="px-3 py-1.5 text-sm bg-[#262626] text-[#a3a3a3] rounded-lg hover:bg-[#333] transition-colors">
-                              Visit
-                            </span>
+                    {(() => {
+                      // Convert prices to array format
+                      const pricesArray = Array.isArray(product.prices)
+                        ? product.prices
+                        : Object.entries(product.prices)
+                            .filter(([_, data]) => data && typeof data === 'object')
+                            .map(([retailer, data]) => ({ retailer, ...data }))
+                      
+                      return pricesArray
+                        .filter(p => p.price)
+                        .sort((a, b) => a.price - b.price)
+                        .slice(0, 3)
+                        .map((price, i) => (
+                          <div
+                            key={i}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              window.open(price.url || '#', '_blank', 'noopener,noreferrer');
+                            }}
+                            className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded-xl hover:bg-[#1a1a1a] transition-colors cursor-pointer"
+                          >
+                            <span className="text-[#fafafa] font-medium capitalize">{price.retailer}</span>
+                            <div className="flex items-center gap-3">
+                              <span className={`font-bold ${price.price === bestPrice?.price ? 'text-[#10b981]' : 'text-[#fafafa]'}`}>
+                                {formatPrice(price.price)}
+                              </span>
+                              <span className="px-3 py-1.5 text-sm bg-[#262626] text-[#a3a3a3] rounded-lg hover:bg-[#333] transition-colors">
+                                Visit
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                    })()}
                     
-                    {product.prices.length > 3 && (
-                      <div className="flex items-center justify-between p-3 text-[#a3a3a3]">
-                        <span>More retailers</span>
-                        <span className="flex items-center gap-1">
-                          +{product.prices.length - 3}
-                          <ChevronRight className="w-4 h-4" />
-                        </span>
-                      </div>
-                    )}
+                    {(() => {
+                      const pricesArray = Array.isArray(product.prices)
+                        ? product.prices
+                        : Object.entries(product.prices)
+                            .filter(([_, data]) => data && typeof data === 'object')
+                            .map(([retailer, data]) => ({ retailer, ...data }))
+                      const pricedProducts = pricesArray.filter(p => p.price)
+                      return pricedProducts.length > 3 ? (
+                        <div className="flex items-center justify-between p-3 text-[#a3a3a3]">
+                          <span>More retailers</span>
+                          <span className="flex items-center gap-1">
+                            +{pricedProducts.length - 3}
+                            <ChevronRight className="w-4 h-4" />
+                          </span>
+                        </div>
+                      ) : null
+                    })()
+                    }
                   </div>
                 </div>
               </Link>
