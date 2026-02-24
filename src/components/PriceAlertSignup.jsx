@@ -11,6 +11,9 @@ export default function PriceAlertSignup({ product, onClose }) {
   const [message, setMessage] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
+  // COMING SOON: Per-product alerts not yet implemented
+  // TODO: Build backend endpoint /api/alerts/subscribe
+  // Current: Store interest locally for future migration
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -19,36 +22,23 @@ export default function PriceAlertSignup({ product, onClose }) {
     setIsLoading(true);
     setStatus(null);
     
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/alerts/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim(),
-          productId: product.id,
-          productName: product.name,
-          targetPrice: targetPrice ? parseFloat(targetPrice) : null
-        })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        setStatus('success');
-        setMessage('Check your email to confirm your alert!');
-        setEmail('');
-        setTargetPrice('');
-        setAgreedToTerms(false);
-      } else {
-        setStatus('error');
-        setMessage(data.error || 'Something went wrong. Please try again.');
-      }
-    } catch (err) {
-      setStatus('error');
-      setMessage('Network error. Please try again.');
-    } finally {
+    // Simulate API call delay
+    setTimeout(() => {
+      setStatus('coming-soon');
+      setMessage(`We'll notify you when price alerts for ${product.name} are live!`);
       setIsLoading(false);
-    }
+      
+      // Store in localStorage for future use
+      const alerts = JSON.parse(localStorage.getItem('mactrackr_alert_interest') || '[]');
+      alerts.push({
+        email: email.trim(),
+        productId: product.id,
+        productName: product.name,
+        targetPrice: targetPrice ? parseFloat(targetPrice) : null,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('mactrackr_alert_interest', JSON.stringify(alerts));
+    }, 1000);
   };
 
   const prices = product.prices ? Object.values(product.prices) : [];
@@ -97,19 +87,21 @@ export default function PriceAlertSignup({ product, onClose }) {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {status === 'success' ? (
+          {status === 'success' || status === 'coming-soon' ? (
             <div className="text-center py-6">
-              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="text-green-500" size={32} />
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${status === 'coming-soon' ? 'bg-blue-500/20' : 'bg-green-500/20'}`}>
+                {status === 'coming-soon' ? <Bell className="text-blue-500" size={32} /> : <Check className="text-green-500" size={32} />}
               </div>
-              <h3 className="text-white text-lg font-semibold mb-2">You're all set!</h3>
+              <h3 className="text-white text-lg font-semibold mb-2">
+                {status === 'coming-soon' ? "Coming Soon!" : "You're all set!"}
+              </h3>
               <p className="text-zinc-400">{message}</p>
               <button
                 type="button"
                 onClick={onClose}
                 className="mt-6 px-6 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg transition-colors"
               >
-                Close
+                Got it
               </button>
             </div>
           ) : (

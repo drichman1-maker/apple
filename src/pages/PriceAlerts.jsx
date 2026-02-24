@@ -11,6 +11,9 @@ const PriceAlerts = () => {
   const [status, setStatus] = useState(null) // 'success' | 'error' | null
   const [message, setMessage] = useState('')
 
+  // COMING SOON: Backend endpoints not yet implemented
+  // TODO: Integrate third-party service (Mailchimp/ConvertKit) or build custom backend
+  // Current: Store email locally for future migration
   const handleSubscribe = async (e) => {
     e.preventDefault()
     if (!email) return
@@ -18,28 +21,18 @@ const PriceAlerts = () => {
     setIsLoading(true)
     setStatus(null)
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/newsletter/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim() })
-      })
-
-      if (response.ok) {
-        setStatus('success')
-        setMessage('You\'re subscribed! Check your email to confirm.')
-        setEmail('')
-      } else {
-        const data = await response.json()
-        setStatus('error')
-        setMessage(data.error || 'Something went wrong.')
-      }
-    } catch (err) {
-      setStatus('error')
-      setMessage('Network error. Please try again.')
-    } finally {
+    // Simulate API call delay, then show coming soon
+    setTimeout(() => {
+      setStatus('coming-soon')
+      setMessage('Price alerts are coming soon! We\'ll notify you when they\'re live.')
       setIsLoading(false)
-    }
+      // Store email in localStorage for future use
+      const emails = JSON.parse(localStorage.getItem('mactrackr_waitlist') || '[]')
+      if (!emails.includes(email.trim())) {
+        emails.push({ email: email.trim(), date: new Date().toISOString() })
+        localStorage.setItem('mactrackr_waitlist', JSON.stringify(emails))
+      }
+    }, 1000)
   }
 
   return (
@@ -89,12 +82,14 @@ const PriceAlerts = () => {
       {/* Signup Section */}
       <div className="max-w-md mx-auto px-4 pb-20">
         <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
-          {status === 'success' ? (
+          {status === 'success' || status === 'coming-soon' ? (
             <div className="text-center py-8">
-              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Check className="text-green-500" size={32} />
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${status === 'coming-soon' ? 'bg-blue-500/20' : 'bg-green-500/20'}`}>
+                {status === 'coming-soon' ? <Bell className="text-blue-500" size={32} /> : <Check className="text-green-500" size={32} />}
               </div>
-              <h2 className="text-xl font-bold text-white mb-2">You're Subscribed!</h2>
+              <h2 className="text-xl font-bold text-white mb-2">
+                {status === 'coming-soon' ? "Coming Soon!" : "You're Subscribed!"}
+              </h2>
               <p className="text-zinc-400">{message}</p>
               <Link 
                 to="/products" 
