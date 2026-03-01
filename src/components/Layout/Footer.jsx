@@ -54,9 +54,10 @@ const Footer = () => {
           <p className="text-gray-600 text-sm">
             © 2026 MacTrackr. Anonymous price tracking.
           </p>
-          <p className="text-gray-600 text-sm mt-2 sm:mt-0">
-            Not affiliated with Apple Inc.
-          </p>
+          <div className="flex items-center gap-4 mt-2 sm:mt-0">
+            <a href="https://x.com/mactrackrapp" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-white text-sm transition-colors">@mactrackrapp</a>
+            <p className="text-gray-600 text-sm">Not affiliated with Apple Inc.</p>
+          </div>
         </div>
       </div>
     </footer>

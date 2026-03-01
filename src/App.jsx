@@ -14,6 +14,10 @@ import BestMacBookVideoEditing from './pages/blog/Best-MacBook-Video-Editing-202
 import M4vsM3UpgradeGuide from './pages/blog/M4-vs-M3-Upgrade-Guide-2026.jsx'
 import RefurbishedMacMini from './pages/blog/Refurbished-Mac-Mini-Worth-Savings-2026.jsx'
 import WhenMacBooksOnSale from './pages/blog/When-MacBooks-Go-On-Sale-2026.jsx'
+import BestMacMusicProduction from './pages/blog/Best-Mac-Music-Production-2026.jsx'
+import BestMacMiniAccessories from './pages/blog/Best-Mac-Mini-Accessories-2026.jsx'
+import BestiPadDrawing from './pages/blog/Best-iPad-Drawing-2026.jsx'
+import iPhone17vs16Upgrade from './pages/blog/iPhone-17-vs-16-Upgrade-Guide-2026.jsx'
 
 function App() {
   return (
@@ -31,6 +35,10 @@ function App() {
           <Route path="/blog/M4-vs-M3-Upgrade-Guide-2026" element={<M4vsM3UpgradeGuide />} />
           <Route path="/blog/Refurbished-Mac-Mini-Worth-Savings-2026" element={<RefurbishedMacMini />} />
           <Route path="/blog/When-MacBooks-Go-On-Sale-2026" element={<WhenMacBooksOnSale />} />
+          <Route path="/blog/Best-Mac-Music-Production-2026" element={<BestMacMusicProduction />} />
+          <Route path="/blog/Best-Mac-Mini-Accessories-2026" element={<BestMacMiniAccessories />} />
+          <Route path="/blog/Best-iPad-Drawing-2026" element={<BestiPadDrawing />} />
+          <Route path="/blog/iPhone-17-vs-16-Upgrade-Guide-2026" element={<iPhone17vs16Upgrade />} />
           <Route path="/alerts" element={<PriceAlerts />} />
           <Route path="/privacy" element={<Privacy />} />
         </Routes>

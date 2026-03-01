@@ -31,6 +31,34 @@ const blogPosts = [
     excerpt: 'The complete calendar: Black Friday, Back to School, WWDC, and secret sale periods throughout the year.',
     date: '2026-02-17',
     category: 'Deals'
+  },
+  {
+    id: 'Best-Mac-Music-Production-2026',
+    title: 'Best Mac for Music Production 2026: Logic Pro Buyer\'s Guide',
+    excerpt: 'DAW performance, RAM recommendations, and which Mac delivers the best value for Logic Pro, Ableton Live, and Pro Tools users.',
+    date: '2026-02-19',
+    category: 'Buying Guide'
+  },
+  {
+    id: 'Best-Mac-Mini-Accessories-2026',
+    title: 'Best Accessories for Mac Mini 2026: Keyboard, Mouse & Monitor Guide',
+    excerpt: 'Complete setup guide: best keyboards, mice, monitors, and Thunderbolt docks for your Mac Mini M4 from budget to premium.',
+    date: '2026-02-24',
+    category: 'Buying Guide'
+  },
+  {
+    id: 'Best-iPad-Drawing-2026',
+    title: 'Best iPad for Drawing 2026: iPad Pro vs iPad Air vs Base iPad',
+    excerpt: 'Apple Pencil compatibility, display quality, ProMotion 120Hz, and which iPad is right for digital artists at every budget.',
+    date: '2026-03-03',
+    category: 'Buying Guide'
+  },
+  {
+    id: 'iPhone-17-vs-16-Upgrade-Guide-2026',
+    title: 'iPhone 17 vs iPhone 16: Should You Upgrade or Wait?',
+    excerpt: '120Hz ProMotion, 24MP front camera, A19 chip, and whether to buy the iPhone 17 or grab an iPhone 16 on sale.',
+    date: '2026-03-06',
+    category: 'Comparison'
   }
 ]
 

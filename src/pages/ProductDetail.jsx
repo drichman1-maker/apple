@@ -37,6 +37,42 @@ const ProductDetail = () => {
       : Object.entries(product.prices || {}).map(([retailer, data]) => ({ retailer, ...data }))
   }
 
+  // Add JSON-LD schema for SEO
+  useEffect(() => {
+    if (!product) return;
+    
+    const prices = getPrices(product);
+    const bestPrice = prices.length > 0 ? Math.min(...prices.map(p => p.price)) : null;
+    
+    const schema = {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": product.name || product.model,
+      "description": product.description || `${product.model} - Track the best prices.`,
+      "brand": {
+        "@type": "Brand",
+        "name": "Apple"
+      },
+      "image": product.image_url || product.image,
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": bestPrice || product.lowest_price || product.price || 0,
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock"
+      }
+    };
+    
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+    
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [product]);
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
