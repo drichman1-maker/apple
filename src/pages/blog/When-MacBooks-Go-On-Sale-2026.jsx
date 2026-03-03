@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const WhenMacBooksGoOnSale2026 = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>When Do MacBooks Go On Sale? 2026 Price History Guide</title>
+        <meta name="description" content="Track MacBook price history and find the best time to buy in 2026. Learn when Apple, Amazon, and Best Buy typically offer the biggest discounts on MacBook Pro and Air." />
+        <meta name="keywords" content="when do MacBooks go on sale, MacBook price history, best time to buy MacBook, MacBook deals 2026, Apple discount dates" />
+        <link rel="canonical" href="https://mactrackr.com/blog/When-MacBooks-Go-On-Sale-2026" />
+        <meta property="og:title" content="When Do MacBooks Go On Sale? 2026 Price History Guide" />
+        <meta property="og:description" content="Track MacBook price history and find the best time to buy in 2026." />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/when-macbooks-go-on-sale.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/when-macbooks-go-on-sale.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">

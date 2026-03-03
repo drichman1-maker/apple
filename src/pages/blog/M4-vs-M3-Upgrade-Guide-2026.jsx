@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const M4vsM3UpgradeGuide2026 = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>M4 vs M3 Mac - Upgrade Guide 2026 - Should You Switch?</title>
+        <meta name="description" content="Compare M4 vs M3 Apple Silicon in 2026. Should you upgrade from M3 to M4? Detailed performance benchmarks and real-world usage analysis for MacBook Pro and Mac mini." />
+        <meta name="keywords" content="M4 vs M3, Apple M4 vs M3, M4 MacBook Pro, M3 upgrade, Apple Silicon comparison 2026" />
+        <link rel="canonical" href="https://mactrackr.com/blog/M4-vs-M3-Upgrade-Guide-2026" />
+        <meta property="og:title" content="M4 vs M3 Mac - Upgrade Guide 2026 - Should You Switch?" />
+        <meta property="og:description" content="Compare M4 vs M3 Apple Silicon in 2026. Should you upgrade from M3 to M4?" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/m4-vs-m3-upgrade.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/m4-vs-m3-upgrade.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">

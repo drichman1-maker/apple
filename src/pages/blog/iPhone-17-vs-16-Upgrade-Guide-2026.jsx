@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const iPhone17vs16Upgrade = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>iPhone 17 vs iPhone 16 - Complete Upgrade Guide 2026</title>
+        <meta name="description" content="Compare iPhone 17 vs iPhone 16 in 2026. Should you upgrade? Full feature comparison including camera, performance, battery life, and pricing." />
+        <meta name="keywords" content="iPhone 17 vs iPhone 16, iPhone 17 upgrade, iPhone 16 review, iPhone 17 features, Apple iPhone comparison 2026" />
+        <link rel="canonical" href="https://mactrackr.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026" />
+        <meta property="og:title" content="iPhone 17 vs iPhone 16 - Complete Upgrade Guide 2026" />
+        <meta property="og:description" content="Compare iPhone 17 vs iPhone 16 in 2026. Should you upgrade?" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/iphone-17-vs-16.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/iphone-17-vs-16.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">

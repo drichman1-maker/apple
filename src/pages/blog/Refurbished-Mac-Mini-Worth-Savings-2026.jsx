@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const RefurbishedMacMiniWorthSavings2026 = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>Refurbished Mac Mini - Worth the Savings in 2026?</title>
+        <meta name="description" content="Is a refurbished Mac mini worth it in 2026? Compare prices from Apple Certified Refurbished, Amazon, and Best Buy. Save money while getting a quality machine." />
+        <meta name="keywords" content="refurbished Mac mini 2026, Apple Certified Refurbished Mac, buy refurbished Mac, Mac mini deals, used Mac mini" />
+        <link rel="canonical" href="https://mactrackr.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026" />
+        <meta property="og:title" content="Refurbished Mac Mini - Worth the Savings in 2026?" />
+        <meta property="og:description" content="Is a refurbished Mac mini worth it in 2026? Compare prices and save money." />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/refurbished-mac-mini.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/refurbished-mac-mini.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">

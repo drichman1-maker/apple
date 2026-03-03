@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const BestMacMusicProduction2026 = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>Best Mac for Music Production 2026 - Ultimate Guide</title>
+        <meta name="description" content="Find the best Mac for music production in 2026. Compare MacBook Pro, Mac mini, and Mac Studio for Logic Pro, Ableton Live, and FL Studio with our expert analysis." />
+        <meta name="keywords" content="best Mac for music production 2026, MacBook Pro music production, Mac Studio audio, Logic Pro Mac, best Mac for FL Studio" />
+        <link rel="canonical" href="https://mactrackr.com/blog/Best-Mac-Music-Production-2026" />
+        <meta property="og:title" content="Best Mac for Music Production 2026 - Ultimate Guide" />
+        <meta property="og:description" content="Find the best Mac for music production in 2026. Compare MacBook Pro, Mac mini, and Mac Studio." />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/best-mac-music-production.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-mac-music-production.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">

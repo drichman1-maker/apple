@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const BestMacBookVideoEditing = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>Best MacBook for Video Editing 2026 - Complete Guide</title>
+        <meta name="description" content="Find the best MacBook for video editing in 2026. Compare MacBook Pro M4 configurations for Final Cut Pro, Premiere Pro, and DaVinci Resolve with our expert analysis." />
+        <meta name="keywords" content="best MacBook for video editing 2026, MacBook Pro M4 video editing, Final Cut Pro Mac, best Mac for Premiere Pro, MacBook Pro 14 vs 16 video editing" />
+        <link rel="canonical" href="https://mactrackr.com/blog/Best-MacBook-Video-Editing-2026" />
+        <meta property="og:title" content="Best MacBook for Video Editing 2026 - Complete Guide" />
+        <meta property="og:description" content="Find the best MacBook for video editing in 2026. Compare MacBook Pro M4 configurations." />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/best-macbook-video-editing.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-macbook-video-editing.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">

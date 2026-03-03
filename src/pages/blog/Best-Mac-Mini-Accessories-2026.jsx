@@ -1,10 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 const BestMacMiniAccessories2026 = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
+      <Helmet>
+        <title>Best Mac Mini Accessories 2026 - Essential Add-ons</title>
+        <meta name="description" content="Discover the best Mac Mini accessories for 2026. From docks and monitors to keyboards and storage solutions, find the perfect additions to enhance your setup." />
+        <meta name="keywords" content="best Mac Mini accessories 2026, Mac Mini dock, Mac Mini monitor, Mac Mini storage, Mac Mini peripherals" />
+        <link rel="canonical" href="https://mactrackr.com/blog/Best-Mac-Mini-Accessories-2026" />
+        <meta property="og:title" content="Best Mac Mini Accessories 2026 - Essential Add-ons" />
+        <meta property="og:description" content="Discover the best Mac Mini accessories for 2026. Enhance your setup with our top picks." />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://mactrackr.com/blog-og/best-mac-mini-accessories.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-mac-mini-accessories.png" />
+      </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
