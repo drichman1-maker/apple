@@ -66,7 +66,7 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .product-card {
           background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
           border-radius: 16px;

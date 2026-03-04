@@ -98,7 +98,7 @@ export function normalizeRetailerUrl(url, retailer) {
     const urlObj = new URL(url)
     
     switch(retailerKey) {
-      case 'bestbuy':
+      case 'bestbuy': {
         // Extract SKU ID from Best Buy URL
         // Pattern: /site/{slug}/{skuId}.p or ?skuId=XXXXX
         const bbMatch = url.match(/\/(\d+)\.p/) || url.match(/skuId=(\d+)/)
@@ -108,23 +108,23 @@ export function normalizeRetailerUrl(url, retailer) {
           return `https://www.bestbuy.com/site/${slug}/${skuId}.p`
         }
         break
-        
-      case 'adorama':
+      }
+      case 'adorama': {
         // Extract product code
         const adoramaMatch = url.match(/\/([a-z0-9]+)\.html/i)
         if (adoramaMatch) {
           return `https://www.adorama.com/${adoramaMatch[1].toLowerCase()}.html`
         }
         break
-        
-      case 'amazon':
+      }
+      case 'amazon': {
         // Extract ASIN
         const asinMatch = url.match(/\/dp\/(\w+)/) || url.match(/\/gp\/product\/(\w+)/)
         if (asinMatch) {
           return `https://www.amazon.com/dp/${asinMatch[1]}`
         }
         break
-        
+      }
       default:
         // Remove query params for other retailers
         return `${urlObj.origin}${urlObj.pathname}`
@@ -143,27 +143,27 @@ export function extractSkuFromUrl(url, retailer) {
   const retailerKey = retailer.toLowerCase()
   
   switch(retailerKey) {
-    case 'bestbuy':
-      const bbMatch = url.match(/\/(\d+)\.p/) || url.match(/skuId=(\d+)/)
-      return bbMatch ? bbMatch[1] : null
-      
-    case 'adorama':
-      const adoramaMatch = url.match(/\/([a-z0-9]+)\.html/i)
-      return adoramaMatch ? adoramaMatch[1].toLowerCase() : null
-      
-    case 'amazon':
-      const asinMatch = url.match(/\/dp\/(\w{10})/) || url.match(/\/gp\/product\/(\w{10})/)
-      return asinMatch ? asinMatch[1] : null
-      
-    case 'bh':
-      const bhMatch = url.match(/\/c\/product\/(\d+)/)
-      return bhMatch ? bhMatch[1] : null
-      
-    case 'ebay':
-      const ebayMatch = url.match(/\/itm\/(\d+)/)
-      return ebayMatch ? ebayMatch[1] : null
-      
-    default:
-      return null
-  }
+      case 'bestbuy': {
+        const bbMatch = url.match(/\/(\d+)\.p/) || url.match(/skuId=(\d+)/)
+        return bbMatch ? bbMatch[1] : null
+      }
+      case 'adorama': {
+        const adoramaMatch = url.match(/\/([a-z0-9]+)\.html/i)
+        return adoramaMatch ? adoramaMatch[1].toLowerCase() : null
+      }
+      case 'amazon': {
+        const asinMatch = url.match(/\/dp\/(\w{10})/) || url.match(/\/gp\/product\/(\w{10})/)
+        return asinMatch ? asinMatch[1] : null
+      }
+      case 'bh': {
+        const bhMatch = url.match(/\/c\/product\/(\d+)/)
+        return bhMatch ? bhMatch[1] : null
+      }
+      case 'ebay': {
+        const ebayMatch = url.match(/\/itm\/(\d+)/)
+        return ebayMatch ? ebayMatch[1] : null
+      }
+      default:
+        return null
+    }
 }

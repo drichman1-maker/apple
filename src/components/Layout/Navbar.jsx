@@ -1,13 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Apple, Sparkles, Package, RefreshCw, ChevronDown } from 'lucide-react'
+import { Menu, X, Apple, Sparkles, Package, RefreshCw, ChevronDown, Search } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
+import SearchButton from '../Search/SearchButton'
+import SearchModal from '../Search/SearchModal'
 
 const Navbar = () => {
   // Mobile hamburger menu fix - force rebuild
   const [isOpen, setIsOpen] = useState(false)
   const [conditionDropdownOpen, setConditionDropdownOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const dropdownRef = useRef(null)
   // Theme toggle disabled - dark mode only
   // const { isDark, toggleTheme } = useTheme()
@@ -25,6 +28,33 @@ const Navbar = () => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Global Cmd/Ctrl+K to open search
+  useEffect(() => {
+    const handleOpenSearch = () => setSearchOpen(true)
+    window.addEventListener('openSearch', handleOpenSearch)
+    
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    
+    return () => {
+      window.removeEventListener('openSearch', handleOpenSearch)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
+  // Close search when route changes
+  useEffect(() => {
+    setSearchOpen(false)
+  }, [location.pathname])
+
+  const openSearch = useCallback(() => setSearchOpen(true), [])
+  const closeSearch = useCallback(() => setSearchOpen(false), [])
 
   const navigation = [
     { name: 'Home', href: '/home' },
@@ -83,6 +113,16 @@ const Navbar = () => {
             >
               Blog
             </Link>
+            
+            {/* Search Button */}
+            <button
+              onClick={openSearch}
+              className="hidden lg:flex items-center gap-2 px-3 py-2 bg-[#1a1a1a] border border-[#333] rounded-lg text-gray-400 hover:text-white hover:border-[#444] transition-all text-sm"
+            >
+              <Search className="h-4 w-4" />
+              <span className="hidden xl:inline">Search...</span>
+            </button>
+            
             <Link
               to="/alerts"
               className="hidden lg:flex items-center px-4 py-2 bg-gradient-to-r from-apple-blue to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-all"
@@ -230,9 +270,24 @@ const Navbar = () => {
               <Sparkles className="h-4 w-4 mr-2" />
               Price Alerts
             </Link>
+            
+            {/* Search in mobile menu */}
+            <button
+              onClick={() => {
+                setIsOpen(false)
+                openSearch()
+              }}
+              className="flex items-center justify-center w-full mt-3 px-4 py-3 bg-[#1a1a1a] border border-[#333] text-white rounded-lg font-medium"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              Search
+            </button>
           </div>
         </div>
       )}
+
+      {/* Search Modal */}
+      <SearchModal isOpen={searchOpen} onClose={closeSearch} showAllLink={true} />
     </nav>
   )
 }

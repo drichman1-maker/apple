@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { getProductImage } from '../../utils/productImages'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
-import { getAffiliateUrl } from '../../config/affiliate'
-import { buildGoPath, handleRedirect } from '../../utils/redirect'
+import { handleRedirect } from '../../utils/redirect'
 
 const ProductCard = ({ product }) => {
-  const { isNew, isRefurbished } = useProductCondition()
+  const { isRefurbished } = useProductCondition()
   
   // Handle both old format (object) and new format (array)
   const getPricesArray = () => {
@@ -33,7 +31,15 @@ const ProductCard = ({ product }) => {
       }))
   }
   
+  // Get the raw priceData for MSRP calculation (Apple price)
+  const getPriceData = () => {
+    return isRefurbished && product.refurbishedPrices 
+      ? product.refurbishedPrices 
+      : product.prices
+  }
+
   const prices = getPricesArray()
+  const priceData = getPriceData()
 
   const minPrice = prices.length > 0 ? Math.min(...prices.map(p => p.price)) : 0
   const maxPrice = prices.length > 0 ? Math.max(...prices.map(p => p.price)) : 0
@@ -209,7 +215,7 @@ const ProductCard = ({ product }) => {
       <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
         <div className="flex flex-col gap-2">
-          {prices.slice(0, 3).map(({ retailer, price, url }) => (
+          {prices.slice(0, 3).map(({ retailer, price }) => (
             <button
               key={retailer}
               onClick={() => handleRedirect(product.id, retailer, product)}

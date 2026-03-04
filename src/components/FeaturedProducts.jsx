@@ -72,7 +72,7 @@ const FeaturedProducts = () => {
         ))}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .featured-products {
           padding: 4rem 2rem;
           max-width: 1400px;

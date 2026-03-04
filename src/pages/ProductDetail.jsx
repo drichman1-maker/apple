@@ -43,15 +43,22 @@ const ProductDetail = () => {
     
     const prices = getPrices(product);
     const bestPrice = prices.length > 0 ? Math.min(...prices.map(p => p.price)) : null;
+    const inStockCount = prices.filter(p => p.inStock).length;
     
     const schema = {
       "@context": "https://schema.org/",
       "@type": "Product",
       "name": product.name || product.model,
-      "description": product.description || `${product.model} - Track the best prices.`,
+      "description": product.description || `${product.model} - Track the best prices and find the lowest prices across retailers.`,
+      "sku": product.sku || product.id,
+      "mpn": product.mpn || product.model,
       "brand": {
         "@type": "Brand",
         "name": "Apple"
+      },
+      "manufacturer": {
+        "@type": "Organization",
+        "name": "Apple Inc."
       },
       "image": product.image_url || product.image,
       "offers": {
@@ -59,8 +66,26 @@ const ProductDetail = () => {
         "priceCurrency": "USD",
         "price": bestPrice || product.lowest_price || product.price || 0,
         "priceValidUntil": "2026-12-31",
-        "availability": "https://schema.org/InStock"
-      }
+        "availability": inStockCount > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "name": bestPrice?.retailer || "Apple"
+        },
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "USD",
+          "minPrice": bestPrice || 0,
+          "maxPrice": prices.length > 0 ? Math.max(...prices.map(p => p.price)) : (product.price || 0)
+        }
+      },
+      "aggregateRating": product.rating ? {
+        "@type": "AggregateRating",
+        "ratingValue": product.rating,
+        "reviewCount": product.reviewCount || product.review_count || 1,
+        "bestRating": 5,
+        "worstRating": 1
+      } : undefined
     };
     
     const script = document.createElement('script');
