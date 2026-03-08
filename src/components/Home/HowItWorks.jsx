@@ -1,5 +1,5 @@
 import React from 'react'
-import { Search, Bell, Shield, TrendingDown, CheckCircle, ArrowRight } from 'lucide-react'
+import { Search, Bell, TrendingDown, CheckCircle } from 'lucide-react'
 
 const HowItWorks = () => {
   const steps = [

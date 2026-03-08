@@ -11,6 +11,7 @@ const ProductCatalog = () => {
 
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
   const [condition, setCondition] = useState('new') // 'new' or 'refurbished'
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     setActiveFilter(category || 'All')
@@ -78,7 +79,18 @@ const ProductCatalog = () => {
       conditionFiltered = unique.filter(p => !p.condition || p.condition !== 'refurbished')
     }
     
-    if (activeFilter === 'All') return conditionFiltered
+    // Filter by search query
+    let searchFiltered = conditionFiltered
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      searchFiltered = conditionFiltered.filter(p => 
+        p.name?.toLowerCase().includes(query) ||
+        p.category?.toLowerCase().includes(query) ||
+        p.specs && Object.values(p.specs).some(v => String(v).toLowerCase().includes(query))
+      )
+    }
+    
+    if (activeFilter === 'All') return searchFiltered
     
     // Handle MacBook vs Mac separation (case-insensitive)
     if (activeFilter.toLowerCase() === 'macbook') {
@@ -96,10 +108,10 @@ const ProductCatalog = () => {
       )
     }
     
-    return conditionFiltered.filter(p => 
+    return searchFiltered.filter(p => 
       p.category?.toLowerCase() === activeFilter.toLowerCase()
     )
-  }, [products, activeFilter, condition])
+  }, [products, activeFilter, condition, searchQuery])
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
@@ -196,10 +208,11 @@ const ProductCatalog = () => {
         </div>
 
         {/* Condition Toggle & Results Count */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <p className="text-[#a3a3a3] text-sm">
             Showing {filteredProducts.length} {condition} products
             {activeFilter !== 'All' && ` in ${activeFilter}`}
+            {searchQuery && ` matching "${searchQuery}"`}
           </p>
           
           {/* New/Refurbished Toggle */}
@@ -224,6 +237,37 @@ const ProductCatalog = () => {
             >
               Refurbished
             </button>
+          </div>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mb-6">
+          <div className="relative">
+            <svg 
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#a3a3a3]" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search products by name, category, or specs..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-[#141414] border border-[#262626] rounded-xl text-[#fafafa] placeholder-[#525252] focus:outline-none focus:border-[#3b82f6] transition-colors"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#525252] hover:text-[#a3a3a3] transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
 
