@@ -350,8 +350,12 @@ const ProductCatalog = () => {
             let livePriceData = null
             let lowestPrice = null
             
+            // Filter out retailers with known bad stock data
+            const badStockRetailers = ['bh'] // B&H reports out of stock incorrectly
+            
             Object.entries(retailers).forEach(([retailer, info]) => {
-              if (info && info.price && info.inStock) {
+              // Skip retailers with known bad stock data or out of stock
+              if (info && info.price && !badStockRetailers.includes(retailer) && info.inStock !== false) {
                 if (!lowestPrice || info.price < lowestPrice) {
                   lowestPrice = info.price
                   livePriceData = { price: info.price, retailer }
