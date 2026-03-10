@@ -22,7 +22,6 @@ const ProductCatalog = () => {
     try {
       // Use local server in development, fallback to GPU Drip API
       const urls = [
-        'http://localhost:3002/api/prices',
         '/api/prices'
       ]
       
@@ -342,31 +341,20 @@ const ProductCatalog = () => {
             const savings = worstPrice && bestPrice ? Math.round(((worstPrice.price - bestPrice.price) / worstPrice.price) * 100) : 0
             const year = product.releaseDate ? new Date(product.releaseDate).getFullYear() : null
             
-            // Check for live price - precise matching using chip/model
-            const productNameKey = product.name.toLowerCase()
-            const productSpecs = product.specs || {}
-            const chip = (productSpecs.chip || productSpecs.model || '').toLowerCase().replace(/apple/i, '')
-            
-            // Build search keys: "macbook pro 14" + "m5" => try "macbook pro m5"
-            const productBase = productNameKey.replace(/["\d"]+"?/g, '').trim() // remove sizes like 14"
-            const searchKey = chip ? `${productBase} ${chip}`.replace(/\s+/g, ' ').trim() : productBase
+            // Check for live price - simplified matching
+            const productNameLower = product.name.toLowerCase()
+            const productBase = productNameLower.split(' chip:')[0].split(' storage:')[0].trim()
             
             let livePriceData = null
             
-            // Try exact match first
-            if (livePrices[productNameKey]) {
-              livePriceData = livePrices[productNameKey]
-            }
-            // Try with chip
-            else if (chip) {
-              const scrapedNames = Object.keys(livePrices)
-              for (const scrapedName of scrapedNames) {
-                const sn = scrapedName.toLowerCase()
-                // Match if scraped name contains chip and product base
-                if (sn.includes(chip) && (productBase.includes(sn.replace(chip, '').trim()) || sn.replace(chip, '').trim().includes(productBase.split(' ')[0]))) {
-                  livePriceData = livePrices[scrapedName]
-                  break
-                }
+            // Try to find a scraped price that matches the product base
+            const scrapedNames = Object.keys(livePrices)
+            for (const scrapedName of scrapedNames) {
+              const scrapedLower = scrapedName.toLowerCase()
+              // Match if scraped name is contained in product base OR vice versa
+              if (productBase.includes(scrapedLower) || scrapedLower.includes(productBase)) {
+                livePriceData = livePrices[scrapedName]
+                break
               }
             }
             
