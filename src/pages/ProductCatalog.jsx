@@ -342,18 +342,28 @@ const ProductCatalog = () => {
             const savings = worstPrice && bestPrice ? Math.round(((worstPrice.price - bestPrice.price) / worstPrice.price) * 100) : 0
             const year = product.releaseDate ? new Date(product.releaseDate).getFullYear() : null
             
-            // Check for live price - fuzzy match on product name
+            // Check for live price - precise matching using chip/model
             const productNameKey = product.name.toLowerCase()
-            const productNameBase = productNameKey.replace(/["\d\w]+"?\s*(gb|tb|mm|pro|air|max|mini|ultra)?\s*$/i, '').trim()
+            const productSpecs = product.specs || {}
+            const chip = (productSpecs.chip || productSpecs.model || '').toLowerCase().replace(/apple/i, '')
             
-            // Try exact match first, then fuzzy match
-            let livePriceData = livePrices[productNameKey]
-            if (!livePriceData) {
-              // Try matching against scraped names
+            // Build search keys: "macbook pro 14" + "m5" => try "macbook pro m5"
+            const productBase = productNameKey.replace(/["\d"]+"?/g, '').trim() // remove sizes like 14"
+            const searchKey = chip ? `${productBase} ${chip}`.replace(/\s+/g, ' ').trim() : productBase
+            
+            let livePriceData = null
+            
+            // Try exact match first
+            if (livePrices[productNameKey]) {
+              livePriceData = livePrices[productNameKey]
+            }
+            // Try with chip
+            else if (chip) {
               const scrapedNames = Object.keys(livePrices)
               for (const scrapedName of scrapedNames) {
-                const scrapedBase = scrapedName.replace(/["\d\w]+"?\s*(gb|tb|mm|pro|air|max|mini|ultra)?\s*$/i, '').trim()
-                if (productNameBase.includes(scrapedBase) || scrapedBase.includes(productNameBase)) {
+                const sn = scrapedName.toLowerCase()
+                // Match if scraped name contains chip and product base
+                if (sn.includes(chip) && (productBase.includes(sn.replace(chip, '').trim()) || sn.replace(chip, '').trim().includes(productBase.split(' ')[0]))) {
                   livePriceData = livePrices[scrapedName]
                   break
                 }
