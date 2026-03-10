@@ -20,34 +20,37 @@ const ProductCatalog = () => {
   const fetchLivePrices = async (showSpinner = false) => {
     if (showSpinner) setRefreshing(true)
     try {
-      // Use local server in development, fallback to GPU Drip API
-      const urls = [
-        '/api/prices'
-      ]
-      
-      for (const url of urls) {
-        try {
-          const response = await fetch(url)
-          if (response.ok) {
-            const data = await response.json()
-            const priceList = data.prices?.mactrackr || data.prices || []
-            if (priceList.length > 0) {
-              const priceMap = {}
-              priceList.forEach(p => {
-                // Get the most recent price for each product (by name)
-                const key = p.name.toLowerCase()
-                if (!priceMap[key] || new Date(p.timestamp) > new Date(priceMap[key].timestamp)) {
-                  priceMap[key] = { price: p.price, timestamp: p.timestamp, stock: p.stock }
-                }
-              })
-              setLivePrices(priceMap)
-              setLastUpdated(new Date())
-              break
+      // Fetch from existing backend (has live prices)
+      const response = await fetch('https://mactrackr-backend-fresh.fly.dev/api/products')
+      if (response.ok) {
+        const data = await response.json()
+        // Build price map from backend data
+        const priceMap = {}
+        data.forEach(product => {
+          const key = product.name.toLowerCase()
+          // Get the lowest price from all retailers
+          const retailers = product.prices || {}
+          let lowestPrice = null
+          let lowestRetailer = null
+          Object.entries(retailers).forEach(([retailer, info]) => {
+            if (info && info.price) {
+              if (!lowestPrice || info.price < lowestPrice) {
+                lowestPrice = info.price
+                lowestRetailer = retailer
+              }
+            }
+          })
+          if (lowestPrice) {
+            priceMap[key] = { 
+              price: lowestPrice, 
+              timestamp: new Date().toISOString(), 
+              stock: true,
+              retailer: lowestRetailer
             }
           }
-        } catch (e) {
-          console.log(`Failed to fetch from ${url}, trying next...`)
-        }
+        })
+        setLivePrices(priceMap)
+        setLastUpdated(new Date())
       }
     } catch (error) {
       console.error('Failed to fetch live prices:', error)
