@@ -403,13 +403,13 @@ const ProductCatalog = () => {
                 <div className="flex items-end justify-between mb-4">
                   <div>
                     <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-1">
-                      {hasLivePrice ? '🔥 Live Price' : 'Best Price'}
+                      {hasLivePrice ? 'Live Price' : 'Best Price'}
                     </p>
                     <p className="text-3xl font-bold text-[#fafafa]">
                       {formatPrice(hasLivePrice ? livePriceData.price : (bestPrice?.price || 0))}
                     </p>
                     <p className="text-sm text-[#10b981]">
-                      {hasLivePrice ? '🔥 Just updated' : `at ${bestPrice?.retailer}`}
+                      {hasLivePrice ? 'Just updated' : `at ${bestPrice?.retailer}`}
                     </p>
                   </div>
                   {savings > 0 && worstPrice && (
