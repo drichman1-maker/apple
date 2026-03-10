@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, RefreshCw } from 'lucide-react'
 
 const ProductCatalog = () => {
   const { category } = useParams()
@@ -8,10 +8,53 @@ const ProductCatalog = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState(category || 'All')
+  const [livePrices, setLivePrices] = useState({})
+  const [lastUpdated, setLastUpdated] = useState(null)
+  const [refreshing, setRefreshing] = useState(false)
 
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
   const [condition, setCondition] = useState('new') // 'new' or 'refurbished'
   const [searchQuery, setSearchQuery] = useState('')
+
+  // Fetch live prices from /api/prices
+  const fetchLivePrices = async (showSpinner = false) => {
+    if (showSpinner) setRefreshing(true)
+    try {
+      // Use local server in development, fallback to GPU Drip API
+      const urls = [
+        'http://localhost:3002/api/prices',
+        '/api/prices'
+      ]
+      
+      for (const url of urls) {
+        try {
+          const response = await fetch(url)
+          if (response.ok) {
+            const data = await response.json()
+            const priceList = data.prices?.mactrackr || data.prices || []
+            if (priceList.length > 0) {
+              const priceMap = {}
+              priceList.forEach(p => {
+                // Get the most recent price for each product (by name)
+                const key = p.name.toLowerCase()
+                if (!priceMap[key] || new Date(p.timestamp) > new Date(priceMap[key].timestamp)) {
+                  priceMap[key] = { price: p.price, timestamp: p.timestamp, stock: p.stock }
+                }
+              })
+              setLivePrices(priceMap)
+              setLastUpdated(new Date())
+              break
+            }
+          }
+        } catch (e) {
+          console.log(`Failed to fetch from ${url}, trying next...`)
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch live prices:', error)
+    }
+    if (showSpinner) setRefreshing(false)
+  }
 
   useEffect(() => {
     setActiveFilter(category || 'All')
@@ -34,6 +77,11 @@ const ProductCatalog = () => {
     }
 
     fetchProducts()
+    fetchLivePrices()
+    
+    // Poll live prices every 30 seconds
+    const interval = setInterval(() => fetchLivePrices(), 30000)
+    return () => clearInterval(interval)
   }, [])
 
   const getBestPrice = (product) => {
@@ -209,11 +257,26 @@ const ProductCatalog = () => {
 
         {/* Condition Toggle & Results Count */}
         <div className="flex items-center justify-between mb-4">
-          <p className="text-[#a3a3a3] text-sm">
-            Showing {filteredProducts.length} {condition} products
-            {activeFilter !== 'All' && ` in ${activeFilter}`}
-            {searchQuery && ` matching "${searchQuery}"`}
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-[#a3a3a3] text-sm">
+              Showing {filteredProducts.length} {condition} products
+              {activeFilter !== 'All' && ` in ${activeFilter}`}
+              {searchQuery && ` matching "${searchQuery}"`}
+            </p>
+            
+            {/* Live Price Status */}
+            {lastUpdated && (
+              <button 
+                onClick={() => fetchLivePrices(true)}
+                className="flex items-center gap-1.5 text-xs text-[#22c55e] hover:text-[#4ade80] transition-colors"
+                title="Click to refresh prices"
+              >
+                <RefreshCw className={`w-3 h-3 ${refreshing ? 'animate-spin' : ''}`} />
+                <span className="hidden sm:inline">Live</span>
+                <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-pulse" />
+              </button>
+            )}
+          </div>
           
           {/* New/Refurbished Toggle */}
           <div className="flex items-center gap-2 bg-[#141414] border border-[#262626] rounded-full p-1">
@@ -279,6 +342,26 @@ const ProductCatalog = () => {
             const savings = worstPrice && bestPrice ? Math.round(((worstPrice.price - bestPrice.price) / worstPrice.price) * 100) : 0
             const year = product.releaseDate ? new Date(product.releaseDate).getFullYear() : null
             
+            // Check for live price - fuzzy match on product name
+            const productNameKey = product.name.toLowerCase()
+            const productNameBase = productNameKey.replace(/["\d\w]+"?\s*(gb|tb|mm|pro|air|max|mini|ultra)?\s*$/i, '').trim()
+            
+            // Try exact match first, then fuzzy match
+            let livePriceData = livePrices[productNameKey]
+            if (!livePriceData) {
+              // Try matching against scraped names
+              const scrapedNames = Object.keys(livePrices)
+              for (const scrapedName of scrapedNames) {
+                const scrapedBase = scrapedName.replace(/["\d\w]+"?\s*(gb|tb|mm|pro|air|max|mini|ultra)?\s*$/i, '').trim()
+                if (productNameBase.includes(scrapedBase) || scrapedBase.includes(productNameBase)) {
+                  livePriceData = livePrices[scrapedName]
+                  break
+                }
+              }
+            }
+            
+            const hasLivePrice = livePriceData && livePriceData.price > 0
+            
             return (
               <Link
                 key={product.id}
@@ -320,12 +403,14 @@ const ProductCatalog = () => {
                 {/* Price Section */}
                 <div className="flex items-end justify-between mb-4">
                   <div>
-                    <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-1">Best Price</p>
+                    <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-1">
+                      {hasLivePrice ? '🔥 Live Price' : 'Best Price'}
+                    </p>
                     <p className="text-3xl font-bold text-[#fafafa]">
-                      {formatPrice(bestPrice?.price || 0)}
+                      {formatPrice(hasLivePrice ? livePriceData.price : (bestPrice?.price || 0))}
                     </p>
                     <p className="text-sm text-[#10b981]">
-                      at {bestPrice?.retailer}
+                      {hasLivePrice ? '🔥 Just updated' : `at ${bestPrice?.retailer}`}
                     </p>
                   </div>
                   {savings > 0 && worstPrice && (
