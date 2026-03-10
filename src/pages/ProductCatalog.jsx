@@ -344,22 +344,20 @@ const ProductCatalog = () => {
             const savings = worstPrice && bestPrice ? Math.round(((worstPrice.price - bestPrice.price) / worstPrice.price) * 100) : 0
             const year = product.releaseDate ? new Date(product.releaseDate).getFullYear() : null
             
-            // Check for live price - simplified matching
-            const productNameLower = product.name.toLowerCase()
-            const productBase = productNameLower.split(' chip:')[0].split(' storage:')[0].trim()
-            
+            // Use live prices from the product data directly (no separate matching needed)
+            // The product already has the latest prices from the backend
+            const retailers = product.prices || {}
             let livePriceData = null
+            let lowestPrice = null
             
-            // Try to find a scraped price that matches the product base
-            const scrapedNames = Object.keys(livePrices)
-            for (const scrapedName of scrapedNames) {
-              const scrapedLower = scrapedName.toLowerCase()
-              // Match if scraped name is contained in product base OR vice versa
-              if (productBase.includes(scrapedLower) || scrapedLower.includes(productBase)) {
-                livePriceData = livePrices[scrapedName]
-                break
+            Object.entries(retailers).forEach(([retailer, info]) => {
+              if (info && info.price && info.inStock) {
+                if (!lowestPrice || info.price < lowestPrice) {
+                  lowestPrice = info.price
+                  livePriceData = { price: info.price, retailer }
+                }
               }
-            }
+            })
             
             const hasLivePrice = livePriceData && livePriceData.price > 0
             
