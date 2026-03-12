@@ -634,7 +634,7 @@ const ProductDetail = () => {
         </div>
 
         {/* SEO Content Section - 300+ words */}
-        <ProductContent product={product} prices={prices} bestPrice={bestPrice} savings={savings} savingsPercent={savingsPercentFromMsrp} />
+        <ProductContent product={product} prices={prices} bestPrice={bestPrice} savings={savings} savingsPercent={savingsPercent} />
       </main>
 
       {/* Price Alert Modal */}
