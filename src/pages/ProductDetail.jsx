@@ -3,6 +3,15 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Bell, ExternalLink } from 'lucide-react'
 import PriceAlertSignup from '../components/PriceAlertSignup'
 
+// Helper function to format price (defined at module level for reuse)
+const formatPrice = (price) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+  }).format(price || 0)
+}
+
 // Product Content Component - Generates 300+ words of SEO content
 const ProductContent = ({ product, prices, bestPrice, savings, savingsPercent }) => {
   if (!product) return null;
@@ -364,14 +373,6 @@ const ProductDetail = () => {
       });
     };
   }, [product]);
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-    }).format(price || 0)
-  }
 
   // Use affiliate URL if available, otherwise fallback to regular URL
   const getRetailerUrl = (price) => {
