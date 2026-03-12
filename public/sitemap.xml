@@ -1,104 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mactrackr.com/</loc>
+    <loc>https://www.mactrackr.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/products</loc>
+    <loc>https://www.mactrackr.com/products</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog</loc>
+    <loc>https://www.mactrackr.com/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/alerts</loc>
+    <loc>https://www.mactrackr.com/alerts</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/privacy</loc>
+    <loc>https://www.mactrackr.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/affiliate-disclosure</loc>
+    <loc>https://www.mactrackr.com/affiliate-disclosure</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- Blog Posts -->
   <url>
-    <loc>https://mactrackr.com/blog/Best-MacBook-Video-Editing-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Best-MacBook-Video-Editing-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/M4-vs-M3-Upgrade-Guide-2026</loc>
+    <loc>https://www.mactrackr.com/blog/M4-vs-M3-Upgrade-Guide-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/When-MacBooks-Go-On-Sale-2026</loc>
+    <loc>https://www.mactrackr.com/blog/When-MacBooks-Go-On-Sale-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Best-Mac-Music-Production-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Best-Mac-Music-Production-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Best-Mac-Mini-Accessories-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Best-Mac-Mini-Accessories-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Best-iPad-Drawing-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Best-iPad-Drawing-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026</loc>
+    <loc>https://www.mactrackr.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Apple-TV-4K-vs-Roku-vs-Fire-Stick-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Apple-TV-4K-vs-Roku-vs-Fire-Stick-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Apple-Watch-Series-10-vs-Ultra-2-vs-SE-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Apple-Watch-Series-10-vs-Ultra-2-vs-SE-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/AirPods-vs-AirPods-Pro-vs-AirPods-Max-2026</loc>
+    <loc>https://www.mactrackr.com/blog/AirPods-vs-AirPods-Pro-vs-AirPods-Max-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/blog/Best-iPad-Note-Taking-2026</loc>
+    <loc>https://www.mactrackr.com/blog/Best-iPad-Note-Taking-2026</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <!-- Legacy article pages -->
   <url>
-    <loc>https://mactrackr.com/articles/iphone-16-vs-15</loc>
+    <loc>https://www.mactrackr.com/articles/iphone-16-vs-15</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mactrackr.com/articles/how-to-track-prices</loc>
+    <loc>https://www.mactrackr.com/articles/how-to-track-prices</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

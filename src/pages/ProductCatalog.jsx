@@ -453,6 +453,9 @@ const ProductCatalog = () => {
                             className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded-xl hover:bg-[#1a1a1a] transition-colors cursor-pointer"
                           >
                             <span className="text-[#fafafa] font-medium capitalize">{price.retailer}</span>
+                              {price.inStock === false && (
+                                <span className="ml-2 px-2 py-0.5 text-xs bg-red-500/20 text-red-400 rounded">Out of Stock</span>
+                              )}
                             <div className="flex items-center gap-3">
                               <span className={`font-bold ${price.price === bestPrice?.price ? 'text-[#10b981]' : 'text-[#fafafa]'}`}>
                                 {formatPrice(price.price)}

@@ -11,6 +11,7 @@ import PriceAlerts from './pages/PriceAlerts'
 import AffiliateDisclosure from './pages/AffiliateDisclosure'
 import Blog from './pages/Blog'
 import SearchResults from './pages/SearchResults'
+import Compare from './pages/Compare'
 
 // Blog Articles
 import BestMacBookVideoEditing from './pages/blog/Best-MacBook-Video-Editing-2026.jsx'
@@ -44,6 +45,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/compare" element={<Compare />} />
           <Route path="/blog/Best-MacBook-Video-Editing-2026" element={<BestMacBookVideoEditing />} />
           <Route path="/blog/M4-vs-M3-Upgrade-Guide-2026" element={<M4vsM3UpgradeGuide />} />
           <Route path="/blog/Refurbished-Mac-Mini-Worth-Savings-2026" element={<RefurbishedMacMini />} />
