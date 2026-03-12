@@ -71,6 +71,20 @@ const ProductCard = ({ product }) => {
     return names[retailer] || retailer
   }
 
+  // Determine condition based on retailer
+  const getRetailerCondition = (retailer) => {
+    const usedRetailers = ['ebay'];
+    const refurbishedRetailers = [];
+    
+    if (usedRetailers.includes(retailer.toLowerCase())) {
+      return { label: 'USED', color: 'bg-amber-500/20 border-amber-500/30 text-amber-400' };
+    }
+    if (refurbishedRetailers.includes(retailer.toLowerCase())) {
+      return { label: 'REFURB', color: 'bg-green-500/20 border-green-500/30 text-green-400' };
+    }
+    return { label: 'NEW', color: 'bg-blue-500/20 border-blue-500/30 text-blue-400' };
+  }
+
   const getCategoryDisplay = (category) => {
     const categories = {
       iphone: 'IPHONE',
@@ -215,19 +229,27 @@ const ProductCard = ({ product }) => {
       <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
         <div className="flex flex-col gap-2">
-          {prices.slice(0, 3).map(({ retailer, price }) => (
-            <button
-              key={retailer}
-              onClick={() => handleRedirect(product.id, retailer, product)}
-              className="flex items-center justify-between w-full px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors text-left"
-            >
-              <span className="text-gray-300 text-sm font-medium">{getRetailerDisplayName(retailer)}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-green-400 font-semibold">${price.toLocaleString()}</span>
-                <span className="hi-pill-gray text-xs">Visit</span>
-              </div>
-            </button>
-          ))}
+          {prices.slice(0, 3).map(({ retailer, price }) => {
+            const condition = getRetailerCondition(retailer);
+            return (
+              <button
+                key={retailer}
+                onClick={() => handleRedirect(product.id, retailer, product)}
+                className="flex items-center justify-between w-full px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors text-left"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-300 text-sm font-medium">{getRetailerDisplayName(retailer)}</span>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded border ${condition.color}`}>
+                    {condition.label}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-400 font-semibold">${price.toLocaleString()}</span>
+                  <span className="hi-pill-gray text-xs">Visit</span>
+                </div>
+              </button>
+            );
+          })}
           {prices.length > 3 && (
             <Link
               to={`/product/${product.id}`}

@@ -177,6 +177,14 @@ const ProductDetail = () => {
         },
         {
           "@type": "Question",
+          "name": `Can I buy a used or refurbished ${productName}?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `Yes, used and refurbished ${productName} options are available through eBay and other certified refurbishers. Used ${productName} listings on eBay typically offer the deepest discounts, sometimes 20-40% off MSRP. All condition types are clearly labeled on MacTrackr: NEW (Amazon, Best Buy, Apple, B&H), USED (eBay), and REFURBISHED (when available). Compare all conditions to find the best value.`
+          }
+        },
+        {
+          "@type": "Question",
           "name": `Is ${productName} worth buying now or should I wait?`,
           "acceptedAnswer": {
             "@type": "Answer",
@@ -239,6 +247,20 @@ const ProductDetail = () => {
   // Use affiliate URL if available, otherwise fallback to regular URL
   const getRetailerUrl = (price) => {
     return price.affiliateUrl || price.url || '#'
+  }
+
+  // Determine condition based on retailer
+  const getRetailerCondition = (retailer) => {
+    const usedRetailers = ['ebay'];
+    const refurbishedRetailers = [];
+    
+    if (usedRetailers.includes(retailer?.toLowerCase())) {
+      return { label: 'USED', className: 'bg-amber-500/20 text-amber-400 border-amber-500/30' };
+    }
+    if (refurbishedRetailers.includes(retailer?.toLowerCase())) {
+      return { label: 'REFURB', className: 'bg-green-500/20 text-green-400 border-green-500/30' };
+    }
+    return { label: 'NEW', className: 'bg-blue-500/20 text-blue-400 border-blue-500/30' };
   }
 
   if (loading) {
@@ -368,38 +390,46 @@ const ProductDetail = () => {
         <div className="mb-6">
           <h3 className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-4 text-center">Compare Prices</h3>
           <div className="bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden">
-            {sortedPrices.map((price, index) => (
-              <a
-                key={index}
-                href={getRetailerUrl(price)}
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                className="flex items-center justify-between p-4 hover:bg-[#1a1a1a] transition-colors border-b border-[#262626] last:border-0"
-              >
-                <div className="flex items-center gap-3">
-                  <div 
-                    className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm"
-                    style={{ backgroundColor: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6' }}
-                  >
-                    {price.retailer.slice(0, 2).toUpperCase()}
+            {sortedPrices.map((price, index) => {
+              const condition = getRetailerCondition(price.retailer);
+              return (
+                <a
+                  key={index}
+                  href={getRetailerUrl(price)}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="flex items-center justify-between p-4 hover:bg-[#1a1a1a] transition-colors border-b border-[#262626] last:border-0"
+                >
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm"
+                      style={{ backgroundColor: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6' }}
+                    >
+                      {price.retailer.slice(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium text-[#fafafa] capitalize">{price.retailer}</p>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded border ${condition.className}`}>
+                          {condition.label}
+                        </span>
+                      </div>
+                      <p className={`text-xs ${price.inStock ? 'text-[#10b981]' : 'text-rose-400'}`}>
+                        {price.inStock ? 'In Stock' : 'Out of Stock'}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-[#fafafa] capitalize">{price.retailer}</p>
-                    <p className={`text-xs ${price.inStock ? 'text-[#10b981]' : 'text-rose-400'}`}>
-                      {price.inStock ? 'In Stock' : 'Out of Stock'}
+                  <div className="flex items-center gap-4">
+                    <p className={`text-xl font-bold ${price.price === bestPrice?.price ? 'text-[#10b981]' : 'text-[#fafafa]'}`}>
+                      {formatPrice(price.price)}
                     </p>
+                    <span className="px-4 py-2 bg-[#262626] text-[#a3a3a3] text-sm rounded-lg hover:bg-[#333] transition-colors">
+                      Visit
+                    </span>
                   </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <p className={`text-xl font-bold ${price.price === bestPrice?.price ? 'text-[#10b981]' : 'text-[#fafafa]'}`}>
-                    {formatPrice(price.price)}
-                  </p>
-                  <span className="px-4 py-2 bg-[#262626] text-[#a3a3a3] text-sm rounded-lg hover:bg-[#333] transition-colors">
-                    Visit
-                  </span>
-                </div>
-              </a>
-            ))}
+                </a>
+              );
+            })}
           </div>
         </div>
 
