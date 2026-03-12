@@ -3,6 +3,64 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Bell, ExternalLink } from 'lucide-react'
 import PriceAlertSignup from '../components/PriceAlertSignup'
 
+// Helper to update document title and meta tags
+const usePageTitle = (product) => {
+  useEffect(() => {
+    if (!product) return;
+    
+    const productName = product.name || product.model || 'Product';
+    const basePrice = product.lowest_price || product.price || product.base_price;
+    const priceText = basePrice ? ` from $${basePrice}` : '';
+    const productId = product.id || product.sku || '';
+    
+    // Update title
+    document.title = `${productName} Price Tracker${priceText} | MacTrackr`;
+    
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 
+        `Track ${productName} prices across retailers. Compare deals, set price alerts, and find the best price on ${productName}.`);
+    }
+    
+    // Update canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', `https://mactrackr.com/product/${productId}`);
+    
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', `${productName} Price Tracker${priceText} | MacTrackr`);
+    
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', `Track ${productName} prices across retailers. Compare deals and set price alerts.`);
+    
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', `https://mactrackr.com/product/${productId}`);
+    
+    // Update Twitter tags
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', `${productName} Price Tracker${priceText} | MacTrackr`);
+    
+    const twitterDesc = document.querySelector('meta[property="twitter:description"]');
+    if (twitterDesc) twitterDesc.setAttribute('content', `Track ${productName} prices across retailers. Compare deals and set price alerts.`);
+    
+    return () => {
+      document.title = 'MacTrackr - Apple Product Price Tracking';
+      if (canonical) canonical.setAttribute('href', 'https://mactrackr.com');
+      if (ogTitle) ogTitle.setAttribute('content', 'MacTrackr - Apple Product Price Tracking');
+      if (ogDesc) ogDesc.setAttribute('content', 'Track Apple product prices across retailers. Get the best deals on iPhone, iPad, Mac, Apple Watch, and AirPods with real-time price comparisons and alerts.');
+      if (ogUrl) ogUrl.setAttribute('content', 'https://mactrackr.com');
+      if (twitterTitle) twitterTitle.setAttribute('content', 'MacTrackr - Apple Product Price Tracking');
+      if (twitterDesc) twitterDesc.setAttribute('content', 'Track Apple product prices across retailers. Get the best deals on iPhone, iPad, Mac, Apple Watch, and AirPods with real-time price comparisons and alerts.');
+    };
+  }, [product]);
+};
+
 const ProductDetail = () => {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
@@ -10,6 +68,9 @@ const ProductDetail = () => {
   const [alertEnabled, setAlertEnabled] = useState(false)
   const [chartRange, setChartRange] = useState('90d')
   const [showAlertModal, setShowAlertModal] = useState(false)
+
+  // Update page title dynamically
+  usePageTitle(product);
 
   useEffect(() => {
     fetchProductData()
@@ -44,12 +105,17 @@ const ProductDetail = () => {
     const prices = getPrices(product);
     const bestPrice = prices.length > 0 ? Math.min(...prices.map(p => p.price)) : null;
     const inStockCount = prices.filter(p => p.inStock).length;
+    const bestPriceRetailer = prices.find(p => p.price === bestPrice)?.retailer || 'Apple';
+    const productName = product.name || product.model;
+    const msrp = product.msrp || product.base_price || product.price || 0;
+    const savings = msrp > bestPrice ? msrp - bestPrice : 0;
     
-    const schema = {
+    // Product Schema
+    const productSchema = {
       "@context": "https://schema.org/",
       "@type": "Product",
-      "name": product.name || product.model,
-      "description": product.description || `${product.model} - Track the best prices and find the lowest prices across retailers.`,
+      "name": productName,
+      "description": product.description || `${productName} - Track the best prices and find the lowest prices across retailers.`,
       "sku": product.sku || product.id,
       "mpn": product.mpn || product.model,
       "brand": {
@@ -70,7 +136,7 @@ const ProductDetail = () => {
         "itemCondition": "https://schema.org/NewCondition",
         "seller": {
           "@type": "Organization",
-          "name": bestPrice?.retailer || "Apple"
+          "name": bestPriceRetailer
         },
         "priceSpecification": {
           "@type": "PriceSpecification",
@@ -88,13 +154,77 @@ const ProductDetail = () => {
       } : undefined
     };
     
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(schema);
-    document.head.appendChild(script);
+    // FAQ Schema - Auto-generated based on product data
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": `What is the best price for ${productName}?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `The best price for ${productName} is currently $${bestPrice || 'N/A'} from ${bestPriceRetailer}.${savings > 0 ? ` You save $${savings} compared to the MSRP of $${msrp}.` : ''} Prices are updated in real-time across ${prices.length} retailers.`
+          }
+        },
+        {
+          "@type": "Question",
+          "name": `Where can I buy ${productName} in stock?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `${productName} is currently in stock at ${inStockCount} retailer${inStockCount !== 1 ? 's' : ''}: ${prices.filter(p => p.inStock).map(p => p.retailer).join(', ') || 'Check back soon'}. You can compare prices and availability across Amazon, Best Buy, Apple, B&H, eBay, and Walmart on MacTrackr.`
+          }
+        },
+        {
+          "@type": "Question",
+          "name": `Is ${productName} worth buying now or should I wait?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `${productName} is currently ${savings > 50 ? `on sale with $${savings} savings - a good time to buy.` : 'available at regular pricing. Set a price alert on MacTrackr to get notified when the price drops.'} Apple typically releases new models in September-October for iPhones and October-November for Macs. Check our price history charts to see if prices are trending down.`
+          }
+        },
+        {
+          "@type": "Question",
+          "name": `What retailers sell ${productName}?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `${productName} is available from ${prices.length} major retailers: ${prices.map(p => p.retailer).join(', ')}. Each retailer offers different prices, shipping options, and return policies. Compare all options on MacTrackr to find the best deal.`
+          }
+        },
+        {
+          "@type": "Question",
+          "name": `Does ${productName} ever go on sale?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `Yes, ${productName} periodically goes on sale, especially during major shopping events like Black Friday, Prime Day, and back-to-school season. Current savings are ${savings > 0 ? `$${savings} off MSRP` : 'not available - check back for deals'}. Track prices with MacTrackr to catch the next sale.`
+          }
+        }
+      ]
+    };
+    
+    // Create scripts
+    const scripts = [];
+    
+    const productScript = document.createElement('script');
+    productScript.type = 'application/ld+json';
+    productScript.id = 'product-schema';
+    productScript.text = JSON.stringify(productSchema);
+    document.head.appendChild(productScript);
+    scripts.push(productScript);
+    
+    const faqScript = document.createElement('script');
+    faqScript.type = 'application/ld+json';
+    faqScript.id = 'faq-schema';
+    faqScript.text = JSON.stringify(faqSchema);
+    document.head.appendChild(faqScript);
+    scripts.push(faqScript);
     
     return () => {
-      document.head.removeChild(script);
+      scripts.forEach(script => {
+        if (document.head.contains(script)) {
+          document.head.removeChild(script);
+        }
+      });
     };
   }, [product]);
 
