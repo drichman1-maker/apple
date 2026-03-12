@@ -177,8 +177,7 @@ const Compare = () => {
                       : 'border-white/10 bg-white/5 hover:border-white/20'
                   }`}
                 >
-                  <div className="text-2xl mb-2">📱</div>
-                  <div className="text-sm font-medium text-white truncate">{product.name}</div>
+                  <div className="text-sm font-medium text-white truncate mb-1">{product.name}</div>
                   <div className="text-xs text-gray-400 mt-1">
                     From ${Math.min(...Object.values(product.prices).map(p => p.price))}
                   </div>
