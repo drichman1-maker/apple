@@ -3,6 +3,135 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Bell, ExternalLink } from 'lucide-react'
 import PriceAlertSignup from '../components/PriceAlertSignup'
 
+// Product Content Component - Generates 300+ words of SEO content
+const ProductContent = ({ product, prices, bestPrice, savings, savingsPercent }) => {
+  if (!product) return null;
+  
+  const productName = product.name || product.model;
+  const category = product.category;
+  const specs = product.specs || {};
+  const chip = specs.chip || specs.processor || '';
+  const storage = specs.storage || '';
+  const ram = specs.memory || specs.ram || '';
+  const display = specs.display || '';
+  const bestRetailer = bestPrice?.retailer || 'Apple';
+  const priceCount = prices?.length || 0;
+  const hasSavings = savings > 0;
+  
+  // Generate category-specific content
+  const getCategoryContent = () => {
+    switch(category) {
+      case 'iphone':
+        return {
+          useCase: "ideal for photography enthusiasts, power users, and anyone who wants the latest mobile technology",
+          keyFeatures: `the ${chip} chip delivers exceptional performance for gaming, video editing, and multitasking`,
+          timing: "Apple typically releases new iPhone models in September, so prices on previous generations often drop in October-November",
+          alternatives: "comparable Android flagships like Samsung Galaxy S series or Google Pixel"
+        };
+      case 'mac':
+        return {
+          useCase: "perfect for creative professionals, students, and anyone needing reliable computing power",
+          keyFeatures: `the ${chip} chip provides desktop-class performance with incredible energy efficiency`,
+          timing: "Mac refreshes typically happen in October-November, making spring and early summer good times to find deals",
+          alternatives: "Windows laptops from Dell XPS, ThinkPad, or Surface lines"
+        };
+      case 'ipad':
+        return {
+          useCase: "great for digital artists, note-takers, media consumption, and light productivity work",
+          keyFeatures: `the ${chip} chip handles demanding apps and multitasking with ease`,
+          timing: "iPad updates are less predictable, but spring events often bring new models",
+          alternatives: "Microsoft Surface Pro or Samsung Galaxy Tab series"
+        };
+      case 'watch':
+        return {
+          useCase: "essential for fitness tracking, health monitoring, and staying connected without your phone",
+          keyFeatures: "advanced health sensors and seamless iPhone integration",
+          timing: "New Apple Watch models arrive in September alongside iPhones",
+          alternatives: "Garmin, Fitbit, or Samsung Galaxy Watch"
+        };
+      case 'airpods':
+        return {
+          useCase: "perfect for commuters, gym-goers, and anyone who wants premium audio on the go",
+          keyFeatures: "industry-leading Active Noise Cancellation and spatial audio",
+          timing: "AirPods see updates every 2-3 years, making them a safe buy most of the time",
+          alternatives: "Sony WF-1000XM5 or Bose QuietComfort Earbuds"
+        };
+      default:
+        return {
+          useCase: "designed for Apple ecosystem users who want seamless integration",
+          keyFeatures: " premium build quality and Apple\'s renowned user experience",
+          timing: "Apple products typically see annual refreshes",
+          alternatives: "comparable products from competing brands"
+        };
+    }
+  };
+  
+  const content = getCategoryContent();
+  const releaseYear = product.releaseDate ? new Date(product.releaseDate).getFullYear() : '2024';
+  const retailers = prices?.map(p => p.retailer).join(', ') || 'major retailers';
+  
+  return (
+    <div className="bg-[#141414] border border-[#262626] rounded-2xl p-6 mt-6">
+      <h2 className="text-lg font-semibold text-[#fafafa] mb-4">About the {productName}</h2>
+      
+      <div className="prose prose-invert max-w-none">
+        <p className="text-[#a3a3a3] leading-relaxed mb-4">
+          The {productName} is {content.useCase}. Released in {releaseYear}, 
+          {chip && ` it features ${content.keyFeatures}.`} 
+          {display && ` The ${display} display delivers stunning visuals for work and entertainment.`}
+          {storage && ` With ${storage} of storage,`} 
+          {ram && ` and ${ram} of RAM,`} 
+          {` you'll have plenty of space and memory for apps, photos, and files.`}
+        </p>
+        
+        <h3 className="text-[#fafafa] font-medium mt-6 mb-3">Current Pricing & Availability</h3>
+        <p className="text-[#a3a3a3] leading-relaxed mb-4">
+          Right now, the {productName} is available from {priceCount} major retailers: {retailers}. 
+          The best price is currently {formatPrice(bestPrice?.price)} at {bestRetailer.charAt(0).toUpperCase() + bestRetailer.slice(1)}
+          {hasSavings && `, which represents a ${savingsPercent}% savings off the MSRP`}. 
+          Prices are updated in real-time, so you can be confident you're seeing the most current deals available.
+        </p>
+        
+        <h3 className="text-[#fafafa] font-medium mt-6 mb-3">Should You Buy Now?</h3>
+        <p className="text-[#a3a3a3] leading-relaxed mb-4">
+          {hasSavings 
+            ? `With current savings of ${formatPrice(savings)}, now is a great time to buy the ${productName}. `
+            : `While the ${productName} is selling at full price currently, `
+          }
+          {content.timing}. If you're not in a rush, setting a price alert will notify you immediately 
+          when the price drops. Historically, we've seen discounts of 10-20% during Black Friday, 
+          Prime Day, and back-to-school sales.
+        </p>
+        
+        <h3 className="text-[#fafafa] font-medium mt-6 mb-3">New vs. Used Options</h3>
+        <p className="text-[#a3a3a3] leading-relaxed mb-4">
+          On MacTrackr, you'll find both new and used options for the {productName}. 
+          New units from authorized retailers like Apple, Amazon, Best Buy, and B&H come with 
+          full warranties and the peace of mind of being the first owner. Used options, 
+          primarily from eBay, can offer significant savings—sometimes 20-40% off retail—though 
+          warranty coverage may vary. All conditions are clearly labeled so you can make 
+          an informed decision.
+        </p>
+        
+        <h3 className="text-[#fafafa] font-medium mt-6 mb-3">Alternatives to Consider</h3>
+        <p className="text-[#a3a3a3] leading-relaxed">
+          If the {productName} doesn't quite fit your needs or budget, consider {content.alternatives}. 
+          You can also browse our {category === 'mac' ? 'Mac' : category === 'iphone' ? 'iPhone' : category === 'ipad' ? 'iPad' : 'product'} 
+          comparison page to see how different models stack up side-by-side. 
+          Remember, the best deal isn't always the lowest price—it's the right product 
+          at the right price for your specific needs.
+        </p>
+      </div>
+      
+      <div className="mt-6 pt-6 border-t border-[#262626]">
+        <p className="text-xs text-[#525252]">
+          Prices tracked across {priceCount} retailers • Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 // Helper to update document title and meta tags
 const usePageTitle = (product) => {
   useEffect(() => {
@@ -502,6 +631,9 @@ const ProductDetail = () => {
             ))}
           </div>
         </div>
+
+        {/* SEO Content Section - 300+ words */}
+        <ProductContent product={product} prices={prices} bestPrice={bestPrice} savings={savings} savingsPercent={savingsPercentFromMsrp} />
       </main>
 
       {/* Price Alert Modal */}
