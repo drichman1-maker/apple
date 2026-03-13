@@ -13,7 +13,6 @@ export const useProductCondition = () => {
 export const ProductConditionProvider = ({ children }) => {
   const [condition, setCondition] = useState(() => {
     const savedCondition = localStorage.getItem('productCondition')
-    // Default to new unless explicitly set to refurbished
     return savedCondition || 'new'
   })
 
@@ -28,7 +27,6 @@ export const ProductConditionProvider = ({ children }) => {
     condition,
     isNew: condition === 'new',
     isRefurbished: condition === 'refurbished',
-    setCondition,
     setToNew,
     setToRefurbished
   }
