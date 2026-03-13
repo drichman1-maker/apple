@@ -68,18 +68,29 @@ export function getAvailableRetailers(product) {
       price: p.price,
       url: p.url,
       inStock: p.inStock,
+      verified: p.verified || false,
       template: AFFILIATE_TEMPLATES[p.retailer?.toLowerCase()]
     }))
     .sort((a, b) => a.price - b.price)
 }
 
 // Find best price across retailers
+// Prefers verified retailers, then picks lowest price
 export function getBestPrice(product) {
   if (!product?.prices) return null
   
   const inStockPrices = product.prices.filter(p => p.inStock)
   if (inStockPrices.length === 0) return null
   
+  // First try to find a verified retailer with the lowest price
+  const verifiedPrices = inStockPrices.filter(p => p.verified)
+  if (verifiedPrices.length > 0) {
+    return verifiedPrices.reduce((min, p) => 
+      p.price < min.price ? p : min
+    , verifiedPrices[0])
+  }
+  
+  // If no verified, return lowest price (but mark as unverified)
   return inStockPrices.reduce((min, p) => 
     p.price < min.price ? p : min
   , inStockPrices[0])

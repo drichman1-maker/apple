@@ -12,22 +12,24 @@ const ProductCard = ({ product }) => {
       ? product.refurbishedPrices 
       : product.prices
     
-    // New format: array of {retailer, price, inStock, url}
+    // New format: array of {retailer, price, inStock, url, verified}
     if (Array.isArray(priceData)) {
       return priceData.filter(p => p.inStock).map(p => ({
         retailer: p.retailer,
         price: p.price,
         url: p.url,
-        inStock: true
+        inStock: true,
+        verified: p.verified || false
       }))
     }
     
-    // Old format: object {apple: {price, inStock}, ...}
+    // Old format: object {apple: {price, inStock, verified}, ...}
     return Object.entries(priceData || {})
       .filter(([retailer, data]) => data.inStock)
       .map(([retailer, data]) => ({
         retailer,
-        ...data
+        ...data,
+        verified: data.verified || false
       }))
   }
   
@@ -229,7 +231,7 @@ const ProductCard = ({ product }) => {
       <div className="px-5 pb-4 pt-2 border-t border-[#262626]">
         <p className="text-[10px] text-gray-600 mb-2 uppercase tracking-wider">Buy From</p>
         <div className="flex flex-col gap-2">
-          {prices.slice(0, 3).map(({ retailer, price }) => {
+          {prices.slice(0, 3).map(({ retailer, price, verified }) => {
             const condition = getRetailerCondition(retailer);
             return (
               <button
@@ -245,7 +247,11 @@ const ProductCard = ({ product }) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-green-400 font-semibold">${price.toLocaleString()}</span>
-                  <span className="hi-pill-gray text-xs">Visit</span>
+                  {verified ? (
+                    <span className="hi-pill-gray text-xs">In Stock ✓</span>
+                  ) : (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded border bg-yellow-500/10 border-yellow-500/30 text-yellow-400">Check Stock</span>
+                  )}
                 </div>
               </button>
             );
