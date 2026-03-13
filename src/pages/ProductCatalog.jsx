@@ -129,11 +129,25 @@ const ProductCatalog = () => {
       conditionFiltered = unique.filter(p => !p.condition || p.condition !== 'refurbished')
     }
     
+    // Filter out M2 and M3 MacBook Air/Pro (keep M1, M4, M5, and Mac Studio)
+    let chipFiltered = conditionFiltered.filter(p => {
+      const name = p.name?.toLowerCase() || ''
+      // Check all spec values for chip info
+      const specValues = p.specs ? Object.values(p.specs).join(' ').toLowerCase() : ''
+      const isMacBook = name.includes('macbook') || name.includes('mac book')
+      if (!isMacBook) return true
+      // Check name and all specs for M2/M3
+      const hasM2 = name.includes('m2') || specValues.includes('m2')
+      const hasM3 = name.includes('m3') || specValues.includes('m3')
+      // Remove if it's a MacBook with M2 or M3
+      return !(hasM2 || hasM3)
+    })
+    
     // Filter by search query
-    let searchFiltered = conditionFiltered
+    let searchFiltered = chipFiltered
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
-      searchFiltered = conditionFiltered.filter(p => 
+      searchFiltered = chipFiltered.filter(p => 
         p.name?.toLowerCase().includes(query) ||
         p.category?.toLowerCase().includes(query) ||
         p.specs && Object.values(p.specs).some(v => String(v).toLowerCase().includes(query))
@@ -144,14 +158,14 @@ const ProductCatalog = () => {
     
     // Handle MacBook vs Mac separation (case-insensitive)
     if (activeFilter.toLowerCase() === 'macbook') {
-      return conditionFiltered.filter(p => 
+      return searchFiltered.filter(p => 
         p.category?.toLowerCase() === 'mac' && 
         (p.name?.toLowerCase().includes('macbook') || p.name?.toLowerCase().includes('mac book'))
       )
     }
     
     if (activeFilter.toLowerCase() === 'mac') {
-      return conditionFiltered.filter(p => 
+      return searchFiltered.filter(p => 
         p.category?.toLowerCase() === 'mac' && 
         !p.name?.toLowerCase().includes('macbook') && 
         !p.name?.toLowerCase().includes('mac book')
@@ -225,22 +239,43 @@ const ProductCatalog = () => {
         {/* Category Filter */}
         <div className="flex flex-wrap gap-2 mb-4">
           {categories.map((cat) => {
+            // Calculate counts using same filters as product grid
+            const unique = products.filter((p, i, self) => 
+              i === self.findIndex(t => t.id === p.id)
+            )
+            let catConditionFiltered = unique
+            if (condition === 'refurbished') {
+              catConditionFiltered = unique.filter(p => p.condition === 'refurbished')
+            } else {
+              catConditionFiltered = unique.filter(p => !p.condition || p.condition !== 'refurbished')
+            }
+            // Apply chip filter for counts too
+            const catChipFiltered = catConditionFiltered.filter(p => {
+              const name = p.name?.toLowerCase() || ''
+              const specValues = p.specs ? Object.values(p.specs).join(' ').toLowerCase() : ''
+              const isMacBook = name.includes('macbook') || name.includes('mac book')
+              if (!isMacBook) return true
+              const hasM2 = name.includes('m2') || specValues.includes('m2')
+              const hasM3 = name.includes('m3') || specValues.includes('m3')
+              return !(hasM2 || hasM3)
+            })
+            
             const count = cat === 'All' 
-              ? products.length 
+              ? catChipFiltered.length 
               : cat === 'Home'
               ? 0
               : cat === 'MacBook'
-              ? products.filter(p => 
+              ? catChipFiltered.filter(p => 
                   p.category?.toLowerCase() === 'mac' && 
                   (p.name?.toLowerCase().includes('macbook') || p.name?.toLowerCase().includes('mac book'))
                 ).length
               : cat === 'Mac'
-              ? products.filter(p => 
+              ? catChipFiltered.filter(p => 
                   p.category?.toLowerCase() === 'mac' && 
                   !p.name?.toLowerCase().includes('macbook') && 
                   !p.name?.toLowerCase().includes('mac book')
                 ).length
-              : products.filter(p => p.category?.toLowerCase() === cat.toLowerCase()).length
+              : catChipFiltered.filter(p => p.category?.toLowerCase() === cat.toLowerCase()).length
             return (
               <Link
                 key={cat}
