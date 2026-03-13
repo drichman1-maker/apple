@@ -26,7 +26,20 @@ const RetailerAvailability = ({ prices }) => {
         Retailer Availability
       </h3>
       <div className="space-y-3">
-        {sortedPrices.map(({ retailer, price, inStock, url }) => (
+        {sortedPrices.map(({ retailer, price, inStock, verified, url }) => {
+          // Determine stock display based on verified status
+          const isVerified = verified === true
+          const stockStatus = isVerified 
+            ? (inStock ? 'In Stock' : 'Out of Stock')
+            : 'Check Stock'
+          const stockColor = isVerified
+            ? (inStock ? 'bg-green-500' : 'bg-red-500')
+            : 'bg-yellow-500'
+          const stockTextColor = isVerified
+            ? (inStock ? 'text-green-400' : 'text-red-400')
+            : 'text-yellow-400'
+          
+          return (
           <div 
             key={retailer}
             className="flex items-center justify-between bg-gray-700/50 rounded-lg p-3"
@@ -36,11 +49,14 @@ const RetailerAvailability = ({ prices }) => {
                 {retailerNames[retailer] || retailer}
               </span>
               <span 
-                className={`w-2 h-2 rounded-full ${
-                  inStock ? 'bg-green-500' : 'bg-red-500'
-                }`}
-                title={inStock ? 'In Stock' : 'Out of Stock'}
+                className={`w-2 h-2 rounded-full ${stockColor}`}
+                title={stockStatus}
               />
+              {!isVerified && (
+                <span className={`text-xs ${stockTextColor} font-medium`}>
+                  {stockStatus}
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-4">
               <span className={`text-lg font-bold ${
@@ -59,7 +75,7 @@ const RetailerAvailability = ({ prices }) => {
               </a>
             </div>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   )
