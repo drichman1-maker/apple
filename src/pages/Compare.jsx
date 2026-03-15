@@ -11,7 +11,7 @@ const RETAILER_CONFIG = {
   bestbuy: { label: 'Best Buy', color: 'text-blue-400', bg: 'bg-blue-500/10' },
   bh: { label: 'B&H Photo', color: 'text-red-400', bg: 'bg-red-500/10' },
   adorama: { label: 'Adorama', color: 'text-purple-400', bg: 'bg-purple-500/10' },
-  microcenter: { label: 'Micro Center', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  microcenter: { label: 'Micro Center', color: 'text-amber-400', bg: 'bg-amber-500/10' },
 }
 
 // Spec icons mapping

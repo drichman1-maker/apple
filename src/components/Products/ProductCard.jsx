@@ -66,6 +66,7 @@ const ProductCard = ({ product }) => {
       ebay: 'eBay',
       cdw: 'CDW',
       newegg: 'Newegg',
+      microcenter: 'Micro Center',
       hyperice: 'Hyperice',
       rei: 'REI',
       rogue: 'Rogue'

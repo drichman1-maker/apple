@@ -59,7 +59,6 @@ const Navbar = () => {
   const navigation = [
     { name: 'Home', href: '/home' },
     { name: 'Products', href: '/' },
-    { name: 'Deals', href: '/products/iphone?sort=deals' },
     { name: 'Compare', href: '/compare' },
     { name: 'iPhone', href: '/products/iphone' },
     { name: 'iPad', href: '/products/ipad' },

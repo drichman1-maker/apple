@@ -174,7 +174,10 @@ const ProductCatalog = () => {
     }
     
     let categoryFiltered = searchFiltered
-    if (activeFilter !== 'All') {
+    if (activeFilter === 'Deals') {
+      // Deals shows all products (same as All), will be sorted by savings below
+      categoryFiltered = searchFiltered
+    } else if (activeFilter !== 'All') {
       // Handle MacBook vs Mac separation (case-insensitive)
       if (activeFilter.toLowerCase() === 'macbook') {
         categoryFiltered = searchFiltered.filter(p =>
@@ -197,7 +200,18 @@ const ProductCatalog = () => {
     // Apply sorting
     let sorted = [...categoryFiltered]
 
-    if (sortBy === 'deals') {
+    // If Deals filter is active, always sort by best deals first
+    if (activeFilter === 'Deals') {
+      sorted.sort((a, b) => {
+        const aBest = getBestPrice(a)
+        const aWorst = getWorstPrice(a)
+        const bBest = getBestPrice(b)
+        const bWorst = getWorstPrice(b)
+        const aSavings = (aWorst && aBest) ? ((aWorst.price - aBest.price) / aWorst.price) : 0
+        const bSavings = (bWorst && bBest) ? ((bWorst.price - bBest.price) / bWorst.price) : 0
+        return bSavings - aSavings
+      })
+    } else if (sortBy === 'deals') {
       // Sort by savings percentage (best deals first)
       sorted.sort((a, b) => {
         const aBest = getBestPrice(a)
@@ -328,19 +342,19 @@ const ProductCatalog = () => {
               return !(hasM2 || hasM3)
             })
             
-            const count = cat === 'All' 
-              ? catChipFiltered.length 
+            const count = cat === 'All' || cat === 'Deals'
+              ? catChipFiltered.length
               : cat === 'Home'
               ? 0
               : cat === 'MacBook'
-              ? catChipFiltered.filter(p => 
-                  p.category?.toLowerCase() === 'mac' && 
+              ? catChipFiltered.filter(p =>
+                  p.category?.toLowerCase() === 'mac' &&
                   (p.name?.toLowerCase().includes('macbook') || p.name?.toLowerCase().includes('mac book'))
                 ).length
               : cat === 'Mac'
-              ? catChipFiltered.filter(p => 
-                  p.category?.toLowerCase() === 'mac' && 
-                  !p.name?.toLowerCase().includes('macbook') && 
+              ? catChipFiltered.filter(p =>
+                  p.category?.toLowerCase() === 'mac' &&
+                  !p.name?.toLowerCase().includes('macbook') &&
                   !p.name?.toLowerCase().includes('mac book')
                 ).length
               : catChipFiltered.filter(p => p.category?.toLowerCase() === cat.toLowerCase()).length
@@ -393,7 +407,7 @@ const ProductCatalog = () => {
                 className="appearance-none bg-[#141414] border border-[#262626] text-[#fafafa] text-sm font-medium rounded-full px-4 py-1.5 pr-8 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
               >
                 <option value="default">Sort: Default</option>
-                <option value="deals">🔥 Best Deals</option>
+                <option value="deals">Best Deals</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="newest">Newest First</option>
