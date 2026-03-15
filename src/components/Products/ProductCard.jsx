@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
     const refurbishedRetailers = [];
     
     if (usedRetailers.includes(retailer.toLowerCase())) {
-      return { label: 'USED', color: 'bg-amber-500/20 border-amber-500/30 text-amber-400' };
+      return { label: 'MAY BE USED', color: 'bg-amber-500/20 border-amber-500/30 text-amber-400' };
     }
     if (refurbishedRetailers.includes(retailer.toLowerCase())) {
       return { label: 'REFURB', color: 'bg-green-500/20 border-green-500/30 text-green-400' };

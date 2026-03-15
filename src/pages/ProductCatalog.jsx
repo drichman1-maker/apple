@@ -15,6 +15,7 @@ const ProductCatalog = () => {
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
   const [condition, setCondition] = useState('new') // 'new' or 'refurbished'
   const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState('default') // 'default', 'deals', 'price-low', 'price-high', 'newest'
 
   // Fetch live prices from /api/prices
   const fetchLivePrices = async (showSpinner = false) => {
@@ -172,10 +173,77 @@ const ProductCatalog = () => {
       )
     }
     
-    return searchFiltered.filter(p => 
-      p.category?.toLowerCase() === activeFilter.toLowerCase()
-    )
-  }, [products, activeFilter, condition, searchQuery])
+    let categoryFiltered = searchFiltered
+    if (activeFilter !== 'All') {
+      // Handle MacBook vs Mac separation (case-insensitive)
+      if (activeFilter.toLowerCase() === 'macbook') {
+        categoryFiltered = searchFiltered.filter(p =>
+          p.category?.toLowerCase() === 'mac' &&
+          (p.name?.toLowerCase().includes('macbook') || p.name?.toLowerCase().includes('mac book'))
+        )
+      } else if (activeFilter.toLowerCase() === 'mac') {
+        categoryFiltered = searchFiltered.filter(p =>
+          p.category?.toLowerCase() === 'mac' &&
+          !p.name?.toLowerCase().includes('macbook') &&
+          !p.name?.toLowerCase().includes('mac book')
+        )
+      } else {
+        categoryFiltered = searchFiltered.filter(p =>
+          p.category?.toLowerCase() === activeFilter.toLowerCase()
+        )
+      }
+    }
+
+    // Apply sorting
+    let sorted = [...categoryFiltered]
+
+    if (sortBy === 'deals') {
+      // Sort by savings percentage (best deals first)
+      sorted.sort((a, b) => {
+        const aBest = getBestPrice(a)
+        const aWorst = getWorstPrice(a)
+        const bBest = getBestPrice(b)
+        const bWorst = getWorstPrice(b)
+        const aSavings = (aWorst && aBest) ? ((aWorst.price - aBest.price) / aWorst.price) : 0
+        const bSavings = (bWorst && bBest) ? ((bWorst.price - bBest.price) / bWorst.price) : 0
+        return bSavings - aSavings
+      })
+    } else if (sortBy === 'price-low') {
+      sorted.sort((a, b) => {
+        const aPrice = getBestPrice(a)?.price || Infinity
+        const bPrice = getBestPrice(b)?.price || Infinity
+        return aPrice - bPrice
+      })
+    } else if (sortBy === 'price-high') {
+      sorted.sort((a, b) => {
+        const aPrice = getBestPrice(a)?.price || 0
+        const bPrice = getBestPrice(b)?.price || 0
+        return bPrice - aPrice
+      })
+    } else if (sortBy === 'newest') {
+      sorted.sort((a, b) => {
+        const aDate = new Date(a.releaseDate || 0)
+        const bDate = new Date(b.releaseDate || 0)
+        return bDate - aDate
+      })
+    } else {
+      // Default: Prioritize iPhone 17 models, then by release date
+      sorted.sort((a, b) => {
+        const aIs17 = a.name?.toLowerCase().includes('iphone 17')
+        const bIs17 = b.name?.toLowerCase().includes('iphone 17')
+
+        if (aIs17 && !bIs17) return -1
+        if (!aIs17 && bIs17) return 1
+
+        // Then by release date (newest first)
+        const aDate = new Date(a.releaseDate || 0)
+        const bDate = new Date(b.releaseDate || 0)
+        return bDate - aDate
+      })
+    }
+
+    return sorted
+  }, [products, activeFilter, condition, searchQuery, sortBy])
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-US', {
@@ -315,28 +383,54 @@ const ProductCatalog = () => {
             )}
           </div>
           
-          {/* New/Refurbished Toggle */}
-          <div className="flex items-center gap-2 bg-[#141414] border border-[#262626] rounded-full p-1">
-            <button
-              onClick={() => setCondition('new')}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                condition === 'new'
-                  ? 'bg-white text-black'
-                  : 'text-[#a3a3a3] hover:text-[#fafafa]'
-              }`}
-            >
-              New
-            </button>
-            <button
-              onClick={() => setCondition('refurbished')}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                condition === 'refurbished'
-                  ? 'bg-white text-black'
-                  : 'text-[#a3a3a3] hover:text-[#fafafa]'
-              }`}
-            >
-              Refurbished
-            </button>
+          {/* Sort Dropdown & New/Refurbished Toggle */}
+          <div className="flex items-center gap-3">
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="appearance-none bg-[#141414] border border-[#262626] text-[#fafafa] text-sm font-medium rounded-full px-4 py-1.5 pr-8 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
+              >
+                <option value="default">Sort: Default</option>
+                <option value="deals">🔥 Best Deals</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="newest">Newest First</option>
+              </select>
+              <svg
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a3a3a3] pointer-events-none"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            {/* New/Refurbished Toggle */}
+            <div className="flex items-center gap-2 bg-[#141414] border border-[#262626] rounded-full p-1">
+              <button
+                onClick={() => setCondition('new')}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  condition === 'new'
+                    ? 'bg-white text-black'
+                    : 'text-[#a3a3a3] hover:text-[#fafafa]'
+                }`}
+              >
+                New
+              </button>
+              <button
+                onClick={() => setCondition('refurbished')}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  condition === 'refurbished'
+                    ? 'bg-white text-black'
+                    : 'text-[#a3a3a3] hover:text-[#fafafa]'
+                }`}
+              >
+                Refurbished
+              </button>
+            </div>
           </div>
         </div>
 
