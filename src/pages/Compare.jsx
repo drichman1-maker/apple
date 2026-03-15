@@ -84,21 +84,33 @@ const Compare = () => {
 
   const selectedProductData = products.filter(p => selectedProducts.includes(p.id))
 
-  const getBestPrice = (product) => {
-    if (!product.prices) return null
+  // Get retailer URL from price data
+  const getRetailerUrl = (priceData) => {
+    return priceData?.affiliateUrl || priceData?.url || '#'
+  }
+
+  // Get all retailers sorted by price for a product
+  const getRetailersSorted = (product) => {
+    if (!product.prices) return []
     
-    const priceEntries = Object.entries(product.prices)
+    return Object.entries(product.prices)
       .filter(([, data]) => data && data.price > 0)
       .map(([retailer, data]) => ({ retailer, ...data }))
+      .sort((a, b) => a.price - b.price)
+  }
+
+  // Get best price (lowest, prefer in-stock)
+  const getBestPrice = (product) => {
+    const retailers = getRetailersSorted(product)
+    if (retailers.length === 0) return null
     
-    if (priceEntries.length === 0) return null
-    
-    const inStockVerified = priceEntries.filter(p => p.inStock && p.verified)
-    const inStock = priceEntries.filter(p => p.inStock)
-    const pool = inStockVerified.length > 0 ? inStockVerified : 
-                 inStock.length > 0 ? inStock : priceEntries
-    
-    return pool.reduce((best, current) => current.price < best.price ? current : best)
+    const inStock = retailers.filter(p => p.inStock)
+    return inStock.length > 0 ? inStock[0] : retailers[0]
+  }
+
+  // Get top 3 retailers
+  const getTop3Retailers = (product) => {
+    return getRetailersSorted(product).slice(0, 3)
   }
 
   // Get all unique spec keys from selected products
@@ -287,7 +299,7 @@ const Compare = () => {
                     Pricing & Availability
                   </h2>
                   <p className="text-sm text-gray-400 mt-1">
-                    <span className="text-yellow-500">✓</span> = Verified stock status
+                    Top 3 retailers by price. <span className="text-yellow-500">✓</span> = Verified stock status
                   </p>
                 </div>
                 
@@ -297,8 +309,13 @@ const Compare = () => {
                       <tr className="border-b border-white/10">
                         <th className="text-left p-4 text-gray-400 font-medium sticky left-0 bg-[#0a0a0a] min-w-[140px]">Retailer</th>
                         {selectedProductData.map(product => (
-                          <th key={product.id} className="text-left p-4 min-w-[200px]">
-                            <div className="text-white font-semibold">{product.name}</div>
+                          <th key={product.id} className="text-left p-4 min-w-[220px]">
+                            <Link 
+                              to={`/product/${product.id}`}
+                              className="text-white font-semibold hover:text-blue-400 transition-colors"
+                            >
+                              {product.name}
+                            </Link>
                           </th>
                         ))}
                       </tr>
@@ -326,16 +343,29 @@ const Compare = () => {
                           return (
                             <td key={product.id} className="p-4">
                               <div className="flex flex-col gap-1">
-                                <span className="text-2xl font-bold text-white">${bestPrice.price.toLocaleString()}</span>
+                                <a 
+                                  href={getRetailerUrl(bestPrice)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-2xl font-bold text-white hover:text-green-400 transition-colors"
+                                >
+                                  ${bestPrice.price.toLocaleString()}
+                                </a>
                                 {savings > 0 && (
                                   <span className="text-sm text-green-400">
                                     Save ${savings.toLocaleString()}
                                   </span>
                                 )}
-                                <span className="text-sm text-gray-400">
+                                <a 
+                                  href={getRetailerUrl(bestPrice)}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                                >
                                   at {RETAILER_CONFIG[bestPrice.retailer]?.label || bestPrice.retailer}
                                   {bestPrice.verified && <span className="text-yellow-500 ml-1">✓</span>}
-                                </span>
+                                  <ExternalLink className="w-3 h-3 inline ml-1" />
+                                </a>
                                 <span className={`text-sm ${bestPrice.inStock ? 'text-green-400' : 'text-red-400'}`}>
                                   {bestPrice.inStock ? '● In Stock' : '○ Out of Stock'}
                                 </span>
@@ -345,42 +375,60 @@ const Compare = () => {
                         })}
                       </tr>
 
-                      {/* Per-Retailer Prices */}
-                      {Object.keys(RETAILER_CONFIG).map((retailerKey, idx) => (
-                        <tr key={retailerKey} className={`border-b border-white/10 ${idx % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
-                          <td className={`p-4 text-gray-400 sticky left-0 bg-[#0a0a0a] font-medium`}>
-                            <div className={`inline-flex items-center gap-2 px-2 py-1 rounded ${RETAILER_CONFIG[retailerKey].bg}`}>
-                              <span className={RETAILER_CONFIG[retailerKey].color}>
-                                {RETAILER_CONFIG[retailerKey].label}
-                              </span>
-                            </div>
+                      {/* MSRP Row */}
+                      <tr className="border-b border-white/10 bg-white/[0.02]">
+                        <td className="p-4 text-gray-400 sticky left-0 bg-[#0a0a0a] font-medium">MSRP</td>
+                        {selectedProductData.map(product => (
+                          <td key={product.id} className="p-4 text-gray-300">
+                            ${product.prices?.apple?.price?.toLocaleString() || '—'}
+                          </td>
+                        ))}
+                      </tr>
+
+                      {/* Top 3 Retailers */}
+                      {[0, 1, 2].map((index) => (
+                        <tr key={`retailer-${index}`} className={`border-b border-white/10 ${index % 2 === 1 ? 'bg-white/[0.02]' : ''}`}>
+                          <td className="p-4 text-gray-400 sticky left-0 bg-[#0a0a0a] font-medium">
+                            {index === 0 ? '1st' : index === 1 ? '2nd' : '3rd'} Best
                           </td>
                           {selectedProductData.map(product => {
-                            const retailerData = product.prices?.[retailerKey]
+                            const top3 = getTop3Retailers(product)
+                            const retailerData = top3[index]
                             
-                            if (!retailerData || retailerData.price === 0) {
+                            if (!retailerData) {
                               return (
                                 <td key={product.id} className="p-4 text-gray-600">
-                                  <span className="flex items-center gap-1 text-sm">
-                                    <AlertCircle className="w-4 h-4" />
-                                    Not available
-                                  </span>
+                                  <span className="text-sm">—</span>
                                 </td>
                               )
                             }
                             
-                            const isBestPrice = getBestPrice(product)?.retailer === retailerKey
+                            const isBestPrice = index === 0
+                            const config = RETAILER_CONFIG[retailerData.retailer]
                             
                             return (
                               <td key={product.id} className="p-4">
                                 <div className="flex flex-col gap-1">
                                   <div className="flex items-center gap-2">
-                                    <span className={`text-lg font-semibold ${isBestPrice ? 'text-green-400' : 'text-white'}`}>
+                                    <a 
+                                      href={getRetailerUrl(retailerData)}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className={`text-lg font-semibold hover:underline ${isBestPrice ? 'text-green-400' : 'text-white'}`}
+                                    >
                                       ${retailerData.price.toLocaleString()}
-                                    </span>
+                                    </a>
                                     {retailerData.verified && <span className="text-yellow-500 text-xs">✓</span>}
-                                    {isBestPrice && <span className="text-xs text-green-400">(Best)</span>}
                                   </div>
+                                  <a 
+                                    href={getRetailerUrl(retailerData)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`text-sm hover:underline ${config?.color || 'text-gray-400'}`}
+                                  >
+                                    {config?.label || retailerData.retailer}
+                                    <ExternalLink className="w-3 h-3 inline ml-1" />
+                                  </a>
                                   <span className={`text-sm ${retailerData.inStock ? 'text-green-400' : 'text-red-400'}`}>
                                     {retailerData.inStock ? '● In Stock' : '○ Out of Stock'}
                                   </span>
@@ -390,6 +438,25 @@ const Compare = () => {
                           })}
                         </tr>
                       ))}
+
+                      {/* See All Link Row */}
+                      <tr>
+                        <td className="p-4 text-gray-400 sticky left-0 bg-[#0a0a0a]"></td>
+                        {selectedProductData.map(product => {
+                          const allRetailers = getRetailersSorted(product)
+                          return (
+                            <td key={product.id} className="p-4">
+                              <Link 
+                                to={`/product/${product.id}`}
+                                className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                              >
+                                See all {allRetailers.length} retailers
+                                <ExternalLink className="w-3 h-3" />
+                              </Link>
+                            </td>
+                          )
+                        })}
+                      </tr>
                     </tbody>
                   </table>
                 </div>
