@@ -60,8 +60,8 @@ export default function AffiliateDisclosure() {
           <h2 className="text-2xl font-semibold text-white mt-8 mb-4">Questions?</h2>
           <p>
             If you have any questions about our affiliate relationships, please contact us at{' '}
-            <a href="mailto:affiliates@mactrackr.com" className="text-purple-400 hover:underline">
-              affiliates@mactrackr.com
+            <a href="mailto:affiliates@theresmac.com" className="text-purple-400 hover:underline">
+              affiliates@theresmac.com
             </a>.
           </p>
 

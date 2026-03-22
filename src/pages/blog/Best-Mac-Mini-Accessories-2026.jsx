@@ -10,15 +10,15 @@ const BestMacMiniAccessories2026 = () => {
         <title>Best Mac Mini Accessories 2026 - Essential Add-ons</title>
         <meta name="description" content="Discover the best Mac Mini accessories for 2026. From docks and monitors to keyboards and storage solutions, find the perfect additions to enhance your setup." />
         <meta name="keywords" content="best Mac Mini accessories 2026, Mac Mini dock, Mac Mini monitor, Mac Mini storage, Mac Mini peripherals" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Best-Mac-Mini-Accessories-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Best-Mac-Mini-Accessories-2026" />
         <meta property="og:title" content="Best Mac Mini Accessories 2026 - Essential Add-ons" />
         <meta property="og:description" content="Discover the best Mac Mini accessories for 2026. Enhance your setup with our top picks." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/best-mac-mini-accessories.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/best-mac-mini-accessories.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-mac-mini-accessories.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/best-mac-mini-accessories.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -109,7 +109,7 @@ const BestMacMiniAccessories2026 = () => {
           </div>
 
           <p className="text-[#a3a3a3] mb-6 leading-relaxed">
-            The Apple Magic Keyboard is the "safe" pick. It pairs instantly, the function keys map perfectly to macOS shortcuts, and the design integrates beautifully with any Apple setup. <Link to="/product/magic-keyboard" className="text-[#3b82f6] hover:underline">See current price on MacTrackr</Link> before you buy.
+            The Apple Magic Keyboard is the "safe" pick. It pairs instantly, the function keys map perfectly to macOS shortcuts, and the design integrates beautifully with any Apple setup. <Link to="/product/magic-keyboard" className="text-[#3b82f6] hover:underline">See current price on TheresMac</Link> before you buy.
           </p>
         </section>
 
@@ -166,7 +166,7 @@ const BestMacMiniAccessories2026 = () => {
           </div>
 
           <p className="text-[#a3a3a3] mb-6 leading-relaxed">
-            The Magic Trackpad is the top pick for anyone coming from a MacBook who loves macOS gestures. <Link to="/product/magic-trackpad" className="text-[#3b82f6] hover:underline">Compare prices on MacTrackr</Link> to catch any promotions.
+            The Magic Trackpad is the top pick for anyone coming from a MacBook who loves macOS gestures. <Link to="/product/magic-trackpad" className="text-[#3b82f6] hover:underline">Compare prices on TheresMac</Link> to catch any promotions.
           </p>
         </section>
 
@@ -356,7 +356,7 @@ const BestMacMiniAccessories2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              Prices on Apple accessories and monitors shift constantly across retailers. Track Mac Mini accessory prices on MacTrackr at <Link to="/" className="text-[#3b82f6] hover:underline">mactrackr.com</Link>, where we monitor price drops across major retailers so you always know the right time to buy. Whether you're eyeing the <Link to="/product/mac-mini-m4" className="text-[#3b82f6] hover:underline">Mac Mini M4</Link> or the more powerful <Link to="/product/mac-mini-m4-pro" className="text-[#3b82f6] hover:underline">Mac Mini M4 Pro</Link>, we'll help you build your perfect setup for less.
+              Prices on Apple accessories and monitors shift constantly across retailers. Track Mac Mini accessory prices on TheresMac at <Link to="/" className="text-[#3b82f6] hover:underline">theresmac.com</Link>, where we monitor price drops across major retailers so you always know the right time to buy. Whether you're eyeing the <Link to="/product/mac-mini-m4" className="text-[#3b82f6] hover:underline">Mac Mini M4</Link> or the more powerful <Link to="/product/mac-mini-m4-pro" className="text-[#3b82f6] hover:underline">Mac Mini M4 Pro</Link>, we'll help you build your perfect setup for less.
             </p>
           </div>
         </section>
@@ -364,7 +364,7 @@ const BestMacMiniAccessories2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Prices subject to change.

@@ -22,7 +22,7 @@ const ProductCatalog = () => {
     if (showSpinner) setRefreshing(true)
     try {
       // Fetch from existing backend (has live prices)
-      const response = await fetch('https://mactrackr-backend-fresh.fly.dev/api/products')
+      const response = await fetch('https://theresmac-backend.fly.dev/api/products')
       if (response.ok) {
         const data = await response.json()
         // Build price map from backend data
@@ -67,7 +67,7 @@ const ProductCatalog = () => {
     const fetchProducts = async () => {
       setLoading(true)
       try {
-        const url = 'https://mactrackr-backend-fresh.fly.dev/api/products'
+        const url = 'https://theresmac-backend.fly.dev/api/products'
         const response = await fetch(url)
         if (response.ok) {
           const data = await response.json()
@@ -654,7 +654,7 @@ const ProductCatalog = () => {
             <span className="text-[#333]">|</span>
             <Link to="/about" className="hover:text-[#3b82f6] mx-2">About</Link>
           </p>
-          <p className="text-[#a3a3a3] text-sm">© 2026 MacTrackr</p>
+          <p className="text-[#a3a3a3] text-sm">© 2026 TheresMac</p>
         </div>
       </footer>
     </div>

@@ -10,15 +10,15 @@ const BestMacMusicProduction2026 = () => {
         <title>Best Mac for Music Production 2026 - Ultimate Guide</title>
         <meta name="description" content="Find the best Mac for music production in 2026. Compare MacBook Pro, Mac mini, and Mac Studio for Logic Pro, Ableton Live, and FL Studio with our expert analysis." />
         <meta name="keywords" content="best Mac for music production 2026, MacBook Pro music production, Mac Studio audio, Logic Pro Mac, best Mac for FL Studio" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Best-Mac-Music-Production-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Best-Mac-Music-Production-2026" />
         <meta property="og:title" content="Best Mac for Music Production 2026 - Ultimate Guide" />
         <meta property="og:description" content="Find the best Mac for music production in 2026. Compare MacBook Pro, Mac mini, and Mac Studio." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/best-mac-music-production.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/best-mac-music-production.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-mac-music-production.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/best-mac-music-production.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -310,7 +310,7 @@ const BestMacMusicProduction2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              Prices shift more than most people realize. Before you buy, <Link to="/" className="text-[#3b82f6] hover:underline">compare Mac prices on MacTrackr</Link> to find the best current deals across major retailers. MacTrackr tracks price history and drops across the full Apple lineup, so you never pay more than you have to for your next music production machine.
+              Prices shift more than most people realize. Before you buy, <Link to="/" className="text-[#3b82f6] hover:underline">compare Mac prices on TheresMac</Link> to find the best current deals across major retailers. TheresMac tracks price history and drops across the full Apple lineup, so you never pay more than you have to for your next music production machine.
             </p>
           </div>
         </section>
@@ -318,7 +318,7 @@ const BestMacMusicProduction2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Prices subject to change.

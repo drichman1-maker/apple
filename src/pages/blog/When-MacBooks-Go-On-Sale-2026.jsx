@@ -10,15 +10,15 @@ const WhenMacBooksGoOnSale2026 = () => {
         <title>When Do MacBooks Go On Sale? 2026 Price History Guide</title>
         <meta name="description" content="Track MacBook price history and find the best time to buy in 2026. Learn when Apple, Amazon, and Best Buy typically offer the biggest discounts on MacBook Pro and Air." />
         <meta name="keywords" content="when do MacBooks go on sale, MacBook price history, best time to buy MacBook, MacBook deals 2026, Apple discount dates" />
-        <link rel="canonical" href="https://mactrackr.com/blog/When-MacBooks-Go-On-Sale-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/When-MacBooks-Go-On-Sale-2026" />
         <meta property="og:title" content="When Do MacBooks Go On Sale? 2026 Price History Guide" />
         <meta property="og:description" content="Track MacBook price history and find the best time to buy in 2026." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/when-macbooks-go-on-sale.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/when-macbooks-go-on-sale.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/when-macbooks-go-on-sale.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/when-macbooks-go-on-sale.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -157,7 +157,7 @@ const WhenMacBooksGoOnSale2026 = () => {
 
         {/* How to Track */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-[#fafafa] mb-6">How to Track Deals with MacTrackr</h2>
+          <h2 className="text-2xl font-bold text-[#fafafa] mb-6">How to Track Deals with TheresMac</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#141414] border border-[#262626] rounded-xl p-5">
@@ -301,7 +301,7 @@ const WhenMacBooksGoOnSale2026 = () => {
 
             <div className="border border-[#262626] rounded-xl p-6">
               <h3 className="text-lg font-semibold text-[#fafafa] mb-2">Should I buy now or wait for the next sale?</h3>
-              <p className="text-[#a3a3a3]">If you need a MacBook immediately, buy it. If your purchase is flexible, waiting for the next major sale can save $200+. Use MacTrackr alerts to catch the moment prices drop.</p>
+              <p className="text-[#a3a3a3]">If you need a MacBook immediately, buy it. If your purchase is flexible, waiting for the next major sale can save $200+. Use TheresMac alerts to catch the moment prices drop.</p>
             </div>
           </div>
         </section>
@@ -324,7 +324,7 @@ const WhenMacBooksGoOnSale2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              <strong>Ready to save?</strong> Set up price alerts on MacTrackr for your target MacBook model, and you'll never 
+              <strong>Ready to save?</strong> Set up price alerts on TheresMac for your target MacBook model, and you'll never 
               miss a deal. We'll notify you the moment prices drop at Apple, Amazon, Best Buy, B&H, or any authorized retailer.
             </p>
           </div>
@@ -333,7 +333,7 @@ const WhenMacBooksGoOnSale2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Sale timing subject to retailer discretion.

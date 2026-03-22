@@ -10,15 +10,15 @@ const MacMiniM4vsM4Pro2026 = () => {
         <title>Mac Mini M4 vs M4 Pro (2026) - Which One Do You Actually Need?</title>
         <meta name="description" content="Compare Mac Mini M4 vs M4 Pro: performance, ports, pricing, and which to buy with M5 on the horizon." />
         <meta name="keywords" content="Mac Mini M4 vs M4 Pro, Mac Mini M4, Mac Mini M4 Pro, Apple Silicon 2026, Mac Mini comparison" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Mac-Mini-M4-vs-M4-Pro-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Mac-Mini-M4-vs-M4-Pro-2026" />
         <meta property="og:title" content="Mac Mini M4 vs M4 Pro (2026) - Which One Do You Actually Need?" />
         <meta property="og:description" content="Complete comparison of Mac Mini M4 vs M4 Pro: performance, ports, pricing, and which to buy." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/mac-mini-m4-vs-pro.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/mac-mini-m4-vs-pro.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/mac-mini-m4-vs-pro.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/mac-mini-m4-vs-pro.png" />
       </Helmet>
       
       {/* Header */}
@@ -365,9 +365,9 @@ const MacMiniM4vsM4Pro2026 = () => {
           </p>
 
           <div className="bg-[#141414] border border-[#262626] rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-[#fafafa] mb-4">Track Prices with MacTrackr</h3>
+            <h3 className="text-lg font-semibold text-[#fafafa] mb-4">Track Prices with TheresMac</h3>
             <p className="text-[#a3a3a3] mb-4">
-              Use MacTrackr to monitor prices on both configurations and get alerts when prices drop. With the M5 launch, we expect to see significant discounts on M4 models in the coming weeks.
+              Use TheresMac to monitor prices on both configurations and get alerts when prices drop. With the M5 launch, we expect to see significant discounts on M4 models in the coming weeks.
             </p>
             <Link to="/product/mac-mini-m4" className="text-[#3b82f6] hover:underline">
               View Mac Mini M4 Prices →
@@ -384,7 +384,7 @@ const MacMiniM4vsM4Pro2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              <strong>Bottom line:</strong> For the vast majority of users — casual users, students, home office workers, anyone needing a capable second machine — the base M4 Mac Mini is more than powerful enough and represents incredible value. The Pro is for professionals running serious computational workloads who need sustained performance, the best connectivity, and maximum memory. Use MacTrackr to track prices and catch the best deals on either.
+              <strong>Bottom line:</strong> For the vast majority of users — casual users, students, home office workers, anyone needing a capable second machine — the base M4 Mac Mini is more than powerful enough and represents incredible value. The Pro is for professionals running serious computational workloads who need sustained performance, the best connectivity, and maximum memory. Use TheresMac to track prices and catch the best deals on either.
             </p>
           </div>
         </section>
@@ -392,7 +392,7 @@ const MacMiniM4vsM4Pro2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of March 2026. Prices subject to change.

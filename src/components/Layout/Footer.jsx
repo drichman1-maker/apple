@@ -20,7 +20,7 @@ const Footer = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
                 <Apple className="h-5 w-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-white">MacTrackr</span>
+              <span className="text-lg font-bold text-white">TheresMac</span>
             </Link>
             <p className="text-gray-500 text-sm max-w-sm">
               Anonymous price tracking for Apple products. We don't collect your data.
@@ -53,7 +53,7 @@ const Footer = () => {
 
         <div className="border-t border-[#262626] mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-gray-600 text-sm">
-            © 2026 MacTrackr. Anonymous price tracking.
+            © 2026 TheresMac. Anonymous price tracking.
           </p>
           <div className="flex items-center gap-4 mt-2 sm:mt-0">
             <a href="https://x.com/mactrackrapp" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-white text-sm transition-colors">@mactrackrapp</a>

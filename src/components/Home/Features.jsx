@@ -46,7 +46,7 @@ const Features = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 mb-6">
             <Sparkles className="h-4 w-4 mr-2 text-apple-blue" />
-            Why Choose MacTrackr
+            Why Choose TheresMac
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             Shop Smarter,{' '}

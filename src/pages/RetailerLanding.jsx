@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ExternalLink, Store, TrendingDown } from 'lucide-react'
 
-const API_BASE_URL = 'https://mactrackr-backend-fresh.fly.dev'
+const API_BASE_URL = 'https://theresmac-backend.fly.dev'
 
 // Retailer configuration
 const RETAILER_CONFIG = {
@@ -180,7 +180,7 @@ const RetailerLanding = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <title>{`${retailer.displayName} Apple Deals — Best Prices at ${retailer.name} | MacTrackr`}</title>
+      <title>{`${retailer.displayName} Apple Deals — Best Prices at ${retailer.name} | TheresMac`}</title>
       <meta name="description" content={`Find the best Apple deals at ${retailer.name}. Compare prices on iPhone, iPad, Mac, Apple Watch, and AirPods. Track savings and set price alerts.`} />
       
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8">
@@ -363,7 +363,7 @@ const RetailerLanding = () => {
           </h2>
           <div className="prose prose-invert max-w-none text-gray-400 leading-relaxed">
             <p className="mb-4">
-              {retailer.name} is one of MacTrackr's tracked retailers for Apple products. 
+              {retailer.name} is one of TheresMac's tracked retailers for Apple products. 
               We monitor prices on {products.filter(p => p.category === 'iphone').length} iPhone models, 
               {' '}{products.filter(p => p.category === 'mac').length} Mac computers, 
               {' '}{products.filter(p => p.category === 'ipad').length} iPad models, 
@@ -377,7 +377,7 @@ const RetailerLanding = () => {
               }
             </p>
             <p>
-              Use MacTrackr to compare {retailer.name} prices against other retailers like 
+              Use TheresMac to compare {retailer.name} prices against other retailers like 
               {Object.keys(RETAILER_CONFIG).filter(r => r !== retailerId).slice(0, 3).join(', ')}, 
               and more. Set price alerts to get notified when your desired product drops in price at {retailer.name} or any other retailer.
             </p>

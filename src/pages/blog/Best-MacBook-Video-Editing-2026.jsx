@@ -10,15 +10,15 @@ const BestMacBookVideoEditing = () => {
         <title>Best MacBook for Video Editing 2026 - Complete Guide</title>
         <meta name="description" content="Find the best MacBook for video editing in 2026. Compare MacBook Pro M4 configurations for Final Cut Pro, Premiere Pro, and DaVinci Resolve with our expert analysis." />
         <meta name="keywords" content="best MacBook for video editing 2026, MacBook Pro M4 video editing, Final Cut Pro Mac, best Mac for Premiere Pro, MacBook Pro 14 vs 16 video editing" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Best-MacBook-Video-Editing-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Best-MacBook-Video-Editing-2026" />
         <meta property="og:title" content="Best MacBook for Video Editing 2026 - Complete Guide" />
         <meta property="og:description" content="Find the best MacBook for video editing in 2026. Compare MacBook Pro M4 configurations." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/best-macbook-video-editing.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/best-macbook-video-editing.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-macbook-video-editing.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/best-macbook-video-editing.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -336,7 +336,7 @@ const BestMacBookVideoEditing = () => {
           
           <h3 className="text-xl font-semibold text-[#fafafa] mb-4">Price Structure</h3>
           <p className="text-[#a3a3a3] mb-6 leading-relaxed">
-            Current market data indicates consistent pricing patterns across authorized retailers. MacTrackr price aggregation (Q1 2026) shows:
+            Current market data indicates consistent pricing patterns across authorized retailers. TheresMac price aggregation (Q1 2026) shows:
           </p>
 
           <div className="overflow-x-auto border border-[#262626] rounded-xl mb-8">
@@ -477,7 +477,7 @@ const BestMacBookVideoEditing = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of January 2026. Specifications subject to manufacturer revision.

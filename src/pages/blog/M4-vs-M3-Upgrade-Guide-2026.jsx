@@ -10,15 +10,15 @@ const M4vsM3UpgradeGuide2026 = () => {
         <title>M4 vs M3 Mac - Upgrade Guide 2026 - Should You Switch?</title>
         <meta name="description" content="Compare M4 vs M3 Apple Silicon in 2026. Should you upgrade from M3 to M4? Detailed performance benchmarks and real-world usage analysis for MacBook Pro and Mac mini." />
         <meta name="keywords" content="M4 vs M3, Apple M4 vs M3, M4 MacBook Pro, M3 upgrade, Apple Silicon comparison 2026" />
-        <link rel="canonical" href="https://mactrackr.com/blog/M4-vs-M3-Upgrade-Guide-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/M4-vs-M3-Upgrade-Guide-2026" />
         <meta property="og:title" content="M4 vs M3 Mac - Upgrade Guide 2026 - Should You Switch?" />
         <meta property="og:description" content="Compare M4 vs M3 Apple Silicon in 2026. Should you upgrade from M3 to M4?" />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/m4-vs-m3-upgrade.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/m4-vs-m3-upgrade.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/m4-vs-m3-upgrade.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/m4-vs-m3-upgrade.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -310,7 +310,7 @@ const M4vsM3UpgradeGuide2026 = () => {
 
             <div className="border border-[#262626] rounded-xl p-6">
               <h3 className="text-lg font-semibold text-[#fafafa] mb-2">Should I buy refurbished M3 or new M4?</h3>
-              <p className="text-[#a3a3a3]">Compare prices on MacTrackr. Apple's certified refurbished program offers excellent value with the same warranty as new. If the price gap is less than $150, opt for the M4. If it's $300 or more, the M3 refurbished is the smarter buy.</p>
+              <p className="text-[#a3a3a3]">Compare prices on TheresMac. Apple's certified refurbished program offers excellent value with the same warranty as new. If the price gap is less than $150, opt for the M4. If it's $300 or more, the M3 refurbished is the smarter buy.</p>
             </div>
           </div>
         </section>
@@ -324,7 +324,7 @@ const M4vsM3UpgradeGuide2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              <strong>Bottom line:</strong> If you need maximum performance and can afford the premium, buy the M4. If you want the best value and the M3 meets your current needs, save your money. Use MacTrackr to track prices and catch the best deals on either generation.
+              <strong>Bottom line:</strong> If you need maximum performance and can afford the premium, buy the M4. If you want the best value and the M3 meets your current needs, save your money. Use TheresMac to track prices and catch the best deals on either generation.
             </p>
           </div>
         </section>
@@ -332,7 +332,7 @@ const M4vsM3UpgradeGuide2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Prices subject to change.

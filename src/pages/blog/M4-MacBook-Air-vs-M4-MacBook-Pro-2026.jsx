@@ -10,15 +10,15 @@ const M4MacBookAirvsPro2026 = () => {
         <title>M4 MacBook Air vs M4 MacBook Pro (2026) - Complete Comparison</title>
         <meta name="description" content="Compare M4 MacBook Air vs M4 MacBook Pro: performance, display, ports, battery life, and which to buy in 2026 with M5 on the horizon." />
         <meta name="keywords" content="M4 MacBook Air vs M4 MacBook Pro, MacBook Air M4, MacBook Pro M4, Apple Silicon 2026, MacBook comparison" />
-        <link rel="canonical" href="https://mactrackr.com/blog/M4-MacBook-Air-vs-M4-MacBook-Pro-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/M4-MacBook-Air-vs-M4-MacBook-Pro-2026" />
         <meta property="og:title" content="M4 MacBook Air vs M4 MacBook Pro (2026) - Complete Comparison" />
         <meta property="og:description" content="Which M4 MacBook should you buy? Full comparison of performance, display, ports, and battery life." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/m4-macbook-air-vs-pro.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/m4-macbook-air-vs-pro.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/m4-macbook-air-vs-pro.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/m4-macbook-air-vs-pro.png" />
       </Helmet>
       
       {/* Header */}
@@ -430,7 +430,7 @@ const M4MacBookAirvsPro2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              <strong>Bottom line:</strong> For the vast majority of users — students, writers, designers, developers doing everyday work — the M4 Air is more than powerful enough and won't feel limited. The Pro is for those running serious computational workloads who need sustained performance, the best display, and maximum connectivity. Use MacTrackr to track prices and catch the best deals on either.
+              <strong>Bottom line:</strong> For the vast majority of users — students, writers, designers, developers doing everyday work — the M4 Air is more than powerful enough and won't feel limited. The Pro is for those running serious computational workloads who need sustained performance, the best display, and maximum connectivity. Use TheresMac to track prices and catch the best deals on either.
             </p>
           </div>
         </section>
@@ -438,7 +438,7 @@ const M4MacBookAirvsPro2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of March 2026. Prices subject to change.

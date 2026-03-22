@@ -84,7 +84,7 @@ const Navbar = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-apple-blue to-purple-500 rounded-xl flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,122,255,0.4)] transition-shadow">
                 <Apple className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">MacTrackr</span>
+              <span className="text-xl font-bold text-white">TheresMac</span>
             </Link>
           </div>
 

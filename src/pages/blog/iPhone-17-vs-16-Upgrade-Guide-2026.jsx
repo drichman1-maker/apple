@@ -10,15 +10,15 @@ const iPhone17vs16Upgrade = () => {
         <title>iPhone 17 vs iPhone 16 - Complete Upgrade Guide 2026</title>
         <meta name="description" content="Compare iPhone 17 vs iPhone 16 in 2026. Should you upgrade? Full feature comparison including camera, performance, battery life, and pricing." />
         <meta name="keywords" content="iPhone 17 vs iPhone 16, iPhone 17 upgrade, iPhone 16 review, iPhone 17 features, Apple iPhone comparison 2026" />
-        <link rel="canonical" href="https://mactrackr.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026" />
         <meta property="og:title" content="iPhone 17 vs iPhone 16 - Complete Upgrade Guide 2026" />
         <meta property="og:description" content="Compare iPhone 17 vs iPhone 16 in 2026. Should you upgrade?" />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/iphone-17-vs-16.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/iphone-17-vs-16.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/iphone-17-vs-16.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/iphone-17-vs-16.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -227,7 +227,7 @@ const iPhone17vs16Upgrade = () => {
           </div>
 
           <p className="text-[#a3a3a3] mb-6 leading-relaxed">
-            See current pricing for the <Link to="/product/iphone-17" className="text-[#3b82f6] hover:underline">iPhone 17</Link>, <Link to="/product/iphone-16" className="text-[#3b82f6] hover:underline">iPhone 16</Link>, and <Link to="/product/iphone-16-plus" className="text-[#3b82f6] hover:underline">iPhone 16 Plus</Link>. Track iPhone price drops on MacTrackr — we update pricing daily across Apple, Amazon, Best Buy, and all major carriers.
+            See current pricing for the <Link to="/product/iphone-17" className="text-[#3b82f6] hover:underline">iPhone 17</Link>, <Link to="/product/iphone-16" className="text-[#3b82f6] hover:underline">iPhone 16</Link>, and <Link to="/product/iphone-16-plus" className="text-[#3b82f6] hover:underline">iPhone 16 Plus</Link>. Track iPhone price drops on TheresMac — we update pricing daily across Apple, Amazon, Best Buy, and all major carriers.
           </p>
         </section>
 
@@ -273,7 +273,7 @@ const iPhone17vs16Upgrade = () => {
             The iPhone 16 still runs the A18 chip, supports the full Apple Intelligence feature set, and takes excellent photos and video. If 120Hz is not a priority for you, it's a perfectly capable phone that will receive software updates for years to come.
           </p>
           <p className="text-[#a3a3a3] mb-6 leading-relaxed">
-            Refurbished and open-box iPhone 16 deals will also become widely available in late 2025 and into 2026 — offering even deeper savings. Check iPhone 16 deals on MacTrackr for the latest discounts.
+            Refurbished and open-box iPhone 16 deals will also become widely available in late 2025 and into 2026 — offering even deeper savings. Check iPhone 16 deals on TheresMac for the latest discounts.
           </p>
         </section>
 
@@ -309,7 +309,7 @@ const iPhone17vs16Upgrade = () => {
           <h2 className="text-2xl font-bold text-[#fafafa] mb-6">Track iPhone Prices Before You Buy</h2>
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              Track iPhone prices on MacTrackr — we monitor live pricing across the Apple Store, Amazon, Best Buy, and carrier deals so you always know when to buy. Set a price alert for any iPhone model and we'll notify you the moment the price drops. Visit MacTrackr to get started and make sure you never overpay for your next iPhone.
+              Track iPhone prices on TheresMac — we monitor live pricing across the Apple Store, Amazon, Best Buy, and carrier deals so you always know when to buy. Set a price alert for any iPhone model and we'll notify you the moment the price drops. Visit TheresMac to get started and make sure you never overpay for your next iPhone.
             </p>
           </div>
         </section>
@@ -317,7 +317,7 @@ const iPhone17vs16Upgrade = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Prices subject to change.

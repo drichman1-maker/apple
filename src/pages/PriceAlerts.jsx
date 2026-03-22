@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { Bell, Mail, ArrowLeft, Check, Shield, ArrowRight, Loader2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-const API_BASE_URL = 'https://mactrackr-backend-fresh.fly.dev';
+const API_BASE_URL = 'https://theresmac-backend.fly.dev';
 
 const PriceAlerts = () => {
   const [email, setEmail] = useState('')
@@ -33,7 +33,7 @@ const PriceAlerts = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Helmet>
-        <title>Price Alerts | MacTrackr</title>
+        <title>Price Alerts | TheresMac</title>
         <meta name="description" content="Get notified when Apple products drop in price. Set alerts for any product." />
       </Helmet>
       

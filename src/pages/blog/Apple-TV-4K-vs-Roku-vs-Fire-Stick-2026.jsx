@@ -10,15 +10,15 @@ const AppleTV4KvsRokuvsFireStick2026 = () => {
         <title>Apple TV 4K vs Roku vs Fire Stick 2026 - Best Streaming Device</title>
         <meta name="description" content="Compare Apple TV 4K, Roku Ultra, and Amazon Fire TV Stick 4K Max in 2026. Find the best streaming device for your home theater setup with our detailed analysis." />
         <meta name="keywords" content="Apple TV 4K vs Roku vs Fire Stick, best streaming device 2026, Roku Ultra review, Fire TV Stick 4K Max, Apple TV 4K features" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Apple-TV-4K-vs-Roku-vs-Fire-Stick-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Apple-TV-4K-vs-Roku-vs-Fire-Stick-2026" />
         <meta property="og:title" content="Apple TV 4K vs Roku vs Fire Stick 2026 - Best Streaming Device" />
         <meta property="og:description" content="Compare Apple TV 4K, Roku Ultra, and Amazon Fire TV Stick 4K Max in 2026. Find the best streaming device." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/apple-tv-comparison.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/apple-tv-comparison.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/apple-tv-comparison.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/apple-tv-comparison.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">

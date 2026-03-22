@@ -114,7 +114,7 @@ const ProductContent = ({ product, prices, bestPrice, savings, savingsPercent })
         
         <h3 className="text-[#fafafa] font-medium mt-6 mb-3">New vs. Used Options</h3>
         <p className="text-[#a3a3a3] leading-relaxed mb-4">
-          On MacTrackr, you'll find both new and used options for the {productName}. 
+          On TheresMac, you'll find both new and used options for the {productName}. 
           New units from authorized retailers like Apple, Amazon, Best Buy, and B&H come with 
           full warranties and the peace of mind of being the first owner. Used options, 
           primarily from eBay, can offer significant savings—sometimes 20-40% off retail—though 
@@ -152,7 +152,7 @@ const usePageTitle = (product) => {
     const productId = product.id || product.sku || '';
     
     // Update title
-    document.title = `${productName} Price Tracker${priceText} | MacTrackr`;
+    document.title = `${productName} Price Tracker${priceText} | TheresMac`;
     
     // Update meta description
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -168,32 +168,32 @@ const usePageTitle = (product) => {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', `https://mactrackr.com/product/${productId}`);
+    canonical.setAttribute('href', `https://theresmac.com/product/${productId}`);
     
     // Update Open Graph tags
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', `${productName} Price Tracker${priceText} | MacTrackr`);
+    if (ogTitle) ogTitle.setAttribute('content', `${productName} Price Tracker${priceText} | TheresMac`);
     
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc) ogDesc.setAttribute('content', `Track ${productName} prices across retailers. Compare deals and set price alerts.`);
     
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', `https://mactrackr.com/product/${productId}`);
+    if (ogUrl) ogUrl.setAttribute('content', `https://theresmac.com/product/${productId}`);
     
     // Update Twitter tags
     const twitterTitle = document.querySelector('meta[property="twitter:title"]');
-    if (twitterTitle) twitterTitle.setAttribute('content', `${productName} Price Tracker${priceText} | MacTrackr`);
+    if (twitterTitle) twitterTitle.setAttribute('content', `${productName} Price Tracker${priceText} | TheresMac`);
     
     const twitterDesc = document.querySelector('meta[property="twitter:description"]');
     if (twitterDesc) twitterDesc.setAttribute('content', `Track ${productName} prices across retailers. Compare deals and set price alerts.`);
     
     return () => {
-      document.title = 'MacTrackr - Apple Product Price Tracking';
-      if (canonical) canonical.setAttribute('href', 'https://mactrackr.com');
-      if (ogTitle) ogTitle.setAttribute('content', 'MacTrackr - Apple Product Price Tracking');
+      document.title = 'TheresMac - Apple Product Price Tracking';
+      if (canonical) canonical.setAttribute('href', 'https://theresmac.com');
+      if (ogTitle) ogTitle.setAttribute('content', 'TheresMac - Apple Product Price Tracking');
       if (ogDesc) ogDesc.setAttribute('content', 'Track Apple product prices across retailers. Get the best deals on iPhone, iPad, Mac, Apple Watch, and AirPods with real-time price comparisons and alerts.');
-      if (ogUrl) ogUrl.setAttribute('content', 'https://mactrackr.com');
-      if (twitterTitle) twitterTitle.setAttribute('content', 'MacTrackr - Apple Product Price Tracking');
+      if (ogUrl) ogUrl.setAttribute('content', 'https://theresmac.com');
+      if (twitterTitle) twitterTitle.setAttribute('content', 'TheresMac - Apple Product Price Tracking');
       if (twitterDesc) twitterDesc.setAttribute('content', 'Track Apple product prices across retailers. Get the best deals on iPhone, iPad, Mac, Apple Watch, and AirPods with real-time price comparisons and alerts.');
     };
   }, [product]);
@@ -217,7 +217,7 @@ const ProductDetail = () => {
   const fetchProductData = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`https://mactrackr-backend-fresh.fly.dev/api/products/${id}`)
+      const response = await fetch(`https://theresmac-backend.fly.dev/api/products/${id}`)
       if (response.ok) {
         const data = await response.json()
         setProduct(data)
@@ -310,7 +310,7 @@ const ProductDetail = () => {
           "name": `Where can I buy ${productName} in stock?`,
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": `${productName} is currently in stock at ${inStockCount} retailer${inStockCount !== 1 ? 's' : ''}: ${prices.filter(p => p.inStock).map(p => p.retailer).join(', ') || 'Check back soon'}. You can compare prices and availability across Amazon, Best Buy, Apple, B&H, eBay, and Walmart on MacTrackr.`
+            "text": `${productName} is currently in stock at ${inStockCount} retailer${inStockCount !== 1 ? 's' : ''}: ${prices.filter(p => p.inStock).map(p => p.retailer).join(', ') || 'Check back soon'}. You can compare prices and availability across Amazon, Best Buy, Apple, B&H, eBay, and Walmart on TheresMac.`
           }
         },
         {
@@ -318,7 +318,7 @@ const ProductDetail = () => {
           "name": `Can I buy a used or refurbished ${productName}?`,
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": `Yes, used and refurbished ${productName} options are available through eBay and other certified refurbishers. Used ${productName} listings on eBay typically offer the deepest discounts, sometimes 20-40% off MSRP. All condition types are clearly labeled on MacTrackr: NEW (Amazon, Best Buy, Apple, B&H), USED (eBay), and REFURBISHED (when available). Compare all conditions to find the best value.`
+            "text": `Yes, used and refurbished ${productName} options are available through eBay and other certified refurbishers. Used ${productName} listings on eBay typically offer the deepest discounts, sometimes 20-40% off MSRP. All condition types are clearly labeled on TheresMac: NEW (Amazon, Best Buy, Apple, B&H), USED (eBay), and REFURBISHED (when available). Compare all conditions to find the best value.`
           }
         },
         {
@@ -326,7 +326,7 @@ const ProductDetail = () => {
           "name": `Is ${productName} worth buying now or should I wait?`,
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": `${productName} is currently ${savings > 50 ? `on sale with $${savings} savings - a good time to buy.` : 'available at regular pricing. Set a price alert on MacTrackr to get notified when the price drops.'} Apple typically releases new models in September-October for iPhones and October-November for Macs. Check our price history charts to see if prices are trending down.`
+            "text": `${productName} is currently ${savings > 50 ? `on sale with $${savings} savings - a good time to buy.` : 'available at regular pricing. Set a price alert on TheresMac to get notified when the price drops.'} Apple typically releases new models in September-October for iPhones and October-November for Macs. Check our price history charts to see if prices are trending down.`
           }
         },
         {
@@ -334,7 +334,7 @@ const ProductDetail = () => {
           "name": `What retailers sell ${productName}?`,
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": `${productName} is available from ${prices.length} major retailers: ${prices.map(p => p.retailer).join(', ')}. Each retailer offers different prices, shipping options, and return policies. Compare all options on MacTrackr to find the best deal.`
+            "text": `${productName} is available from ${prices.length} major retailers: ${prices.map(p => p.retailer).join(', ')}. Each retailer offers different prices, shipping options, and return policies. Compare all options on TheresMac to find the best deal.`
           }
         },
         {
@@ -342,7 +342,7 @@ const ProductDetail = () => {
           "name": `Does ${productName} ever go on sale?`,
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": `Yes, ${productName} periodically goes on sale, especially during major shopping events like Black Friday, Prime Day, and back-to-school season. Current savings are ${savings > 0 ? `$${savings} off MSRP` : 'not available - check back for deals'}. Track prices with MacTrackr to catch the next sale.`
+            "text": `Yes, ${productName} periodically goes on sale, especially during major shopping events like Black Friday, Prime Day, and back-to-school season. Current savings are ${savings > 0 ? `$${savings} off MSRP` : 'not available - check back for deals'}. Track prices with TheresMac to catch the next sale.`
           }
         }
       ]
@@ -655,7 +655,7 @@ const ProductDetail = () => {
             <span className="text-[#333]">|</span>
             <Link to="/about" className="hover:text-[#3b82f6] mx-2">About</Link>
           </p>
-          <p className="text-[#a3a3a3] text-sm">© 2026 MacTrackr</p>
+          <p className="text-[#a3a3a3] text-sm">© 2026 TheresMac</p>
         </div>
       </footer>
     </div>

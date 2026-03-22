@@ -10,15 +10,15 @@ const RefurbishedMacMiniWorthSavings2026 = () => {
         <title>Refurbished Mac Mini - Worth the Savings in 2026?</title>
         <meta name="description" content="Is a refurbished Mac mini worth it in 2026? Compare prices from Apple Certified Refurbished, Amazon, and Best Buy. Save money while getting a quality machine." />
         <meta name="keywords" content="refurbished Mac mini 2026, Apple Certified Refurbished Mac, buy refurbished Mac, Mac mini deals, used Mac mini" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026" />
         <meta property="og:title" content="Refurbished Mac Mini - Worth the Savings in 2026?" />
         <meta property="og:description" content="Is a refurbished Mac mini worth it in 2026? Compare prices and save money." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/refurbished-mac-mini.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/refurbished-mac-mini.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/refurbished-mac-mini.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/refurbished-mac-mini.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -300,7 +300,7 @@ const RefurbishedMacMiniWorthSavings2026 = () => {
 
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              <strong>Ready to buy?</strong> Use MacTrackr to compare refurbished Mac Mini prices across Apple, Amazon, Best Buy, and other authorized retailers. Set price alerts to catch the best deals as inventory fluctuates.
+              <strong>Ready to buy?</strong> Use TheresMac to compare refurbished Mac Mini prices across Apple, Amazon, Best Buy, and other authorized retailers. Set price alerts to catch the best deals as inventory fluctuates.
             </p>
           </div>
         </section>
@@ -308,7 +308,7 @@ const RefurbishedMacMiniWorthSavings2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Prices subject to change.

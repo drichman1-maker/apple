@@ -10,15 +10,15 @@ const AirPodsvsAirPodsProvsAirPodsMax2026 = () => {
         <title>AirPods vs AirPods Pro vs AirPods Max 2026 - Complete Buyer's Guide</title>
         <meta name="description" content="Compare AirPods 4, AirPods Pro 2, and AirPods Max in 2026. Find the best Apple earbuds for your budget with detailed ANC, sound quality, and features analysis." />
         <meta name="keywords" content="AirPods vs AirPods Pro vs AirPods Max, Apple earbuds comparison, AirPods 4 review, AirPods Pro 2 hearing aid, best Apple headphones 2026" />
-        <link rel="canonical" href="https://mactrackr.com/blog/AirPods-vs-AirPods-Pro-vs-AirPods-Max-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/AirPods-vs-AirPods-Pro-vs-AirPods-Max-2026" />
         <meta property="og:title" content="AirPods vs AirPods Pro vs AirPods Max 2026 - Complete Buyer's Guide" />
         <meta property="og:description" content="Compare AirPods 4, AirPods Pro 2, and AirPods Max in 2026. Find the best Apple earbuds for your budget." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/airpods-comparison.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/airpods-comparison.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/airpods-comparison.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/airpods-comparison.png" />
         <meta property="article:published_time" content="2026-03-02" />
       </Helmet>
       {/* Header */}

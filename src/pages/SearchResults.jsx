@@ -42,8 +42,8 @@ const SearchResults = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
       <Helmet>
-        <title>Search{query ? ` - ${query}` : ''} | MacTrackr</title>
-        <meta name="description" content="Search MacTrackr blog posts" />
+        <title>Search{query ? ` - ${query}` : ''} | TheresMac</title>
+        <meta name="description" content="Search TheresMac blog posts" />
       </Helmet>
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

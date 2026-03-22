@@ -12,7 +12,7 @@ const BestMacsToBuyMarch2026 = () => {
         <meta property="og:title" content="Best Macs to Buy Right Now (March 2026)" />
         <meta property="og:description" content="Find the best Mac to buy in March 2026." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/best-macs-march-2026.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/best-macs-march-2026.png" />
       </Helmet>
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
@@ -95,12 +95,12 @@ const BestMacsToBuyMarch2026 = () => {
 
         <section className="mb-12">
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
-            <p className="text-[#fafafa]">Compare Mac prices on MacTrackr - we track live pricing across Apple, Amazon, and Best Buy so you never miss a deal.</p>
+            <p className="text-[#fafafa]">Compare Mac prices on TheresMac - we track live pricing across Apple, Amazon, and Best Buy so you never miss a deal.</p>
           </div>
         </section>
 
         <footer className="border-t border-[#262626] pt-8 text-center">
-          <p className="text-xs text-[#64748B] mb-2">MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.</p>
+          <p className="text-xs text-[#64748B] mb-2">TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.</p>
           <p className="text-xs text-[#64748B]">Data current as of March 2026. Prices subject to change.</p>
         </footer>
       </article>

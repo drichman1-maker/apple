@@ -150,7 +150,7 @@ const Compare = () => {
   return (
     <>
       <Helmet>
-        <title>Compare Products | MacTrackr</title>
+        <title>Compare Products | TheresMac</title>
         <meta name="description" content="Compare Apple products side-by-side. Find the best MacBook, iPhone, iPad, or Apple Watch for your needs." />
       </Helmet>
 

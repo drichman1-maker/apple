@@ -3,7 +3,7 @@ import React from 'react';
 
 // Theme configuration
 export const themes = {
-  mactrackr: { name: 'MacTrackr', accent: '#3b82f6', bestPrice: '#10b981', bg: '#0a0a0a', surface: '#141414', border: '#262626' },
+  mactrackr: { name: 'TheresMac', accent: '#3b82f6', bestPrice: '#10b981', bg: '#0a0a0a', surface: '#141414', border: '#262626' },
   mintcondition: { name: 'MintCondition', accent: '#10b981', bestPrice: '#10b981', bg: '#0a0a0a', surface: '#141414', border: '#262626' },
   rumblegames: { name: 'RumbleGames', accent: '#8b5cf6', bestPrice: '#10b981', bg: '#0a0a0a', surface: '#141414', border: '#262626' },
   healthindex: { name: 'HealthIndex', accent: '#06b6d4', bestPrice: '#10b981', bg: '#0a0a0a', surface: '#141414', border: '#262626' },

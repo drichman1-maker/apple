@@ -10,15 +10,15 @@ const AppleWatchSeries10vsUltra2vsSE2026 = () => {
         <title>Apple Watch Series 10 vs Ultra 2 vs SE 2026 - Complete Comparison</title>
         <meta name="description" content="Compare Apple Watch Series 10, Ultra 2, and SE in 2026. Find the best Apple Watch for your fitness goals and budget with our detailed feature comparison." />
         <meta name="keywords" content="Apple Watch Series 10 vs Ultra 2 vs SE, best Apple Watch 2026, Apple Watch Ultra 2 review, Apple Watch SE features" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Apple-Watch-Series-10-vs-Ultra-2-vs-SE-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Apple-Watch-Series-10-vs-Ultra-2-vs-SE-2026" />
         <meta property="og:title" content="Apple Watch Series 10 vs Ultra 2 vs SE 2026 - Complete Comparison" />
         <meta property="og:description" content="Compare Apple Watch Series 10, Ultra 2, and SE in 2026. Find the best Apple Watch for your needs." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/apple-watch-comparison.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/apple-watch-comparison.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/apple-watch-comparison.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/apple-watch-comparison.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">

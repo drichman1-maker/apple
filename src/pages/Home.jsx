@@ -12,7 +12,7 @@ const Home = () => {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await fetch('https://mactrackr-backend-fresh.fly.dev/api/products')
+      const response = await fetch('https://theresmac-backend.fly.dev/api/products')
       if (response.ok) {
         const data = await response.json()
         const products = Array.isArray(data) ? data : (data.products || [])
@@ -236,7 +236,7 @@ const Home = () => {
             <span className="text-[#333]">|</span>
             <Link to="/about" className="hover:text-[#3b82f6] mx-2">About</Link>
           </p>
-          <p className="text-[#a3a3a3] text-sm">© 2026 MacTrackr</p>
+          <p className="text-[#a3a3a3] text-sm">© 2026 TheresMac</p>
           <p className="text-[#1a1a1a] text-xs mt-2">Impact-Site-Verification: 5981e3a4-153b-48e1-9ece-6809db0443a6</p>
         </div>
       </footer>

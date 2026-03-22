@@ -10,15 +10,15 @@ const BestiPadDrawing2026 = () => {
         <title>Best iPad for Drawing 2026 - Artist's Complete Guide</title>
         <meta name="description" content="Find the best iPad for drawing and digital art in 2026. Compare iPad Pro M4, iPad Air, and iPad mini with Apple Pencil support for Procreate and Adobe Fresco." />
         <meta name="keywords" content="best iPad for drawing 2026, iPad Pro M4 artist, iPad for Procreate, Apple Pencil iPad, best tablet for digital art" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Best-iPad-Drawing-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Best-iPad-Drawing-2026" />
         <meta property="og:title" content="Best iPad for Drawing 2026 - Artist's Complete Guide" />
         <meta property="og:description" content="Find the best iPad for drawing and digital art in 2026. Compare iPad Pro M4, iPad Air, and iPad mini." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/best-ipad-drawing.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/best-ipad-drawing.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-ipad-drawing.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/best-ipad-drawing.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
@@ -268,7 +268,7 @@ const BestiPadDrawing2026 = () => {
           </div>
 
           <p className="text-[#a3a3a3] mb-6 leading-relaxed">
-            See current pricing and check the latest deals for the <Link to="/product/ipad-pro-m5-11" className="text-[#3b82f6] hover:underline">iPad Pro M5</Link>, <Link to="/product/ipad-air-m3-11" className="text-[#3b82f6] hover:underline">iPad Air M3</Link>, and <Link to="/product/ipad-a16" className="text-[#3b82f6] hover:underline">iPad A16</Link> on MacTrackr, where we track live prices across the Apple Store, Amazon, and Best Buy.
+            See current pricing and check the latest deals for the <Link to="/product/ipad-pro-m5-11" className="text-[#3b82f6] hover:underline">iPad Pro M5</Link>, <Link to="/product/ipad-air-m3-11" className="text-[#3b82f6] hover:underline">iPad Air M3</Link>, and <Link to="/product/ipad-a16" className="text-[#3b82f6] hover:underline">iPad A16</Link> on TheresMac, where we track live prices across the Apple Store, Amazon, and Best Buy.
           </p>
         </section>
 
@@ -330,7 +330,7 @@ const BestiPadDrawing2026 = () => {
         <section className="mb-12">
           <div className="bg-[#3b82f6]/10 border border-[#3b82f6]/30 rounded-xl p-6">
             <p className="text-[#fafafa] leading-relaxed">
-              Compare iPad prices on MacTrackr — we track live pricing across the Apple Store, Amazon, and Best Buy so you never miss a deal. Visit MacTrackr to find the best iPad price for your art setup and make sure you are getting the lowest price available before you buy.
+              Compare iPad prices on TheresMac — we track live pricing across the Apple Store, Amazon, and Best Buy so you never miss a deal. Visit TheresMac to find the best iPad price for your art setup and make sure you are getting the lowest price available before you buy.
             </p>
           </div>
         </section>
@@ -338,7 +338,7 @@ const BestiPadDrawing2026 = () => {
         {/* Footer */}
         <footer className="border-t border-[#262626] pt-8 text-center">
           <p className="text-xs text-[#64748B] mb-2">
-            MacTrackr is an independent price monitoring service. Not affiliated with Apple Inc.
+            TheresMac is an independent price monitoring service. Not affiliated with Apple Inc.
           </p>
           <p className="text-xs text-[#64748B]">
             Data current as of February 2026. Prices subject to change.

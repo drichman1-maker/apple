@@ -10,15 +10,15 @@ const iPadAirM4vsProM42026 = () => {
         <title>iPad Air M4 vs iPad Pro M4: Is the Pro Still Worth the Premium? (2026)</title>
         <meta name="description" content="Compare iPad Air M4 vs iPad Pro M4: performance, display, ports, and whether the Pro premium is worth it in 2026." />
         <meta name="keywords" content="iPad Air M4 vs iPad Pro M4, iPad Air M4, iPad Pro M4, Apple iPad comparison, iPad buying guide 2026" />
-        <link rel="canonical" href="https://mactrackr.com/blog/iPad-Air-M4-vs-iPad-Pro-M4-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/iPad-Air-M4-vs-iPad-Pro-M4-2026" />
         <meta property="og:title" content="iPad Air M4 vs iPad Pro M4: Is the Pro Still Worth the Premium? (2026)" />
         <meta property="og:description" content="$400 separates these two M4 iPads. We break down which one delivers the best value." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/ipad-air-m4-vs-pro-m4.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/ipad-air-m4-vs-pro-m4.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/ipad-air-m4-vs-pro-m4.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/ipad-air-m4-vs-pro-m4.png" />
       </Helmet>
       
       {/* Header */}

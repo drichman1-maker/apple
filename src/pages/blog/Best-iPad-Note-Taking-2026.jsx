@@ -10,15 +10,15 @@ const BestiPadNoteTaking2026 = () => {
         <title>Best iPad for Note Taking 2026 - Student's Guide</title>
         <meta name="description" content="Find the best iPad for note taking in 2026. Compare iPad Pro, Air, and base models with Apple Pencil for GoodNotes, Notability, and Microsoft OneNote." />
         <meta name="keywords" content="best iPad for note taking 2026, iPad student, GoodNotes iPad, Apple Pencil note taking, best iPad for college" />
-        <link rel="canonical" href="https://mactrackr.com/blog/Best-iPad-Note-Taking-2026" />
+        <link rel="canonical" href="https://theresmac.com/blog/Best-iPad-Note-Taking-2026" />
         <meta property="og:title" content="Best iPad for Note Taking 2026 - Student's Guide" />
         <meta property="og:description" content="Find the best iPad for note taking in 2026. Compare iPad Pro, Air, and base models." />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="https://mactrackr.com/blog-og/best-ipad-note-taking.png" />
+        <meta property="og:image" content="https://theresmac.com/blog-og/best-ipad-note-taking.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:image" content="https://mactrackr.com/blog-og/best-ipad-note-taking.png" />
+        <meta property="twitter:image" content="https://theresmac.com/blog-og/best-ipad-note-taking.png" />
       </Helmet>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
