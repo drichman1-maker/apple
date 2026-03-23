@@ -60,7 +60,7 @@ const Home = () => {
               </svg>
             </div>
             <span className="text-xl font-semibold tracking-tight text-[#fafafa]">
-              Mac<span className="text-[#3b82f6]">Trackr</span>
+              Theres<span className="text-[#3b82f6]">Mac</span>
             </span>
           </Link>
 

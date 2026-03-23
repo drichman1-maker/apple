@@ -1,4 +1,4 @@
-// Affiliate Disclosure Page - Mactrackr
+// Affiliate Disclosure Page - TheresMac
 // Required for FTC compliance and affiliate program approvals
 
 import React from 'react';
@@ -17,14 +17,14 @@ export default function AffiliateDisclosure() {
 
           <h2 className="text-2xl font-semibold text-white mt-8 mb-4">Our Commitment to Transparency</h2>
           <p>
-            Mactrackr participates in affiliate marketing programs. This means we may earn commissions 
+            TheresMac participates in affiliate marketing programs. This means we may earn commissions 
             when you click on links to Apple products and make purchases from our retail partners. 
             This comes at no additional cost to you.
           </p>
 
           <h2 className="text-2xl font-semibold text-white mt-8 mb-4">How Affiliate Links Work</h2>
           <p>
-            When you click on a retailer link on Mactrackr, that link may contain a special tracking code. 
+            When you click on a retailer link on TheresMac, that link may contain a special tracking code. 
             If you make a purchase after clicking that link, we may receive a small commission from the 
             retailer. This helps us maintain and improve our price tracking and deal alert services.
           </p>

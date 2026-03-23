@@ -1,10 +1,12 @@
 // Affiliate tracking configuration
-// Apply to Amazon Associates, B&H Photo, Adorama programs
-// Update with your actual affiliate IDs after approval
+// Updated with actual affiliate IDs
 
 export const affiliateConfig = {
-  // Amazon Associates - replace with your tracking ID after approval
-  amazon: 'mactrackr-20',
+  // Amazon Associates - LIVE
+  amazon: 'Theresmac-20',
+  
+  // eBay Partner Network - LIVE
+  ebay: '5339142921',
   
   // B&H Photo - replace with your KBID after approval
   bh: 'mactrackr_bh',
