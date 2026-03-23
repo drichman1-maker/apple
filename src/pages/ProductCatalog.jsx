@@ -288,7 +288,7 @@ const ProductCatalog = () => {
               </svg>
             </div>
             <span className="text-xl font-semibold tracking-tight text-[#fafafa]">
-              Mac<span className="text-[#3b82f6]">Trackr</span>
+              <span className="text-white">There</span><span className="text-[#3b82f6]">sMac</span>
             </span>
           </Link>
 
