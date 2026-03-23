@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Bell, Mail, Shield, X, Check, Loader2 } from 'lucide-react';
+import ProductSelector from './Alerts/ProductSelector';
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev';
 
-export default function PriceAlertSignup({ product, onClose }) {
+export default function PriceAlertSignup({ product: initialProduct, onClose }) {
+  const [selectedProduct, setSelectedProduct] = useState(initialProduct || null);
   const [email, setEmail] = useState('');
   const [targetPrice, setTargetPrice] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -11,28 +13,65 @@ export default function PriceAlertSignup({ product, onClose }) {
   const [message, setMessage] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  // COMING SOON: Per-product alerts not yet implemented
-  // TODO: Build backend endpoint /api/alerts/subscribe
-  // Privacy-first: No local storage. Third-party email service only.
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!email || !agreedToTerms) return;
+    if (!email || !agreedToTerms || !selectedProduct) {
+      setStatus('error');
+      setMessage('Please select a product and enter your email');
+      return;
+    }
     
     setIsLoading(true);
     setStatus(null);
     
-    // Simulate API call delay
-    setTimeout(() => {
-      setStatus('coming-soon');
-      setMessage(`Price alerts for ${product.name} launching soon!`);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/alerts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          product_id: selectedProduct.id,
+          product_name: selectedProduct.name,
+          target_price: targetPrice ? parseInt(targetPrice) : null,
+          notify_on_any_drop: !targetPrice // If no target price, notify on any drop
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus('success');
+        setMessage(`Alert set for ${selectedProduct.name}! We'll email you at ${email} when the price drops.`);
+      } else {
+        setStatus('error');
+        setMessage(data.error || 'Failed to create alert. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error creating alert:', error);
+      setStatus('error');
+      setMessage('Network error. Please check your connection and try again.');
+    } finally {
       setIsLoading(false);
-      // Note: Email NOT stored locally. Third-party service will handle this.
-    }, 1000);
+    }
   };
 
-  const prices = product.prices ? Object.values(product.prices) : [];
-  const bestPrice = prices.length > 0 ? Math.min(...prices.map(p => p.price)) : 0;
+  const getBestPrice = (product) => {
+    if (!product?.prices) return 0;
+    const pricesArray = Array.isArray(product.prices) 
+      ? product.prices 
+      : Object.entries(product.prices)
+          .filter(([_, data]) => data && typeof data === 'object')
+          .map(([retailer, data]) => ({ retailer, ...data }));
+    
+    const inStockPrices = pricesArray.filter(p => p.inStock && p.price);
+    if (inStockPrices.length === 0) return 0;
+    return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0]).price;
+  };
+
+  const currentPrice = selectedProduct ? getBestPrice(selectedProduct) : 0;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -57,33 +96,14 @@ export default function PriceAlertSignup({ product, onClose }) {
           </div>
         </div>
 
-        {/* Product Info */}
-        <div className="px-6 py-4 border-b border-zinc-800">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-zinc-900 rounded-xl flex items-center justify-center text-2xl">
-              📱
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-white font-semibold truncate">{product.name}</h3>
-              <p className="text-zinc-400 text-sm">
-                {product.specs?.storage} • {product.specs?.color}
-              </p>
-              <p className="text-green-400 font-bold mt-1">
-                ${bestPrice} <span className="text-zinc-500 text-sm font-normal">current best</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {status === 'success' || status === 'coming-soon' ? (
+          {status === 'success' ? (
             <div className="text-center py-6">
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${status === 'coming-soon' ? 'bg-blue-500/20' : 'bg-green-500/20'}`}>
-                {status === 'coming-soon' ? <Bell className="text-blue-500" size={32} /> : <Check className="text-green-500" size={32} />}
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-green-500/20">
+                <Check className="text-green-500" size={32} />
               </div>
               <h3 className="text-white text-lg font-semibold mb-2">
-                {status === 'coming-soon' ? "Coming Soon!" : "You're all set!"}
+                Alert Created!
               </h3>
               <p className="text-zinc-400">{message}</p>
               <button
@@ -96,6 +116,22 @@ export default function PriceAlertSignup({ product, onClose }) {
             </div>
           ) : (
             <>
+              {/* Product Selector */}
+              <ProductSelector 
+                selectedProduct={selectedProduct}
+                onSelect={setSelectedProduct}
+                disabled={!!initialProduct}
+              />
+
+              {selectedProduct && (
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-zinc-400 text-sm">Current best price:</p>
+                  <p className="text-2xl font-bold text-green-400">
+                    ${currentPrice.toLocaleString()}
+                  </p>
+                </div>
+              )}
+
               {/* Email Input */}
               <div>
                 <label className="block text-zinc-400 text-sm mb-2 flex items-center gap-2">
@@ -123,7 +159,7 @@ export default function PriceAlertSignup({ product, onClose }) {
                     type="number"
                     value={targetPrice}
                     onChange={(e) => setTargetPrice(e.target.value)}
-                    placeholder={`e.g., ${Math.floor(bestPrice * 0.9)}`}
+                    placeholder={`e.g., ${Math.floor(currentPrice * 0.9)}`}
                     min="1"
                     className="w-full bg-zinc-900 border border-zinc-700 rounded-xl pl-8 pr-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   />
@@ -166,7 +202,7 @@ export default function PriceAlertSignup({ product, onClose }) {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading || !email || !agreedToTerms}
+                disabled={isLoading || !email || !agreedToTerms || !selectedProduct}
                 className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
               >
                 {isLoading ? (
