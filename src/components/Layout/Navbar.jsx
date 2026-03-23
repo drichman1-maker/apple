@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Apple, Sparkles, ChevronDown, Search } from 'lucide-react'
+import React, { useState, useRef, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Search, Menu, X, ChevronDown, Bell, Apple } from 'lucide-react'
 import SearchModal from '../Search/SearchModal'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
-  const [retailersOpen, setRetailersOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const productsRef = useRef(null)
-  const retailersRef = useRef(null)
   const location = useLocation()
+  const navigate = useNavigate()
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -18,13 +17,16 @@ const Navbar = () => {
       if (productsRef.current && !productsRef.current.contains(event.target)) {
         setProductsOpen(false)
       }
-      if (retailersRef.current && !retailersRef.current.contains(event.target)) {
-        setRetailersOpen(false)
-      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Close dropdowns when route changes
+  useEffect(() => {
+    setProductsOpen(false)
+    setIsOpen(false)
+  }, [location.pathname])
 
   // Global Cmd/Ctrl+K to open search
   useEffect(() => {
@@ -38,155 +40,113 @@ const Navbar = () => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  // Close dropdowns when route changes
-  useEffect(() => {
-    setProductsOpen(false)
-    setRetailersOpen(false)
-    setIsOpen(false)
-    setSearchOpen(false)
-  }, [location.pathname])
-
-  const products = [
-    { name: 'Mac', href: '/products/mac', desc: 'MacBook, iMac, Mac mini, Mac Studio' },
-    { name: 'iPhone', href: '/products/iphone', desc: 'Latest iPhone models' },
-    { name: 'iPad', href: '/products/ipad', desc: 'iPad Pro, Air, mini' },
-    { name: 'Watch', href: '/products/watch', desc: 'Apple Watch models' },
-    { name: 'AirPods', href: '/products/airpods', desc: 'AirPods and accessories' },
+  const productCategories = [
+    { name: 'MacBooks', path: '/products/macbook', emoji: '💻' },
+    { name: 'iMac', path: '/products/imac', emoji: '🖥️' },
+    { name: 'Mac Studio', path: '/products/mac-studio', emoji: '🖥️' },
+    { name: 'iPhone', path: '/products/iphone', emoji: '📱' },
+    { name: 'iPad', path: '/products/ipad', emoji: '📲' },
+    { name: 'Watch', path: '/products/watch', emoji: '⌚' },
+    { name: 'AirPods', path: '/products/airpods', emoji: '🎧' },
   ]
 
-  const retailers = [
-    { name: 'Amazon', href: '/retailers/amazon' },
-    { name: 'Best Buy', href: '/retailers/bestbuy' },
-    { name: 'B&H Photo', href: '/retailers/bh' },
-    { name: 'Apple', href: '/retailers/apple' },
-    { name: 'Walmart', href: '/retailers/walmart' },
-    { name: 'Target', href: '/retailers/target' },
-    { name: 'Micro Center', href: '/retailers/microcenter' },
-    { name: 'Adorama', href: '/retailers/adorama' },
-    { name: 'eBay', href: '/retailers/ebay' },
+  const navLinks = [
+    { name: 'Compare', path: '/compare' },
+    { name: 'Alerts', path: '/alerts' },
+    { name: 'Blog', path: '/blog' },
   ]
 
-  const isActive = (href) => {
-    if (href === '/') return location.pathname === '/'
-    return location.pathname.startsWith(href)
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/'
+    return location.pathname.startsWith(path)
   }
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-2 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Apple className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-xl font-bold text-white">TheresMac</span>
-              </Link>
-            </div>
+      <nav className="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-[#262626]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            
+            {/* Logo - Left */}
+            <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] rounded-lg flex items-center justify-center">
+                <Apple className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-xl font-semibold tracking-tight">
+                <span className="text-white">Theres</span>
+                <span className="text-[#3b82f6]">Mac</span>
+              </span>
+            </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
+            {/* Center Navigation */}
+            <div className="hidden md:flex items-center" ref={productsRef}>
               {/* Products Dropdown */}
-              <div className="relative" ref={productsRef}>
+              <div className="relative">
                 <button
                   onClick={() => setProductsOpen(!productsOpen)}
-                  className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/products') ? 'text-blue-400' : 'text-gray-300 hover:text-white'
+                  onMouseEnter={() => setProductsOpen(true)}
+                  className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors ${
+                    isActive('/products') ? 'text-white' : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   Products
-                  <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
                 </button>
-                
+
                 {productsOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-[#1a1a1a] border border-[#333] rounded-xl shadow-2xl py-2 z-50">
-                    {products.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className="block px-4 py-3 hover:bg-white/5 transition-colors"
-                      >
-                        <div className="text-white font-medium">{item.name}</div>
-                        <div className="text-gray-500 text-xs">{item.desc}</div>
-                      </Link>
-                    ))}
+                  <div 
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-[#141414] border border-[#262626] rounded-xl shadow-2xl overflow-hidden"
+                    onMouseLeave={() => setProductsOpen(false)}
+                  >
+                    <div className="py-2">
+                      {productCategories.map((category) => (
+                        <Link
+                          key={category.path}
+                          to={category.path}
+                          className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-300 hover:bg-[#1f1f1f] hover:text-white transition-colors"
+                        >
+                          <span className="text-lg">{category.emoji}</span>
+                          {category.name}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
 
-              <Link
-                to="/compare"
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive('/compare') ? 'text-blue-400' : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Compare
-              </Link>
-
-              {/* Retailers Dropdown */}
-              <div className="relative" ref={retailersRef}>
-                <button
-                  onClick={() => setRetailersOpen(!retailersOpen)}
-                  className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isActive('/retailers') ? 'text-blue-400' : 'text-gray-300 hover:text-white'
+              {/* Other Nav Links */}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
+                    isActive(link.path) ? 'text-white' : 'text-zinc-400 hover:text-white'
                   }`}
                 >
-                  Retailers
-                  <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${retailersOpen ? 'rotate-180' : ''}`} />
-                </button>
-                
-                {retailersOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] border border-[#333] rounded-xl shadow-2xl py-2 z-50 max-h-80 overflow-y-auto">
-                    {retailers.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <Link
-                to="/blog"
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive('/blog') ? 'text-blue-400' : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Blog
-              </Link>
+                  {link.name === 'Alerts' && <Bell className="h-4 w-4" />}
+                  {link.name}
+                </Link>
+              ))}
             </div>
 
-            {/* Right Side */}
-            <div className="flex items-center space-x-3">
-              {/* Search */}
+            {/* Right Side - Search */}
+            <div className="flex items-center gap-2">
+              {/* Search Bar */}
               <button
                 onClick={() => setSearchOpen(true)}
-                className="hidden lg:flex items-center gap-2 px-3 py-2 bg-[#1a1a1a] border border-[#333] rounded-lg text-gray-400 hover:text-white transition-all text-sm"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 bg-[#141414] border border-[#262626] rounded-lg hover:border-[#3b82f6] hover:text-white transition-all"
               >
                 <Search className="h-4 w-4" />
-                <span className="hidden xl:inline">Search...</span>
-                <span className="text-xs text-gray-600 hidden xl:inline">⌘K</span>
+                <span className="hidden sm:inline">Search</span>
+                <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs text-zinc-500 bg-[#0a0a0a] rounded border border-[#262626]">
+                  ⌘K
+                </kbd>
               </button>
-              
-              {/* Alerts */}
-              <Link
-                to="/alerts"
-                className="hidden lg:flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all"
-              >
-                <Sparkles className="h-4 w-4 mr-2" />
-                Alerts
-              </Link>
-              
+
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5"
+                className="md:hidden p-2 text-zinc-400 hover:text-white"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -196,38 +156,34 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden bg-[#0a0a0a] border-t border-[#222]">
+          <div className="md:hidden bg-[#0a0a0a] border-t border-[#262626]">
             <div className="px-4 py-4 space-y-2">
-              <div className="font-medium text-gray-400 px-3 py-2">Products</div>
-              {products.map((item) => (
+              <div className="font-medium text-zinc-400 text-sm mb-2">Products</div>
+              {productCategories.map((category) => (
                 <Link
-                  key={item.name}
-                  to={item.href}
-                  className="block px-6 py-2 text-gray-300 hover:text-white"
+                  key={category.path}
+                  to={category.path}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-[#141414] rounded-lg transition-colors"
+                  onClick={() => setIsOpen(false)}
                 >
-                  {item.name}
+                  <span>{category.emoji}</span>
+                  {category.name}
                 </Link>
               ))}
               
-              <div className="border-t border-[#222] my-2" />
-              
-              <Link to="/compare" className="block px-3 py-2 text-gray-300 hover:text-white">Compare</Link>
-              
-              <div className="font-medium text-gray-400 px-3 py-2 mt-4">Retailers</div>
-              {retailers.slice(0, 6).map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="block px-6 py-2 text-gray-300 hover:text-white"
-                >
-                  {item.name}
-                </Link>
-              ))}
-              
-              <div className="border-t border-[#222] my-2" />
-              
-              <Link to="/blog" className="block px-3 py-2 text-gray-300 hover:text-white">Blog</Link>
-              <Link to="/alerts" className="block px-3 py-2 text-blue-400 hover:text-blue-300">Price Alerts</Link>
+              <div className="border-t border-[#262626] my-2 pt-2">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-[#141414] rounded-lg transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name === 'Alerts' && <Bell className="h-4 w-4" />}
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         )}

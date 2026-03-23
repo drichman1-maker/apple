@@ -4,10 +4,14 @@ import { HelmetProvider } from 'react-helmet-async'
 import Navbar from './components/Layout/Navbar'
 import Footer from './components/Layout/Footer'
 import Home from './pages/Home'
-import ProductCatalog from './pages/ProductCatalog'
 import ProductDetail from './pages/ProductDetail'
-import Privacy from './pages/Privacy'
+import ProductCatalog from './pages/ProductCatalog'
+import Notifications from './pages/Notifications'
+import About from './pages/About'
 import PriceAlerts from './pages/PriceAlerts'
+import ManageAlerts from './pages/ManageAlerts'
+import Unsubscribe from './pages/Unsubscribe'
+import Privacy from './pages/Privacy'
 import AffiliateDisclosure from './pages/AffiliateDisclosure'
 import Blog from './pages/Blog'
 import SearchResults from './pages/SearchResults'
@@ -65,6 +69,8 @@ function App() {
           <Route path="/blog/Best-Macs-to-Buy-March-2026" element={<BestMacsToBuyMarch2026 />} />
           <Route path="/blog/iPad-Air-M4-vs-iPad-Pro-M4-2026" element={<iPadAirM4vsProM42026 />} />
           <Route path="/alerts" element={<PriceAlerts />} />
+          <Route path="/alerts/manage" element={<ManageAlerts />} />
+          <Route path="/alerts/unsubscribe" element={<Unsubscribe />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
         </Routes>
