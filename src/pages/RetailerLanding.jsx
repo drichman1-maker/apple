@@ -93,8 +93,166 @@ const RETAILER_CONFIG = {
     pros: ['RedCard 5% discount', 'Same Day Delivery', 'Drive Up pickup', 'Circle rewards'],
     cons: ['No MacBooks or Mac desktops', 'Limited selection'],
     logo: 'TG'
+  },
+  microcenter: {
+    name: 'Micro Center',
+    displayName: 'Micro Center',
+    color: '#00A651',
+    bgColor: 'bg-green-600/10',
+    borderColor: 'border-green-600/30',
+    description: 'Micro Center is a computer and electronics retailer with physical stores offering competitive pricing on Mac and PC products. Known for in-store only deals and knowledgeable staff.',
+    pros: ['In-store only deals', 'Knowledgeable staff', 'Price matching', 'Trade-in program'],
+    cons: ['Limited locations', 'In-store pickup often required for best prices', 'No online Mac sales in some regions'],
+    logo: 'MC'
+  },
+  cdw: {
+    name: 'CDW',
+    displayName: 'CDW',
+    color: '#E31937',
+    bgColor: 'bg-red-700/10',
+    borderColor: 'border-red-700/30',
+    description: 'CDW is a leading provider of technology solutions for business, government, and education. Offers competitive pricing on Apple products with business account benefits.',
+    pros: ['Business pricing', 'Volume discounts', 'Dedicated account managers', 'Enterprise support'],
+    cons: ['Primarily B2B focused', 'Consumer pricing may be higher', 'Account setup required for best rates'],
+    logo: 'CD'
+  },
+  sweetwater: {
+    name: 'Sweetwater',
+    displayName: 'Sweetwater',
+    color: '#F26722',
+    bgColor: 'bg-orange-600/10',
+    borderColor: 'border-orange-600/30',
+    description: 'Sweetwater is a leading music technology retailer that also carries Apple products popular with creative professionals. Known for exceptional customer service and technical support.',
+    pros: ['Exceptional customer service', 'Technical support', 'Creative pro focus', 'Financing options'],
+    cons: ['Limited Mac selection', 'Music/audio focus', 'Smaller inventory than major retailers'],
+    logo: 'SW'
   }
 }
+
+// Product Card Component (Grid View)
+const ProductCard = ({ product, formatPrice }) => {
+  const currentPrice = product.retailerPrice
+  const currentSavings = product.savings
+  const currentSavingsPercent = product.savingsPercent
+
+  return (
+    <Link
+      to={`/product/${product.id}`}
+      className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-5 transition-all group"
+    >
+      {/* Category Badge */}
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-xs text-gray-500 uppercase tracking-wider">{product.category}</span>
+        {product.isInStock ? (
+          <span className="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full">In Stock</span>
+        ) : (
+          <span className="text-xs text-red-400 bg-red-400/10 px-2 py-1 rounded-full">Out of Stock</span>
+        )}
+      </div>
+
+      {/* Product Name */}
+      <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
+        {product.model}
+      </h3>
+
+      {/* Specs */}
+      <div className="text-sm text-gray-500 mb-4 space-y-1">
+        {product.specs?.chip && <div>• {product.specs.chip}</div>}
+        {product.specs?.storage && <div>• {product.specs.storage}</div>}
+        {product.specs?.ram && <div>• {product.specs.ram} RAM</div>}
+      </div>
+
+      {/* Price */}
+      <div className="mt-auto">
+        <div className="flex items-baseline gap-2 mb-1">
+          <span className="text-2xl font-bold text-white">
+            {formatPrice(currentPrice)}
+          </span>
+          {currentSavings > 0 && (
+            <span className="text-sm text-green-400">-{currentSavingsPercent}%</span>
+          )}
+        </div>
+        <div className="flex items-center gap-2 text-sm">
+          <span className="text-gray-500 line-through">{formatPrice(product.msrp)}</span>
+          {currentSavings > 0 && (
+            <span className="text-green-400">Save {formatPrice(currentSavings)}</span>
+          )}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-4 pt-4 border-t border-[#262626] flex items-center justify-between">
+        {!product.hasRetailer && (
+          <span className="text-xs text-amber-400">Price via 3rd party</span>
+        )}
+        <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-blue-400 transition-colors ml-auto" />
+      </div>
+    </Link>
+  )
+}
+
+// Product List Item Component (List View)
+const ProductListItem = ({ product, formatPrice }) => {
+  const currentPrice = product.retailerPrice
+  const currentSavings = product.savings
+  const currentSavingsPercent = product.savingsPercent
+
+  return (
+    <Link
+      to={`/product/${product.id}`}
+      className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-4 transition-all group flex items-center gap-4"
+    >
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-xs text-gray-500 uppercase tracking-wider">{product.category}</span>
+          {product.isInStock ? (
+            <span className="text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">In Stock</span>
+          ) : (
+            <span className="text-xs text-red-400 bg-red-400/10 px-2 py-0.5 rounded-full">Out</span>
+          )}
+        </div>
+        <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors truncate">
+          {product.model}
+        </h3>
+        <div className="text-sm text-gray-500 mt-1">
+          {product.specs?.chip && `${product.specs.chip} • `}
+          {product.specs?.storage && product.specs.storage}
+        </div>
+      </div>
+
+      {/* Price */}
+      <div className="text-right">
+        <div className="flex items-center gap-2 justify-end">
+          <span className="text-xl font-bold text-white">
+            {formatPrice(currentPrice)}
+          </span>
+          {currentSavings > 0 && (
+            <span className="text-sm text-green-400">-{currentSavingsPercent}%</span>
+          )}
+        </div>
+        <div className="text-sm text-gray-500">
+          <span className="line-through">{formatPrice(product.msrp)}</span>
+          {currentSavings > 0 && (
+            <span className="text-green-400 ml-2">Save {formatPrice(currentSavings)}</span>
+          )}
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <ExternalLink className="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors flex-shrink-0" />
+    </Link>
+  )
+}
+
+const CATEGORIES = [
+  { id: 'all', label: 'All Products', icon: '□' },
+  { id: 'mac', label: 'Mac', icon: '💻' },
+  { id: 'iphone', label: 'iPhone', icon: '📱' },
+  { id: 'ipad', label: 'iPad', icon: '📲' },
+  { id: 'watch', label: 'Watch', icon: '⌚' },
+  { id: 'airpods', label: 'AirPods', icon: '🎧' }
+]
 
 const RetailerLanding = () => {
   const { retailerId } = useParams()
@@ -104,6 +262,10 @@ const RetailerLanding = () => {
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [sortBy, setSortBy] = useState('savings')
+  const [filterCategory, setFilterCategory] = useState('all')
+  const [inStockOnly, setInStockOnly] = useState(false)
+  const [priceRange, setPriceRange] = useState('all')
+  const [viewMode, setViewMode] = useState('grid')
 
   const retailer = RETAILER_CONFIG[retailerId]
 
@@ -119,7 +281,7 @@ const RetailerLanding = () => {
   useEffect(() => {
     if (allProducts.length === 0) return
 
-    const formatted = allProducts.map(product => {
+    let formatted = allProducts.map(product => {
       // Handle both array and object formats for prices
       const pricesData = product.prices || {}
       const pricesArray = Array.isArray(pricesData) 
@@ -129,30 +291,58 @@ const RetailerLanding = () => {
       const hasRetailer = pricesArray.some(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
       const retailerPrice = pricesArray.find(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
       const lowestPrice = retailerPrice?.price || product.lowest_price || product.msrp
+      const stockInfo = pricesArray.find(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
       
       return {
         ...product,
         hasRetailer,
         retailerPrice: lowestPrice,
         retailerUrl: retailerPrice?.url,
+        isInStock: stockInfo?.inStock ?? product.in_stock ?? false,
         savings: product.msrp - lowestPrice,
         savingsPercent: product.msrp > 0 
           ? Math.round(((product.msrp - lowestPrice) / product.msrp) * 100)
           : 0
       }
     }).filter(p => {
+      // Target doesn't sell Macs
       if (retailerId === 'target' && p.category === 'mac') return false
       return true
     })
 
+    // Apply category filter
+    if (filterCategory !== 'all') {
+      formatted = formatted.filter(p => p.category === filterCategory)
+    }
+
+    // Apply in-stock filter
+    if (inStockOnly) {
+      formatted = formatted.filter(p => p.isInStock)
+    }
+
+    // Apply price range filter
+    if (priceRange !== 'all') {
+      const ranges = {
+        under500: [0, 500],
+        '500to1000': [500, 1000],
+        '1000to2000': [1000, 2000],
+        over2000: [2000, Infinity]
+      }
+      const [min, max] = ranges[priceRange] || [0, Infinity]
+      formatted = formatted.filter(p => p.retailerPrice >= min && p.retailerPrice <= max)
+    }
+
+    // Apply sorting
     const sorted = formatted.sort((a, b) => {
       if (sortBy === 'savings') return b.savings - a.savings
       if (sortBy === 'price') return a.retailerPrice - b.retailerPrice
-      return (a.model || '').localeCompare(b.model || '')
+      if (sortBy === 'name') return (a.model || '').localeCompare(b.model || '')
+      if (sortBy === 'stock') return (b.isInStock ? 1 : 0) - (a.isInStock ? 1 : 0)
+      return 0
     })
 
     setProducts(sorted)
-  }, [allProducts, sortBy, retailerId])
+  }, [allProducts, sortBy, retailerId, filterCategory, inStockOnly, priceRange])
 
   const fetchProducts = async () => {
     try {
@@ -265,99 +455,133 @@ const RetailerLanding = () => {
           </div>
         </div>
 
-        {/* Sort Controls */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-white">
-            Available Products ({products.length})
-          </h2>
-          <div className="flex gap-2">
-            {['savings', 'price', 'name'].map((sort) => (
+        {/* Filter & Sort Controls */}
+        <div className="bg-[#141414] border border-[#262626] rounded-xl p-4 mb-6">
+          {/* Category Tabs */}
+          <div className="flex flex-wrap gap-2 mb-4 pb-4 border-b border-[#262626]">
+            {CATEGORIES.map((cat) => (
               <button
-                key={sort}
-                onClick={() => setSortBy(sort)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  sortBy === sort
+                key={cat.id}
+                onClick={() => setFilterCategory(cat.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  filterCategory === cat.id
                     ? 'bg-blue-500 text-white'
                     : 'bg-[#1a1a1a] text-gray-400 hover:bg-[#262626]'
                 }`}
               >
-                Sort by {sort.charAt(0).toUpperCase() + sort.slice(1)}
+                <span>{cat.icon}</span>
+                {cat.label}
               </button>
             ))}
           </div>
+
+          {/* Filters Row */}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              {/* In Stock Toggle */}
+              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={inStockOnly}
+                  onChange={(e) => setInStockOnly(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-600 bg-[#1a1a1a] text-blue-500 focus:ring-blue-500"
+                />
+                In Stock Only
+              </label>
+
+              {/* Price Range Dropdown */}
+              <select
+                value={priceRange}
+                onChange={(e) => setPriceRange(e.target.value)}
+                className="bg-[#1a1a1a] border border-[#333] rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-blue-500"
+              >
+                <option value="all">All Prices</option>
+                <option value="under500">Under $500</option>
+                <option value="500to1000">$500 - $1,000</option>
+                <option value="1000to2000">$1,000 - $2,000</option>
+                <option value="over2000">Over $2,000</option>
+              </select>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {/* Sort Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="bg-[#1a1a1a] border border-[#333] rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-blue-500"
+              >
+                <option value="savings">Sort by Savings</option>
+                <option value="price">Sort by Price</option>
+                <option value="name">Sort by Name</option>
+                <option value="stock">Sort by Stock</option>
+              </select>
+
+              {/* View Mode Toggle */}
+              <div className="flex bg-[#1a1a1a] rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-1.5 rounded text-sm transition-colors ${
+                    viewMode === 'grid'
+                      ? 'bg-[#333] text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Grid
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-1.5 rounded text-sm transition-colors ${
+                    viewMode === 'list'
+                      ? 'bg-[#333] text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  List
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Results Count */}
+          <div className="mt-4 pt-4 border-t border-[#262626] text-sm text-gray-500">
+            Showing {products.length} products
+            {filterCategory !== 'all' && ` in ${CATEGORIES.find(c => c.id === filterCategory)?.label}`}
+            {inStockOnly && ' (in stock only)'}
+          </div>
         </div>
 
-        {/* Products Grid */}
+        {/* Products Display */}
         {loading ? (
           <div className="text-center py-20 text-gray-500">
             <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
             Loading products...
           </div>
-        ) : (
+        ) : products.length === 0 ? (
+          <div className="text-center py-20 text-gray-500">
+            <div className="text-4xl mb-4">🔍</div>
+            <p className="text-lg">No products found with current filters</p>
+            <button
+              onClick={() => {
+                setFilterCategory('all')
+                setInStockOnly(false)
+                setPriceRange('all')
+              }}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Clear Filters
+            </button>
+          </div>
+        ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {products.map(product => {
-              const currentPrice = product.retailerPrice
-              const currentSavings = product.savings
-              const currentSavingsPercent = product.savingsPercent
-
-              return (
-                <Link
-                  key={product.id}
-                  to={`/product/${product.id}`}
-                  className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-5 transition-all group"
-                >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">{product.category}</span>
-                      <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors">
-                        {product.model}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Specs */}
-                  <div className="text-sm text-gray-500 mb-4">
-                    {product.specs?.chip && `• ${product.specs.chip}`}
-                    {product.specs?.storage && ` • ${product.specs.storage}`}
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-2xl font-bold text-white">
-                          {formatPrice(currentPrice)}
-                        </span>
-                        {currentSavings > 0 && (
-                          <span className="text-sm text-green-400">-{currentSavingsPercent}%</span>
-                        )}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        MSRP: {formatPrice(product.msrp)}
-                        {currentSavings > 0 && (
-                          <span className="text-green-400 ml-2">Save {formatPrice(currentSavings)}</span>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {!product.hasRetailer && (
-                      <span className="text-xs text-amber-400 bg-amber-400/10 px-2 py-1 rounded">
-                        Price via 3rd party
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Stock Status */}
-                  <div className="mt-4 pt-4 border-t border-[#262626] flex items-center justify-between">
-                    <span className={`text-sm ${product.in_stock ? 'text-green-400' : 'text-red-400'}`}>
-                      {product.in_stock ? '✓ In Stock' : '✗ Out of Stock'}
-                    </span>
-                    <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-blue-400 transition-colors" />
-                  </div>
-                </Link>
-              )
-            })}
+            {products.map(product => (
+              <ProductCard key={product.id} product={product} formatPrice={formatPrice} />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {products.map(product => (
+              <ProductListItem key={product.id} product={product} formatPrice={formatPrice} />
+            ))}
           </div>
         )}
 
