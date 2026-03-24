@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Calendar } from 'lucide-react'
+import { ArrowLeft, Calendar, Search } from 'lucide-react'
 
 const blogPosts = [
   {
@@ -119,24 +119,59 @@ const blogPosts = [
 ]
 
 const Blog = () => {
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredPosts = blogPosts.filter(post =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.category.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
       <Helmet>
         <title>Blog | TheresMac</title>
         <meta name="description" content="Buying guides, comparisons, and deals for Apple products." />
       </Helmet>
-      
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/" className="inline-flex items-center text-gray-500 hover:text-white mb-8 text-sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to products
         </Link>
-        
+
         <h1 className="text-3xl font-bold text-white mb-4">TheresMac Blog</h1>
-        <p className="text-gray-400 mb-12">Buying guides, specs comparisons, and money-saving tips for Apple products.</p>
+        <p className="text-gray-400 mb-8">Buying guides, specs comparisons, and money-saving tips for Apple products.</p>
+
+        {/* Search Bar */}
+        <div className="relative mb-8">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search articles..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-[#141414] border border-[#262626] rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#3b82f6] transition-colors"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+            >
+              ×
+            </button>
+          )}
+        </div>
+
+        {/* Results count */}
+        {searchQuery && (
+          <p className="text-gray-400 text-sm mb-4">
+            {filteredPosts.length} {filteredPosts.length === 1 ? 'result' : 'results'} for "{searchQuery}"
+          </p>
+        )}
 
         <div className="space-y-6">
-          {blogPosts.map((post) => (
+          {filteredPosts.map((post) => (
             <article key={post.id} className="bg-[#1a1a1a] border border-[#262626] rounded-2xl p-6 hover:border-[#3b82f6]/30 transition-colors">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-xs font-medium text-blue-400 bg-blue-500/10 px-2 py-1 rounded">
@@ -147,15 +182,27 @@ const Blog = () => {
                   {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                 </span>
               </div>
-              
+
               <h2 className="text-xl font-bold text-white mb-2 hover:text-blue-400 transition-colors">
                 <Link to={`/blog/${post.id}`}>{post.title}</Link>
               </h2>
-              
+
               <p className="text-gray-400 text-sm">{post.excerpt}</p>
             </article>
           ))}
         </div>
+
+        {filteredPosts.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500">No articles found matching "{searchQuery}"</p>
+            <button
+              onClick={() => setSearchQuery('')}
+              className="mt-4 text-blue-400 hover:text-blue-300"
+            >
+              Clear search
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
