@@ -120,9 +120,14 @@ const RetailerLanding = () => {
     if (allProducts.length === 0) return
 
     const formatted = allProducts.map(product => {
-      const prices = product.prices || []
-      const hasRetailer = prices.some(p => p.retailer.toLowerCase() === retailerId.toLowerCase())
-      const retailerPrice = prices.find(p => p.retailer.toLowerCase() === retailerId.toLowerCase())
+      // Handle both array and object formats for prices
+      const pricesData = product.prices || {}
+      const pricesArray = Array.isArray(pricesData) 
+        ? pricesData 
+        : Object.entries(pricesData).map(([retailer, data]) => ({ retailer, ...data }))
+      
+      const hasRetailer = pricesArray.some(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
+      const retailerPrice = pricesArray.find(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
       const lowestPrice = retailerPrice?.price || product.lowest_price || product.msrp
       
       return {
