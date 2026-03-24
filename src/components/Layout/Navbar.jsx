@@ -60,6 +60,9 @@ const Navbar = () => {
     { name: 'B&H Photo', path: '/retailers/bh', color: '#E53935' },
     { name: 'Adorama', path: '/retailers/adorama', color: '#F37021' },
     { name: 'eBay', path: '/retailers/ebay', color: '#E53238' },
+    { name: 'Micro Center', path: '/retailers/microcenter', color: '#00A651' },
+    { name: 'CDW', path: '/retailers/cdw', color: '#E31937' },
+    { name: 'Sweetwater', path: '/retailers/sweetwater', color: '#F26722' },
   ]
 
   const navLinks = [
@@ -203,7 +206,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden bg-[#0a0a0a] border-t border-[#262626]">
-            <div className="px-4 py-4 space-y-2">
+            <div className="px-4 py-4 space-y-2 max-h-[80vh] overflow-y-auto">
               <div className="font-medium text-zinc-400 text-sm mb-2">Products</div>
               {productCategories.map((category) => (
                 <Link
@@ -216,7 +219,20 @@ const Navbar = () => {
                   {category.name}
                 </Link>
               ))}
-              
+
+              <div className="font-medium text-zinc-400 text-sm mb-2 mt-4">Retailers</div>
+              {retailerLinks.slice(0, 6).map((retailer) => (
+                <Link
+                  key={retailer.path}
+                  to={retailer.path}
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-[#141414] rounded-lg transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: retailer.color }}></span>
+                  {retailer.name}
+                </Link>
+              ))}
+
               <div className="border-t border-[#262626] my-2 pt-2">
                 {navLinks.map((link) => (
                   <Link

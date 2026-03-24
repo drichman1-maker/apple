@@ -613,6 +613,11 @@ const ProductCatalog = () => {
         )}
       </main>
 
+      {/* Disclaimer */}
+      <div className="max-w-[1200px] mx-auto px-6 mt-8">
+        <Disclaimer />
+      </div>
+
       {/* Footer */}
       <footer className="border-t border-[#262626] mt-16 py-8 px-6">
         <div className="max-w-[1200px] mx-auto text-center">
