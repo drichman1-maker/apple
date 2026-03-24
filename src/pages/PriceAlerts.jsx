@@ -1,88 +1,54 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Bell, Mail, ArrowLeft, Check, Shield, ArrowRight, Loader2, AlertTriangle } from 'lucide-react'
+import { Bell, Mail, ArrowLeft, Check, Shield, ArrowRight, Loader2, AlertTriangle, X, Plus } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProductSelector from '../components/Alerts/ProductSelector'
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+const MAX_PRODUCTS = 5;
 
 const PriceAlerts = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
-  const [selectedProducts, setSelectedProducts] = useState([]) // Now supports multiple (up to 5)
+  const [selectedProducts, setSelectedProducts] = useState([]) // Supports up to 5 products
   const [targetPrices, setTargetPrices] = useState({}) // Map of productId -> targetPrice
   const [isLoading, setIsLoading] = useState(false)
-  const [status, setStatus] = useState(null) // 'success' | 'error' | null
+  const [status, setStatus] = useState(null)
   const [message, setMessage] = useState('')
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [showProductSelector, setShowProductSelector] = useState(false)
-  const [currentAlerts, setCurrentAlerts] = useState([]) // Track created alerts
 
-  // Check for email in URL params (from manage/unsubscribe pages)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const emailParam = params.get('email')
-    if (emailParam) {
-      setEmail(emailParam)
-    }
+    if (emailParam) setEmail(emailParam)
   }, [])
 
-  const handleSubscribe = async (e) => {
-    e.preventDefault()
-    if (!email) return
-
-    setIsLoading(true)
-    setStatus(null)
-
-    try {
-      // If product selected, create specific alert; otherwise subscribe to general alerts
-      if (selectedProduct) {
-        const response = await fetch(`${API_BASE_URL}/api/alerts`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            product_id: selectedProduct.id,
-            product_name: selectedProduct.name,
-            target_price: targetPrice ? parseInt(targetPrice) : null,
-            notify_on_any_drop: !targetPrice
-          }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          setStatus('success');
-          setMessage(`Alert created for ${selectedProduct.name}! We'll notify you when the price drops.`);
-        } else {
-          setStatus('error');
-          setMessage(data.error || 'Failed to create alert');
-        }
-      } else {
-        // General subscription
-        const response = await fetch(`${API_BASE_URL}/api/subscribe`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          setStatus('success');
-          setMessage(`You're subscribed! We'll send you the best Apple deals as we find them.`);
-        } else {
-          setStatus('error');
-          setMessage(data.error || 'Failed to subscribe');
-        }
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setStatus('error');
-      setMessage('Network error. Please try again.');
-    } finally {
-      setIsLoading(false);
+  const addProduct = (product) => {
+    if (selectedProducts.length >= MAX_PRODUCTS) {
+      setStatus('error')
+      setMessage(`Maximum ${MAX_PRODUCTS} products allowed`)
+      return
     }
+    if (selectedProducts.find(p => p.id === product.id)) {
+      setStatus('error')
+      setMessage('Product already added')
+      return
+    }
+    setSelectedProducts([...selectedProducts, product])
+    setShowProductSelector(false)
+    setStatus(null)
+  }
+
+  const removeProduct = (productId) => {
+    setSelectedProducts(selectedProducts.filter(p => p.id !== productId))
+    const newTargetPrices = { ...targetPrices }
+    delete newTargetPrices[productId]
+    setTargetPrices(newTargetPrices)
+  }
+
+  const updateTargetPrice = (productId, price) => {
+    setTargetPrices({ ...targetPrices, [productId]: price })
   }
 
   const getBestPrice = (product) => {
@@ -98,14 +64,94 @@ const PriceAlerts = () => {
     return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0]).price;
   };
 
+  const handleSubscribe = async (e) => {
+    e.preventDefault()
+    if (!email) return
+    if (selectedProducts.length === 0) {
+      setStatus('error')
+      setMessage('Please select at least one product')
+      return
+    }
+
+    setIsLoading(true)
+    setStatus(null)
+
+    try {
+      const results = [];
+      
+      // Create alerts for all selected products
+      for (const product of selectedProducts) {
+        const targetPrice = targetPrices[product.id];
+        const response = await fetch(`${API_BASE_URL}/api/alerts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            product_id: product.id,
+            product_name: product.name,
+            target_price: targetPrice ? parseInt(targetPrice) : null,
+            notify_on_any_drop: !targetPrice
+          }),
+        });
+
+        const data = await response.json();
+        results.push({ product: product.name, success: response.ok && data.success, error: data.error });
+      }
+
+      const successCount = results.filter(r => r.success).length;
+      
+      if (successCount === selectedProducts.length) {
+        setStatus('success');
+        setMessage(`Success! Alerts created for ${successCount} product${successCount > 1 ? 's' : ''}. We'll notify you when prices drop.`);
+        setSelectedProducts([]);
+        setTargetPrices({});
+      } else {
+        setStatus('error');
+        setMessage(`${successCount}/${selectedProducts.length} alerts created. Some failed.`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus('error');
+      setMessage('Network error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const handleGeneralSubscribe = async () => {
+    if (!email) return
+    setIsLoading(true)
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus('success');
+        setMessage(`You're subscribed! We'll send you the best Apple deals.`);
+      } else {
+        setStatus('error');
+        setMessage(data.error || 'Failed to subscribe');
+      }
+    } catch (error) {
+      setStatus('error');
+      setMessage('Network error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <Helmet>
         <title>Price Alerts | TheresMac</title>
-        <meta name="description" content="Get notified when Apple products drop in price. Set alerts for any product." />
       </Helmet>
       
-      {/* Hero Section */}
+      {/* Hero */}
       <div className="bg-gradient-to-b from-blue-900/20 to-transparent pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Link to="/" className="inline-flex items-center text-zinc-500 hover:text-white mb-8 text-sm">
@@ -124,136 +170,99 @@ const PriceAlerts = () => {
             </p>
           </div>
 
-          {/* Stats */}
           <div className="flex justify-center gap-8 mb-12">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">35+</div>
-              <div className="text-zinc-500 text-sm">Products Tracked</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">9</div>
-              <div className="text-zinc-500 text-sm">Retailers Monitored</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-400">Free</div>
-              <div className="text-zinc-500 text-sm">Forever</div>
-            </div>
+            <div className="text-center"><div className="text-3xl font-bold text-white">35+</div><div className="text-zinc-500 text-sm">Products Tracked</div></div>
+            <div className="text-center"><div className="text-3xl font-bold text-white">9</div><div className="text-zinc-500 text-sm">Retailers Monitored</div></div>
+            <div className="text-center"><div className="text-3xl font-bold text-green-400">Free</div><div className="text-zinc-500 text-sm">Forever</div></div>
           </div>
         </div>
       </div>
 
       {/* Signup Section */}
-      <div className="max-w-md mx-auto px-4 pb-20">
+      <div className="max-w-2xl mx-auto px-4 pb-20">
         <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8">
           {status === 'success' ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-green-500/20">
                 <Check className="text-green-500" size={32} />
               </div>
-              <h2 className="text-xl font-bold text-white mb-2">
-                You're All Set!
-              </h2>
+              <h2 className="text-xl font-bold text-white mb-2">✅ You're All Set!</h2>
               <p className="text-zinc-400">{message}</p>
               <div className="mt-6 space-y-3">
-                <Link 
-                  to="/products" 
-                  className="block w-full px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors"
-                >
-                  Browse More Products
-                </Link>
-                <button
-                  onClick={() => navigate('/alerts/manage?email=' + encodeURIComponent(email))}
-                  className="block w-full px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg transition-colors"
-                >
-                  Manage My Alerts
-                </button>
+                <Link to="/products" className="block w-full px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg">Browse More Products</Link>
+                <button onClick={() => navigate('/alerts/manage?email=' + encodeURIComponent(email))} className="block w-full px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg">Manage My Alerts</button>
               </div>
             </div>
           ) : (
             <>
-              <h2 className="text-xl font-bold text-white mb-2 text-center">
-                Get Deal Alerts
-              </h2>
-              <p className="text-zinc-500 text-center mb-6">
-                Get notified about price drops on Apple products
-              </p>
+              <h2 className="text-xl font-bold text-white mb-2 text-center">Get Deal Alerts</h2>
+              <p className="text-zinc-500 text-center mb-6">Create up to {MAX_PRODUCTS} price alerts at once</p>
 
               <form onSubmit={handleSubscribe} className="space-y-4">
-                {/* Email Input */}
+                {/* Email */}
                 <div>
-                  <label className="block text-zinc-400 text-sm mb-2 flex items-center gap-2">
-                    <Mail size={16} />
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    required
-                    className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
-                  />
+                  <label className="block text-zinc-400 text-sm mb-2 flex items-center gap-2"><Mail size={16} /> Email Address</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500" />
                 </div>
 
-                {/* Product Selection Toggle */}
-                <div className="flex items-center justify-between">
-                  <span className="text-zinc-400 text-sm">Alert for specific product?</span>
-                  <button
-                    type="button"
-                    onClick={() => setShowProductSelector(!showProductSelector)}
-                    className="text-blue-400 text-sm hover:underline"
-                  >
-                    {showProductSelector ? 'Remove' : 'Add product'}
-                  </button>
-                </div>
-
-                {/* Product Selector */}
-                {showProductSelector && (
-                  <div className="space-y-4">
-                    <ProductSelector
-                      selectedProduct={selectedProduct}
-                      onSelect={setSelectedProduct}
-                    />
-                    
-                    {selectedProduct && (
-                      <div>
-                        <label className="block text-zinc-400 text-sm mb-2">
-                          Target Price (optional)
-                        </label>
-                        <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">$</span>
-                          <input
-                            type="number"
-                            value={targetPrice}
-                            onChange={(e) => setTargetPrice(e.target.value)}
-                            placeholder={`Current: $${getBestPrice(selectedProduct).toLocaleString()}`}
-                            min="1"
-                            className="w-full bg-zinc-900 border border-zinc-700 rounded-xl pl-8 pr-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
-                          />
-                        </div>
-                        <p className="text-zinc-500 text-xs mt-2">
-                          Leave empty for alerts on any price drop
-                        </p>
-                      </div>
+                {/* Selected Products */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-zinc-400 text-sm">Selected Products ({selectedProducts.length}/{MAX_PRODUCTS})</label>
+                    {selectedProducts.length < MAX_PRODUCTS && (
+                      <button type="button" onClick={() => setShowProductSelector(true)} className="text-blue-400 text-sm hover:underline flex items-center gap-1">
+                        <Plus size={14} /> Add Product
+                      </button>
                     )}
                   </div>
-                )}
 
-                {/* Terms Checkbox */}
+                  {selectedProducts.length === 0 ? (
+                    <button type="button" onClick={() => setShowProductSelector(true)} className="w-full py-8 border-2 border-dashed border-zinc-700 rounded-xl text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors">
+                      Click to select products
+                    </button>
+                  ) : (
+                    <div className="space-y-2">
+                      {selectedProducts.map((product) => {
+                        const currentPrice = getBestPrice(product);
+                        return (
+                          <div key={product.id} className="bg-zinc-800/50 rounded-xl p-4 flex items-center gap-4">
+                            <div className="w-12 h-12 bg-zinc-800 rounded-lg flex items-center justify-center text-2xl">
+                              {product.category === 'macbook' ? '💻' : product.category === 'iphone' ? '📱' : product.category === 'ipad' ? '📲' : product.category === 'watch' ? '⌚' : product.category === 'airpods' ? '🎧' : '📦'}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-white font-medium">{product.name}</p>
+                              <p className="text-zinc-500 text-sm">Current: ${currentPrice.toLocaleString()}</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">$</span>
+                                <input
+                                  type="number"
+                                  placeholder={`${Math.floor(currentPrice * 0.9)}`}
+                                  value={targetPrices[product.id] || ''}
+                                  onChange={(e) => updateTargetPrice(product.id, e.target.value)}
+                                  className="w-24 bg-zinc-900 border border-zinc-700 rounded-lg pl-6 pr-2 py-2 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-blue-500"
+                                />
+                              </div>
+                              <button type="button" onClick={() => removeProduct(product.id)} className="p-2 text-zinc-500 hover:text-red-400 transition-colors">
+                                <X size={18} />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Terms */}
                 <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={agreedToTerms}
-                    onChange={(e) => setAgreedToTerms(e.target.checked)}
-                    required
-                    className="mt-1 w-4 h-4 rounded border-zinc-700 bg-zinc-900 text-blue-600"
-                  />
-                  <span className="text-zinc-400 text-sm">
-                    I agree to receive price alert emails. Unsubscribe anytime.
-                  </span>
+                  <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} required
+                    className="mt-1 w-4 h-4 rounded border-zinc-700 bg-zinc-900 text-blue-600" />
+                  <span className="text-zinc-400 text-sm">I agree to receive price alert emails. Unsubscribe anytime.</span>
                 </label>
 
-                {/* Error Message */}
                 {status === 'error' && (
                   <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm flex items-start gap-2">
                     <AlertTriangle size={16} className="flex-shrink-0 mt-0.5" />
@@ -261,111 +270,44 @@ const PriceAlerts = () => {
                   </div>
                 )}
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isLoading || !email || !agreedToTerms}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" />
-                      Setting up...
-                    </>
-                  ) : (
-                    <>
-                      {selectedProduct ? 'Create Product Alert' : 'Subscribe to Deal Alerts'}
-                      <ArrowRight size={18} />
-                    </>
-                  )}
+                {/* Submit */}
+                <button type="submit" disabled={isLoading || !email || !agreedToTerms || selectedProducts.length === 0}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+                  {isLoading ? <><Loader2 size={18} className="animate-spin" /> Creating alerts...</> : 
+                   <><Bell size={18} /> Create {selectedProducts.length > 0 ? `${selectedProducts.length} Alert${selectedProducts.length > 1 ? 's' : ''}` : 'Alerts'}</>}
                 </button>
+
+                {/* General subscription fallback */}
+                <div className="pt-4 border-t border-zinc-800">
+                  <p className="text-zinc-500 text-sm text-center mb-3">Or subscribe to general deal alerts</p>
+                  <button type="button" onClick={handleGeneralSubscribe} disabled={isLoading || !email}
+                    className="w-full py-2 border border-zinc-700 text-zinc-400 rounded-lg hover:bg-zinc-800 transition-colors">
+                    Subscribe to Weekly Deals
+                  </button>
+                </div>
               </form>
 
-              {/* Privacy */}
-              <div className="flex items-start gap-2 mt-6 pt-6 border-t border-zinc-800 text-xs text-zinc-500">
-                <Shield size={14} className="mt-0.5 flex-shrink-0" />
-                <p>
-                  We don't share your email. No spam. Unsubscribe anytime. 
-                  <Link to="/privacy" className="text-blue-400 hover:underline ml-1">Privacy Policy</Link>
-                </p>
-              </div>
-
-              {/* Manage Alerts Link */}
-              <div className="mt-4 text-center">
-                <Link 
-                  to="/alerts/manage" 
-                  className="text-sm text-zinc-500 hover:text-zinc-300"
-                >
-                  Already have alerts? Manage them here
-                </Link>
-              </div>
+              {/* Product Selector Modal */}
+              {showProductSelector && (
+                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden flex flex-col">
+                    <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-white">Select Product ({selectedProducts.length}/{MAX_PRODUCTS})</h3>
+                      <button onClick={() => setShowProductSelector(false)} className="text-zinc-500 hover:text-white"><X size={20} /></button>
+                    </div>
+                    <div className="p-4 overflow-y-auto flex-1">
+                      <ProductSelector selectedProduct={null} onSelect={addProduct} />
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           )}
         </div>
-      </div>
 
-      {/* How It Works */}
-      <div className="max-w-4xl mx-auto px-4 py-20 border-t border-zinc-800">
-        <h2 className="text-2xl font-bold text-white text-center mb-12">How It Works</h2>
-        
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Bell className="text-blue-400" size={24} />
-            </div>
-            <h3 className="text-white font-semibold mb-2">1. Set Your Alert</h3>
-            <p className="text-zinc-500 text-sm">
-              Choose a product and set your target price (or get alerts on any drop)
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Mail className="text-blue-400" size={24} />
-            </div>
-            <h3 className="text-white font-semibold mb-2">2. We Monitor Prices</h3>
-            <p className="text-zinc-500 text-sm">
-              Our system checks prices every 4 hours across 9 major retailers
-            </p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Check className="text-green-400" size={24} />
-            </div>
-            <h3 className="text-white font-semibold mb-2">3. You Save Money</h3>
-            <p className="text-zinc-500 text-sm">
-              Get an instant email when the price drops. Click and buy at the best price.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* FAQ */}
-      <div className="max-w-2xl mx-auto px-4 py-20 border-t border-zinc-800">
-        <h2 className="text-2xl font-bold text-white text-center mb-8">FAQ</h2>
-        
-        <div className="space-y-4">
-          <div className="bg-zinc-900/50 rounded-xl p-6">
-            <h3 className="text-white font-semibold mb-2">Is this really free?</h3>
-            <p className="text-zinc-400 text-sm">
-              Yes. We make money through affiliate links when you buy, so alerts are free for you.
-            </p>
-          </div>
-
-          <div className="bg-zinc-900/50 rounded-xl p-6">
-            <h3 className="text-white font-semibold mb-2">How often do you check prices?</h3>
-            <p className="text-zinc-400 text-sm">
-              Every 4 hours, 24/7. If a price drops, you'll know within hours.
-            </p>
-          </div>
-
-          <div className="bg-zinc-900/50 rounded-xl p-6">
-            <h3 className="text-white font-semibold mb-2">Can I unsubscribe?</h3>
-            <p className="text-zinc-400 text-sm">
-              Absolutely. Every email has an unsubscribe link. One click and you're out.
-            </p>
-          </div>
+        {/* Manage link */}
+        <div className="mt-4 text-center">
+          <Link to="/alerts/manage" className="text-sm text-zinc-500 hover:text-zinc-300">Already have alerts? Manage them here</Link>
         </div>
       </div>
     </div>
