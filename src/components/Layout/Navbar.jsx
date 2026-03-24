@@ -50,6 +50,7 @@ const Navbar = () => {
     { name: 'iPad', path: '/products/ipad', emoji: '📲' },
     { name: 'Watch', path: '/products/watch', emoji: '⌚' },
     { name: 'AirPods', path: '/products/airpods', emoji: '🎧' },
+    { name: 'Accessories', path: '/products/accessories', emoji: '🔌' },
   ]
 
   const retailerLinks = [

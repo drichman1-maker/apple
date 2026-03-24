@@ -251,7 +251,8 @@ const CATEGORIES = [
   { id: 'iphone', label: 'iPhone', icon: '📱' },
   { id: 'ipad', label: 'iPad', icon: '📲' },
   { id: 'watch', label: 'Watch', icon: '⌚' },
-  { id: 'airpods', label: 'AirPods', icon: '🎧' }
+  { id: 'airpods', label: 'AirPods', icon: '🎧' },
+  { id: 'accessories', label: 'Accessories', icon: '🔌' }
 ]
 
 const RetailerLanding = () => {

@@ -13,7 +13,7 @@ const ProductCatalog = () => {
   const [lastUpdated, setLastUpdated] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
 
-  const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
+  const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories']
   const [condition, setCondition] = useState('new') // 'new' or 'refurbished'
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('default') // 'default', 'deals', 'price-low', 'price-high', 'newest'
