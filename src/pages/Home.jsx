@@ -176,7 +176,6 @@ const Home = () => {
             <Link to="/about" className="hover:text-[#3b82f6] mx-2">About</Link>
           </p>
           <p className="text-[#a3a3a3] text-sm">© 2026 TheresMac</p>
-          <p className="text-[#1a1a1a] text-xs mt-2">Impact-Site-Verification: 5981e3a4-153b-48e1-9ece-6809db0443a6</p>
         </div>
       </footer>
     </div>
