@@ -344,17 +344,17 @@ const ProductCatalog = () => {
         </div>
 
         {/* Condition Toggle & Results Count */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div className="flex items-center gap-4">
             <p className="text-[#a3a3a3] text-sm">
               Showing {filteredProducts.length} {condition} products
               {activeFilter !== 'All' && ` in ${activeFilter}`}
               {searchQuery && ` matching "${searchQuery}"`}
             </p>
-            
+
             {/* Live Price Status */}
             {lastUpdated && (
-              <button 
+              <button
                 onClick={() => fetchLivePrices(true)}
                 className="flex items-center gap-1.5 text-xs text-[#22c55e] hover:text-[#4ade80] transition-colors"
                 title="Click to refresh prices"
@@ -365,15 +365,15 @@ const ProductCatalog = () => {
               </button>
             )}
           </div>
-          
+
           {/* Sort Dropdown & New/Refurbished Toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Sort Dropdown */}
-            <div className="relative">
+            <div className="relative flex-shrink-0">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-[#141414] border border-[#262626] text-[#fafafa] text-sm font-medium rounded-full px-4 py-1.5 pr-8 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
+                className="appearance-none bg-[#141414] border border-[#262626] text-[#fafafa] text-xs sm:text-sm font-medium rounded-full px-3 sm:px-4 py-1.5 pr-7 sm:pr-8 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
               >
                 <option value="default">Sort: Default</option>
                 <option value="deals">Best Deals</option>
@@ -382,7 +382,7 @@ const ProductCatalog = () => {
                 <option value="newest">Newest First</option>
               </select>
               <svg
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a3a3a3] pointer-events-none"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-[#a3a3a3] pointer-events-none"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -392,10 +392,10 @@ const ProductCatalog = () => {
             </div>
 
             {/* New/Refurbished Toggle */}
-            <div className="flex items-center gap-2 bg-[#141414] border border-[#262626] rounded-full p-1">
+            <div className="flex items-center gap-1 sm:gap-2 bg-[#141414] border border-[#262626] rounded-full p-1 flex-shrink-0">
               <button
                 onClick={() => setCondition('new')}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                className={`px-2 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                   condition === 'new'
                     ? 'bg-white text-black'
                     : 'text-[#a3a3a3] hover:text-[#fafafa]'
@@ -405,13 +405,14 @@ const ProductCatalog = () => {
               </button>
               <button
                 onClick={() => setCondition('refurbished')}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                className={`px-2 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                   condition === 'refurbished'
                     ? 'bg-white text-black'
                     : 'text-[#a3a3a3] hover:text-[#fafafa]'
                 }`}
               >
-                Refurbished
+                <span className="hidden sm:inline">Refurbished</span>
+                <span className="sm:hidden">Refurb</span>
               </button>
             </div>
           </div>
