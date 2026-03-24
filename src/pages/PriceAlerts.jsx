@@ -290,7 +290,7 @@ const PriceAlerts = () => {
               {/* Product Selector Modal */}
               {showProductSelector && (
                 <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
-                  <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl">
+                  <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden flex flex-col shadow-2xl">
                     <div className="p-6 border-b border-zinc-800 flex items-center justify-between bg-zinc-900">
                       <div>
                         <h3 className="text-xl font-semibold text-white">Select Product {selectedProducts.length > 0 && `(${selectedProducts.length}/${MAX_PRODUCTS} selected)`}</h3>
