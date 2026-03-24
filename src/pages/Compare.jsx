@@ -207,6 +207,16 @@ const Compare = () => {
                     }`}
                   >
                     <div className="text-sm font-medium text-white truncate mb-1">{product.name}</div>
+                    
+                    {/* Specs preview */}
+                    {product.specs && (
+                      <div className="text-xs text-gray-500 mb-1 line-clamp-1">
+                        {product.specs.storage && <span className="mr-2">{product.specs.storage}</span>}
+                        {product.specs.memory && <span className="mr-2">{product.specs.memory}</span>}
+                        {product.specs.chip && <span>{product.specs.chip}</span>}
+                      </div>
+                    )}
+                    
                     <div className="text-xs text-gray-400 mt-1">
                       {bestPrice ? (
                         <span className="flex items-center gap-1">

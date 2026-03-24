@@ -58,10 +58,21 @@ const Home = () => {
     if (viewMode === 'deals') {
       return featuredProducts
         .filter(p => {
-          const savings = calculateSavings(p)
-          return savings > 0 // Only show products with actual savings
+          const bestPrice = getBestPrice(p)
+          return bestPrice && bestPrice.price > 0 // Show products with valid prices
         })
-        .sort((a, b) => calculateSavings(b) - calculateSavings(a)) // Most savings first
+        .sort((a, b) => {
+          // Sort by savings if available, otherwise by price
+          const aSavings = calculateSavings(a)
+          const bSavings = calculateSavings(b)
+          if (aSavings > 0 || bSavings > 0) {
+            return bSavings - aSavings // Most savings first
+          }
+          // If no savings data, sort by price (low to high)
+          const aPrice = getBestPrice(a)?.price || 0
+          const bPrice = getBestPrice(b)?.price || 0
+          return aPrice - bPrice
+        })
     }
     return featuredProducts
   }
