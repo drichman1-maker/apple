@@ -6,6 +6,7 @@ import SearchModal from '../Search/SearchModal'
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [productsOpen, setProductsOpen] = useState(false)
+  const [retailersOpen, setRetailersOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const productsRef = useRef(null)
   const location = useLocation()
@@ -25,6 +26,7 @@ const Navbar = () => {
   // Close dropdowns when route changes
   useEffect(() => {
     setProductsOpen(false)
+    setRetailersOpen(false)
     setIsOpen(false)
   }, [location.pathname])
 
@@ -48,6 +50,15 @@ const Navbar = () => {
     { name: 'iPad', path: '/products/ipad', emoji: '📲' },
     { name: 'Watch', path: '/products/watch', emoji: '⌚' },
     { name: 'AirPods', path: '/products/airpods', emoji: '🎧' },
+  ]
+
+  const retailerLinks = [
+    { name: 'Amazon', path: '/retailers/amazon', color: '#FF9900' },
+    { name: 'Best Buy', path: '/retailers/bestbuy', color: '#0046BE' },
+    { name: 'Apple', path: '/retailers/apple', color: '#86868B' },
+    { name: 'B&H Photo', path: '/retailers/bh', color: '#E53935' },
+    { name: 'Adorama', path: '/retailers/adorama', color: '#F37021' },
+    { name: 'eBay', path: '/retailers/ebay', color: '#E53238' },
   ]
 
   const navLinks = [
@@ -107,6 +118,40 @@ const Navbar = () => {
                         >
                           <span className="text-lg">{category.emoji}</span>
                           {category.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Retailers Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setRetailersOpen(!retailersOpen)}
+                  onMouseEnter={() => setRetailersOpen(true)}
+                  className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors ${
+                    isActive('/retailers') ? 'text-white' : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  Retailers
+                  <ChevronDown className={`h-4 w-4 transition-transform ${retailersOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {retailersOpen && (
+                  <div 
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-[#141414] border border-[#262626] rounded-xl shadow-2xl overflow-hidden"
+                    onMouseLeave={() => setRetailersOpen(false)}
+                  >
+                    <div className="py-2">
+                      {retailerLinks.map((retailer) => (
+                        <Link
+                          key={retailer.path}
+                          to={retailer.path}
+                          className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-300 hover:bg-[#1f1f1f] hover:text-white transition-colors"
+                        >
+                          <span className="w-2 h-2 rounded-full" style={{ backgroundColor: retailer.color }}></span>
+                          {retailer.name}
                         </Link>
                       ))}
                     </div>

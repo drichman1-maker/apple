@@ -17,6 +17,11 @@ const ProductCatalog = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('default') // 'default', 'deals', 'price-low', 'price-high', 'newest'
 
+  // Sync activeFilter with URL category param
+  useEffect(() => {
+    setActiveFilter(category ? category.charAt(0).toUpperCase() + category.slice(1) : 'All')
+  }, [category])
+
   // Fetch live prices from /api/prices
   const fetchLivePrices = async (showSpinner = false) => {
     if (showSpinner) setRefreshing(true)

@@ -9,13 +9,14 @@ const API_BASE_URL = 'https://theresmac-backend.fly.dev';
 const PriceAlerts = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
-  const [selectedProduct, setSelectedProduct] = useState(null)
-  const [targetPrice, setTargetPrice] = useState('')
+  const [selectedProducts, setSelectedProducts] = useState([]) // Now supports multiple (up to 5)
+  const [targetPrices, setTargetPrices] = useState({}) // Map of productId -> targetPrice
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState(null) // 'success' | 'error' | null
   const [message, setMessage] = useState('')
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [showProductSelector, setShowProductSelector] = useState(false)
+  const [currentAlerts, setCurrentAlerts] = useState([]) // Track created alerts
 
   // Check for email in URL params (from manage/unsubscribe pages)
   useEffect(() => {
