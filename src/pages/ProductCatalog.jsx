@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { ChevronRight, RefreshCw } from 'lucide-react'
+import Disclaimer from '../components/Layout/Disclaimer'
 
 const ProductCatalog = () => {
   const { category } = useParams()
@@ -283,6 +284,9 @@ const ProductCatalog = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <main className="max-w-[1200px] mx-auto px-6 py-6">
+        {/* Disclaimer */}
+        <Disclaimer />
+        
         {/* Category Filter */}
         <div className="flex flex-wrap gap-2 mb-4">
           {categories.map((cat) => {

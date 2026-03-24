@@ -255,6 +255,23 @@ const Compare = () => {
                       </tr>
                     </thead>
                     <tbody>
+                      {/* Product Identifier - Name with Specs */}
+                      <tr className="border-b border-white/10 bg-blue-500/5">
+                        <td className="p-4 text-blue-400 sticky left-0 bg-[#0a0a0a] font-medium">
+                          Full Name
+                        </td>
+                        {selectedProductData.map(product => (
+                          <td key={product.id} className="p-4 text-white">
+                            <div>
+                              <span className="font-bold">{product.name}</span>
+                              {product.specs?.storage && (
+                                <span className="text-blue-400 ml-2">{product.specs.storage}</span>
+                              )}
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+
                       {/* Specs Rows First */}
                       {specKeys.map((spec, idx) => {
                         const Icon = SPEC_ICONS[spec.toLowerCase()] || Monitor
@@ -274,6 +291,16 @@ const Compare = () => {
                           </tr>
                         )
                       })}
+
+                      {/* Release Year */}
+                      <tr className="border-b border-white/10">
+                        <td className="p-4 text-gray-400 sticky left-0 bg-[#0a0a0a]">Release Year</td>
+                        {selectedProductData.map(product => (
+                          <td key={product.id} className="p-4 text-white font-medium">
+                            {product.releaseDate ? new Date(product.releaseDate).getFullYear() : '—'}
+                          </td>
+                        ))}
+                      </tr>
 
                       {/* Category */}
                       <tr className="border-b border-white/10 bg-white/[0.02]">
