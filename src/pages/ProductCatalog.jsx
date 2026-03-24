@@ -324,9 +324,9 @@ const ProductCatalog = () => {
                 ).length
               : catChipFiltered.filter(p => p.category?.toLowerCase() === cat.toLowerCase()).length
             return (
-              <Link
+              <button
                 key={cat}
-                to={cat === 'Home' ? '/' : cat === 'All' ? '/products' : `/products/${cat.toLowerCase()}`}
+                onClick={() => setActiveFilter(cat)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all border ${
                   activeFilter.toLowerCase() === cat.toLowerCase()
                     ? 'bg-white text-black border-white'
@@ -334,7 +334,7 @@ const ProductCatalog = () => {
                 }`}
               >
                 {cat}
-              </Link>
+              </button>
             )
           })}
         </div>

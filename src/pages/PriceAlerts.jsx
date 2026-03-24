@@ -289,14 +289,23 @@ const PriceAlerts = () => {
 
               {/* Product Selector Modal */}
               {showProductSelector && (
-                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full max-h-[80vh] overflow-hidden flex flex-col">
-                    <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-white">Select Product ({selectedProducts.length}/{MAX_PRODUCTS})</h3>
-                      <button onClick={() => setShowProductSelector(false)} className="text-zinc-500 hover:text-white"><X size={20} /></button>
+                <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+                  <div className="bg-zinc-900 border border-zinc-700 rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl">
+                    <div className="p-6 border-b border-zinc-800 flex items-center justify-between bg-zinc-900">
+                      <div>
+                        <h3 className="text-xl font-semibold text-white">Select Product {selectedProducts.length > 0 && `(${selectedProducts.length}/${MAX_PRODUCTS} selected)`}</h3>
+                        <p className="text-zinc-500 text-sm mt-1">Click a product to add it to your alerts</p>
+                      </div>
+                      <button onClick={() => setShowProductSelector(false)} className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-500 hover:text-white transition-colors"><X size={24} /></button>
                     </div>
-                    <div className="p-4 overflow-y-auto flex-1">
+                    <div className="p-6 overflow-y-auto flex-1 bg-zinc-950">
                       <ProductSelector selectedProduct={null} onSelect={addProduct} />
+                    </div>
+                    <div className="p-4 border-t border-zinc-800 bg-zinc-900 flex justify-between items-center">
+                      <span className="text-zinc-500 text-sm">{selectedProducts.length} of {MAX_PRODUCTS} products selected</span>
+                      <button onClick={() => setShowProductSelector(false)} className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium">
+                        Done
+                      </button>
                     </div>
                   </div>
                 </div>
