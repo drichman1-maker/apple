@@ -58,20 +58,16 @@ const Home = () => {
           </div>
 
           {/* Main Title */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-[#fafafa] mb-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#fafafa] mb-4">
             Hardware <span className="text-[#3b82f6]">Intelligence</span>
           </h1>
 
-          <p className="text-sm text-[#525252] mb-2">Impact-Site-Verification: 5981e3a4-153b-48e1-9ece-6809db0443a6</p>
-
-          <p className="text-xl text-[#3b82f6] mb-4">Apple Asset Tracking</p>
-
-          <p className="text-[#a3a3a3] text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-lg text-[#a3a3a3] max-w-2xl mx-auto mb-6 leading-relaxed">
             Compare prices across retailers, track price history, and get alerts when your favorite Apple products go on sale.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link
               to="/products"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#3b82f6] text-white rounded-xl font-medium hover:bg-[#2563eb] transition-colors"
