@@ -39,10 +39,31 @@ const Home = () => {
     return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
   }
 
+  const getWorstPrice = (product) => {
+    if (!product?.prices) return null
+    const pricesArray = Array.isArray(product.prices)
+      ? product.prices
+      : Object.entries(product.prices)
+          .filter(([_, data]) => data && typeof data === 'object')
+          .map(([retailer, data]) => ({ retailer, ...data }))
+    
+    const pricedProducts = pricesArray.filter(p => p.price)
+    if (pricedProducts.length === 0) return null
+    return pricedProducts.reduce((max, p) => p.price > max.price ? p : max, pricedProducts[0])
+  }
+
   const calculateSavings = (product) => {
     const bestPrice = getBestPrice(product)
-    if (!bestPrice?.price || !product.msrp) return 0
-    return product.msrp - bestPrice.price
+    const worstPrice = getWorstPrice(product)
+    if (!bestPrice?.price || !worstPrice?.price) return 0
+    return worstPrice.price - bestPrice.price
+  }
+
+  const calculateSavingsPercent = (product) => {
+    const bestPrice = getBestPrice(product)
+    const worstPrice = getWorstPrice(product)
+    if (!bestPrice?.price || !worstPrice?.price || worstPrice.price === 0) return 0
+    return Math.round(((worstPrice.price - bestPrice.price) / worstPrice.price) * 100)
   }
 
   const formatPrice = (price) => {
@@ -200,9 +221,9 @@ const Home = () => {
                     <h3 className="text-base font-semibold text-[#fafafa] mb-1 group-hover:text-[#3b82f6] transition-colors line-clamp-2">
                       {product.name}
                     </h3>
-                    {savings > 0 && product.msrp > 0 && (
+                    {savings > 0 && (
                       <p className="text-green-400 text-xs mb-2">
-                        Save {formatPrice(savings)} ({Math.round((savings / product.msrp) * 100)}%)
+                        Save {formatPrice(savings)} ({calculateSavingsPercent(product)}%)
                       </p>
                     )}
                     <div className="flex flex-wrap gap-1 mb-2">
