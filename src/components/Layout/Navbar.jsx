@@ -58,11 +58,12 @@ const Navbar = () => {
     { name: 'Best Buy', path: '/retailers/bestbuy', color: '#0046BE' },
     { name: 'Apple', path: '/retailers/apple', color: '#86868B' },
     { name: 'B&H Photo', path: '/retailers/bh', color: '#E53935' },
+    { name: 'Walmart', path: '/retailers/walmart', color: '#FFC220' },
+    { name: 'Target', path: '/retailers/target', color: '#CC0000' },
     { name: 'Adorama', path: '/retailers/adorama', color: '#F37021' },
     { name: 'eBay', path: '/retailers/ebay', color: '#E53238' },
     { name: 'Micro Center', path: '/retailers/microcenter', color: '#00A651' },
-    { name: 'CDW', path: '/retailers/cdw', color: '#E31937' },
-    { name: 'Sweetwater', path: '/retailers/sweetwater', color: '#F26722' },
+    { name: 'Back Market', path: '/retailers/backmarket', color: '#00C853' },
   ]
 
   const navLinks = [
