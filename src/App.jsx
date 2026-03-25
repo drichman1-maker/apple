@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Navbar from './components/Layout/Navbar'
 import Footer from './components/Layout/Footer'
-import Home from './pages/Home'
 import ProductDetail from './pages/ProductDetail'
 import ProductCatalog from './pages/ProductCatalog'
 import PriceAlerts from './pages/PriceAlerts'
@@ -41,7 +40,7 @@ function App() {
         <Navbar />
         <main>
           <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<ProductCatalog />} />
           <Route path="/products" element={<ProductCatalog />} />
           <Route path="/products/:category" element={<ProductCatalog />} />
           <Route path="/product/:id" element={<ProductDetail />} />
