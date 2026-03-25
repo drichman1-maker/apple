@@ -200,9 +200,9 @@ const Home = () => {
                     <h3 className="text-base font-semibold text-[#fafafa] mb-1 group-hover:text-[#3b82f6] transition-colors line-clamp-2">
                       {product.name}
                     </h3>
-                    {savings > 0 && (
+                    {savings > 0 && product.msrp > 0 && (
                       <p className="text-green-400 text-xs mb-2">
-                        Save {formatPrice(savings)}
+                        Save {formatPrice(savings)} ({Math.round((savings / product.msrp) * 100)}%)
                       </p>
                     )}
                     <div className="flex flex-wrap gap-1 mb-2">
