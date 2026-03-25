@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import Disclaimer from '../components/Layout/Disclaimer'
@@ -14,15 +14,16 @@ const ProductCatalog = () => {
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories']
 
   useEffect(() => {
-    if (category) {
-      const formatted = category.charAt(0).toUpperCase() + category.slice(1)
-      setActiveCategory(categories.find(c => c.toLowerCase() === formatted.toLowerCase()) || 'All')
-    }
-  }, [category])
-
-  useEffect(() => {
     fetchProducts()
   }, [])
+
+  useEffect(() => {
+    if (category) {
+      const formatted = category.charAt(0).toUpperCase() + category.slice(1)
+      const matched = categories.find(c => c.toLowerCase() === formatted.toLowerCase())
+      if (matched) setActiveCategory(matched)
+    }
+  }, [category])
 
   const fetchProducts = async () => {
     try {
@@ -83,50 +84,72 @@ const ProductCatalog = () => {
     }).format(price || 0)
   }
 
-  // Simple filtering
-  const filteredProducts = products.filter(product => {
+  // Filter and sort products
+  const filteredProducts = useMemo(() => {
+    let result = products
+
     // Category filter
     if (activeCategory !== 'All') {
-      const productCat = product.category?.toLowerCase() || ''
-      const productName = product.name?.toLowerCase() || ''
-      
-      if (activeCategory === 'MacBook') {
-        return productCat === 'mac' && productName.includes('macbook')
-      } else if (activeCategory === 'Mac') {
-        return productCat === 'mac' && !productName.includes('macbook')
-      } else {
-        return productCat === activeCategory.toLowerCase()
-      }
+      result = result.filter(product => {
+        const productCat = product.category?.toLowerCase() || ''
+        const productName = product.name?.toLowerCase() || ''
+        
+        if (activeCategory === 'MacBook') {
+          return productCat === 'mac' && productName.includes('macbook')
+        } else if (activeCategory === 'Mac') {
+          return productCat === 'mac' && !productName.includes('macbook')
+        } else {
+          return productCat === activeCategory.toLowerCase()
+        }
+      })
     }
-    return true
-  }).filter(product => {
-    // Condition filter
-    if (condition === 'refurbished') {
-      return product.condition === 'refurbished'
-    }
-    return product.condition !== 'refurbished'
-  })
 
-  // Simple sorting
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortBy === 'price-low') {
-      return (getBestPrice(a)?.price || Infinity) - (getBestPrice(b)?.price || Infinity)
-    }
-    if (sortBy === 'price-high') {
-      return (getBestPrice(b)?.price || 0) - (getBestPrice(a)?.price || 0)
-    }
-    if (sortBy === 'deals') {
-      const aBest = getBestPrice(a)?.price || 0
-      const aWorst = getWorstPrice(a)?.price || 0
-      const bBest = getBestPrice(b)?.price || 0
-      const bWorst = getWorstPrice(b)?.price || 0
-      const aSavings = aWorst > aBest ? ((aWorst - aBest) / aWorst) : 0
-      const bSavings = bWorst > bBest ? ((bWorst - bBest) / bWorst) : 0
-      return bSavings - aSavings
-    }
-    // Default: sort by release date (newest first)
-    return new Date(b.releaseDate || 0) - new Date(a.releaseDate || 0)
-  })
+    // Condition filter
+    result = result.filter(product => {
+      if (condition === 'refurbished') {
+        return product.condition === 'refurbished'
+      }
+      return product.condition !== 'refurbished'
+    })
+
+    // Sort
+    result = [...result].sort((a, b) => {
+      if (sortBy === 'price-low') {
+        return (getBestPrice(a)?.price || Infinity) - (getBestPrice(b)?.price || Infinity)
+      }
+      if (sortBy === 'price-high') {
+        return (getBestPrice(b)?.price || 0) - (getBestPrice(a)?.price || 0)
+      }
+      if (sortBy === 'deals') {
+        const aBest = getBestPrice(a)?.price || 0
+        const aWorst = getWorstPrice(a)?.price || 0
+        const bBest = getBestPrice(b)?.price || 0
+        const bWorst = getWorstPrice(b)?.price || 0
+        const aSavings = aWorst > aBest ? ((aWorst - aBest) / aWorst) : 0
+        const bSavings = bWorst > bBest ? ((bWorst - bBest) / bWorst) : 0
+        return bSavings - aSavings
+      }
+      // Default: newest first
+      return new Date(b.releaseDate || 0) - new Date(a.releaseDate || 0)
+    })
+
+    return result
+  }, [products, activeCategory, condition, sortBy])
+
+  // Get counts for each category
+  const getCategoryCount = (cat) => {
+    return products.filter(p => {
+      if (condition === 'refurbished' ? p.condition !== 'refurbished' : p.condition === 'refurbished') {
+        return false
+      }
+      if (cat === 'All') return true
+      const productCat = p.category?.toLowerCase() || ''
+      const productName = p.name?.toLowerCase() || ''
+      if (cat === 'MacBook') return productCat === 'mac' && productName.includes('macbook')
+      if (cat === 'Mac') return productCat === 'mac' && !productName.includes('macbook')
+      return productCat === cat.toLowerCase()
+    }).length
+  }
 
   if (loading) {
     return (
@@ -142,20 +165,7 @@ const ProductCatalog = () => {
         {/* Category Pills */}
         <div className="flex flex-wrap gap-2 mb-4">
           {categories.map((cat) => {
-            const count = cat === 'All' 
-              ? products.filter(p => condition === 'refurbished' ? p.condition === 'refurbished' : p.condition !== 'refurbished').length
-              : cat === 'MacBook'
-              ? products.filter(p => {
-                  const name = p.name?.toLowerCase() || ''
-                  return p.category?.toLowerCase() === 'mac' && name.includes('macbook') && (condition === 'refurbished' ? p.condition === 'refurbished' : p.condition !== 'refurbished')
-                }).length
-              : cat === 'Mac'
-              ? products.filter(p => {
-                  const name = p.name?.toLowerCase() || ''
-                  return p.category?.toLowerCase() === 'mac' && !name.includes('macbook') && (condition === 'refurbished' ? p.condition === 'refurbished' : p.condition !== 'refurbished')
-                }).length
-              : products.filter(p => p.category?.toLowerCase() === cat.toLowerCase() && (condition === 'refurbished' ? p.condition === 'refurbished' : p.condition !== 'refurbished')).length
-            
+            const count = getCategoryCount(cat)
             return (
               <button
                 key={cat}
@@ -175,7 +185,7 @@ const ProductCatalog = () => {
         {/* Results Count & Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <p className="text-[#a3a3a3] text-sm">
-            Showing {sortedProducts.length} {condition} products
+            Showing {filteredProducts.length} {condition} products
             {activeCategory !== 'All' && ` in ${activeCategory}`}
           </p>
 
@@ -220,7 +230,7 @@ const ProductCatalog = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sortedProducts.map((product) => {
+          {filteredProducts.map((product) => {
             const bestPrice = getBestPrice(product)
             const worstPrice = getWorstPrice(product)
             const savings = worstPrice && bestPrice ? Math.round(((worstPrice.price - bestPrice.price) / worstPrice.price) * 100) : 0
@@ -238,6 +248,9 @@ const ProductCatalog = () => {
                     {product.category}
                   </span>
                   <div className="text-right">
+                    {bestPrice?.outOfStock && (
+                      <span className="text-xs text-red-400 mr-2">Out of Stock</span>
+                    )}
                     {bestPrice && year ? (
                       <span className="text-sm text-[#a3a3a3]">{bestPrice.retailer} • {year}</span>
                     ) : bestPrice ? (
@@ -267,32 +280,34 @@ const ProductCatalog = () => {
                 {/* Price Section */}
                 <div className="flex items-end justify-between mb-4">
                   <div>
-                    <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-1">Best Price</p>
+                    <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-0.5">
+                      {bestPrice?.outOfStock ? 'Last Known Price' : 'Best Price'}
+                    </p>
                     <p className="text-3xl font-bold text-[#fafafa]">
                       {formatPrice(bestPrice?.price)}
                     </p>
                     <p className="text-sm text-[#10b981]">
-                      at {bestPrice?.retailer}
+                      {bestPrice?.outOfStock ? 'Out of stock' : `at ${bestPrice?.retailer}`}
                     </p>
                   </div>
                   {savings > 0 && worstPrice && (
                     <div className="text-right">
-                      <p className="text-sm text-[#a3a3a3]">MSRP {formatPrice(worstPrice.price)}</p>
+                      <p className="text-sm text-[#a3a3a3] line-through">{formatPrice(worstPrice.price)}</p>
                       <span className="inline-block mt-1 text-sm font-medium text-[#10b981] bg-[#10b981]/10 px-3 py-1 rounded-lg">
-                        -{savings}% savings
+                        -{savings}%
                       </span>
                     </div>
                   )}
                 </div>
 
-                {/* Buy From Section */}
+                {/* Retailer Links */}
                 <div className="border-t border-[#262626] pt-4">
                   <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-3">Buy From</p>
                   <div className="space-y-2">
                     {(() => {
                       const pricesArray = Array.isArray(product.prices)
                         ? product.prices
-                        : Object.entries(product.prices)
+                        : Object.entries(product.prices || {})
                             .filter(([_, data]) => data && typeof data === 'object')
                             .map(([retailer, data]) => ({ retailer, ...data }))
                       
@@ -311,37 +326,16 @@ const ProductCatalog = () => {
                             className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded-xl hover:bg-[#1a1a1a] transition-colors cursor-pointer"
                           >
                             <span className="text-[#fafafa] font-medium capitalize">{price.retailer}</span>
-                            {price.inStock === false && (
-                              <span className="ml-2 px-2 py-0.5 text-xs bg-red-500/20 text-red-400 rounded">Out of Stock</span>
-                            )}
                             <div className="flex items-center gap-3">
                               <span className={`font-bold ${price.price === bestPrice?.price ? 'text-[#10b981]' : 'text-[#fafafa]'}`}>
                                 {formatPrice(price.price)}
                               </span>
-                              <span className="px-3 py-1.5 text-sm bg-[#262626] text-[#a3a3a3] rounded-lg hover:bg-[#333] transition-colors">
+                              <span className="px-3 py-1.5 text-sm bg-[#262626] text-[#a3a3a3] rounded-lg hover:bg-[#333]">
                                 Visit
                               </span>
                             </div>
                           </div>
                         ))
-                    })()}
-                    
-                    {(() => {
-                      const pricesArray = Array.isArray(product.prices)
-                        ? product.prices
-                        : Object.entries(product.prices)
-                            .filter(([_, data]) => data && typeof data === 'object')
-                            .map(([retailer, data]) => ({ retailer, ...data }))
-                      const pricedProducts = pricesArray.filter(p => p.price)
-                      return pricedProducts.length > 3 ? (
-                        <div className="flex items-center justify-between p-3 text-[#a3a3a3]">
-                          <span>More retailers</span>
-                          <span className="flex items-center gap-1">
-                            +{pricedProducts.length - 3}
-                            <ChevronRight className="w-4 h-4" />
-                          </span>
-                        </div>
-                      ) : null
                     })()}
                   </div>
                 </div>
@@ -350,7 +344,7 @@ const ProductCatalog = () => {
           })}
         </div>
 
-        {sortedProducts.length === 0 && (
+        {filteredProducts.length === 0 && (
           <div className="text-center py-16">
             <p className="text-[#a3a3a3] text-lg">No products found</p>
             <p className="text-[#a3a3a3] text-sm mt-2">Try a different category or condition</p>
@@ -358,14 +352,10 @@ const ProductCatalog = () => {
         )}
       </main>
 
-      {/* Disclaimer */}
-      <div className="max-w-[1200px] mx-auto px-6 mt-8">
-        <Disclaimer />
-      </div>
-
       {/* Footer */}
       <footer className="border-t border-[#262626] mt-16 py-8 px-6">
         <div className="max-w-[1200px] mx-auto text-center">
+          <Disclaimer />
           <p className="text-[#a3a3a3] text-sm mb-2">
             <Link to="/privacy" className="hover:text-[#3b82f6] mx-2">Privacy</Link>
             <span className="text-[#333]">|</span>
