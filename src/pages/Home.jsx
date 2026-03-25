@@ -76,20 +76,37 @@ const Home = () => {
 
   // Filter and sort products based on view mode
   const getProductsToShow = () => {
+    // Main categories only (exclude accessories)
+    const mainCategories = ['mac', 'macbook', 'iphone', 'ipad', 'watch', 'airpods']
+    
     if (viewMode === 'deals') {
+      // Deals: Best % off MSRP, main categories only
       return featuredProducts
         .filter(p => {
-          const savings = calculateSavings(p)
-          return savings > 0 // Only show products with actual savings
+          const cat = (p.category || '').toLowerCase()
+          return mainCategories.includes(cat) && calculateSavingsPercent(p) > 0
         })
         .sort((a, b) => {
-          // Sort by savings (most savings first)
-          const aSavings = calculateSavings(a)
-          const bSavings = calculateSavings(b)
-          return bSavings - aSavings
+          // Sort by percentage savings (best deals first)
+          return calculateSavingsPercent(b) - calculateSavingsPercent(a)
         })
+        .slice(0, 6)
     }
+    
+    // Featured: Most popular products (exclude accessories)
+    // Prioritize: MacBooks, iPhone, iPad, Mac in that order
+    const priorityOrder = ['macbook', 'mac', 'iphone', 'ipad', 'watch', 'airpods']
     return featuredProducts
+      .filter(p => {
+        const cat = (p.category || '').toLowerCase()
+        return mainCategories.includes(cat)
+      })
+      .sort((a, b) => {
+        const aPriority = priorityOrder.indexOf((a.category || '').toLowerCase())
+        const bPriority = priorityOrder.indexOf((b.category || '').toLowerCase())
+        return aPriority - bPriority
+      })
+      .slice(0, 6)
   }
 
   const productsToShow = getProductsToShow()
