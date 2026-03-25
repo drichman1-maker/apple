@@ -126,6 +126,17 @@ const RETAILER_CONFIG = {
     pros: ['Exceptional customer service', 'Technical support', 'Creative pro focus', 'Financing options'],
     cons: ['Limited Mac selection', 'Music/audio focus', 'Smaller inventory than major retailers'],
     logo: 'SW'
+  },
+  backmarket: {
+    name: 'Back Market',
+    displayName: 'Back Market',
+    color: '#00C853',
+    bgColor: 'bg-green-500/10',
+    borderColor: 'border-green-500/30',
+    description: 'Back Market is a leading marketplace for refurbished electronics. All devices are certified by professionals and come with a 1-year warranty and 30-day money-back guarantee.',
+    pros: ['Significant savings on refurbished', '1-year warranty included', '30-day returns', 'Eco-friendly choice', 'Certified refurbishers only'],
+    cons: ['All products are refurbished', 'Not latest generation models', 'Limited stock on popular items'],
+    logo: 'BM'
   }
 }
 
