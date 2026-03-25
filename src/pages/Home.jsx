@@ -34,9 +34,20 @@ const Home = () => {
           .filter(([_, data]) => data && typeof data === 'object')
           .map(([retailer, data]) => ({ retailer, ...data }))
     
+    // First try to find in-stock prices
     const inStockPrices = pricesArray.filter(p => p.inStock && p.price)
-    if (inStockPrices.length === 0) return null
-    return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
+    if (inStockPrices.length > 0) {
+      return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
+    }
+    
+    // Fall back to any price (even out of stock)
+    const anyPrices = pricesArray.filter(p => p.price)
+    if (anyPrices.length > 0) {
+      const best = anyPrices.reduce((min, p) => p.price < min.price ? p : min, anyPrices[0])
+      return { ...best, outOfStock: true }
+    }
+    
+    return null
   }
 
   const getWorstPrice = (product) => {
@@ -228,6 +239,9 @@ const Home = () => {
                         {product.category}
                       </span>
                       <span className="text-xs text-[#a3a3a3] capitalize">{bestPrice?.retailer}</span>
+                      {bestPrice?.outOfStock && (
+                        <span className="text-xs text-red-400 ml-2">Out of Stock</span>
+                      )}
                     </div>
                     <h3 className="text-base font-semibold text-[#fafafa] mb-1 group-hover:text-[#3b82f6] transition-colors line-clamp-2">
                       {product.name}
@@ -246,7 +260,9 @@ const Home = () => {
                     </div>
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-0.5">Best Price</p>
+                        <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-0.5">
+                          {bestPrice?.outOfStock ? 'Last Known Price' : 'Best Price'}
+                        </p>
                         <p className="text-xl font-bold text-[#fafafa]">
                           {formatPrice(bestPrice?.price)}
                         </p>

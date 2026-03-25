@@ -46,9 +46,20 @@ const ProductCatalog = () => {
           .filter(([_, data]) => data && typeof data === 'object')
           .map(([retailer, data]) => ({ retailer, ...data }))
     
+    // First try in-stock prices
     const inStockPrices = pricesArray.filter(p => p.inStock !== false && p.price)
-    if (inStockPrices.length === 0) return null
-    return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
+    if (inStockPrices.length > 0) {
+      return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
+    }
+    
+    // Fall back to any price (even out of stock)
+    const anyPrices = pricesArray.filter(p => p.price)
+    if (anyPrices.length > 0) {
+      const best = anyPrices.reduce((min, p) => p.price < min.price ? p : min, anyPrices[0])
+      return { ...best, outOfStock: true }
+    }
+    
+    return null
   }
 
   const getWorstPrice = (product) => {
