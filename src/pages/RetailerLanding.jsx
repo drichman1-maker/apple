@@ -257,13 +257,15 @@ const ProductListItem = ({ product, formatPrice }) => {
 }
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Products', icon: '□' },
-  { id: 'mac', label: 'Mac', icon: '💻' },
-  { id: 'iphone', label: 'iPhone', icon: '📱' },
-  { id: 'ipad', label: 'iPad', icon: '📲' },
-  { id: 'watch', label: 'Watch', icon: '⌚' },
-  { id: 'airpods', label: 'AirPods', icon: '🎧' },
-  { id: 'accessories', label: 'Accessories', icon: '🔌' }
+  { id: 'all', label: 'All' },
+  { id: 'macbook', label: 'MacBook' },
+  { id: 'imac', label: 'iMac' },
+  { id: 'mac-studio', label: 'Mac Studio' },
+  { id: 'iphone', label: 'iPhone' },
+  { id: 'ipad', label: 'iPad' },
+  { id: 'watch', label: 'Watch' },
+  { id: 'airpods', label: 'AirPods' },
+  { id: 'accessories', label: 'Accessories' }
 ]
 
 const RetailerLanding = () => {
@@ -324,7 +326,15 @@ const RetailerLanding = () => {
 
     // Apply category filter
     if (filterCategory !== 'all') {
-      formatted = formatted.filter(p => p.category === filterCategory)
+      if (filterCategory === 'macbook') {
+        formatted = formatted.filter(p => p.category === 'mac' && p.name?.toLowerCase().includes('macbook'))
+      } else if (filterCategory === 'imac') {
+        formatted = formatted.filter(p => p.category === 'mac' && p.name?.toLowerCase().includes('imac'))
+      } else if (filterCategory === 'mac-studio') {
+        formatted = formatted.filter(p => p.category === 'mac' && p.name?.toLowerCase().includes('mac studio'))
+      } else {
+        formatted = formatted.filter(p => p.category === filterCategory)
+      }
     }
 
     // Apply in-stock filter
@@ -348,8 +358,8 @@ const RetailerLanding = () => {
     const sorted = formatted.sort((a, b) => {
       if (sortBy === 'savings') return b.savings - a.savings
       if (sortBy === 'price') return a.retailerPrice - b.retailerPrice
-      if (sortBy === 'name') return (a.model || '').localeCompare(b.model || '')
-      if (sortBy === 'stock') return (b.isInStock ? 1 : 0) - (a.isInStock ? 1 : 0)
+      if (sortBy === 'price-desc') return b.retailerPrice - a.retailerPrice
+      if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '')
       return 0
     })
 
@@ -467,45 +477,45 @@ const RetailerLanding = () => {
           </div>
         </div>
 
-        {/* Filter & Sort Controls */}
-        <div className="bg-[#141414] border border-[#262626] rounded-xl p-4 mb-6">
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2 mb-4 pb-4 border-b border-[#262626]">
+        {/* Filters */}
+        <div className="space-y-4 mb-6">
+          {/* Category Pills */}
+          <div className="flex flex-wrap gap-2">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setFilterCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   filterCategory === cat.id
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-[#1a1a1a] text-gray-400 hover:bg-[#262626]'
+                    ? 'bg-white text-black'
+                    : 'bg-[#141414] text-[#a3a3a3] border border-[#262626] hover:border-[#444] hover:text-white'
                 }`}
               >
-                <span>{cat.icon}</span>
                 {cat.label}
               </button>
             ))}
           </div>
 
-          {/* Filters Row */}
+          {/* Controls Row */}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               {/* In Stock Toggle */}
-              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={inStockOnly}
-                  onChange={(e) => setInStockOnly(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-[#1a1a1a] text-blue-500 focus:ring-blue-500"
-                />
-                In Stock Only
-              </label>
+              <button
+                onClick={() => setInStockOnly(!inStockOnly)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  inStockOnly
+                    ? 'bg-white text-black'
+                    : 'bg-[#141414] text-[#a3a3a3] border border-[#262626] hover:border-[#444]'
+                }`}
+              >
+                {inStockOnly ? '✓' : ''} In Stock Only
+              </button>
 
-              {/* Price Range Dropdown */}
+              {/* Price Range */}
               <select
                 value={priceRange}
                 onChange={(e) => setPriceRange(e.target.value)}
-                className="bg-[#1a1a1a] border border-[#333] rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-blue-500"
+                className="appearance-none bg-[#141414] border border-[#262626] text-white text-sm rounded-full px-4 py-2 pr-10 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
               >
                 <option value="all">All Prices</option>
                 <option value="under500">Under $500</option>
@@ -515,50 +525,21 @@ const RetailerLanding = () => {
               </select>
             </div>
 
-            <div className="flex items-center gap-4">
-              {/* Sort Dropdown */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-[#a3a3a3]">{products.length} products</span>
+              
+              {/* Sort */}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-[#1a1a1a] border border-[#333] rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-blue-500"
+                className="appearance-none bg-[#141414] border border-[#262626] text-white text-sm rounded-full px-4 py-2 pr-10 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
               >
-                <option value="savings">Sort by Savings</option>
-                <option value="price">Sort by Price</option>
-                <option value="name">Sort by Name</option>
-                <option value="stock">Sort by Stock</option>
+                <option value="savings">Best Deals</option>
+                <option value="price">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name">Name</option>
               </select>
-
-              {/* View Mode Toggle */}
-              <div className="flex bg-[#1a1a1a] rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`px-3 py-1.5 rounded text-sm transition-colors ${
-                    viewMode === 'grid'
-                      ? 'bg-[#333] text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  Grid
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`px-3 py-1.5 rounded text-sm transition-colors ${
-                    viewMode === 'list'
-                      ? 'bg-[#333] text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  List
-                </button>
-              </div>
             </div>
-          </div>
-
-          {/* Results Count */}
-          <div className="mt-4 pt-4 border-t border-[#262626] text-sm text-gray-500">
-            Showing {products.length} products
-            {filterCategory !== 'all' && ` in ${CATEGORIES.find(c => c.id === filterCategory)?.label}`}
-            {inStockOnly && ' (in stock only)'}
           </div>
         </div>
 
