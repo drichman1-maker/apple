@@ -8,7 +8,7 @@ const ProductCatalog = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('All')
-  const [sortBy, setSortBy] = useState('default')
+  const [sortBy, setSortBy] = useState('newest')
   const [condition, setCondition] = useState('new')
 
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories']
@@ -84,24 +84,67 @@ const ProductCatalog = () => {
     }).format(price || 0)
   }
 
+  // Helper functions for robust sorting
+  const getProductPrice = (product, type = 'best') => {
+    if (!product?.prices) return null
+    const pricesArray = Array.isArray(product.prices) 
+      ? product.prices 
+      : Object.entries(product.prices)
+          .filter(([_, data]) => data && typeof data === 'object' && data.price)
+          .map(([retailer, data]) => ({ retailer, ...data }))
+    
+    if (!pricesArray.length) return null
+    
+    if (type === 'best') {
+      // Prefer in-stock prices
+      const inStockPrices = pricesArray.filter(p => p.inStock !== false)
+      const targetPrices = inStockPrices.length > 0 ? inStockPrices : pricesArray
+      return targetPrices.reduce((min, curr) => curr.price < min.price ? curr : min, targetPrices[0])
+    } else if (type === 'worst') {
+      return pricesArray.reduce((max, curr) => curr.price > max.price ? curr : max, pricesArray[0])
+    }
+    return null
+  }
+
+  const getSavingsPercentage = (product) => {
+    const bestPrice = getProductPrice(product, 'best')
+    const worstPrice = getProductPrice(product, 'worst')
+    
+    if (!bestPrice?.price || !worstPrice?.price || worstPrice.price <= bestPrice.price) {
+      return 0
+    }
+    
+    return (worstPrice.price - bestPrice.price) / worstPrice.price
+  }
+
+  const getProductReleaseDate = (product) => {
+    if (!product?.releaseDate) return new Date(0) // Fallback to epoch
+    const date = new Date(product.releaseDate)
+    return isNaN(date.getTime()) ? new Date(0) : date
+  }
+
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let result = products
+    console.log('[ProductCatalog] Filtering - activeCategory:', activeCategory, 'products count:', products.length)
+    let result = [...products] // Always work with a copy
 
     // Category filter
     if (activeCategory !== 'All') {
       result = result.filter(product => {
-        const productCat = product.category?.toLowerCase() || ''
-        const productName = product.name?.toLowerCase() || ''
+        const productCat = (product.category || '').toLowerCase()
+        const productName = (product.name || '').toLowerCase()
         
+        let matches = false
         if (activeCategory === 'MacBook') {
-          return productCat === 'mac' && productName.includes('macbook')
+          matches = productCat === 'mac' && productName.includes('macbook')
         } else if (activeCategory === 'Mac') {
-          return productCat === 'mac' && !productName.includes('macbook')
+          matches = productCat === 'mac' && !productName.includes('macbook')
         } else {
-          return productCat === activeCategory.toLowerCase()
+          matches = productCat === activeCategory.toLowerCase()
         }
+        return matches
       })
+      console.log('[ProductCatalog] After category filter:', result.length)
     }
 
     // Condition filter
@@ -112,27 +155,72 @@ const ProductCatalog = () => {
       return product.condition !== 'refurbished'
     })
 
-    // Sort
-    result = [...result].sort((a, b) => {
-      if (sortBy === 'price-low') {
-        return (getBestPrice(a)?.price || Infinity) - (getBestPrice(b)?.price || Infinity)
+    // Robust sorting with proper fallbacks
+    result.sort((a, b) => {
+      try {
+        switch (sortBy) {
+          case 'price-low': {
+            const aPriceData = getProductPrice(a, 'best')
+            const bPriceData = getProductPrice(b, 'best')
+            const aPrice = aPriceData?.price || Number.MAX_SAFE_INTEGER
+            const bPrice = bPriceData?.price || Number.MAX_SAFE_INTEGER
+            return aPrice - bPrice
+          }
+          
+          case 'price-high': {
+            const aPriceData = getProductPrice(a, 'best')
+            const bPriceData = getProductPrice(b, 'best')
+            const aPrice = aPriceData?.price || 0
+            const bPrice = bPriceData?.price || 0
+            return bPrice - aPrice
+          }
+          
+          case 'deals': {
+            const aSavings = getSavingsPercentage(a)
+            const bSavings = getSavingsPercentage(b)
+            
+            // Sort by savings percentage first, then by actual savings amount
+            if (Math.abs(aSavings - bSavings) > 0.01) {
+              return bSavings - aSavings
+            }
+            
+            // Secondary sort by absolute savings amount
+            const aBest = getProductPrice(a, 'best')?.price || 0
+            const aWorst = getProductPrice(a, 'worst')?.price || 0
+            const bBest = getProductPrice(b, 'best')?.price || 0
+            const bWorst = getProductPrice(b, 'worst')?.price || 0
+            const aAmount = aWorst - aBest
+            const bAmount = bWorst - bBest
+            return bAmount - aAmount
+          }
+          
+          case 'newest':
+          case 'default':
+          default: {
+            const aDate = getProductReleaseDate(a)
+            const bDate = getProductReleaseDate(b)
+            const dateDiff = bDate.getTime() - aDate.getTime()
+            
+            // If dates are the same or missing, sort by name for consistency
+            if (dateDiff === 0) {
+              const aName = (a.name || '').toLowerCase()
+              const bName = (b.name || '').toLowerCase()
+              return aName.localeCompare(bName)
+            }
+            
+            return dateDiff
+          }
+        }
+      } catch (error) {
+        console.error('[ProductCatalog] Sort error:', error)
+        // Fallback to name sorting if anything goes wrong
+        const aName = (a.name || '').toLowerCase()
+        const bName = (b.name || '').toLowerCase()
+        return aName.localeCompare(bName)
       }
-      if (sortBy === 'price-high') {
-        return (getBestPrice(b)?.price || 0) - (getBestPrice(a)?.price || 0)
-      }
-      if (sortBy === 'deals') {
-        const aBest = getBestPrice(a)?.price || 0
-        const aWorst = getWorstPrice(a)?.price || 0
-        const bBest = getBestPrice(b)?.price || 0
-        const bWorst = getWorstPrice(b)?.price || 0
-        const aSavings = aWorst > aBest ? ((aWorst - aBest) / aWorst) : 0
-        const bSavings = bWorst > bBest ? ((bWorst - bBest) / bWorst) : 0
-        return bSavings - aSavings
-      }
-      // Default: newest first
-      return new Date(b.releaseDate || 0) - new Date(a.releaseDate || 0)
     })
 
+    console.log('[ProductCatalog] Sort applied:', sortBy, 'Result count:', result.length)
     return result
   }, [products, activeCategory, condition, sortBy])
 
@@ -196,10 +284,10 @@ const ProductCatalog = () => {
               onChange={(e) => setSortBy(e.target.value)}
               className="appearance-none bg-[#141414] border border-[#262626] text-[#fafafa] text-sm font-medium rounded-full px-4 py-2 pr-8 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
             >
-              <option value="default">Sort: Newest</option>
-              <option value="deals">Best Deals</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
+              <option value="newest">Sort: Newest First</option>
+              <option value="deals">Sort: Best Deals</option>
+              <option value="price-low">Sort: Price Low → High</option>
+              <option value="price-high">Sort: Price High → Low</option>
             </select>
 
             {/* Condition Toggle */}
@@ -229,7 +317,8 @@ const ProductCatalog = () => {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div key={`grid-${activeCategory}-${condition}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {console.log('[ProductCatalog] Rendering grid with', filteredProducts.length, 'products')}
           {filteredProducts.map((product) => {
             const bestPrice = getBestPrice(product)
             const worstPrice = getWorstPrice(product)
@@ -316,14 +405,15 @@ const ProductCatalog = () => {
                         .sort((a, b) => a.price - b.price)
                         .slice(0, 3)
                         .map((price, i) => (
-                          <div
+                          <a
                             key={i}
+                            href={`/go/${price.retailer.toLowerCase()}?url=${encodeURIComponent(price.url || '')}&query=${encodeURIComponent(product.name)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             onClick={(e) => {
-                              e.preventDefault()
                               e.stopPropagation()
-                              window.open(price.url || '#', '_blank', 'noopener,noreferrer')
                             }}
-                            className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded-xl hover:bg-[#1a1a1a] transition-colors cursor-pointer"
+                            className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded-xl hover:bg-[#1a1a1a] transition-colors"
                           >
                             <span className="text-[#fafafa] font-medium capitalize">{price.retailer}</span>
                             <div className="flex items-center gap-3">
@@ -334,7 +424,7 @@ const ProductCatalog = () => {
                                 Visit
                               </span>
                             </div>
-                          </div>
+                          </a>
                         ))
                     })()}
                   </div>
