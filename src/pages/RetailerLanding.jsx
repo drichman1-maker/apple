@@ -354,8 +354,8 @@ const RetailerLanding = () => {
       formatted = formatted.filter(p => p.retailerPrice >= min && p.retailerPrice <= max)
     }
 
-    // Apply sorting
-    const sorted = formatted.sort((a, b) => {
+    // Apply sorting (create copy to avoid mutating original)
+    const sorted = [...formatted].sort((a, b) => {
       if (sortBy === 'savings') return b.savings - a.savings
       if (sortBy === 'price') return a.retailerPrice - b.retailerPrice
       if (sortBy === 'price-desc') return b.retailerPrice - a.retailerPrice
