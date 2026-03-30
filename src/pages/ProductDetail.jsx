@@ -226,10 +226,24 @@ const ProductDetail = () => {
   const fetchProductData = async () => {
     try {
       setLoading(true)
+      // Try to fetch specific product first
       const response = await fetch(`https://theresmac-backend.fly.dev/api/products/${id}`)
       if (response.ok) {
         const data = await response.json()
         setProduct(data)
+      } else {
+        // Fallback: fetch all products and find by ID
+        console.log('Individual product endpoint failed, trying fallback...')
+        const allResponse = await fetch('https://theresmac-backend.fly.dev/api/products')
+        if (allResponse.ok) {
+          const allProducts = await allResponse.json()
+          const found = allProducts.find(p => p.id === id || p.id === parseInt(id))
+          if (found) {
+            setProduct(found)
+          } else {
+            console.error('Product not found in product list')
+          }
+        }
       }
     } catch (err) {
       console.error('Failed to fetch product:', err)
