@@ -1,0 +1,46 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000"/>
+      <stop offset="50%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6"/>
+      <stop offset="100%" style="stop-color:#3B82F6"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(139, 92, 246, 0.3)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(59, 130, 246, 0.2)"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glow effects -->
+  <circle cx="1000" cy="100" r="300" fill="url(#glow1)"/>
+  <circle cx="200" cy="530" r="200" fill="url(#glow2)"/>
+
+  <!-- Logo Icon -->
+  <rect x="300" y="215" width="100" height="100" rx="24" fill="url(#logoGrad)"/>
+  <text x="350" y="285" font-size="60" text-anchor="middle" fill="white">📱</text>
+
+  <!-- Logo Text -->
+  <text x="430" y="285" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="80" font-weight="800" fill="white" letter-spacing="-2">TheresMac</text>
+
+  <!-- Tagline -->
+  <text x="600" y="350" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="42" font-weight="500" fill="#a5b4fc" text-anchor="middle">Apple Product Price Tracking</text>
+
+  <!-- Features -->
+  <text x="360" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#c7d2fe">📊 Live Prices</text>
+  <text x="550" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#c7d2fe">🔔 Price Alerts</text>
+  <text x="760" y="440" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#c7d2fe">💰 Best Deals</text>
+
+  <!-- URL -->
+  <text x="600" y="580" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="600" fill="#8B5CF6" text-anchor="middle" letter-spacing="2">theresmac.com</text>
+</svg>
