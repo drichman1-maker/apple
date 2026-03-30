@@ -149,11 +149,13 @@ const ProductCatalog = () => {
     }
 
     // Condition filter
+    // Note: Products without a condition field are treated as 'new'
     result = result.filter(product => {
+      const isRefurb = product.condition === 'refurbished'
       if (condition === 'refurbished') {
-        return product.condition === 'refurbished'
+        return isRefurb
       }
-      return product.condition !== 'refurbished'
+      return !isRefurb
     })
 
     // Sorting - using new array to avoid mutation issues
@@ -195,12 +197,17 @@ const ProductCatalog = () => {
   // Get counts
   const getCategoryCount = (cat) => {
     return products.filter(p => {
-      if (condition === 'refurbished' ? p.condition !== 'refurbished' : p.condition === 'refurbished') {
-        return false
+      // First apply condition filter to counts
+      if (condition === 'refurbished') {
+        if (p.condition !== 'refurbished') return false
+      } else {
+        if (p.condition === 'refurbished') return false
       }
+      
+      // Then apply category filter
       if (cat === 'All') return true
-      const productCat = p.category?.toLowerCase() || ''
-      const productName = p.name?.toLowerCase() || ''
+      const productCat = (p.category || '').toLowerCase()
+      const productName = (p.name || '').toLowerCase()
       if (cat === 'MacBook') return productCat === 'mac' && productName.includes('macbook')
       if (cat === 'Mac') return productCat === 'mac' && !productName.includes('macbook')
       return productCat === cat.toLowerCase()
