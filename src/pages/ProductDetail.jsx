@@ -206,6 +206,8 @@ const ProductDetail = () => {
   const [alertEnabled, setAlertEnabled] = useState(false)
   const [chartRange, setChartRange] = useState('90d')
   const [showAlertModal, setShowAlertModal] = useState(false)
+  const [priceHistoryData, setPriceHistoryData] = useState(null)
+  const [priceHistoryLoading, setPriceHistoryLoading] = useState(false)
 
   // Update page title dynamically
   usePageTitle(product);
@@ -213,6 +215,13 @@ const ProductDetail = () => {
   useEffect(() => {
     fetchProductData()
   }, [id])
+
+  // Fetch price history when product or chart range changes
+  useEffect(() => {
+    if (id) {
+      fetchPriceHistory()
+    }
+  }, [id, chartRange])
 
   const fetchProductData = async () => {
     try {
@@ -226,6 +235,22 @@ const ProductDetail = () => {
       console.error('Failed to fetch product:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchPriceHistory = async () => {
+    try {
+      setPriceHistoryLoading(true)
+      const days = parseInt(chartRange)
+      const response = await fetch(`https://theresmac-backend.fly.dev/api/prices/${id}/history?timeframe=${days}`)
+      if (response.ok) {
+        const data = await response.json()
+        setPriceHistoryData(data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch price history:', err)
+    } finally {
+      setPriceHistoryLoading(false)
     }
   }
 
@@ -422,14 +447,30 @@ const ProductDetail = () => {
   const savingsPercent = worstPrice && bestPrice ? Math.round((savings / worstPrice.price) * 100) : 0
   const year = product.releaseDate ? new Date(product.releaseDate).getFullYear() : null
 
-  // Mock price history data for chart
-  const priceHistory = Array.from({ length: 30 }, (_, i) => {
-    const base = bestPrice?.price || 1000
-    const variance = Math.sin(i * 0.3) * 50 + Math.random() * 30
-    return base + variance
-  })
-  const maxPrice = Math.max(...priceHistory)
-  const minPrice = Math.min(...priceHistory)
+  // Process real price history data for chart
+  const priceHistory = React.useMemo(() => {
+    if (!priceHistoryData || !priceHistoryData.prices) {
+      // Fallback to empty array if no data
+      return []
+    }
+    
+    const retailerPrices = priceHistoryData.prices
+    const dates = priceHistoryData.dates || []
+    
+    // Calculate the best (lowest) price across all retailers for each day
+    return dates.map((_, dayIndex) => {
+      let lowestPrice = Infinity
+      Object.values(retailerPrices).forEach(retailerPriceArray => {
+        if (retailerPriceArray && retailerPriceArray[dayIndex] != null) {
+          lowestPrice = Math.min(lowestPrice, retailerPriceArray[dayIndex])
+        }
+      })
+      return lowestPrice === Infinity ? bestPrice?.price || 0 : lowestPrice
+    })
+  }, [priceHistoryData, bestPrice?.price])
+  
+  const maxPrice = priceHistory.length > 0 ? Math.max(...priceHistory) : (bestPrice?.price || 1000)
+  const minPrice = priceHistory.length > 0 ? Math.min(...priceHistory) : (bestPrice?.price || 1000)
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -606,16 +647,27 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="h-32 flex items-end gap-1">
-              {priceHistory.map((price, i) => {
-                const height = ((price - minPrice) / (maxPrice - minPrice)) * 100
-                return (
-                  <div
-                    key={i}
-                    className="flex-1 bg-gradient-to-t from-[#3b82f6] to-[#3b82f6]/50 rounded-t"
-                    style={{ height: `${Math.max(height, 10)}%` }}
-                  />
-                )
-              })}
+              {priceHistoryLoading ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="animate-pulse text-[#3b82f6] text-sm">Loading history...</div>
+                </div>
+              ) : priceHistory.length === 0 ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-[#525252] text-sm">No price history available</p>
+                </div>
+              ) : (
+                priceHistory.map((price, i) => {
+                  const height = maxPrice === minPrice ? 50 : ((price - minPrice) / (maxPrice - minPrice)) * 100
+                  return (
+                    <div
+                      key={i}
+                      className="flex-1 bg-gradient-to-t from-[#3b82f6] to-[#3b82f6]/50 rounded-t min-h-[4px]"
+                      style={{ height: `${Math.max(height, 4)}%` }}
+                      title={`${new Date(priceHistoryData?.dates?.[i] || Date.now()).toLocaleDateString()}: ${formatPrice(price)}`}
+                    />
+                  )
+                })
+              )}
             </div>
           </div>
         </div>
