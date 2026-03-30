@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ExternalLink, Store, TrendingDown } from 'lucide-react'
+import RetailerSortDropdown from '../components/RetailerSortDropdown'
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev'
 
@@ -527,18 +528,7 @@ const RetailerLanding = () => {
 
             <div className="flex items-center gap-3">
               <span className="text-sm text-[#a3a3a3]">{products.length} products</span>
-              
-              {/* Sort */}
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-[#141414] border border-[#262626] text-white text-sm rounded-full px-4 py-2 pr-10 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
-              >
-                <option value="savings">Best Deals</option>
-                <option value="price">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="name">Name</option>
-              </select>
+              <RetailerSortDropdown value={sortBy} onChange={setSortBy} />
             </div>
           </div>
         </div>

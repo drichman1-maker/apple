@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import Disclaimer from '../components/Layout/Disclaimer'
+import SortDropdown from '../components/SortDropdown'
+import ConditionToggle from '../components/ConditionToggle'
 
 const ProductCatalog = () => {
   const { category } = useParams()
@@ -12,6 +14,13 @@ const ProductCatalog = () => {
   const [condition, setCondition] = useState('new')
 
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories']
+
+  const sortOptions = [
+    { value: 'newest', label: 'Newest First' },
+    { value: 'deals', label: 'Best Deals' },
+    { value: 'price-low', label: 'Price: Low to High' },
+    { value: 'price-high', label: 'Price: High to Low' },
+  ]
 
   useEffect(() => {
     fetchProducts()
@@ -47,13 +56,11 @@ const ProductCatalog = () => {
           .filter(([_, data]) => data && typeof data === 'object')
           .map(([retailer, data]) => ({ retailer, ...data }))
     
-    // First try in-stock prices
     const inStockPrices = pricesArray.filter(p => p.inStock !== false && p.price)
     if (inStockPrices.length > 0) {
       return inStockPrices.reduce((min, p) => p.price < min.price ? p : min, inStockPrices[0])
     }
     
-    // Fall back to any price (even out of stock)
     const anyPrices = pricesArray.filter(p => p.price)
     if (anyPrices.length > 0) {
       const best = anyPrices.reduce((min, p) => p.price < min.price ? p : min, anyPrices[0])
@@ -84,7 +91,6 @@ const ProductCatalog = () => {
     }).format(price || 0)
   }
 
-  // Helper functions for robust sorting
   const getProductPrice = (product, type = 'best') => {
     if (!product?.prices) return null
     const pricesArray = Array.isArray(product.prices) 
@@ -96,7 +102,6 @@ const ProductCatalog = () => {
     if (!pricesArray.length) return null
     
     if (type === 'best') {
-      // Prefer in-stock prices
       const inStockPrices = pricesArray.filter(p => p.inStock !== false)
       const targetPrices = inStockPrices.length > 0 ? inStockPrices : pricesArray
       return targetPrices.reduce((min, curr) => curr.price < min.price ? curr : min, targetPrices[0])
@@ -118,15 +123,14 @@ const ProductCatalog = () => {
   }
 
   const getProductReleaseDate = (product) => {
-    if (!product?.releaseDate) return new Date(0) // Fallback to epoch
+    if (!product?.releaseDate) return new Date(0)
     const date = new Date(product.releaseDate)
     return isNaN(date.getTime()) ? new Date(0) : date
   }
 
-  // Filter and sort products
+  // Filter and sort - REBUILT FROM SCRATCH
   const filteredProducts = useMemo(() => {
-    console.log('[ProductCatalog] Filtering - activeCategory:', activeCategory, 'products count:', products.length)
-    let result = [...products] // Always work with a copy
+    let result = [...products]
 
     // Category filter
     if (activeCategory !== 'All') {
@@ -134,17 +138,14 @@ const ProductCatalog = () => {
         const productCat = (product.category || '').toLowerCase()
         const productName = (product.name || '').toLowerCase()
         
-        let matches = false
         if (activeCategory === 'MacBook') {
-          matches = productCat === 'mac' && productName.includes('macbook')
+          return productCat === 'mac' && productName.includes('macbook')
         } else if (activeCategory === 'Mac') {
-          matches = productCat === 'mac' && !productName.includes('macbook')
+          return productCat === 'mac' && !productName.includes('macbook')
         } else {
-          matches = productCat === activeCategory.toLowerCase()
+          return productCat === activeCategory.toLowerCase()
         }
-        return matches
       })
-      console.log('[ProductCatalog] After category filter:', result.length)
     }
 
     // Condition filter
@@ -155,76 +156,43 @@ const ProductCatalog = () => {
       return product.condition !== 'refurbished'
     })
 
-    // Robust sorting with proper fallbacks
-    result.sort((a, b) => {
-      try {
-        switch (sortBy) {
-          case 'price-low': {
-            const aPriceData = getProductPrice(a, 'best')
-            const bPriceData = getProductPrice(b, 'best')
-            const aPrice = aPriceData?.price || Number.MAX_SAFE_INTEGER
-            const bPrice = bPriceData?.price || Number.MAX_SAFE_INTEGER
-            return aPrice - bPrice
-          }
-          
-          case 'price-high': {
-            const aPriceData = getProductPrice(a, 'best')
-            const bPriceData = getProductPrice(b, 'best')
-            const aPrice = aPriceData?.price || 0
-            const bPrice = bPriceData?.price || 0
-            return bPrice - aPrice
-          }
-          
-          case 'deals': {
-            const aSavings = getSavingsPercentage(a)
-            const bSavings = getSavingsPercentage(b)
-            
-            // Sort by savings percentage first, then by actual savings amount
-            if (Math.abs(aSavings - bSavings) > 0.01) {
-              return bSavings - aSavings
-            }
-            
-            // Secondary sort by absolute savings amount
-            const aBest = getProductPrice(a, 'best')?.price || 0
-            const aWorst = getProductPrice(a, 'worst')?.price || 0
-            const bBest = getProductPrice(b, 'best')?.price || 0
-            const bWorst = getProductPrice(b, 'worst')?.price || 0
-            const aAmount = aWorst - aBest
-            const bAmount = bWorst - bBest
-            return bAmount - aAmount
-          }
-          
-          case 'newest':
-          case 'default':
-          default: {
-            const aDate = getProductReleaseDate(a)
-            const bDate = getProductReleaseDate(b)
-            const dateDiff = bDate.getTime() - aDate.getTime()
-            
-            // If dates are the same or missing, sort by name for consistency
-            if (dateDiff === 0) {
-              const aName = (a.name || '').toLowerCase()
-              const bName = (b.name || '').toLowerCase()
-              return aName.localeCompare(bName)
-            }
-            
-            return dateDiff
-          }
+    // Sorting - using new array to avoid mutation issues
+    const sortedResult = [...result].sort((a, b) => {
+      switch (sortBy) {
+        case 'price-low': {
+          const aPrice = getProductPrice(a, 'best')?.price || Number.MAX_SAFE_INTEGER
+          const bPrice = getProductPrice(b, 'best')?.price || Number.MAX_SAFE_INTEGER
+          return aPrice - bPrice
         }
-      } catch (error) {
-        console.error('[ProductCatalog] Sort error:', error)
-        // Fallback to name sorting if anything goes wrong
-        const aName = (a.name || '').toLowerCase()
-        const bName = (b.name || '').toLowerCase()
-        return aName.localeCompare(bName)
+        
+        case 'price-high': {
+          const aPrice = getProductPrice(a, 'best')?.price || 0
+          const bPrice = getProductPrice(b, 'best')?.price || 0
+          return bPrice - aPrice
+        }
+        
+        case 'deals': {
+          const aSavings = getSavingsPercentage(a)
+          const bSavings = getSavingsPercentage(b)
+          return bSavings - aSavings
+        }
+        
+        case 'newest':
+        default: {
+          const aDate = getProductReleaseDate(a).getTime()
+          const bDate = getProductReleaseDate(b).getTime()
+          if (aDate === bDate) {
+            return (a.name || '').localeCompare(b.name || '')
+          }
+          return bDate - aDate
+        }
       }
     })
 
-    console.log('[ProductCatalog] Sort applied:', sortBy, 'Result count:', result.length)
-    return result
+    return sortedResult
   }, [products, activeCategory, condition, sortBy])
 
-  // Get counts for each category
+  // Get counts
   const getCategoryCount = (cat) => {
     return products.filter(p => {
       if (condition === 'refurbished' ? p.condition !== 'refurbished' : p.condition === 'refurbished') {
@@ -238,6 +206,37 @@ const ProductCatalog = () => {
       return productCat === cat.toLowerCase()
     }).length
   }
+
+  const getConditionCounts = () => {
+    let newCount = 0
+    let refurbCount = 0
+    
+    products.forEach(p => {
+      if (activeCategory !== 'All') {
+        const productCat = (p.category || '').toLowerCase()
+        const productName = (p.name || '').toLowerCase()
+        let matches = false
+        if (activeCategory === 'MacBook') {
+          matches = productCat === 'mac' && productName.includes('macbook')
+        } else if (activeCategory === 'Mac') {
+          matches = productCat === 'mac' && !productName.includes('macbook')
+        } else {
+          matches = productCat === activeCategory.toLowerCase()
+        }
+        if (!matches) return
+      }
+      
+      if (p.condition === 'refurbished') {
+        refurbCount++
+      } else {
+        newCount++
+      }
+    })
+    
+    return { newCount, refurbCount }
+  }
+
+  const { newCount, refurbCount } = getConditionCounts()
 
   if (loading) {
     return (
@@ -278,47 +277,22 @@ const ProductCatalog = () => {
           </p>
 
           <div className="flex items-center gap-3">
-            {/* Sort Dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none bg-[#141414] border border-[#262626] text-[#fafafa] text-sm font-medium rounded-full px-4 py-2 pr-8 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
-            >
-              <option value="newest">Sort: Newest First</option>
-              <option value="deals">Sort: Best Deals</option>
-              <option value="price-low">Sort: Price Low → High</option>
-              <option value="price-high">Sort: Price High → Low</option>
-            </select>
-
-            {/* Condition Toggle */}
-            <div className="flex items-center bg-[#141414] border border-[#262626] rounded-full p-1">
-              <button
-                onClick={() => setCondition('new')}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  condition === 'new'
-                    ? 'bg-white text-black'
-                    : 'text-[#a3a3a3] hover:text-[#fafafa]'
-                }`}
-              >
-                New
-              </button>
-              <button
-                onClick={() => setCondition('refurbished')}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  condition === 'refurbished'
-                    ? 'bg-white text-black'
-                    : 'text-[#a3a3a3] hover:text-[#fafafa]'
-                }`}
-              >
-                Refurb
-              </button>
-            </div>
+            <SortDropdown 
+              value={sortBy} 
+              onChange={setSortBy} 
+              options={sortOptions} 
+            />
+            <ConditionToggle 
+              value={condition} 
+              onChange={setCondition}
+              newCount={newCount}
+              refurbCount={refurbCount}
+            />
           </div>
         </div>
 
         {/* Product Grid */}
-        <div key={`grid-${activeCategory}-${condition}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {console.log('[ProductCatalog] Rendering grid with', filteredProducts.length, 'products')}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProducts.map((product) => {
             const bestPrice = getBestPrice(product)
             const worstPrice = getWorstPrice(product)
@@ -331,7 +305,6 @@ const ProductCatalog = () => {
                 to={`/product/${product.id}`}
                 className="block bg-[#141414] border border-[#262626] rounded-2xl p-5 hover:border-[#333] transition-all"
               >
-                {/* Header */}
                 <div className="flex items-center justify-between mb-1">
                   <span className="inline-block px-2 py-1 rounded text-xs font-medium uppercase tracking-wider bg-[#3b82f6]/20 text-[#3b82f6]">
                     {product.category}
@@ -350,12 +323,10 @@ const ProductCatalog = () => {
                   </div>
                 </div>
 
-                {/* Product Name */}
                 <h3 className="text-xl font-semibold text-[#fafafa] mb-3">
                   {product.name}
                 </h3>
 
-                {/* Specs */}
                 {product.specs && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {Object.entries(product.specs).map(([key, value]) => (
@@ -366,7 +337,6 @@ const ProductCatalog = () => {
                   </div>
                 )}
 
-                {/* Price Section */}
                 <div className="flex items-end justify-between mb-4">
                   <div>
                     <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-0.5">
@@ -389,7 +359,6 @@ const ProductCatalog = () => {
                   )}
                 </div>
 
-                {/* Retailer Links */}
                 <div className="border-t border-[#262626] pt-4">
                   <p className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-3">Buy From</p>
                   <div className="space-y-2">
@@ -442,7 +411,6 @@ const ProductCatalog = () => {
         )}
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-[#262626] mt-16 py-8 px-6">
         <div className="max-w-[1200px] mx-auto text-center">
           <Disclaimer />
@@ -461,5 +429,3 @@ const ProductCatalog = () => {
 }
 
 export default ProductCatalog
-
-// Build: 1774454765.6451268
