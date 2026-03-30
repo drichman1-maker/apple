@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, Bell, Apple } from 'lucide-react'
 import SearchModal from '../Search/SearchModal'
+import { LoginButton } from '../../auth'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -250,6 +251,9 @@ const Navbar = () => {
             </div>
           </div>
         )}
+        <div className="hidden md:flex items-center ml-4">
+          <LoginButton />
+        </div>
       </nav>
 
       {/* Search Modal */}

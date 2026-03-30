@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ThemeProvider } from './contexts/ThemeContext.jsx'
 import { ProductConditionProvider } from './contexts/ProductConditionContext.jsx'
+import { AuthProvider } from './auth'
 import App from './App.jsx'
 import './index.css'
 
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <ThemeProvider>
           <ProductConditionProvider>
-            <App />
+            <AuthProvider>
+              <App />
+            </AuthProvider>
           </ProductConditionProvider>
         </ThemeProvider>
       </BrowserRouter>
