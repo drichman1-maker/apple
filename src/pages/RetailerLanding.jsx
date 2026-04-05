@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import { ExternalLink, Store, TrendingDown } from 'lucide-react'
-import RetailerSortDropdown from '../components/RetailerSortDropdown'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
+import { ExternalLink, Store, TrendingDown, ChevronDown, Grid3X3, List } from 'lucide-react'
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev'
 
@@ -164,7 +163,7 @@ const ProductCard = ({ product, formatPrice }) => {
 
       {/* Product Name */}
       <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
-        {product.model}
+        {product.name || product.model}
       </h3>
 
       {/* Specs */}
@@ -225,7 +224,7 @@ const ProductListItem = ({ product, formatPrice }) => {
           )}
         </div>
         <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors truncate">
-          {product.model}
+          {product.name || product.model}
         </h3>
         <div className="text-sm text-gray-500 mt-1">
           {product.specs?.chip && `${product.specs.chip} • `}
@@ -265,24 +264,80 @@ const CATEGORIES = [
   { id: 'iphone', label: 'iPhone' },
   { id: 'ipad', label: 'iPad' },
   { id: 'watch', label: 'Watch' },
-  { id: 'airpods', label: 'AirPods' },
-  { id: 'accessories', label: 'Accessories' }
+  { id: 'airpods', label: 'AirPods' }
 ]
+
+// Helper to normalize category matching
+const getProductCategory = (product) => {
+  const category = (product.category || '').toLowerCase()
+  const name = (product.name || product.model || '').toLowerCase()
+  
+  if (category === 'mac' || category === 'macbook') {
+    if (name.includes('macbook')) return 'macbook'
+    if (name.includes('imac')) return 'imac'
+    if (name.includes('mac studio')) return 'mac-studio'
+    if (name.includes('mac mini')) return 'mac-mini'
+    return 'mac'
+  }
+  return category
+}
+
+// Check if product matches filter category
+const matchesCategory = (product, filterCat) => {
+  if (filterCat === 'all') return true
+  
+  const productCat = getProductCategory(product)
+  const name = (product.name || product.model || '').toLowerCase()
+  
+  switch (filterCat) {
+    case 'macbook':
+      return productCat === 'macbook' || name.includes('macbook')
+    case 'imac':
+      return productCat === 'imac' || name.includes('imac')
+    case 'mac-studio':
+      return productCat === 'mac-studio' || name.includes('mac studio')  
+    case 'mac-mini':
+      return productCat === 'mac-mini' || name.includes('mac mini')
+    case 'iphone':
+      return productCat === 'iphone'
+    case 'ipad':
+      return productCat === 'ipad'
+    case 'watch':
+      return productCat === 'watch'
+    case 'airpods':
+      return productCat === 'airpods'
+    default:
+      return productCat === filterCat
+  }
+}
 
 const RetailerLanding = () => {
   const { retailerId } = useParams()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const [products, setProducts] = useState([])
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [sortBy, setSortBy] = useState('savings')
-  const [filterCategory, setFilterCategory] = useState('all')
-  const [inStockOnly, setInStockOnly] = useState(false)
-  const [priceRange, setPriceRange] = useState('all')
-  const [viewMode, setViewMode] = useState('grid')
+  
+  // Read filters from URL or defaults
+  const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'savings')
+  const [filterCategory, setFilterCategory] = useState(searchParams.get('category') || 'all')
+  const [inStockOnly, setInStockOnly] = useState(searchParams.get('inStock') === 'true')
+  const [priceRange, setPriceRange] = useState(searchParams.get('price') || 'all')
+  const [viewMode, setViewMode] = useState(searchParams.get('view') || 'grid')
 
   const retailer = RETAILER_CONFIG[retailerId]
+
+  // Sync URL when filters change
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (sortBy !== 'savings') params.set('sort', sortBy)
+    if (filterCategory !== 'all') params.set('category', filterCategory)
+    if (inStockOnly) params.set('inStock', 'true')
+    if (priceRange !== 'all') params.set('price', priceRange)
+    if (viewMode !== 'grid') params.set('view', viewMode)
+    setSearchParams(params, { replace: true })
+  }, [sortBy, filterCategory, inStockOnly, priceRange, viewMode])
 
   useEffect(() => {
     if (!retailer) {
@@ -293,8 +348,11 @@ const RetailerLanding = () => {
     fetchProducts()
   }, [retailerId])
 
-  useEffect(() => {
-    if (allProducts.length === 0) return
+  // Memoized filtered and sorted products
+  const products = useMemo(() => {
+    if (allProducts.length === 0) return []
+
+    console.log(`[RetailerLanding] Filtering ${allProducts.length} products with category=${filterCategory}, inStock=${inStockOnly}, priceRange=${priceRange}, sort=${sortBy}`)
 
     let formatted = allProducts.map(product => {
       // Handle both array and object formats for prices
@@ -327,15 +385,7 @@ const RetailerLanding = () => {
 
     // Apply category filter
     if (filterCategory !== 'all') {
-      if (filterCategory === 'macbook') {
-        formatted = formatted.filter(p => p.category === 'mac' && p.name?.toLowerCase().includes('macbook'))
-      } else if (filterCategory === 'imac') {
-        formatted = formatted.filter(p => p.category === 'mac' && p.name?.toLowerCase().includes('imac'))
-      } else if (filterCategory === 'mac-studio') {
-        formatted = formatted.filter(p => p.category === 'mac' && p.name?.toLowerCase().includes('mac studio'))
-      } else {
-        formatted = formatted.filter(p => p.category === filterCategory)
-      }
+      formatted = formatted.filter(p => matchesCategory(p, filterCategory))
     }
 
     // Apply in-stock filter
@@ -364,7 +414,8 @@ const RetailerLanding = () => {
       return 0
     })
 
-    setProducts(sorted)
+    console.log(`[RetailerLanding] Result: ${sorted.length} products after filtering`)
+    return sorted
   }, [allProducts, sortBy, retailerId, filterCategory, inStockOnly, priceRange])
 
   const fetchProducts = async () => {
@@ -391,9 +442,9 @@ const RetailerLanding = () => {
 
   if (!retailer) return null
 
-  const inStockCount = products.filter(p => p.in_stock && p.hasRetailer).length
+  const inStockCount = products.filter(p => p.isInStock).length
   const avgSavings = products.length > 0
-    ? Math.round(products.reduce((acc, p) => acc + p.savingsPercent, 0) / products.length)
+    ? Math.round(products.reduce((acc, p) => acc + (p.savingsPercent || 0), 0) / products.length)
     : 0
 
   return (
@@ -528,7 +579,47 @@ const RetailerLanding = () => {
 
             <div className="flex items-center gap-3">
               <span className="text-sm text-[#a3a3a3]">{products.length} products</span>
-              <RetailerSortDropdown value={sortBy} onChange={setSortBy} />
+              
+              {/* Sort Dropdown */}
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="appearance-none bg-[#141414] border border-[#262626] text-white text-sm rounded-lg px-4 py-2 pr-10 focus:outline-none focus:border-[#3b82f6] cursor-pointer hover:border-[#444]"
+                >
+                  <option value="savings">Biggest Savings</option>
+                  <option value="price">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="name">Name: A-Z</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              </div>
+
+              {/* View Mode Toggle */}
+              <div className="flex items-center bg-[#141414] border border-[#262626] rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded transition-colors ${
+                    viewMode === 'grid' 
+                      ? 'bg-[#3b82f6] text-white' 
+                      : 'text-gray-500 hover:text-white'
+                  }`}
+                  title="Grid view"
+                >
+                  <Grid3X3 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded transition-colors ${
+                    viewMode === 'list' 
+                      ? 'bg-[#3b82f6] text-white' 
+                      : 'text-gray-500 hover:text-white'
+                  }`}
+                  title="List view"
+                >
+                  <List className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
