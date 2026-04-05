@@ -88,19 +88,6 @@ const RETAILER_CONFIG = {
   }
 }
 
-const CATEGORIES = [
-  { id: 'all', label: 'All' },
-  { id: 'macbook', label: 'MacBook' },
-  { id: 'imac', label: 'iMac' },
-  { id: 'mac', label: 'Mac' },
-  { id: 'iphone', label: 'iPhone' },
-  { id: 'ipad', label: 'iPad' },
-  { id: 'watch', label: 'Watch' },
-  { id: 'airpods', label: 'AirPods' }
-]
-
-
-
 const RetailerLanding = () => {
   const { retailerId } = useParams()
   const navigate = useNavigate()
@@ -109,9 +96,7 @@ const RetailerLanding = () => {
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
   
-  // Read filters from URL or defaults
-  const category = searchParams.get('category') || 'all'
-  const inStockOnly = searchParams.get('inStock') === 'true'
+  // Read view mode from URL or default
   const viewMode = searchParams.get('view') || 'grid'
 
   const retailer = RETAILER_CONFIG[retailerId]
@@ -139,7 +124,7 @@ const RetailerLanding = () => {
     }
   }
 
-  // Process and filter products
+  // Process products
   const products = useMemo(() => {
     if (allProducts.length === 0) return []
 
@@ -172,31 +157,13 @@ const RetailerLanding = () => {
       formatted = formatted.filter(p => p.category !== 'mac')
     }
 
-    // Filter: Category
-    if (category !== 'all') {
-      formatted = formatted.filter(p => {
-        const cat = (p.category || '').toLowerCase()
-        const name = (p.name || '').toLowerCase()
-        
-        if (category === 'macbook') return cat === 'macbook' || name.includes('macbook')
-        if (category === 'imac') return name.includes('imac')
-        if (category === 'mac') return cat === 'mac' && !name.includes('macbook') && !name.includes('imac')
-        return cat === category
-      })
-    }
-
-    // Filter: In stock only
-    if (inStockOnly) {
-      formatted = formatted.filter(p => p.isInStock)
-    }
-
     return formatted
-  }, [allProducts, retailerId, category, inStockOnly])
+  }, [allProducts, retailerId])
 
-  // Update URL params
+  // Update URL param
   const updateParam = (key, value) => {
     const params = new URLSearchParams(searchParams)
-    if (value && value !== 'all' && value !== 'savings') {
+    if (value && value !== 'grid') {
       params.set(key, value)
     } else {
       params.delete(key)
@@ -292,55 +259,22 @@ const RetailerLanding = () => {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="bg-[#141414] border border-[#262626] rounded-xl p-4 mb-6">
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Category pills */}
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => updateParam('category', cat.id === 'all' ? '' : cat.id)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    category === cat.id
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-[#262626] text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-
-            <div className="w-px h-6 bg-[#262626] mx-2 hidden sm:block" />
-
-            {/* In stock toggle */}
+        {/* View toggle only */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-white">Products</h2>
+          <div className="flex items-center bg-[#262626] rounded-lg p-1">
             <button
-              onClick={() => updateParam('inStock', inStockOnly ? '' : 'true')}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${
-                inStockOnly
-                  ? 'bg-green-600 text-white'
-                  : 'bg-[#262626] text-gray-400 hover:text-white'
-              }`}
+              onClick={() => updateParam('view', 'grid')}
+              className={`p-1.5 rounded transition-colors ${viewMode === 'grid' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
             >
-              In Stock Only
+              <Grid3X3 className="w-4 h-4" />
             </button>
-
-            {/* View toggle */}
-            <div className="flex items-center bg-[#262626] rounded-lg p-1 ml-auto">
-              <button
-                onClick={() => updateParam('view', 'grid')}
-                className={`p-1.5 rounded transition-colors ${viewMode === 'grid' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => updateParam('view', 'list')}
-                className={`p-1.5 rounded transition-colors ${viewMode === 'list' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
-              >
-                <List className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={() => updateParam('view', 'list')}
+              className={`p-1.5 rounded transition-colors ${viewMode === 'list' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
+            >
+              <List className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
