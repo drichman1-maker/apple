@@ -17,7 +17,17 @@ const Home = () => {
       if (response.ok) {
         const data = await response.json()
         const products = Array.isArray(data) ? data : (data.products || [])
-        setFeaturedProducts(products.slice(0, 6))
+        // Fetch all products (or a larger pool) so filtering works properly
+        // Filter out accessories AND refurbished products
+        const mainCategories = ['mac', 'macbook', 'iphone', 'ipad', 'watch', 'airpods']
+        const filteredProducts = products.filter(p => {
+          const cat = (p.category || '').toLowerCase()
+          const isMainCategory = mainCategories.includes(cat)
+          const isNew = !p.condition || p.condition === 'new'
+          return isMainCategory && isNew
+        })
+        console.log(`[Home] Loaded ${filteredProducts.length} new products (excluded refurbished)`)
+        setFeaturedProducts(filteredProducts)
       }
     } catch (error) {
       console.error('Failed to fetch products:', error)
@@ -87,37 +97,33 @@ const Home = () => {
 
   // Filter and sort products based on view mode
   const getProductsToShow = () => {
-    // Main categories only (exclude accessories)
-    const mainCategories = ['mac', 'macbook', 'iphone', 'ipad', 'watch', 'airpods']
+    if (featuredProducts.length === 0) return []
     
     if (viewMode === 'deals') {
-      // Deals: Best % off MSRP, main categories only
-      return featuredProducts
-        .filter(p => {
-          const cat = (p.category || '').toLowerCase()
-          return mainCategories.includes(cat) && calculateSavingsPercent(p) > 0
-        })
-        .sort((a, b) => {
-          // Sort by percentage savings (best deals first)
-          return calculateSavingsPercent(b) - calculateSavingsPercent(a)
-        })
-        .slice(0, 6)
+      // Deals: Products with actual savings, sorted by best deal
+      const productsWithDeals = featuredProducts
+        .filter(p => calculateSavingsPercent(p) > 0)
+        .sort((a, b) => calculateSavingsPercent(b) - calculateSavingsPercent(a))
+      
+      console.log(`[Home] Deals mode: ${productsWithDeals.length} products with savings`)
+      return productsWithDeals.slice(0, 6)
     }
     
-    // Featured: Most popular products (exclude accessories)
-    // Prioritize: MacBooks, iPhone, iPad, Mac in that order
-    const priorityOrder = ['macbook', 'mac', 'iphone', 'ipad', 'watch', 'airpods']
-    return featuredProducts
-      .filter(p => {
-        const cat = (p.category || '').toLowerCase()
-        return mainCategories.includes(cat)
-      })
-      .sort((a, b) => {
-        const aPriority = priorityOrder.indexOf((a.category || '').toLowerCase())
-        const bPriority = priorityOrder.indexOf((b.category || '').toLowerCase())
-        return aPriority - bPriority
-      })
-      .slice(0, 6)
+    // Featured: Prioritize by category popularity and presence of deals
+    // MacBooks first, then iPhone, iPad, Mac, Watch, AirPods
+    const priorityOrder = ['macbook', 'iphone', 'ipad', 'mac', 'watch', 'airpods']
+    const sortedByCategory = [...featuredProducts].sort((a, b) => {
+      const aPriority = priorityOrder.indexOf((a.category || '').toLowerCase())
+      const bPriority = priorityOrder.indexOf((b.category || '').toLowerCase())
+      // If same category, prioritize ones with deals
+      if (aPriority === bPriority) {
+        return calculateSavingsPercent(b) - calculateSavingsPercent(a)
+      }
+      return aPriority - bPriority
+    })
+    
+    console.log(`[Home] Featured mode: showing top 6 from ${sortedByCategory.length} products`)
+    return sortedByCategory.slice(0, 6)
   }
 
   const productsToShow = getProductsToShow()
