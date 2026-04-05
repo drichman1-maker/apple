@@ -99,12 +99,7 @@ const CATEGORIES = [
   { id: 'airpods', label: 'AirPods' }
 ]
 
-const SORT_OPTIONS = [
-  { value: 'savings', label: 'Biggest Savings' },
-  { value: 'price-asc', label: 'Price: Low to High' },
-  { value: 'price-desc', label: 'Price: High to Low' },
-  { value: 'name', label: 'Name: A-Z' }
-]
+
 
 const RetailerLanding = () => {
   const { retailerId } = useParams()
@@ -114,9 +109,8 @@ const RetailerLanding = () => {
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
   
-  // Filter states from URL
+  // Read filters from URL or defaults
   const category = searchParams.get('category') || 'all'
-  const sortBy = searchParams.get('sort') || 'savings'
   const inStockOnly = searchParams.get('inStock') === 'true'
   const viewMode = searchParams.get('view') || 'grid'
 
@@ -196,24 +190,8 @@ const RetailerLanding = () => {
       formatted = formatted.filter(p => p.isInStock)
     }
 
-    // Sort
-    const sorted = [...formatted].sort((a, b) => {
-      switch (sortBy) {
-        case 'savings':
-          return b.savings - a.savings
-        case 'price-asc':
-          return a.retailerPrice - b.retailerPrice
-        case 'price-desc':
-          return b.retailerPrice - a.retailerPrice
-        case 'name':
-          return (a.name || '').localeCompare(b.name || '')
-        default:
-          return 0
-      }
-    })
-
-    return sorted
-  }, [allProducts, retailerId, category, inStockOnly, sortBy])
+    return formatted
+  }, [allProducts, retailerId, category, inStockOnly])
 
   // Update URL params
   const updateParam = (key, value) => {
@@ -347,17 +325,6 @@ const RetailerLanding = () => {
             >
               In Stock Only
             </button>
-
-            {/* Sort dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => updateParam('sort', e.target.value)}
-              className="bg-[#262626] text-white text-sm rounded-lg px-3 py-1.5 border-none outline-none cursor-pointer"
-            >
-              {SORT_OPTIONS.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
 
             {/* View toggle */}
             <div className="flex items-center bg-[#262626] rounded-lg p-1 ml-auto">
