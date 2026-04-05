@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
-import { ExternalLink, Store, TrendingDown, ChevronDown, Grid3X3, List } from 'lucide-react'
+import { ExternalLink, Store, TrendingDown, Grid3X3, List, ArrowLeft } from 'lucide-react'
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev'
 
@@ -10,413 +10,126 @@ const RETAILER_CONFIG = {
     name: 'Amazon',
     displayName: 'Amazon',
     color: '#FF9900',
-    bgColor: 'bg-amber-500/10',
-    borderColor: 'border-amber-500/30',
-    description: 'The world\'s largest online retailer with fast Prime shipping and reliable customer service. Amazon offers competitive pricing on Apple products with frequent discounts during Prime Day and Black Friday.',
-    pros: ['Prime shipping', 'Easy returns', 'Price protection', 'Customer reviews'],
-    cons: ['Sometimes higher prices than competitors', 'Counterfeit concerns with 3rd party sellers'],
-    logo: 'AM'
+    description: 'The world\'s largest online retailer with fast Prime shipping and reliable customer service.',
+    pros: ['Prime shipping', 'Easy returns', 'Price protection'],
+    cons: ['Sometimes higher prices', 'Counterfeit concerns with 3rd party sellers'],
   },
   bestbuy: {
     name: 'Best Buy',
     displayName: 'Best Buy',
     color: '#0046BE',
-    bgColor: 'bg-blue-500/10',
-    borderColor: 'border-blue-500/30',
-    description: 'Best Buy is an authorized Apple reseller with physical store locations across the US. They offer Geek Squad support, price matching, and the My Best Buy rewards program.',
-    pros: ['Physical stores', 'Geek Squad support', 'Price matching', 'Store pickup'],
+    description: 'Authorized Apple reseller with physical store locations across the US.',
+    pros: ['Physical stores', 'Geek Squad support', 'Price matching'],
     cons: ['Limited online discounts', 'Sales tax in most states'],
-    logo: 'BB'
   },
   bh: {
     name: 'B&H Photo',
     displayName: 'B&H Photo',
     color: '#E53935',
-    bgColor: 'bg-red-500/10',
-    borderColor: 'border-red-500/30',
-    description: 'B&H Photo Video is a trusted New York-based retailer specializing in electronics. Known for excellent customer service and tax-free shipping outside NY/NJ.',
-    pros: ['No sales tax outside NY/NJ', 'Expert staff', 'Business accounts', 'Fast shipping'],
+    description: 'Trusted New York-based retailer specializing in electronics.',
+    pros: ['No sales tax outside NY/NJ', 'Expert staff', 'Business accounts'],
     cons: ['No physical stores outside NYC', 'Closed for Jewish holidays'],
-    logo: 'BH'
   },
   ebay: {
     name: 'eBay',
     displayName: 'eBay',
     color: '#E53238',
-    bgColor: 'bg-amber-600/10',
-    borderColor: 'border-amber-600/30',
-    description: 'eBay offers both new and used Apple products at competitive prices. Buy from authorized sellers or find deals on refurbished and open-box items with eBay\'s Money Back Guarantee.',
-    pros: ['Lowest prices on used/refurb', 'eBay Money Back Guarantee', 'Auction format options', 'Global marketplace'],
-    cons: ['Variable seller quality', 'Longer shipping times', 'No manufacturer warranty on used'],
-    logo: 'EB'
+    description: 'New and used Apple products at competitive prices.',
+    pros: ['Lowest prices on used/refurb', 'Money Back Guarantee', 'Auction format'],
+    cons: ['Variable seller quality', 'Longer shipping times'],
   },
   apple: {
     name: 'Apple',
     displayName: 'Apple Store',
     color: '#86868B',
-    bgColor: 'bg-gray-500/10',
-    borderColor: 'border-gray-500/30',
-    description: 'Buying directly from Apple ensures authentic products, full warranty coverage, and the ability to use AppleCare+. The Apple Store offers trade-ins, financing options, and the best customer support experience.',
-    pros: ['Full Apple warranty', 'AppleCare+ available', 'Trade-in program', 'Expert support', 'Latest stock'],
-    cons: ['Rarely discounted', 'No price matching', 'Sales tax in all states'],
-    logo: 'AP'
+    description: 'Buying directly from Apple ensures authentic products and full warranty coverage.',
+    pros: ['Full Apple warranty', 'AppleCare+ available', 'Trade-in program'],
+    cons: ['Rarely discounted', 'No price matching'],
   },
   walmart: {
     name: 'Walmart',
     displayName: 'Walmart',
     color: '#FFC220',
-    bgColor: 'bg-yellow-500/10',
-    borderColor: 'border-yellow-500/30',
-    description: 'Walmart offers competitive pricing on Apple products with the convenience of in-store pickup and their extensive retail network. Walmart+ members get free shipping.',
-    pros: ['Store pickup available', 'Walmart+ benefits', 'Price matching', 'Easy returns'],
-    cons: ['Limited selection online', 'Inconsistent stock'],
-    logo: 'WM'
-  },
-  adorama: {
-    name: 'Adorama',
-    displayName: 'Adorama',
-    color: '#F37021',
-    bgColor: 'bg-orange-500/10',
-    borderColor: 'border-orange-500/30',
-    description: 'Adorama is a New York-based authorized Apple reseller known for competitive pricing and professional customer service. They offer tax-free shipping outside NY/NJ.',
-    pros: ['No sales tax outside NY/NJ', 'Professional support', 'Business accounts', 'Trade-ins'],
-    cons: ['Limited physical presence', 'Smaller selection than major retailers'],
-    logo: 'AD'
+    description: 'Competitive pricing on Apple products with convenient in-store pickup.',
+    pros: ['Store pickup available', 'Walmart+ benefits', 'Price matching'],
+    cons: ['Limited selection', 'Inconsistent stock'],
   },
   target: {
     name: 'Target',
     displayName: 'Target',
     color: '#CC0000',
-    bgColor: 'bg-red-600/10',
-    borderColor: 'border-red-600/30',
-    description: 'Target offers Apple products with RedCard discounts and the convenience of same-day pickup. Great for iPhone, iPad, Apple Watch, and AirPods — but does not sell Mac computers.',
-    pros: ['RedCard 5% discount', 'Same Day Delivery', 'Drive Up pickup', 'Circle rewards'],
+    description: 'Apple products with RedCard discounts and same-day pickup.',
+    pros: ['RedCard 5% discount', 'Same Day Delivery', 'Drive Up pickup'],
     cons: ['No MacBooks or Mac desktops', 'Limited selection'],
-    logo: 'TG'
+  },
+  adorama: {
+    name: 'Adorama',
+    displayName: 'Adorama',
+    color: '#F37021',
+    description: 'New York-based authorized Apple reseller with competitive pricing.',
+    pros: ['No sales tax outside NY/NJ', 'Professional support', 'Trade-ins'],
+    cons: ['Limited physical presence', 'Smaller selection'],
   },
   microcenter: {
     name: 'Micro Center',
     displayName: 'Micro Center',
     color: '#00A651',
-    bgColor: 'bg-green-600/10',
-    borderColor: 'border-green-600/30',
-    description: 'Micro Center is a computer and electronics retailer with physical stores offering competitive pricing on Mac and PC products. Known for in-store only deals and knowledgeable staff.',
-    pros: ['In-store only deals', 'Knowledgeable staff', 'Price matching', 'Trade-in program'],
-    cons: ['Limited locations', 'In-store pickup often required for best prices', 'No online Mac sales in some regions'],
-    logo: 'MC'
-  },
-  cdw: {
-    name: 'CDW',
-    displayName: 'CDW',
-    color: '#E31937',
-    bgColor: 'bg-red-700/10',
-    borderColor: 'border-red-700/30',
-    description: 'CDW is a leading provider of technology solutions for business, government, and education. Offers competitive pricing on Apple products with business account benefits.',
-    pros: ['Business pricing', 'Volume discounts', 'Dedicated account managers', 'Enterprise support'],
-    cons: ['Primarily B2B focused', 'Consumer pricing may be higher', 'Account setup required for best rates'],
-    logo: 'CD'
-  },
-  sweetwater: {
-    name: 'Sweetwater',
-    displayName: 'Sweetwater',
-    color: '#F26722',
-    bgColor: 'bg-orange-600/10',
-    borderColor: 'border-orange-600/30',
-    description: 'Sweetwater is a leading music technology retailer that also carries Apple products popular with creative professionals. Known for exceptional customer service and technical support.',
-    pros: ['Exceptional customer service', 'Technical support', 'Creative pro focus', 'Financing options'],
-    cons: ['Limited Mac selection', 'Music/audio focus', 'Smaller inventory than major retailers'],
-    logo: 'SW'
+    description: 'Computer and electronics retailer with physical stores.',
+    pros: ['In-store only deals', 'Knowledgeable staff', 'Price matching'],
+    cons: ['Limited locations', 'In-store pickup often required'],
   },
   backmarket: {
     name: 'Back Market',
     displayName: 'Back Market',
     color: '#00C853',
-    bgColor: 'bg-green-500/10',
-    borderColor: 'border-green-500/30',
-    description: 'Back Market is a leading marketplace for refurbished electronics. All devices are certified by professionals and come with a 1-year warranty and 30-day money-back guarantee.',
-    pros: ['Significant savings on refurbished', '1-year warranty included', '30-day returns', 'Eco-friendly choice', 'Certified refurbishers only'],
-    cons: ['All products are refurbished', 'Not latest generation models', 'Limited stock on popular items'],
-    logo: 'BM'
+    description: 'Leading marketplace for refurbished electronics.',
+    pros: ['Significant savings', '1-year warranty', '30-day returns'],
+    cons: ['All products are refurbished', 'Not latest generation models'],
   }
-}
-
-// Product Card Component (Grid View)
-const ProductCard = ({ product, formatPrice }) => {
-  const currentPrice = product.retailerPrice
-  const currentSavings = product.savings
-  const currentSavingsPercent = product.savingsPercent
-
-  return (
-    <Link
-      to={`/product/${product.id}`}
-      className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-5 transition-all group"
-    >
-      {/* Category Badge */}
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs text-gray-500 uppercase tracking-wider">{product.category}</span>
-        {product.isInStock ? (
-          <span className="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full">In Stock</span>
-        ) : (
-          <span className="text-xs text-red-400 bg-red-400/10 px-2 py-1 rounded-full">Out of Stock</span>
-        )}
-      </div>
-
-      {/* Product Name */}
-      <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
-        {product.name || product.model}
-      </h3>
-
-      {/* Specs */}
-      <div className="text-sm text-gray-500 mb-4 space-y-1">
-        {product.specs?.chip && <div>• {product.specs.chip}</div>}
-        {product.specs?.storage && <div>• {product.specs.storage}</div>}
-        {product.specs?.ram && <div>• {product.specs.ram} RAM</div>}
-      </div>
-
-      {/* Price */}
-      <div className="mt-auto">
-        <div className="flex items-baseline gap-2 mb-1">
-          <span className="text-2xl font-bold text-white">
-            {formatPrice(currentPrice)}
-          </span>
-          {currentSavings > 0 && (
-            <span className="text-sm text-green-400">-{currentSavingsPercent}%</span>
-          )}
-        </div>
-        <div className="flex items-center gap-2 text-sm">
-          <span className="text-gray-500 line-through">{formatPrice(product.msrp)}</span>
-          {currentSavings > 0 && (
-            <span className="text-green-400">Save {formatPrice(currentSavings)}</span>
-          )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="mt-4 pt-4 border-t border-[#262626] flex items-center justify-between">
-        {!product.hasRetailer && (
-          <span className="text-xs text-amber-400">Price via 3rd party</span>
-        )}
-        <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-blue-400 transition-colors ml-auto" />
-      </div>
-    </Link>
-  )
-}
-
-// Product List Item Component (List View)
-const ProductListItem = ({ product, formatPrice }) => {
-  const currentPrice = product.retailerPrice
-  const currentSavings = product.savings
-  const currentSavingsPercent = product.savingsPercent
-
-  return (
-    <Link
-      to={`/product/${product.id}`}
-      className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-4 transition-all group flex items-center gap-4"
-    >
-      {/* Info */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-xs text-gray-500 uppercase tracking-wider">{product.category}</span>
-          {product.isInStock ? (
-            <span className="text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">In Stock</span>
-          ) : (
-            <span className="text-xs text-red-400 bg-red-400/10 px-2 py-0.5 rounded-full">Out</span>
-          )}
-        </div>
-        <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors truncate">
-          {product.name || product.model}
-        </h3>
-        <div className="text-sm text-gray-500 mt-1">
-          {product.specs?.chip && `${product.specs.chip} • `}
-          {product.specs?.storage && product.specs.storage}
-        </div>
-      </div>
-
-      {/* Price */}
-      <div className="text-right">
-        <div className="flex items-center gap-2 justify-end">
-          <span className="text-xl font-bold text-white">
-            {formatPrice(currentPrice)}
-          </span>
-          {currentSavings > 0 && (
-            <span className="text-sm text-green-400">-{currentSavingsPercent}%</span>
-          )}
-        </div>
-        <div className="text-sm text-gray-500">
-          <span className="line-through">{formatPrice(product.msrp)}</span>
-          {currentSavings > 0 && (
-            <span className="text-green-400 ml-2">Save {formatPrice(currentSavings)}</span>
-          )}
-        </div>
-      </div>
-
-      {/* Arrow */}
-      <ExternalLink className="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors flex-shrink-0" />
-    </Link>
-  )
 }
 
 const CATEGORIES = [
   { id: 'all', label: 'All' },
   { id: 'macbook', label: 'MacBook' },
   { id: 'imac', label: 'iMac' },
-  { id: 'mac-studio', label: 'Mac Studio' },
+  { id: 'mac', label: 'Mac' },
   { id: 'iphone', label: 'iPhone' },
   { id: 'ipad', label: 'iPad' },
   { id: 'watch', label: 'Watch' },
   { id: 'airpods', label: 'AirPods' }
 ]
 
-// Helper to normalize category matching
-const getProductCategory = (product) => {
-  const category = (product.category || '').toLowerCase()
-  const name = (product.name || product.model || '').toLowerCase()
-  
-  if (category === 'mac' || category === 'macbook') {
-    if (name.includes('macbook')) return 'macbook'
-    if (name.includes('imac')) return 'imac'
-    if (name.includes('mac studio')) return 'mac-studio'
-    if (name.includes('mac mini')) return 'mac-mini'
-    return 'mac'
-  }
-  return category
-}
-
-// Check if product matches filter category
-const matchesCategory = (product, filterCat) => {
-  if (filterCat === 'all') return true
-  
-  const productCat = getProductCategory(product)
-  const name = (product.name || product.model || '').toLowerCase()
-  
-  switch (filterCat) {
-    case 'macbook':
-      return productCat === 'macbook' || name.includes('macbook')
-    case 'imac':
-      return productCat === 'imac' || name.includes('imac')
-    case 'mac-studio':
-      return productCat === 'mac-studio' || name.includes('mac studio')  
-    case 'mac-mini':
-      return productCat === 'mac-mini' || name.includes('mac mini')
-    case 'iphone':
-      return productCat === 'iphone'
-    case 'ipad':
-      return productCat === 'ipad'
-    case 'watch':
-      return productCat === 'watch'
-    case 'airpods':
-      return productCat === 'airpods'
-    default:
-      return productCat === filterCat
-  }
-}
+const SORT_OPTIONS = [
+  { value: 'savings', label: 'Biggest Savings' },
+  { value: 'price-asc', label: 'Price: Low to High' },
+  { value: 'price-desc', label: 'Price: High to Low' },
+  { value: 'name', label: 'Name: A-Z' }
+]
 
 const RetailerLanding = () => {
   const { retailerId } = useParams()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-
+  
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
   
-  // Read filters from URL or defaults
-  const [sortBy, setSortBy] = useState(searchParams.get('sort') || 'savings')
-  const [filterCategory, setFilterCategory] = useState(searchParams.get('category') || 'all')
-  const [inStockOnly, setInStockOnly] = useState(searchParams.get('inStock') === 'true')
-  const [priceRange, setPriceRange] = useState(searchParams.get('price') || 'all')
-  const [viewMode, setViewMode] = useState(searchParams.get('view') || 'grid')
+  // Filter states from URL
+  const category = searchParams.get('category') || 'all'
+  const sortBy = searchParams.get('sort') || 'savings'
+  const inStockOnly = searchParams.get('inStock') === 'true'
+  const viewMode = searchParams.get('view') || 'grid'
 
   const retailer = RETAILER_CONFIG[retailerId]
 
-  // Sync URL when filters change
-  useEffect(() => {
-    const params = new URLSearchParams()
-    if (sortBy !== 'savings') params.set('sort', sortBy)
-    if (filterCategory !== 'all') params.set('category', filterCategory)
-    if (inStockOnly) params.set('inStock', 'true')
-    if (priceRange !== 'all') params.set('price', priceRange)
-    if (viewMode !== 'grid') params.set('view', viewMode)
-    setSearchParams(params, { replace: true })
-  }, [sortBy, filterCategory, inStockOnly, priceRange, viewMode])
-
+  // Fetch products on mount
   useEffect(() => {
     if (!retailer) {
       navigate('/')
       return
     }
-
     fetchProducts()
   }, [retailerId])
-
-  // Memoized filtered and sorted products
-  const products = useMemo(() => {
-    if (allProducts.length === 0) return []
-
-    console.log(`[RetailerLanding] Filtering ${allProducts.length} products with category=${filterCategory}, inStock=${inStockOnly}, priceRange=${priceRange}, sort=${sortBy}`)
-
-    let formatted = allProducts.map(product => {
-      // Handle both array and object formats for prices
-      const pricesData = product.prices || {}
-      const pricesArray = Array.isArray(pricesData) 
-        ? pricesData 
-        : Object.entries(pricesData).map(([retailer, data]) => ({ retailer, ...data }))
-      
-      const hasRetailer = pricesArray.some(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
-      const retailerPrice = pricesArray.find(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
-      const lowestPrice = retailerPrice?.price || product.lowest_price || product.msrp
-      const stockInfo = pricesArray.find(p => p.retailer?.toLowerCase() === retailerId.toLowerCase())
-      
-      return {
-        ...product,
-        hasRetailer,
-        retailerPrice: lowestPrice,
-        retailerUrl: retailerPrice?.url,
-        isInStock: stockInfo?.inStock ?? product.in_stock ?? false,
-        savings: product.msrp - lowestPrice,
-        savingsPercent: product.msrp > 0 
-          ? Math.round(((product.msrp - lowestPrice) / product.msrp) * 100)
-          : 0
-      }
-    }).filter(p => {
-      // Target doesn't sell Macs
-      if (retailerId === 'target' && p.category === 'mac') return false
-      return true
-    })
-
-    // Apply category filter
-    if (filterCategory !== 'all') {
-      formatted = formatted.filter(p => matchesCategory(p, filterCategory))
-    }
-
-    // Apply in-stock filter
-    if (inStockOnly) {
-      formatted = formatted.filter(p => p.isInStock)
-    }
-
-    // Apply price range filter
-    if (priceRange !== 'all') {
-      const ranges = {
-        under500: [0, 500],
-        '500to1000': [500, 1000],
-        '1000to2000': [1000, 2000],
-        over2000: [2000, Infinity]
-      }
-      const [min, max] = ranges[priceRange] || [0, Infinity]
-      formatted = formatted.filter(p => p.retailerPrice >= min && p.retailerPrice <= max)
-    }
-
-    // Apply sorting (create copy to avoid mutating original)
-    const sorted = [...formatted].sort((a, b) => {
-      if (sortBy === 'savings') return b.savings - a.savings
-      if (sortBy === 'price') return a.retailerPrice - b.retailerPrice
-      if (sortBy === 'price-desc') return b.retailerPrice - a.retailerPrice
-      if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '')
-      return 0
-    })
-
-    console.log(`[RetailerLanding] Result: ${sorted.length} products after filtering`)
-    return sorted
-  }, [allProducts, sortBy, retailerId, filterCategory, inStockOnly, priceRange])
 
   const fetchProducts = async () => {
     try {
@@ -430,6 +143,87 @@ const RetailerLanding = () => {
     } finally {
       setLoading(false)
     }
+  }
+
+  // Process and filter products
+  const products = useMemo(() => {
+    if (allProducts.length === 0) return []
+
+    // Format products with retailer-specific data
+    let formatted = allProducts.map(product => {
+      const pricesData = product.prices || {}
+      const pricesArray = Array.isArray(pricesData) 
+        ? pricesData 
+        : Object.entries(pricesData).map(([retailer, data]) => ({ retailer, ...data }))
+      
+      const retailerPrice = pricesArray.find(p => 
+        p.retailer?.toLowerCase() === retailerId.toLowerCase()
+      )
+      const lowestPrice = retailerPrice?.price || product.msrp
+      
+      return {
+        ...product,
+        retailerPrice: lowestPrice,
+        retailerUrl: retailerPrice?.url,
+        isInStock: retailerPrice?.inStock ?? product.in_stock ?? false,
+        savings: product.msrp - lowestPrice,
+        savingsPercent: product.msrp > 0 
+          ? Math.round(((product.msrp - lowestPrice) / product.msrp) * 100)
+          : 0
+      }
+    })
+
+    // Filter: Target doesn't sell Macs
+    if (retailerId === 'target') {
+      formatted = formatted.filter(p => p.category !== 'mac')
+    }
+
+    // Filter: Category
+    if (category !== 'all') {
+      formatted = formatted.filter(p => {
+        const cat = (p.category || '').toLowerCase()
+        const name = (p.name || '').toLowerCase()
+        
+        if (category === 'macbook') return cat === 'macbook' || name.includes('macbook')
+        if (category === 'imac') return name.includes('imac')
+        if (category === 'mac') return cat === 'mac' && !name.includes('macbook') && !name.includes('imac')
+        return cat === category
+      })
+    }
+
+    // Filter: In stock only
+    if (inStockOnly) {
+      formatted = formatted.filter(p => p.isInStock)
+    }
+
+    // Sort
+    const sorted = [...formatted].sort((a, b) => {
+      switch (sortBy) {
+        case 'savings':
+          return b.savings - a.savings
+        case 'price-asc':
+          return a.retailerPrice - b.retailerPrice
+        case 'price-desc':
+          return b.retailerPrice - a.retailerPrice
+        case 'name':
+          return (a.name || '').localeCompare(b.name || '')
+        default:
+          return 0
+      }
+    })
+
+    return sorted
+  }, [allProducts, retailerId, category, inStockOnly, sortBy])
+
+  // Update URL params
+  const updateParam = (key, value) => {
+    const params = new URLSearchParams(searchParams)
+    if (value && value !== 'all' && value !== 'savings') {
+      params.set(key, value)
+    } else {
+      params.delete(key)
+    }
+    setSearchParams(params, { replace: true })
   }
 
   const formatPrice = (price) => {
@@ -449,39 +243,39 @@ const RetailerLanding = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      <title>{`${retailer.displayName} Apple Deals — Best Prices at ${retailer.name} | TheresMac`}</title>
-      <meta name="description" content={`Find the best Apple deals at ${retailer.name}. Compare prices on iPhone, iPad, Mac, Apple Watch, and AirPods. Track savings and set price alerts.`} />
-      
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-          <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
-          <span>/</span>
-          <span className="text-gray-300">{retailer.displayName}</span>
-        </nav>
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <Link to="/" className="text-gray-500 hover:text-white flex items-center gap-2">
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Link>
+        </div>
 
-        {/* Hero Section */}
-        <div className={`${retailer.bgColor} border ${retailer.borderColor} rounded-2xl p-8 mb-8`}>
+        {/* Hero */}
+        <div 
+          className="border rounded-2xl p-8 mb-8"
+          style={{ borderColor: `${retailer.color}40`, backgroundColor: `${retailer.color}10` }}
+        >
           <div className="flex items-start gap-6 flex-wrap">
             <div 
-              className="w-20 h-20 rounded-xl flex items-center justify-center text-2xl font-bold"
+              className="w-16 h-16 rounded-xl flex items-center justify-center text-xl font-bold"
               style={{ backgroundColor: retailer.color, color: '#000' }}
             >
-              {retailer.logo}
+              {retailer.name.slice(0, 2).toUpperCase()}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 {retailer.displayName} Apple Deals
               </h1>
-              <p className="text-gray-400 text-lg mb-4 max-w-3xl">
+              <p className="text-gray-400 mb-4 max-w-2xl">
                 {retailer.description}
               </p>
               
-              {/* Stats */}
-              <div className="flex gap-6 mb-4">
+              <div className="flex gap-6">
                 <div>
                   <div className="text-2xl font-bold text-white">{products.length}</div>
-                  <div className="text-sm text-gray-500">Products Tracked</div>
+                  <div className="text-sm text-gray-500">Products</div>
                 </div>
                 <div>
                   <div className="text-2xl font-bold text-green-400">{inStockCount}</div>
@@ -497,32 +291,23 @@ const RetailerLanding = () => {
         </div>
 
         {/* Pros & Cons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-[#141414] border border-[#262626] rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <Store className="w-5 h-5 text-green-400" />
-              {retailer.name} Advantages
-            </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="bg-[#141414] border border-[#262626] rounded-xl p-4">
+            <h3 className="text-sm text-gray-500 uppercase tracking-wider mb-3">Pros</h3>
             <ul className="space-y-2">
               {retailer.pros.map((pro, i) => (
-                <li key={i} className="flex items-start gap-2 text-gray-300">
-                  <span className="text-green-400 mt-1">✓</span>
-                  {pro}
+                <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                  <span className="text-green-400">✓</span> {pro}
                 </li>
               ))}
             </ul>
           </div>
-          
-          <div className="bg-[#141414] border border-[#262626] rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <TrendingDown className="w-5 h-5 text-amber-400" />
-              Considerations
-            </h2>
+          <div className="bg-[#141414] border border-[#262626] rounded-xl p-4">
+            <h3 className="text-sm text-gray-500 uppercase tracking-wider mb-3">Considerations</h3>
             <ul className="space-y-2">
               {retailer.cons.map((con, i) => (
-                <li key={i} className="flex items-start gap-2 text-gray-300">
-                  <span className="text-amber-400 mt-1">!</span>
-                  {con}
+                <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                  <span className="text-amber-400">!</span> {con}
                 </li>
               ))}
             </ul>
@@ -530,162 +315,175 @@ const RetailerLanding = () => {
         </div>
 
         {/* Filters */}
-        <div className="space-y-4 mb-6">
-          {/* Category Pills */}
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setFilterCategory(cat.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  filterCategory === cat.id
-                    ? 'bg-white text-black'
-                    : 'bg-[#141414] text-[#a3a3a3] border border-[#262626] hover:border-[#444] hover:text-white'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Controls Row */}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              {/* In Stock Toggle */}
-              <button
-                onClick={() => setInStockOnly(!inStockOnly)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  inStockOnly
-                    ? 'bg-white text-black'
-                    : 'bg-[#141414] text-[#a3a3a3] border border-[#262626] hover:border-[#444]'
-                }`}
-              >
-                {inStockOnly ? '✓' : ''} In Stock Only
-              </button>
-
-              {/* Price Range */}
-              <select
-                value={priceRange}
-                onChange={(e) => setPriceRange(e.target.value)}
-                className="appearance-none bg-[#141414] border border-[#262626] text-white text-sm rounded-full px-4 py-2 pr-10 focus:outline-none focus:border-[#3b82f6] cursor-pointer"
-              >
-                <option value="all">All Prices</option>
-                <option value="under500">Under $500</option>
-                <option value="500to1000">$500 - $1,000</option>
-                <option value="1000to2000">$1,000 - $2,000</option>
-                <option value="over2000">Over $2,000</option>
-              </select>
+        <div className="bg-[#141414] border border-[#262626] rounded-xl p-4 mb-6">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Category pills */}
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => updateParam('category', cat.id === 'all' ? '' : cat.id)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    category === cat.id
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-[#262626] text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-[#a3a3a3]">{products.length} products</span>
-              
-              {/* Sort Dropdown */}
-              <div className="relative">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none bg-[#141414] border border-[#262626] text-white text-sm rounded-lg px-4 py-2 pr-10 focus:outline-none focus:border-[#3b82f6] cursor-pointer hover:border-[#444]"
-                >
-                  <option value="savings">Biggest Savings</option>
-                  <option value="price">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="name">Name: A-Z</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
-              </div>
+            <div className="w-px h-6 bg-[#262626] mx-2 hidden sm:block" />
 
-              {/* View Mode Toggle */}
-              <div className="flex items-center bg-[#141414] border border-[#262626] rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded transition-colors ${
-                    viewMode === 'grid' 
-                      ? 'bg-[#3b82f6] text-white' 
-                      : 'text-gray-500 hover:text-white'
-                  }`}
-                  title="Grid view"
-                >
-                  <Grid3X3 className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded transition-colors ${
-                    viewMode === 'list' 
-                      ? 'bg-[#3b82f6] text-white' 
-                      : 'text-gray-500 hover:text-white'
-                  }`}
-                  title="List view"
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
+            {/* In stock toggle */}
+            <button
+              onClick={() => updateParam('inStock', inStockOnly ? '' : 'true')}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${
+                inStockOnly
+                  ? 'bg-green-600 text-white'
+                  : 'bg-[#262626] text-gray-400 hover:text-white'
+              }`}
+            >
+              In Stock Only
+            </button>
+
+            {/* Sort dropdown */}
+            <select
+              value={sortBy}
+              onChange={(e) => updateParam('sort', e.target.value)}
+              className="bg-[#262626] text-white text-sm rounded-lg px-3 py-1.5 border-none outline-none cursor-pointer"
+            >
+              {SORT_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+
+            {/* View toggle */}
+            <div className="flex items-center bg-[#262626] rounded-lg p-1 ml-auto">
+              <button
+                onClick={() => updateParam('view', 'grid')}
+                className={`p-1.5 rounded transition-colors ${viewMode === 'grid' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
+              >
+                <Grid3X3 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => updateParam('view', 'list')}
+                className={`p-1.5 rounded transition-colors ${viewMode === 'list' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
+              >
+                <List className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Products Display */}
+        {/* Products */}
         {loading ? (
-          <div className="text-center py-20 text-gray-500">
-            <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-            Loading products...
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-[#141414] border border-[#262626] rounded-xl p-5 animate-pulse h-48" />
+            ))}
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-20 text-gray-500">
-            <div className="text-4xl mb-4">🔍</div>
-            <p className="text-lg">No products found with current filters</p>
-            <button
-              onClick={() => {
-                setFilterCategory('all')
-                setInStockOnly(false)
-                setPriceRange('all')
-              }}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              Clear Filters
-            </button>
+          <div className="text-center py-16">
+            <Store className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-white mb-2">No products found</h3>
+            <p className="text-gray-500">Try adjusting your filters</p>
           </div>
         ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {products.map(product => (
-              <ProductCard key={product.id} product={product} formatPrice={formatPrice} />
+              <Link
+                key={product.id}
+                to={`/product/${product.id}`}
+                className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-5 transition-all group"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-gray-500 uppercase">{product.category}</span>
+                  {product.isInStock ? (
+                    <span className="text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded">In Stock</span>
+                  ) : (
+                    <span className="text-xs text-red-400 bg-red-400/10 px-2 py-0.5 rounded">Out</span>
+                  )}
+                </div>
+
+                <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
+                  {product.name}
+                </h3>
+
+                {product.specs && (
+                  <div className="text-sm text-gray-500 mb-3 space-y-0.5">
+                    {product.specs.chip && <div>• {product.specs.chip}</div>}
+                    {product.specs.storage && <div>• {product.specs.storage}</div>}
+                  </div>
+                )}
+
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="text-xl font-bold text-white">
+                    {formatPrice(product.retailerPrice)}
+                  </span>
+                  {product.savings > 0 && (
+                    <span className="text-sm text-green-400 flex items-center gap-1">
+                      <TrendingDown className="w-3 h-3" />
+                      {product.savingsPercent}%
+                    </span>
+                  )}
+                </div>
+                {product.savings > 0 && (
+                  <div className="text-sm text-gray-500">
+                    <span className="line-through">{formatPrice(product.msrp)}</span>
+                    <span className="text-green-400 ml-2">Save {formatPrice(product.savings)}</span>
+                  </div>
+                )}
+              </Link>
             ))}
           </div>
         ) : (
           <div className="space-y-3">
             {products.map(product => (
-              <ProductListItem key={product.id} product={product} formatPrice={formatPrice} />
+              <Link
+                key={product.id}
+                to={`/product/${product.id}`}
+                className="bg-[#141414] border border-[#262626] hover:border-[#333] rounded-xl p-4 transition-all group flex items-center gap-4"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs text-gray-500 uppercase">{product.category}</span>
+                    {product.isInStock ? (
+                      <span className="text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded">In Stock</span>
+                    ) : (
+                      <span className="text-xs text-red-400 bg-red-400/10 px-2 py-0.5 rounded">Out</span>
+                    )}
+                  </div>
+                  <h3 className="text-white font-semibold group-hover:text-blue-400 transition-colors truncate">
+                    {product.name}
+                  </h3>
+                  {product.specs?.chip && (
+                    <div className="text-sm text-gray-500">{product.specs.chip} • {product.specs.storage}</div>
+                  )}
+                </div>
+
+                <div className="text-right">
+                  <div className="flex items-center gap-2 justify-end">
+                    <span className="text-lg font-bold text-white">
+                      {formatPrice(product.retailerPrice)}
+                    </span>
+                    {product.savings > 0 && (
+                      <span className="text-sm text-green-400">-{product.savingsPercent}%</span>
+                    )}
+                  </div>
+                  {product.savings > 0 && (
+                    <div className="text-sm text-gray-500">
+                      <span className="line-through">{formatPrice(product.msrp)}</span>
+                    </div>
+                  )}
+                </div>
+
+                <ExternalLink className="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors flex-shrink-0" />
+              </Link>
             ))}
           </div>
         )}
-
-        {/* SEO Content */}
-        <div className="mt-16 bg-[#141414] border border-[#262626] rounded-xl p-8">
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Why Buy Apple Products at {retailer.name}?
-          </h2>
-          <div className="prose prose-invert max-w-none text-gray-400 leading-relaxed">
-            <p className="mb-4">
-              {retailer.name} is one of TheresMac's tracked retailers for Apple products. 
-              We monitor prices on {products.filter(p => p.category === 'iphone').length} iPhone models, 
-              {' '}{products.filter(p => p.category === 'mac').length} Mac computers, 
-              {' '}{products.filter(p => p.category === 'ipad').length} iPad models, 
-              {' '}{products.filter(p => p.category === 'watch').length} Apple Watch variants, and 
-              {' '}{products.filter(p => p.category === 'airpods').length} AirPods options.
-            </p>
-            <p className="mb-4">
-              {retailerId === 'target' 
-                ? `Note: Target does not sell MacBook or Mac desktop computers. For Mac pricing, check Amazon, Best Buy, B&H, Apple, or other retailers.`
-                : `Current average savings at ${retailer.name} is ${avgSavings}%. Prices are updated in real-time from our tracking system.`
-              }
-            </p>
-            <p>
-              Use TheresMac to compare {retailer.name} prices against other retailers like 
-              {Object.keys(RETAILER_CONFIG).filter(r => r !== retailerId).slice(0, 3).join(', ')}, 
-              and more. Set price alerts to get notified when your desired product drops in price at {retailer.name} or any other retailer.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   )
