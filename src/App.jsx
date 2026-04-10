@@ -17,6 +17,9 @@ import Compare from './pages/Compare'
 import RetailerLanding from './pages/RetailerLanding'
 import GoPage from './pages/GoPage'
 import AuthCallback from './pages/AuthCallback'
+import Contact from './pages/Contact'
+import About from './pages/About'
+import HowTo from './pages/HowTo'
 
 // Blog Articles
 import BestMacBookVideoEditing from './pages/blog/Best-MacBook-Video-Editing-2026.jsx'
@@ -76,6 +79,9 @@ function App() {
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/how-to" element={<HowTo />} />
         </Routes>
       </main>
       <Footer />

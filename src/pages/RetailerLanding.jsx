@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { ExternalLink, Store, TrendingDown, Grid3X3, List, ArrowLeft } from 'lucide-react'
+import RetailerSortDropdown from '../components/RetailerSortDropdown'
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev'
 
@@ -96,8 +97,9 @@ const RetailerLanding = () => {
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
   
-  // Read view mode from URL or default
+  // Read view/sort mode from URL or default
   const viewMode = searchParams.get('view') || 'grid'
+  const sortBy = searchParams.get('sort') || 'savings'
 
   const retailer = RETAILER_CONFIG[retailerId]
 
@@ -157,8 +159,26 @@ const RetailerLanding = () => {
       formatted = formatted.filter(p => p.category !== 'mac')
     }
 
-    return formatted
-  }, [allProducts, retailerId])
+    // Sort
+    const sorted = [...formatted]
+    switch (sortBy) {
+      case 'price':
+        sorted.sort((a, b) => (a.retailerPrice || 0) - (b.retailerPrice || 0))
+        break
+      case 'price-desc':
+        sorted.sort((a, b) => (b.retailerPrice || 0) - (a.retailerPrice || 0))
+        break
+      case 'name':
+        sorted.sort((a, b) => a.name.localeCompare(b.name))
+        break
+      case 'savings':
+      default:
+        sorted.sort((a, b) => (b.savingsPercent || 0) - (a.savingsPercent || 0))
+        break
+    }
+
+    return sorted
+  }, [allProducts, retailerId, sortBy])
 
   // Update URL param
   const updateParam = (key, value) => {
@@ -259,10 +279,12 @@ const RetailerLanding = () => {
           </div>
         </div>
 
-        {/* View toggle only */}
+        {/* Sort & View toggle */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-white">Products</h2>
-          <div className="flex items-center bg-[#262626] rounded-lg p-1">
+          <div className="flex items-center gap-3">
+            <RetailerSortDropdown value={sortBy} onChange={(v) => updateParam('sort', v)} />
+            <div className="flex items-center bg-[#262626] rounded-lg p-1">
             <button
               onClick={() => updateParam('view', 'grid')}
               className={`p-1.5 rounded transition-colors ${viewMode === 'grid' ? 'bg-[#3b82f6] text-white' : 'text-gray-400'}`}
@@ -275,6 +297,7 @@ const RetailerLanding = () => {
             >
               <List className="w-4 h-4" />
             </button>
+            </div>
           </div>
         </div>
 
