@@ -97,9 +97,10 @@ const RetailerLanding = () => {
   const [allProducts, setAllProducts] = useState([])
   const [loading, setLoading] = useState(true)
   
-  // Read view/sort mode from URL or default
+  // Read view/sort/category mode from URL or default
   const viewMode = searchParams.get('view') || 'grid'
   const sortBy = searchParams.get('sort') || 'savings'
+  const categoryFilter = searchParams.get('category') || 'all'
 
   const retailer = RETAILER_CONFIG[retailerId]
 
@@ -159,6 +160,11 @@ const RetailerLanding = () => {
       formatted = formatted.filter(p => p.category !== 'mac')
     }
 
+    // Filter by category pill
+    if (categoryFilter && categoryFilter !== 'all') {
+      formatted = formatted.filter(p => p.category === categoryFilter)
+    }
+
     // Sort
     const sorted = [...formatted]
     switch (sortBy) {
@@ -178,12 +184,12 @@ const RetailerLanding = () => {
     }
 
     return sorted
-  }, [allProducts, retailerId, sortBy])
+  }, [allProducts, retailerId, sortBy, categoryFilter])
 
   // Update URL param
   const updateParam = (key, value) => {
     const params = new URLSearchParams(searchParams)
-    if (value && value !== 'grid') {
+    if (value && value !== 'grid' && value !== 'all') {
       params.set(key, value)
     } else {
       params.delete(key)
@@ -200,6 +206,31 @@ const RetailerLanding = () => {
   }
 
   if (!retailer) return null
+
+  // Compute category counts from all retailer products (before sort/view filter)
+  const retailerProducts = allProducts.filter(p => {
+    const pricesData = p.prices || {}
+    const pricesArray = Array.isArray(pricesData) 
+      ? pricesData 
+      : Object.entries(pricesData).map(([retailer, data]) => ({ retailer, ...data }))
+    return pricesArray.some(pr => pr.retailer?.toLowerCase() === retailerId.toLowerCase() && pr.price)
+  }).filter(p => retailerId !== 'target' || p.category !== 'mac')
+
+  const categoryCounts = {}
+  retailerProducts.forEach(p => {
+    const cat = p.category || 'other'
+    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1
+  })
+
+  const CATEGORY_PILLS = [
+    { key: 'all', label: 'All', count: retailerProducts.length },
+    { key: 'mac', label: 'Mac', count: categoryCounts['mac'] || 0 },
+    { key: 'iphone', label: 'iPhone', count: categoryCounts['iphone'] || 0 },
+    { key: 'ipad', label: 'iPad', count: categoryCounts['ipad'] || 0 },
+    { key: 'watch', label: 'Watch', count: categoryCounts['watch'] || 0 },
+    { key: 'airpods', label: 'AirPods', count: categoryCounts['airpods'] || 0 },
+    { key: 'accessories', label: 'Accessories', count: categoryCounts['accessories'] || 0 },
+  ].filter(p => p.key === 'all' || p.count > 0)
 
   const inStockCount = products.filter(p => p.isInStock).length
   const avgSavings = products.length > 0
@@ -277,6 +308,26 @@ const RetailerLanding = () => {
               ))}
             </ul>
           </div>
+        </div>
+
+        {/* Category Pills */}
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
+          {CATEGORY_PILLS.map(pill => (
+            <button
+              key={pill.key}
+              onClick={() => updateParam('category', pill.key)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                categoryFilter === pill.key
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-[#1a1a1a] text-gray-400 border border-[#333] hover:border-[#555] hover:text-gray-200'
+              }`}
+            >
+              {pill.label}{' '}
+              <span className={`text-xs ${categoryFilter === pill.key ? 'text-blue-200' : 'text-gray-600'}`}>
+                ({pill.count})
+              </span>
+            </button>
+          ))}
         </div>
 
         {/* Sort & View toggle */}
