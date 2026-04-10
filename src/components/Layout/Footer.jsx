@@ -39,13 +39,23 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Resources */}
+          <div>
+            <h4 className="text-white font-medium mb-4">Resources</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/how-to" className="text-gray-500 hover:text-white transition-colors">How to Use</Link></li>
+              <li><Link to="/blog" className="text-gray-500 hover:text-white transition-colors">Blog</Link></li>
+              <li><Link to="/alerts" className="text-gray-500 hover:text-white transition-colors">Price Alerts</Link></li>
+              <li><Link to="/contact" className="text-gray-500 hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/about" className="text-gray-500 hover:text-white transition-colors">About</Link></li>
+            </ul>
+          </div>
+
           {/* Legal */}
           <div>
             <h4 className="text-white font-medium mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/blog" className="text-gray-500 hover:text-white transition-colors">Blog</Link></li>
               <li><Link to="/privacy" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/alerts" className="text-gray-500 hover:text-white transition-colors">Price Alerts</Link></li>
               <li><Link to="/affiliate-disclosure" className="text-gray-500 hover:text-white transition-colors">Affiliate Disclosure</Link></li>
             </ul>
           </div>
@@ -56,7 +66,7 @@ const Footer = () => {
             © 2026 TheresMac. Anonymous price tracking.
           </p>
           <div className="flex items-center gap-4 mt-2 sm:mt-0">
-            <a href="https://x.com/mactrackrapp" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-white text-sm transition-colors">@mactrackrapp</a>
+            <a href="https://x.com/theresmac" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-white text-sm transition-colors">@theresmac</a>
             <p className="text-gray-600 text-sm">Not affiliated with Apple Inc.</p>
           </div>
         </div>

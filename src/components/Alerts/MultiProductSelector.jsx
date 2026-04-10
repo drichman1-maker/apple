@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Search, X, Loader2, Check } from 'lucide-react';
 
 const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+
+const CATEGORIES = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories'];
 
 export default function MultiProductSelector({ selectedProducts = [], onChange, maxProducts = 5 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [error, setError] = useState(null);
   const dropdownRef = useRef(null);
   const inputRef = useRef(null);
@@ -22,6 +25,7 @@ export default function MultiProductSelector({ selectedProducts = [], onChange, 
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
+        setActiveCategory('All');
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -77,12 +81,32 @@ export default function MultiProductSelector({ selectedProducts = [], onChange, 
     onChange(selectedProducts.filter(p => p.id !== productId));
   };
 
-  const filteredProducts = searchTerm 
-    ? products.filter(p => 
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.category?.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : products;
+  // Category-aware filtering (matches ProductCatalog logic)
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    // Category filter
+    if (activeCategory !== 'All') {
+      result = result.filter(product => {
+        const productCat = (product.category || '').toLowerCase();
+        const productName = (product.name || '').toLowerCase();
+        if (activeCategory === 'MacBook') return productCat === 'mac' && productName.includes('macbook');
+        if (activeCategory === 'Mac') return productCat === 'mac' && !productName.includes('macbook');
+        return productCat === activeCategory.toLowerCase();
+      });
+    }
+
+    // Search filter
+    if (searchTerm) {
+      const query = searchTerm.toLowerCase();
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.category?.toLowerCase().includes(query)
+      );
+    }
+
+    return result;
+  }, [products, activeCategory, searchTerm]);
 
   const groupedProducts = filteredProducts.reduce((acc, product) => {
     const category = product.category || 'Other';
@@ -90,6 +114,18 @@ export default function MultiProductSelector({ selectedProducts = [], onChange, 
     acc[category].push(product);
     return acc;
   }, {});
+
+  // Category counts (respects search but not active category)
+  const getCategoryCount = (cat) => {
+    return products.filter(p => {
+      if (cat === 'All') return true;
+      const productCat = (p.category || '').toLowerCase();
+      const productName = (p.name || '').toLowerCase();
+      if (cat === 'MacBook') return productCat === 'mac' && productName.includes('macbook');
+      if (cat === 'Mac') return productCat === 'mac' && !productName.includes('macbook');
+      return productCat === cat.toLowerCase();
+    }).length;
+  };
 
   const getBestPrice = (product) => {
     if (!product?.prices) return null;
@@ -109,6 +145,27 @@ export default function MultiProductSelector({ selectedProducts = [], onChange, 
       <label className="block text-sm text-zinc-400">
         Select Products ({selectedProducts.length}/{maxProducts})
       </label>
+
+      {/* Category Pills */}
+      <div className="flex flex-wrap gap-2">
+        {CATEGORIES.map((cat) => {
+          const count = getCategoryCount(cat);
+          return (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActiveCategory(cat)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
+                activeCategory === cat
+                  ? 'bg-white text-black border-white'
+                  : 'bg-[#141414] text-[#a3a3a3] border-[#262626] hover:border-[#333] hover:text-[#fafafa]'
+              }`}
+            >
+              {cat} {count > 0 && <span className="opacity-50">({count})</span>}
+            </button>
+          );
+        })}
+      </div>
       
       {/* Selected Products Tags */}
       {selectedProducts.length > 0 && (

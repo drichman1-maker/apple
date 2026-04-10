@@ -60,6 +60,14 @@ const RETAILER_URLS = {
     search: (query) => `https://www.adorama.com/s?query=${encodeURIComponent(query)}`,
     product: (url) => url,
   },
+  microcenter: {
+    search: (query) => `https://www.microcenter.com/search?query=${encodeURIComponent(query)}`,
+    product: (url) => url,
+  },
+  cdw: {
+    search: (query) => `https://www.cdw.com/search/?key=${encodeURIComponent(query)}`,
+    product: (url) => url,
+  },
 }
 
 function addAffiliateTag(url, retailer) {

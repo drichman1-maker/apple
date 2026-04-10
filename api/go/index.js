@@ -22,19 +22,19 @@ const products = [
 
 // Affiliate templates - Formula: template + encode(canonical_url)
 const affiliateTemplates = {
-  amazon: (sku, canonicalUrl) => `https://www.amazon.com/dp/${sku}?tag=mactrackr-20`,
+  amazon: (sku, canonicalUrl) => `https://www.amazon.com/dp/${sku}?tag=Theresmac-20`,
   
   // Best Buy via Impact - encode canonical URL
   bestbuy: (sku, canonicalUrl) => `https://bestbuy.7tiv.net/c/XXXX/XXXX/XXXX?u=${encodeURIComponent(canonicalUrl)}`,
   
   // B&H - direct KBID
-  bh: (sku, canonicalUrl) => `https://www.bhphotovideo.com/c/product/${sku}.html?KBID=mactrackr_bh`,
+  bh: (sku, canonicalUrl) => `https://www.bhphotovideo.com/c/product/${sku}.html?KBID=theresmac_bh`,
   
   // Adorama - product code
-  adorama: (sku, canonicalUrl) => `https://www.adorama.com/${sku}.html?email=mactrackr_adorama`,
+  adorama: (sku, canonicalUrl) => `https://www.adorama.com/${sku}.html?email=theresmac_adorama`,
   
   // eBay - encode canonical
-  ebay: (sku, canonicalUrl) => `https://www.ebay.com/itm/${sku}?mkevt=1&mkcid=mactrackr_ebay`,
+  ebay: (sku, canonicalUrl) => `https://www.ebay.com/itm/${sku}?mkevt=1&mkcid=theresmac_ebay`,
   
   // Apple - direct (no affiliate)
   apple: (sku, canonicalUrl) => canonicalUrl

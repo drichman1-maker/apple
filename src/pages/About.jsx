@@ -34,22 +34,10 @@ const About = () => {
 
   const team = [
     {
-      name: 'Alex Chen',
-      role: 'Founder & CEO',
-      bio: 'Former Apple engineer with a passion for helping people save money on tech.',
+      name: 'Douglas Richman',
+      role: 'Creator & Developer',
+      bio: 'Built TheresMac to help Apple fans save money. Passionate about clean code, great UX, and finding the best deals.',
       avatar: '👨‍💻'
-    },
-    {
-      name: 'Sarah Johnson',
-      role: 'CTO',
-      bio: 'Data scientist specializing in price prediction and market analysis.',
-      avatar: '👩‍💻'
-    },
-    {
-      name: 'Mike Rodriguez',
-      role: 'Product Manager',
-      bio: 'Apple enthusiast who understands what features users actually want.',
-      avatar: '👨‍💼'
     }
   ]
 

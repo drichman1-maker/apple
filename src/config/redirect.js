@@ -8,7 +8,7 @@ export const AFFILIATE_TEMPLATES = {
     template: 'https://www.amazon.com/dp/{sku}?tag={affiliateId}',
     searchTemplate: 'https://www.amazon.com/s?k={query}&tag={affiliateId}',
     idField: 'asin',
-    affiliateId: 'mactrackr-20'
+    affiliateId: 'Theresmac-20'
   },
   
   bestbuy: {
@@ -18,7 +18,7 @@ export const AFFILIATE_TEMPLATES = {
     template: 'https://bestbuy.7tiv.net/c/XXXX/XXXX/XXXX?u={encodedUrl}',
     canonicalPattern: 'https://www.bestbuy.com/site/{slug}/{skuId}.p',
     idField: 'skuId',
-    affiliateId: 'mactrackr_bb'
+    affiliateId: 'theresmac_bb'
   },
   
   adorama: {
@@ -26,7 +26,7 @@ export const AFFILIATE_TEMPLATES = {
     network: 'ShareASale',
     template: 'https://www.adorama.com/{productCode}.html?utm_source=affiliate&utm_medium={affiliateId}',
     idField: 'productCode',
-    affiliateId: 'mactrackr_adorama'
+    affiliateId: 'theresmac_adorama'
   },
   
   bh: {
@@ -34,16 +34,16 @@ export const AFFILIATE_TEMPLATES = {
     network: 'Direct',
     template: 'https://www.bhphotovideo.com/c/product/{sku}.html?KBID={affiliateId}',
     idField: 'sku',
-    affiliateId: 'mactrackr_bh'
+    affiliateId: 'theresmac_bh'
   },
   
   ebay: {
     name: 'eBay',
     network: 'eBay Partner Network',
-    template: 'https://www.ebay.com/itm/{sku}?mkevt=1&mkcid={affiliateId}',
-    searchTemplate: 'https://www.ebay.com/sch/i.html?_nkw={query}&mkevt=1&mkcid={affiliateId}',
+    template: 'https://www.ebay.com/itm/{sku}?mkevt=1&mkcid=1&mkrid=711-53200-19255-0&siteid=0&campid={affiliateId}',
+    searchTemplate: 'https://www.ebay.com/sch/i.html?_nkw={query}&mkevt=1&mkcid=1&mkrid=711-53200-19255-0&siteid=0&campid={affiliateId}',
     idField: 'itemId',
-    affiliateId: 'mactrackr_ebay'
+    affiliateId: '5339142921'
   }
 }
 

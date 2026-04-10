@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 
 export async function GET() {
-  const pricesPath = path.join(process.cwd(), 'data/prices/mactrackr.jsonl')
+  const pricesPath = path.join(process.cwd(), 'data/prices/theresmac.jsonl')
   try {
     const content = fs.readFileSync(pricesPath, 'utf-8')
     const lines = content.trim().split('\n')
@@ -15,7 +15,7 @@ export async function GET() {
     }).filter(Boolean)
     
     return new Response(JSON.stringify({
-      project: 'mactrackr',
+      project: 'theresmac',
       prices,
       lastUpdated: new Date().toISOString()
     }), {

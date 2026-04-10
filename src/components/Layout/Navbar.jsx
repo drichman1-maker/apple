@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Search, Menu, X, ChevronDown, Bell, Apple } from 'lucide-react'
 import SearchModal from '../Search/SearchModal'
-import { LoginButton } from '../../auth'
+import LoginButton from '../../auth/LoginButton'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -201,6 +201,11 @@ const Navbar = () => {
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
+
+              {/* Auth */}
+              <div className="hidden md:block ml-2">
+                <LoginButton />
+              </div>
             </div>
           </div>
         </div>
@@ -209,6 +214,23 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden bg-[#0a0a0a] border-t border-[#262626]">
             <div className="px-4 py-4 space-y-2 max-h-[80vh] overflow-y-auto">
+              {/* Mobile Auth - AT TOP */}
+              <div className="mb-4">
+                <LoginButton />
+              </div>
+              
+              {/* Alerts Link - Prominent at top */}
+              <Link
+                to="/alerts"
+                className="flex items-center gap-3 px-4 py-3 text-sm text-white hover:text-white hover:bg-[#1f1f1f] rounded-lg transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Bell className="h-4 w-4 text-blue-400" />
+                <span className="font-medium">Price Alerts</span>
+              </Link>
+              
+              <div className="border-b border-[#262626] mb-4"></div>
+
               <div className="font-medium text-zinc-400 text-sm mb-2">Products</div>
               {productCategories.map((category) => (
                 <Link
@@ -236,14 +258,13 @@ const Navbar = () => {
               ))}
 
               <div className="border-t border-[#262626] my-2 pt-2">
-                {navLinks.map((link) => (
+                {navLinks.filter(link => link.name !== 'Alerts').map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
                     className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-300 hover:text-white hover:bg-[#141414] rounded-lg transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    {link.name === 'Alerts' && <Bell className="h-4 w-4" />}
                     {link.name}
                   </Link>
                 ))}
@@ -251,9 +272,6 @@ const Navbar = () => {
             </div>
           </div>
         )}
-        <div className="hidden md:flex items-center ml-4">
-          <LoginButton />
-        </div>
       </nav>
 
       {/* Search Modal */}

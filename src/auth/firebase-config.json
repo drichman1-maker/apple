@@ -1,8 +1,9 @@
 {
-  "apiKey": "YOUR_FIREBASE_API_KEY",
-  "authDomain": "theresmac.firebaseapp.com",
-  "projectId": "theresmac",
-  "storageBucket": "theresmac.appspot.com",
-  "messagingSenderId": "YOUR_SENDER_ID",
-  "appId": "YOUR_APP_ID"
+  "apiKey": "AIzaSyB9HYiOp3ETtnZwCV_9JqMKhHrsR4mlJLQ",
+  "authDomain": "theresmac-df113.firebaseapp.com",
+  "projectId": "theresmac-df113",
+  "storageBucket": "theresmac-df113.firebasestorage.app",
+  "messagingSenderId": "488458264022",
+  "appId": "1:488458264022:web:1f3619b83d61a4f4cd9877",
+  "measurementId": "G-0NQE9FM8C6"
 }

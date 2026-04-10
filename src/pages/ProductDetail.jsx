@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Bell, ExternalLink } from 'lucide-react'
-import PriceAlertSignup from '../components/PriceAlertSignup'
 
 // Helper function to format price (defined at module level for reuse)
 const formatPrice = (price) => {
@@ -201,13 +200,27 @@ const usePageTitle = (product) => {
 
 const ProductDetail = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [alertEnabled, setAlertEnabled] = useState(false)
   const [chartRange, setChartRange] = useState('90d')
-  const [showAlertModal, setShowAlertModal] = useState(false)
   const [priceHistoryData, setPriceHistoryData] = useState(null)
   const [priceHistoryLoading, setPriceHistoryLoading] = useState(false)
+  
+  // Navigate to alerts page with this product pre-selected
+  const handleSetAlert = () => {
+    if (product) {
+      // Store product info for the alerts page to pick up
+      sessionStorage.setItem('alert_product', JSON.stringify({
+        id: product.id,
+        name: product.name || product.model,
+        category: product.category,
+        prices: product.prices
+      }))
+      navigate('/alerts')
+    }
+  }
 
   // Update page title dynamically
   usePageTitle(product);
@@ -259,10 +272,17 @@ const ProductDetail = () => {
       const response = await fetch(`https://theresmac-backend.fly.dev/api/prices/${id}/history?timeframe=${days}`)
       if (response.ok) {
         const data = await response.json()
+        console.log('[PriceHistory] API response:', data)
         setPriceHistoryData(data)
+      } else if (response.status === 404) {
+        // No price history available for this product yet
+        console.log('[PriceHistory] No history data for this product')
+        setPriceHistoryData({ noData: true })
+      } else {
+        console.error('[PriceHistory] API error:', response.status)
       }
     } catch (err) {
-      console.error('Failed to fetch price history:', err)
+      console.error('[PriceHistory] Failed to fetch:', err)
     } finally {
       setPriceHistoryLoading(false)
     }
@@ -270,9 +290,11 @@ const ProductDetail = () => {
 
   const getPrices = (product) => {
     if (!product?.prices) return []
-    return Array.isArray(product.prices) 
+    const all = Array.isArray(product.prices) 
       ? product.prices 
       : Object.entries(product.prices || {}).map(([retailer, data]) => ({ retailer, ...data }))
+    // Filter out retailers marked as notCarried
+    return all.filter(p => !p.notCarried)
   }
 
   // Add JSON-LD schema for SEO
@@ -413,9 +435,13 @@ const ProductDetail = () => {
     };
   }, [product]);
 
-  // Use affiliate URL if available, otherwise fallback to regular URL
+  // Build redirect URL through /go/ page for all retailers
+  // This ensures non-affiliate retailers get proper search page redirects
   const getRetailerUrl = (price) => {
-    return price.affiliateUrl || price.url || '#'
+    const retailer = (price.retailer || '').toLowerCase()
+    const url = price.affiliateUrl || price.url || ''
+    const query = product?.name || ''
+    return `/go/${retailer}?url=${encodeURIComponent(url)}&query=${encodeURIComponent(query)}`
   }
 
   // Determine condition based on retailer
@@ -432,6 +458,65 @@ const ProductDetail = () => {
     return { label: 'NEW', className: 'bg-blue-500/20 text-blue-400 border-blue-500/30' };
   }
 
+  // Calculate prices FIRST (before any conditional returns) to maintain hook order
+  const prices = product ? getPrices(product) : []
+  const sortedPrices = [...prices].sort((a, b) => a.price - b.price)
+  const bestPrice = sortedPrices[0]
+  const worstPrice = sortedPrices[sortedPrices.length - 1]
+  const msrp = product?.msrp || null
+  // Use real MSRP for savings calc, fall back to worst price
+  const msrpForSavings = msrp || worstPrice?.price
+  const savings = msrpForSavings && bestPrice ? msrpForSavings - bestPrice.price : 0
+  const savingsPercent = msrpForSavings && bestPrice ? Math.round((savings / msrpForSavings) * 100) : 0
+  const year = product?.releaseDate ? new Date(product.releaseDate).getFullYear() : null
+
+  // Process real price history data for chart - MUST be before conditional returns
+  const priceHistory = React.useMemo(() => {
+    console.log('[PriceHistory] Processing data:', priceHistoryData)
+    if (!product || !priceHistoryData) {
+      console.log('[PriceHistory] No data yet')
+      return []
+    }
+    
+    // Handle noData flag (product not yet tracked)
+    if (priceHistoryData.noData) {
+      console.log('[PriceHistory] Product not yet tracked')
+      return []
+    }
+    
+    // Handle different API response formats
+    let retailerPrices = priceHistoryData.prices
+    let dates = priceHistoryData.dates || []
+    
+    // If data is in history array format (from new API)
+    if (priceHistoryData.history && Array.isArray(priceHistoryData.history)) {
+      console.log('[PriceHistory] Using history array format')
+      return priceHistoryData.history.map(h => h.price || 0)
+    }
+    
+    // If data is in prices/dates format (from old API)
+    if (!retailerPrices) {
+      console.log('[PriceHistory] No prices in data')
+      return []
+    }
+    
+    console.log('[PriceHistory] Using prices/dates format')
+    // Calculate the best (lowest) price across all retailers for each day
+    return dates.map((_, dayIndex) => {
+      let lowestPrice = Infinity
+      Object.values(retailerPrices).forEach(retailerPriceArray => {
+        if (retailerPriceArray && retailerPriceArray[dayIndex] != null) {
+          lowestPrice = Math.min(lowestPrice, retailerPriceArray[dayIndex])
+        }
+      })
+      return lowestPrice === Infinity ? bestPrice?.price || 0 : lowestPrice
+    })
+  }, [priceHistoryData, bestPrice?.price, product])
+  
+  const maxPrice = priceHistory.length > 0 ? Math.max(...priceHistory) : (bestPrice?.price || 1000)
+  const minPrice = priceHistory.length > 0 ? Math.min(...priceHistory) : (bestPrice?.price || 1000)
+
+  // NOW we can do conditional returns after all hooks are called
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
@@ -453,39 +538,6 @@ const ProductDetail = () => {
     )
   }
 
-  const prices = getPrices(product)
-  const sortedPrices = [...prices].sort((a, b) => a.price - b.price)
-  const bestPrice = sortedPrices[0]
-  const worstPrice = sortedPrices[sortedPrices.length - 1]
-  const savings = worstPrice && bestPrice ? worstPrice.price - bestPrice.price : 0
-  const savingsPercent = worstPrice && bestPrice ? Math.round((savings / worstPrice.price) * 100) : 0
-  const year = product.releaseDate ? new Date(product.releaseDate).getFullYear() : null
-
-  // Process real price history data for chart
-  const priceHistory = React.useMemo(() => {
-    if (!priceHistoryData || !priceHistoryData.prices) {
-      // Fallback to empty array if no data
-      return []
-    }
-    
-    const retailerPrices = priceHistoryData.prices
-    const dates = priceHistoryData.dates || []
-    
-    // Calculate the best (lowest) price across all retailers for each day
-    return dates.map((_, dayIndex) => {
-      let lowestPrice = Infinity
-      Object.values(retailerPrices).forEach(retailerPriceArray => {
-        if (retailerPriceArray && retailerPriceArray[dayIndex] != null) {
-          lowestPrice = Math.min(lowestPrice, retailerPriceArray[dayIndex])
-        }
-      })
-      return lowestPrice === Infinity ? bestPrice?.price || 0 : lowestPrice
-    })
-  }, [priceHistoryData, bestPrice?.price])
-  
-  const maxPrice = priceHistory.length > 0 ? Math.max(...priceHistory) : (bestPrice?.price || 1000)
-  const minPrice = priceHistory.length > 0 ? Math.min(...priceHistory) : (bestPrice?.price || 1000)
-
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       {/* Header */}
@@ -496,7 +548,7 @@ const ProductDetail = () => {
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <Link to="/" className="text-xl font-semibold tracking-tight text-[#fafafa]">
-              Mac<span className="text-[#3b82f6]">Trackr</span>
+              Theres<span className="text-[#3b82f6]">Mac</span>
             </Link>
           </div>
           <Link to="/alerts" className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors">
@@ -543,7 +595,12 @@ const ProductDetail = () => {
               </p>
               {savings > 0 && (
                 <p className="text-[#10b981] font-medium">
-                  Save {formatPrice(savings)} vs MSRP
+                  Save {formatPrice(savings)} ({savingsPercent}% off MSRP)
+                </p>
+              )}
+              {msrp && msrp !== bestPrice?.price && (
+                <p className="text-[#a3a3a3] text-sm mt-1 line-through">
+                  MSRP: {formatPrice(msrp)}
                 </p>
               )}
               <p className="text-[#a3a3a3] text-sm mt-1">
@@ -575,6 +632,31 @@ const ProductDetail = () => {
         <div className="mb-6">
           <h3 className="text-xs text-[#a3a3a3] uppercase tracking-wider mb-4 text-center">Compare Prices</h3>
           <div className="bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden">
+            {/* MSRP Reference Row */}
+            {msrp && (
+              <div className="flex items-center justify-between p-4 border-b border-[#262626] bg-[#0a0a0a]">
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm"
+                    style={{ backgroundColor: 'rgba(163, 163, 163, 0.2)', color: '#a3a3a3' }}
+                  >
+                    AP
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-[#a3a3a3]">Apple MSRP</p>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded border bg-zinc-800/50 text-zinc-500 border-zinc-700">
+                        REF
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#525252]">Manufacturer's retail price</p>
+                  </div>
+                </div>
+                <p className="text-xl font-bold text-[#a3a3a3]">
+                  {formatPrice(msrp)}
+                </p>
+              </div>
+            )}
             {sortedPrices.map((price, index) => {
               const condition = getRetailerCondition(price.retailer);
               return (
@@ -632,18 +714,19 @@ const ProductDetail = () => {
               <Bell className="w-12 h-12 text-[#262626] mx-auto mb-4" />
               <p className="text-[#a3a3a3] mb-4">Get notified when the price drops</p>
               <button 
-                onClick={() => setShowAlertModal(true)}
-                className="px-6 py-2.5 bg-[#3b82f6] text-white font-medium rounded-xl hover:bg-[#2563eb] transition-colors"
+                onClick={handleSetAlert}
+                className="px-6 py-2.5 bg-[#3b82f6] text-white font-medium rounded-xl hover:bg-[#2563eb] transition-colors flex items-center gap-2 justify-center w-full"
               >
+                <Bell className="w-4 h-4" />
                 Set Price Alert
               </button>
             </div>
           </div>
 
-          {/* Right Column - Price Velocity Chart */}
+          {/* Right Column - Price History Chart */}
           <div className="bg-[#141414] border border-[#262626] rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs text-[#a3a3a3] uppercase tracking-wider">Price Velocity ({chartRange})</span>
+              <span className="text-xs text-[#a3a3a3] uppercase tracking-wider">Price History ({chartRange})</span>
               <div className="flex gap-1">
                 {['30d', '60d', '90d'].map((range) => (
                   <button
@@ -660,27 +743,57 @@ const ProductDetail = () => {
                 ))}
               </div>
             </div>
-            <div className="h-32 flex items-end gap-1">
-              {priceHistoryLoading ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="animate-pulse text-[#3b82f6] text-sm">Loading history...</div>
+            
+            {/* Chart Container */}
+            <div className="relative">
+              {/* Price Labels */}
+              <div className="flex justify-between text-xs text-[#525252] mb-2">
+                <span>High: {formatPrice(maxPrice)}</span>
+                <span>Low: {formatPrice(minPrice)}</span>
+              </div>
+              
+              {/* Chart Bars */}
+              <div className="h-32 flex items-end gap-[2px] bg-[#0a0a0a] rounded-lg p-2">
+                {priceHistoryLoading ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="animate-pulse text-[#3b82f6] text-sm">Loading history...</div>
+                  </div>
+                ) : priceHistoryData?.noData ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-center px-4">
+                    <p className="text-[#a3a3a3] text-sm mb-1">📊 Price tracking starts soon</p>
+                    <p className="text-[#525252] text-xs">History will appear after 24h of monitoring</p>
+                  </div>
+                ) : priceHistory.length === 0 ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <p className="text-[#525252] text-sm">No price history available</p>
+                  </div>
+                ) : (
+                  priceHistory.map((price, i) => {
+                    const height = maxPrice === minPrice ? 50 : ((price - minPrice) / (maxPrice - minPrice)) * 100
+                    const isLowest = price === minPrice
+                    const isHighest = price === maxPrice
+                    return (
+                      <div
+                        key={i}
+                        className={`flex-1 rounded-t transition-all hover:opacity-80 ${
+                          isLowest ? 'bg-[#10b981]' : isHighest ? 'bg-[#ef4444]' : 'bg-gradient-to-t from-[#3b82f6] to-[#60a5fa]'
+                        }`}
+                        style={{ height: `${Math.max(height, 4)}%`, minHeight: '4px' }}
+                        title={`${new Date(priceHistoryData?.dates?.[i] || Date.now()).toLocaleDateString()}: ${formatPrice(price)}`}
+                      />
+                    )
+                  })
+                )}
+              </div>
+              
+              {/* Current Price Indicator */}
+              {priceHistory.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-[#262626]">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-[#a3a3a3]">Current Best Price</span>
+                    <span className="text-lg font-bold text-[#10b981]">{formatPrice(bestPrice?.price)}</span>
+                  </div>
                 </div>
-              ) : priceHistory.length === 0 ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-[#525252] text-sm">No price history available</p>
-                </div>
-              ) : (
-                priceHistory.map((price, i) => {
-                  const height = maxPrice === minPrice ? 50 : ((price - minPrice) / (maxPrice - minPrice)) * 100
-                  return (
-                    <div
-                      key={i}
-                      className="flex-1 bg-gradient-to-t from-[#3b82f6] to-[#3b82f6]/50 rounded-t min-h-[4px]"
-                      style={{ height: `${Math.max(height, 4)}%` }}
-                      title={`${new Date(priceHistoryData?.dates?.[i] || Date.now()).toLocaleDateString()}: ${formatPrice(price)}`}
-                    />
-                  )
-                })
               )}
             </div>
           </div>
@@ -703,13 +816,7 @@ const ProductDetail = () => {
         <ProductContent product={product} prices={prices} bestPrice={bestPrice} savings={savings} savingsPercent={savingsPercent} />
       </main>
 
-      {/* Price Alert Modal */}
-      {showAlertModal && (
-        <PriceAlertSignup 
-          product={product} 
-          onClose={() => setShowAlertModal(false)} 
-        />
-      )}
+
 
       {/* Footer */}
       <footer className="border-t border-[#262626] mt-16 py-8 px-6">

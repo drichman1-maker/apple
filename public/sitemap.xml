@@ -2,192 +2,192 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Core Pages -->
   <url>
-    <loc>https://www.mactrackr.com/</loc>
+    <loc>https://www.theresmac.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.mactrackr.com/products</loc>
+    <loc>https://www.theresmac.com/products</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.mactrackr.com/compare</loc>
+    <loc>https://www.theresmac.com/compare</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.mactrackr.com/blog</loc>
+    <loc>https://www.theresmac.com/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.mactrackr.com/alerts</loc>
+    <loc>https://www.theresmac.com/alerts</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.mactrackr.com/privacy</loc>
+    <loc>https://www.theresmac.com/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://www.mactrackr.com/affiliate-disclosure</loc>
+    <loc>https://www.theresmac.com/affiliate-disclosure</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <!-- iPhone Products -->
-  <url><loc>https://www.mactrackr.com/product/iphone-17-128</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-17-plus-128</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-17-pro-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-17-pro-max-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-17-air-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-17-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-128-unlocked</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro-max</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-plus</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-15</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-15-pro-max-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-15-pro-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-15-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-14-pro-max-256</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-14-256</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro-max-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro-max-512</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro-max-1tb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-pro-512</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-128</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-plus-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-17-128</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-17-plus-128</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-17-pro-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-17-pro-max-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-17-air-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-17-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-128-unlocked</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro-max</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-plus</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-15</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-15-pro-max-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-15-pro-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-15-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-14-pro-max-256</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-14-256</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro-max-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro-max-512</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro-max-1tb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro-256</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-pro-512</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-128</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-plus-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 
   <!-- Refurbished iPhones -->
-  <url><loc>https://www.mactrackr.com/product/iphone-16-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-16-plus-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-15-plus-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-14-pro-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-14-pro-max-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-14-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-14-plus-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/iphone-15-pro-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-16-plus-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-15-plus-128-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-14-pro-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-14-pro-max-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-14-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-14-plus-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/iphone-15-pro-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- MacBook Products -->
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m5</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m5-1tb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m4</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m4-512</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-15-m4</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-16-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m3-8gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-15-m3-8gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m2-8gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-16-m3-pro</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-16-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m4</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m4-24gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-15-m4-24gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m5</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m5-1tb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m4</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m4-512</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-15-m4</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-16-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m3-8gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-15-m3-8gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m2-8gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-16-m3-pro</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-16-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m4-pro</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m4</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m4-24gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-15-m4-24gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 
   <!-- Refurbished MacBooks -->
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m3-8gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-15-m3-8gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-air-13-m2-8gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m4-16gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-14-m3-pro-18gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-16-m4-pro-24gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/macbook-pro-16-m3-pro-18gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m3-8gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-15-m3-8gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-air-13-m2-8gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m4-16gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-14-m3-pro-18gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-16-m4-pro-24gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/macbook-pro-16-m3-pro-18gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- iPad Products -->
-  <url><loc>https://www.mactrackr.com/product/ipad-pro-13-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-pro-11-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-13-m2</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-11-m3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-11-a16</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-mini-7</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-13-m3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-11-m3-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-11-a16-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-mini-a17-pro</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-pro-13-m4-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-pro-11-m4-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-13-m3-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-11-m3-256-dupe</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-mini-7-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-mini-6-64</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-10-256</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-m2-11-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-pro-13-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-pro-11-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-13-m2</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-11-m3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-11-a16</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-mini-7</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-13-m3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-11-m3-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-11-a16-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-mini-a17-pro</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-pro-13-m4-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-pro-11-m4-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-13-m3-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-11-m3-256-dupe</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-mini-7-128</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-mini-6-64</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-10-256</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-m2-11-256</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 
   <!-- Refurbished iPads -->
-  <url><loc>https://www.mactrackr.com/product/ipad-10-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-11-m2-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-11-m3-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-air-13-m2-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-mini-a17-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/ipad-pro-11-m4-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-10-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-11-m2-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-11-m3-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-air-13-m2-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-mini-a17-128-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/ipad-pro-11-m4-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
 
   <!-- Apple Watch -->
-  <url><loc>https://www.mactrackr.com/product/apple-watch-series-10-46mm</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/apple-watch-series-10-42mm</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/apple-watch-ultra-2</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/apple-watch-se-2-44mm</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/apple-watch-se-2-40mm</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/apple-watch-series-9-45mm</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-series-10-46mm</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-series-10-42mm</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-ultra-2</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-se-2-44mm</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-se-2-40mm</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-series-9-45mm</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- Refurbished Apple Watch -->
-  <url><loc>https://www.mactrackr.com/product/apple-watch-se-40mm-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/apple-watch-s10-42mm-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-se-40mm-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-watch-s10-42mm-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
 
   <!-- AirPods -->
-  <url><loc>https://www.mactrackr.com/product/airpods-pro-3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/airpods-4-anc</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/airpods-max-usb-c</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/airpods-pro-2-usb-c</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/airpods-4-standard</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/airpods-pro-3</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/airpods-4-anc</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/airpods-max-usb-c</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/airpods-pro-2-usb-c</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/airpods-4-standard</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 
   <!-- HomePod -->
-  <url><loc>https://www.mactrackr.com/product/homepod-mini</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/homepod-2nd-gen</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/homepod-mini</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/homepod-2nd-gen</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- Mac Desktop -->
-  <url><loc>https://www.mactrackr.com/product/mac-mini-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-studio-m2-ultra</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/imac-24-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-studio-m3-max</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-pro-rack</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-mini-m4-16gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-mini-m4-pro</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-mini-m2-8gb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-mini-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-studio-m2-ultra</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/imac-24-m4</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-studio-m3-max</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-pro-rack</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-mini-m4-16gb</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-mini-m4-pro</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-mini-m2-8gb</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- Refurbished Mac Desktop -->
-  <url><loc>https://www.mactrackr.com/product/mac-mini-m4-16gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/mac-mini-m4-pro-24gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-mini-m4-16gb-256-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/mac-mini-m4-pro-24gb-512-refurb</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
 
   <!-- Apple TV -->
-  <url><loc>https://www.mactrackr.com/product/apple-tv-4k-3rd-gen</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-tv-4k-3rd-gen</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
 
   <!-- Accessories -->
-  <url><loc>https://www.mactrackr.com/product/apple-pencil-pro</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.mactrackr.com/product/airtag-4pack</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/apple-pencil-pro</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.theresmac.com/product/airtag-4pack</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
 
   <!-- Blog Posts -->
-  <url><loc>https://www.mactrackr.com/blog/Best-MacBook-Video-Editing-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/M4-vs-M3-Upgrade-Guide-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/When-MacBooks-Go-On-Sale-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Best-Mac-Music-Production-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Best-Mac-Mini-Accessories-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Best-iPad-Drawing-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Apple-TV-4K-vs-Roku-vs-Fire-Stick-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Apple-Watch-Series-10-vs-Ultra-2-vs-SE-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/AirPods-vs-AirPods-Pro-vs-AirPods-Max-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.mactrackr.com/blog/Best-iPad-Note-Taking-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Best-MacBook-Video-Editing-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/M4-vs-M3-Upgrade-Guide-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Refurbished-Mac-Mini-Worth-Savings-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/When-MacBooks-Go-On-Sale-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Best-Mac-Music-Production-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Best-Mac-Mini-Accessories-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Best-iPad-Drawing-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/iPhone-17-vs-16-Upgrade-Guide-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Apple-TV-4K-vs-Roku-vs-Fire-Stick-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Apple-Watch-Series-10-vs-Ultra-2-vs-SE-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/AirPods-vs-AirPods-Pro-vs-AirPods-Max-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.theresmac.com/blog/Best-iPad-Note-Taking-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <!-- Legacy Articles -->
-  <url><loc>https://www.mactrackr.com/articles/iphone-16-vs-15</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://www.mactrackr.com/articles/how-to-track-prices</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.theresmac.com/articles/iphone-16-vs-15</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.theresmac.com/articles/how-to-track-prices</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
 </urlset>

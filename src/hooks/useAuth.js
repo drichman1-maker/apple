@@ -1,6 +1,3 @@
->   
-
-
 import { useState, useEffect, createContext, useContext } from 'react';
 
 const AuthContext = createContext();
@@ -38,25 +35,6 @@ export function AuthProvider({ children }) {
     return mockUser;
   };
 
-  // Apple Sign In  
-  const signInWithApple = async () => {
-    // For production, integrate with Apple Sign In
-    console.log('Apple Sign In triggered');
-    
-    // Placeholder - would use Apple Sign In JS SDK
-    const mockUser = {
-      id: 'apple_123',
-      email: 'user@icloud.com',
-      name: 'Apple User',
-      picture: null,
-      provider: 'apple'
-    };
-    
-    setUser(mockUser);
-    localStorage.setItem('theresmac_user', JSON.stringify(mockUser));
-    return mockUser;
-  };
-
   // Email + Password (alternative to OAuth)
   const signInWithEmail = async (email, password) => {
     // For demo purposes - in production, validate against backend
@@ -84,7 +62,6 @@ export function AuthProvider({ children }) {
     user,
     loading,
     signInWithGoogle,
-    signInWithApple,
     signInWithEmail,
     signOut,
     isAuthenticated: !!user

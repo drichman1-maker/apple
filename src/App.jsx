@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Navbar from './components/Layout/Navbar'
 import Footer from './components/Layout/Footer'
@@ -16,6 +16,7 @@ import SearchResults from './pages/SearchResults'
 import Compare from './pages/Compare'
 import RetailerLanding from './pages/RetailerLanding'
 import GoPage from './pages/GoPage'
+import AuthCallback from './pages/AuthCallback'
 
 // Blog Articles
 import BestMacBookVideoEditing from './pages/blog/Best-MacBook-Video-Editing-2026.jsx'
@@ -39,10 +40,10 @@ function App() {
   return (
     <HelmetProvider>
       <div className="min-h-screen bg-[#0a0a0a] text-white">
-        <Navbar />
-        <main>
-          <Routes>
-          <Route path="/" element={<ProductCatalog />} />
+          <Navbar />
+          <main>
+            <Routes>
+            <Route path="/" element={<ProductCatalog />} />
           <Route path="/home" element={<Home />} />
           <Route path="/products" element={<ProductCatalog />} />
           <Route path="/products/:category" element={<ProductCatalog />} />
@@ -51,6 +52,7 @@ function App() {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/retailers/:retailerId" element={<RetailerLanding />} />
+          <Route path="/retailer/:retailerId" element={<RetailerLanding />} />
           <Route path="/go/:retailer" element={<GoPage />} />
           <Route path="/blog/Best-MacBook-Video-Editing-2026" element={<BestMacBookVideoEditing />} />
           <Route path="/blog/M4-vs-M3-Upgrade-Guide-2026" element={<M4vsM3UpgradeGuide />} />
@@ -71,6 +73,7 @@ function App() {
           <Route path="/alerts" element={<PriceAlerts />} />
           <Route path="/alerts/manage" element={<ManageAlerts />} />
           <Route path="/alerts/unsubscribe" element={<Unsubscribe />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
         </Routes>

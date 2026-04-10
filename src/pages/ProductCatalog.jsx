@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Search } from 'lucide-react'
 import Disclaimer from '../components/Layout/Disclaimer'
 import SortDropdown from '../components/SortDropdown'
 import ConditionToggle from '../components/ConditionToggle'
@@ -12,6 +12,7 @@ const ProductCatalog = () => {
   const [activeCategory, setActiveCategory] = useState('All')
   const [sortBy, setSortBy] = useState('newest')
   const [condition, setCondition] = useState('new')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const categories = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories']
 
@@ -39,7 +40,22 @@ const ProductCatalog = () => {
       const response = await fetch('https://theresmac-backend.fly.dev/api/products')
       if (response.ok) {
         const data = await response.json()
-        setProducts(Array.isArray(data) ? data : [])
+        // STRICT FILTER: Remove M2 and M3 MacBooks - only show M4/M5 and later
+        const filtered = (Array.isArray(data) ? data : []).filter(product => {
+          const name = (product.name || '').toLowerCase()
+          // Block M2 models entirely
+          if (/\bm2\b/.test(name)) {
+            console.log('[FILTERED OUT M2]:', product.name)
+            return false
+          }
+          // Block M3 models (M3, M3 Pro, M3 Max, M3 Ultra)
+          if (/\bm3\b/.test(name)) {
+            console.log('[FILTERED OUT M3]:', product.name)
+            return false
+          }
+          return true
+        })
+        setProducts(filtered)
       }
     } catch (error) {
       console.error('Failed to fetch products:', error)
@@ -51,9 +67,9 @@ const ProductCatalog = () => {
   const getBestPrice = (product) => {
     if (!product?.prices) return null
     const pricesArray = Array.isArray(product.prices) 
-      ? product.prices 
+      ? product.prices.filter(p => !p.notCarried)
       : Object.entries(product.prices)
-          .filter(([_, data]) => data && typeof data === 'object')
+          .filter(([_, data]) => data && typeof data === 'object' && !data.notCarried)
           .map(([retailer, data]) => ({ retailer, ...data }))
     
     const inStockPrices = pricesArray.filter(p => p.inStock !== false && p.price)
@@ -158,6 +174,17 @@ const ProductCatalog = () => {
       return !isRefurb
     })
 
+    // Search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim()
+      result = result.filter(product => {
+        const name = (product.name || '').toLowerCase()
+        const model = (product.model || '').toLowerCase()
+        const specs = `${product.chip || ''} ${product.storage || ''} ${product.memory || ''}`.toLowerCase()
+        return name.includes(query) || model.includes(query) || specs.includes(query)
+      })
+    }
+
     // Sorting - using new array to avoid mutation issues
     const sortedResult = [...result].sort((a, b) => {
       switch (sortBy) {
@@ -192,7 +219,7 @@ const ProductCatalog = () => {
     })
 
     return sortedResult
-  }, [products, activeCategory, condition, sortBy])
+  }, [products, activeCategory, condition, sortBy, searchQuery])
 
   // Get counts
   const getCategoryCount = (cat) => {
@@ -276,6 +303,20 @@ const ProductCatalog = () => {
           })}
         </div>
 
+        {/* Search Bar */}
+        <div className="mb-4">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#a3a3a3]" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#141414] border border-[#262626] rounded-full pl-10 pr-4 py-2 text-sm text-[#fafafa] placeholder-[#525252] focus:outline-none focus:border-[#3b82f6]"
+            />
+          </div>
+        </div>
+
         {/* Results Count & Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <p className="text-[#a3a3a3] text-sm">
@@ -298,8 +339,8 @@ const ProductCatalog = () => {
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Product Grid - Key forces remount when filter/sort changes */}
+        <div key={`grid-${activeCategory}-${condition}-${sortBy}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProducts.map((product) => {
             const bestPrice = getBestPrice(product)
             const worstPrice = getWorstPrice(product)
