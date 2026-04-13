@@ -5,14 +5,14 @@ import { useSearchParams, useParams } from 'react-router-dom'
 const AFFILIATE_IDS = {
   amazon: 'Theresmac-20',
   ebay: '5339142921',
-  bestbuy: '',
-  bh: '',
-  'b&h': '',
-  newegg: '',
-  walmart: '',
-  target: '',
-  apple: '',
-  backmarket: '',
+  backmarket: 'codemodeapps',
+  // Pending CJ/Rakuten approval (applied Mar 20):
+  // bestbuy: '',
+  // bh: '',
+  // newegg: '',
+  // walmart: '',
+  // apple: '',  // No affiliate program
+  // target: '',
 }
 
 const RETAILER_URLS = {
@@ -29,10 +29,6 @@ const RETAILER_URLS = {
     product: (url) => url,
   },
   bh: {
-    search: (query) => `https://www.bhphotovideo.com/c/search?q=${encodeURIComponent(query)}`,
-    product: (url) => url,
-  },
-  'b&h': {
     search: (query) => `https://www.bhphotovideo.com/c/search?q=${encodeURIComponent(query)}`,
     product: (url) => url,
   },
@@ -86,6 +82,12 @@ function addAffiliateTag(url, retailer) {
     return url + (url.includes('?') ? '&' : '?') + `campid=${affiliateId}`
   }
   
+  // Back Market
+  if (retailer === 'backmarket') {
+    if (url.includes('aff=')) return url
+    return url + (url.includes('?') ? '&' : '?') + `aff=${affiliateId}`
+  }
+  
   return url
 }
 
@@ -98,15 +100,16 @@ const GoPage = () => {
     const query = searchParams.get('query')
     const retailerKey = retailer?.toLowerCase()
     
-    // Track click
+    // Track click (fire-and-forget)
     const clickData = {
-      timestamp: new Date().toISOString(),
+      product_id: searchParams.get('product') || '',
       retailer: retailerKey,
-      query,
-      hasDirectUrl: !!url,
+      url: url || query || '',
       referrer: document.referrer,
     }
-    console.log('[Redirect]', clickData)
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('https://theresmac-backend.fly.dev/api/click', JSON.stringify(clickData))
+    }
     
     // Determine redirect URL
     let redirectUrl
