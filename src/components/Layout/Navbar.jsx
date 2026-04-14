@@ -86,7 +86,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
             
             {/* Logo - Left */}
-            <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+            <a href="/" className="flex items-center gap-2 flex-shrink-0" style={{ position: 'relative', zIndex: 51, touchAction: 'manipulation' }}>
               <div className="w-8 h-8 bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] rounded-lg flex items-center justify-center">
                 <Apple className="h-5 w-5 text-white" />
               </div>
@@ -94,7 +94,7 @@ const Navbar = () => {
                 <span className="text-white">Theres</span>
                 <span className="text-[#3b82f6]">Mac</span>
               </span>
-            </Link>
+            </a>
 
             {/* Center Navigation */}
             <div className="hidden md:flex items-center" ref={productsRef}>
