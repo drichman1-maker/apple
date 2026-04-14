@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
+import { } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
 const BestMacMusicProduction2026 = () => {
@@ -20,22 +20,6 @@ const BestMacMusicProduction2026 = () => {
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:image" content="https://theresmac.com/blog-og/best-mac-music-production.png" />
       </Helmet>
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
-        <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/blog" className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <Link to="/" className="text-xl font-semibold tracking-tight text-[#fafafa]">
-              Mac<span className="text-[#3b82f6]">Trackr</span>
-            </Link>
-          </div>
-          <Link to="/blog" className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors text-sm">
-            Blog
-          </Link>
-        </div>
-      </header>
 
       <article className="max-w-[800px] mx-auto px-6 py-12">
         {/* Article Header */}

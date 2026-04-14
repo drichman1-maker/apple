@@ -18,6 +18,7 @@ const Navbar = () => {
     const handleClickOutside = (event) => {
       if (productsRef.current && !productsRef.current.contains(event.target)) {
         setProductsOpen(false)
+        setRetailersOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -85,7 +86,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
             
             {/* Logo - Left */}
-            <Link to="/home" className="flex items-center gap-2 flex-shrink-0">
+            <Link to="/" className="flex items-center gap-2 flex-shrink-0">
               <div className="w-8 h-8 bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] rounded-lg flex items-center justify-center">
                 <Apple className="h-5 w-5 text-white" />
               </div>

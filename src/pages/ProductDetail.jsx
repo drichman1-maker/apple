@@ -540,23 +540,6 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#262626]">
-        <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/products" className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <Link to="/" className="text-xl font-semibold tracking-tight text-[#fafafa]">
-              Theres<span className="text-[#3b82f6]">Mac</span>
-            </Link>
-          </div>
-          <Link to="/alerts" className="text-[#a3a3a3] hover:text-[#fafafa] transition-colors">
-            <Bell className="w-5 h-5" />
-          </Link>
-        </div>
-      </header>
-
       <main className="max-w-[900px] mx-auto px-6 py-8">
         {/* Product Title */}
         <div className="mb-6">
