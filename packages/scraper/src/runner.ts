@@ -9,7 +9,7 @@ import { amazonAdapter } from './adapters/amazon.js';
 import { appleAdapter } from './adapters/apple.js';
 import { neweggAdapter } from './adapters/newegg.js';
 import { walmartAdapter } from './adapters/walmart.js';
-import { bhAdapter, adoramaAdapter, sweetwaterAdapter, targetAdapter } from './adapters/direct.js';
+import { bhAdapter, adoramaAdapter, sweetwaterAdapter, targetAdapter, abtAdapter, microcenterAdapter } from './adapters/direct.js';
 
 const ALL_ADAPTERS: Adapter[] = [
   appleAdapter,
@@ -22,13 +22,15 @@ const ALL_ADAPTERS: Adapter[] = [
   adoramaAdapter,
   sweetwaterAdapter,
   targetAdapter,
+  abtAdapter,
+  microcenterAdapter,
 ];
 
 // Retailers relevant per site — limits unnecessary API calls
 const SITE_RETAILERS: Record<string, string[]> = {
-  theresmac: ['apple', 'bestbuy', 'amazon', 'ebay', 'walmart', 'target', 'bh', 'adorama', 'sweetwater'],
+  theresmac: ['apple', 'bestbuy', 'amazon', 'ebay', 'walmart', 'target', 'bh', 'adorama', 'sweetwater', 'abt'],
   // Newegg removed: returns wildly incorrect prices from accessory listings
-  gpudrip: ['bestbuy', 'amazon', 'ebay', 'bh', 'adorama'],
+  gpudrip: ['bestbuy', 'amazon', 'ebay', 'bh', 'adorama', 'microcenter'],
   default: ['bestbuy', 'amazon', 'ebay'],
 };
 

@@ -151,12 +151,12 @@ export const cdwAdapter: Adapter = {
       const html = await fetchHtml(searchUrl);
       if (!html) return null;
 
-      const price = extractJsonPrice(html, [
+      const price = extractPrice(html, [
         /"price"\s*:\s*"([\d.]+)"/,
         /"listPrice"\s*:\s*"([\d.]+)"/,
         /data-price="([\d.]+)"/,
-        /class="[^"]*price[^"]*"[^>]*>([\d,]+\.\d{2})/,
-      ]);
+        /class="[^"]*price[^"]*"[^>]*>\$?([\d,]+\.\d{2})/,
+      ], product.msrp);
 
       const urlMatch = html.match(/href="(\/product\/[^"?#]+)"/);
       const productUrl = urlMatch
@@ -196,11 +196,11 @@ export const sweetwaterAdapter: Adapter = {
       const html = await fetchHtml(searchUrl);
       if (!html) return null;
 
-      const price = extractJsonPrice(html, [
+      const price = extractPrice(html, [
         /"price"\s*:\s*"([\d.]+)"/,
         /"salePrice"\s*:\s*([\d.]+)/,
         /class="[^"]*price[^"]*"\s*>[\$\s]*([\d,]+\.?\d*)/i,
-      ]);
+      ], product.msrp);
 
       if (!price) return null;
 
@@ -255,6 +255,78 @@ export const targetAdapter: Adapter = {
       };
     } catch (err) {
       console.error(`[target] Error:`, err);
+      return null;
+    }
+  },
+};
+
+// ── ABT Electronics (Firecrawl) ───────────────────────────────────────────────
+export const abtAdapter: Adapter = {
+  retailer: 'abt',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    const query = encodeURIComponent(product.searchName);
+    const searchUrl = `https://www.abt.com/search?query=${query}`;
+
+    try {
+      const md = await firecrawlMarkdown(searchUrl);
+      if (!md) return null;
+
+      const price = extractPrice(md, [
+        /\*\*\$([\d,]+(?:\.\d{2})?)\*\*/,
+        /\$([\d,]+(?:\.\d{2})?)\s*(?:Add to Cart|Buy Now|Shop Now)/i,
+        /Price[:\s]+\$([\d,]+(?:\.\d{2})?)/i,
+      ], product.msrp);
+
+      if (!price) return null;
+
+      // ABT product URLs: /product/NNNNN/brand-model.html
+      const urlMatch = md.match(/\(https:\/\/www\.abt\.com\/product\/([^)]+)\)/);
+      const productUrl = urlMatch
+        ? `https://www.abt.com/product/${urlMatch[1]}`
+        : `https://www.abt.com/search?query=${query}`;
+
+      const outOfStock = /out.of.stock|sold.out|not.available/i.test(md);
+      return { retailer: 'abt', price, status: outOfStock ? 'out_of_stock' : 'in_stock', url: productUrl };
+    } catch (err) {
+      console.error(`[abt] Error:`, err);
+      return null;
+    }
+  },
+};
+
+// ── Micro Center (Firecrawl) ──────────────────────────────────────────────────
+export const microcenterAdapter: Adapter = {
+  retailer: 'microcenter',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    const query = encodeURIComponent(product.searchName);
+    // N=4294967288 filters to in-stock items; category=4294966998 is Graphics Cards
+    const searchUrl = `https://www.microcenter.com/search/search_results.aspx?N=4294967288&Ntt=${query}`;
+
+    try {
+      const md = await firecrawlMarkdown(searchUrl);
+      if (!md) return null;
+
+      const price = extractPrice(md, [
+        /\*\*\$([\d,]+(?:\.\d{2})?)\*\*/,
+        /\$([\d,]+(?:\.\d{2})?)\s*(?:Add to Cart|In-store|Online)/i,
+        /Sale Price[:\s]+\$([\d,]+(?:\.\d{2})?)/i,
+        /\$([\d,]+(?:\.\d{2})?)/,
+      ], product.msrp);
+
+      if (!price) return null;
+
+      // Micro Center product URLs: /product/NNNNNN/...
+      const urlMatch = md.match(/\(https:\/\/www\.microcenter\.com\/product\/([^)]+)\)/);
+      const productUrl = urlMatch
+        ? `https://www.microcenter.com/product/${urlMatch[1]}`
+        : `https://www.microcenter.com/search/search_results.aspx?Ntt=${query}`;
+
+      const outOfStock = /out.of.stock|sold.out|in-store.only/i.test(md);
+      return { retailer: 'microcenter', price, status: outOfStock ? 'out_of_stock' : 'in_stock', url: productUrl };
+    } catch (err) {
+      console.error(`[microcenter] Error:`, err);
       return null;
     }
   },
