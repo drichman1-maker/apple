@@ -1,0 +1,232 @@
+/**
+ * Direct HTTP adapters for B&H, Adorama, CDW, Sweetwater, Target
+ * Uses their own search endpoints + cheerio HTML parsing.
+ * No API keys needed — be polite with rate limiting.
+ */
+import type { Adapter, ProductInput, ScraperResult } from '../types.js';
+
+const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+
+async function fetchHtml(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': USER_AGENT, Accept: 'text/html,application/xhtml+xml' },
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!res.ok) return null;
+    return res.text();
+  } catch {
+    return null;
+  }
+}
+
+function extractJsonPrice(html: string, patterns: RegExp[]): number | null {
+  for (const re of patterns) {
+    const m = html.match(re);
+    if (m?.[1]) {
+      const p = parseFloat(m[1].replace(/,/g, ''));
+      if (p > 0) return p;
+    }
+  }
+  return null;
+}
+
+// ── B&H Photo ─────────────────────────────────────────────────────────────────
+export const bhAdapter: Adapter = {
+  retailer: 'bh',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    const query = encodeURIComponent(product.searchName);
+    const searchUrl = `https://www.bhphotovideo.com/c/search?Ntt=${query}&N=4294967295&InitialSearch=yes&sts=ma&Top=Search`;
+
+    try {
+      const html = await fetchHtml(searchUrl);
+      if (!html) return null;
+
+      // B&H embeds product data as JSON-LD or window.__PRELOADED_STATE__
+      const price = extractJsonPrice(html, [
+        /"salePrice"\s*:\s*([\d.]+)/,
+        /"price"\s*:\s*"([\d.]+)"/,
+        /"currentPrice"\s*:\s*([\d.]+)/,
+      ]);
+
+      // Find first product URL
+      const urlMatch = html.match(/href="(\/c\/product\/[^"]+)"/);
+      const productUrl = urlMatch
+        ? `https://www.bhphotovideo.com${urlMatch[1]}`
+        : `https://www.bhphotovideo.com/c/search?Ntt=${query}`;
+
+      if (!price) return null;
+
+      const outOfStock = /out.of.stock|back.?order|sold.out/i.test(html);
+      const backordered = /back.?order/i.test(html);
+
+      return {
+        retailer: 'bh',
+        price,
+        status: backordered ? 'backordered' : outOfStock ? 'out_of_stock' : 'in_stock',
+        url: productUrl,
+      };
+    } catch (err) {
+      console.error(`[bh] Error:`, err);
+      return null;
+    }
+  },
+};
+
+// ── Adorama ───────────────────────────────────────────────────────────────────
+export const adoramaAdapter: Adapter = {
+  retailer: 'adorama',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    const query = encodeURIComponent(product.searchName);
+    const searchUrl = `https://www.adorama.com/l/?searchinfo=${query}`;
+
+    try {
+      const html = await fetchHtml(searchUrl);
+      if (!html) return null;
+
+      const price = extractJsonPrice(html, [
+        /"price"\s*:\s*([\d.]+)/,
+        /"salePrice"\s*:\s*([\d.]+)/,
+        /class="[^"]*price[^"]*"[^>]*>\$\s*([\d,]+\.?\d*)/i,
+      ]);
+
+      // Match product pages like /AP12345.html — exclude utility/static paths
+      const urlMatch = html.match(/href="(\/[A-Z]{2}[A-Z0-9]+\.html)"/i);
+      const productUrl = urlMatch
+        ? `https://www.adorama.com${urlMatch[1]}`
+        : `https://www.adorama.com/l/?searchinfo=${query}`;
+
+      if (!price) return null;
+
+      const outOfStock = /out.of.stock|sold.out|not.available/i.test(html);
+      return { retailer: 'adorama', price, status: outOfStock ? 'out_of_stock' : 'in_stock', url: productUrl };
+    } catch (err) {
+      console.error(`[adorama] Error:`, err);
+      return null;
+    }
+  },
+};
+
+// ── CDW ───────────────────────────────────────────────────────────────────────
+export const cdwAdapter: Adapter = {
+  retailer: 'cdw',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    const query = encodeURIComponent(product.searchName);
+    // CDW has a REST search endpoint
+    const searchUrl = `https://www.cdw.com/search/?key=${query}&filter=cpabcat:Apple`;
+
+    try {
+      const html = await fetchHtml(searchUrl);
+      if (!html) return null;
+
+      const price = extractJsonPrice(html, [
+        /"price"\s*:\s*"([\d.]+)"/,
+        /"listPrice"\s*:\s*"([\d.]+)"/,
+        /data-price="([\d.]+)"/,
+        /class="[^"]*price[^"]*"[^>]*>([\d,]+\.\d{2})/,
+      ]);
+
+      const urlMatch = html.match(/href="(\/product\/[^"?#]+)"/);
+      const productUrl = urlMatch
+        ? `https://www.cdw.com${urlMatch[1]}`
+        : `https://www.cdw.com/search/?key=${query}`;
+
+      if (!price) return null;
+
+      const outOfStock = /out.of.stock|backordered/i.test(html);
+      const backordered = /backordered/i.test(html);
+      return {
+        retailer: 'cdw',
+        price,
+        status: backordered ? 'backordered' : outOfStock ? 'out_of_stock' : 'in_stock',
+        url: productUrl,
+      };
+    } catch (err) {
+      console.error(`[cdw] Error:`, err);
+      return null;
+    }
+  },
+};
+
+// ── Sweetwater ────────────────────────────────────────────────────────────────
+export const sweetwaterAdapter: Adapter = {
+  retailer: 'sweetwater',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    // Sweetwater carries Apple hardware: Mac, iPad, iPhone, AirPods, Watch, Apple TV, HomePod
+    const carried = ['mac', 'ipad', 'iphone', 'airpods', 'watch', 'appletv', 'homepod'].includes(product.category);
+    if (!carried) return { retailer: 'sweetwater', price: 0, status: 'not_carried', url: 'https://www.sweetwater.com' };
+
+    const query = encodeURIComponent(product.searchName);
+    const searchUrl = `https://www.sweetwater.com/store/search.php?s=${query}`;
+
+    try {
+      const html = await fetchHtml(searchUrl);
+      if (!html) return null;
+
+      const price = extractJsonPrice(html, [
+        /"price"\s*:\s*"([\d.]+)"/,
+        /"salePrice"\s*:\s*([\d.]+)/,
+        /class="[^"]*price[^"]*"\s*>[\$\s]*([\d,]+\.?\d*)/i,
+      ]);
+
+      if (!price) return null;
+
+      const urlMatch = html.match(/href="(https:\/\/www\.sweetwater\.com\/store\/detail\/[^"]+)"/);
+      const productUrl = urlMatch?.[1] ?? `https://www.sweetwater.com/store/search.php?s=${query}`;
+      const outOfStock = /out.of.stock|sold.out/i.test(html);
+
+      return { retailer: 'sweetwater', price, status: outOfStock ? 'out_of_stock' : 'in_stock', url: productUrl };
+    } catch (err) {
+      console.error(`[sweetwater] Error:`, err);
+      return null;
+    }
+  },
+};
+
+// ── Target ────────────────────────────────────────────────────────────────────
+export const targetAdapter: Adapter = {
+  retailer: 'target',
+
+  async fetch(product: ProductInput): Promise<ScraperResult | null> {
+    const query = encodeURIComponent(product.searchName);
+    // Target's Redsky API (unofficial but stable)
+    const url = `https://redsky.target.com/redsky_aggregations/v1/web/plp_search_v2?keyword=${query}&count=3&channel=WEB&page=%2Fsearch&platform=desktop&pricing_store_id=1122`;
+
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (!res.ok) return null;
+      const data = await res.json() as { data?: { search?: { products?: any[] } } };
+      const products = data?.data?.search?.products;
+      if (!products?.length) return null;
+
+      const msrp = product.msrp ?? 0;
+      const best = products
+        .filter(p => p.price?.current_retail)
+        .sort((a, b) => Math.abs(a.price.current_retail - msrp) - Math.abs(b.price.current_retail - msrp))[0];
+
+      if (!best) return null;
+
+      const tcin = best.item?.tcin ?? '';
+      const productUrl = `https://www.target.com/p/-/A-${tcin}`;
+      const available = best.availability_status === 'IN_STOCK';
+
+      return {
+        retailer: 'target',
+        price: best.price.current_retail,
+        status: available ? 'in_stock' : 'out_of_stock',
+        url: productUrl,
+      };
+    } catch (err) {
+      console.error(`[target] Error:`, err);
+      return null;
+    }
+  },
+};
