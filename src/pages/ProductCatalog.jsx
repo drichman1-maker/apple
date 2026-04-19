@@ -35,13 +35,26 @@ const ProductCatalog = () => {
     }
   }, [category])
 
+  const transformProduct = (p) => {
+    const prices = {};
+    for (const [retailer, data] of Object.entries(p.prices || {})) {
+      prices[retailer] = {
+        price: data.price,
+        inStock: data.status === 'in_stock',
+        url: data.affiliateUrl || data.url,
+        verified: data.verified,
+      };
+    }
+    return { ...p, prices };
+  };
+
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://theresmac-backend.fly.dev/api/products')
+      const response = await fetch('https://agg-api-hub.fly.dev/api/theresmac/products')
       if (response.ok) {
         const data = await response.json()
         // STRICT FILTER: Remove M2 and M3 MacBooks - only show M4/M5 and later
-        const filtered = (Array.isArray(data) ? data : []).filter(product => {
+        const filtered = (Array.isArray(data) ? data : []).map(transformProduct).filter(product => {
           const name = (product.name || '').toLowerCase()
           // Block M2 models entirely
           if (/\bm2\b/.test(name)) {

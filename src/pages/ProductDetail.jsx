@@ -236,23 +236,36 @@ const ProductDetail = () => {
     }
   }, [id, chartRange])
 
+  const transformProduct = (p) => {
+    const prices = {};
+    for (const [retailer, data] of Object.entries(p.prices || {})) {
+      prices[retailer] = {
+        price: data.price,
+        inStock: data.status === 'in_stock',
+        url: data.affiliateUrl || data.url,
+        verified: data.verified,
+      };
+    }
+    return { ...p, prices };
+  };
+
   const fetchProductData = async () => {
     try {
       setLoading(true)
-      // Try to fetch specific product first
-      const response = await fetch(`https://theresmac-backend.fly.dev/api/products/${id}`)
+      // Try to fetch specific product by slug first
+      const response = await fetch(`https://agg-api-hub.fly.dev/api/theresmac/products/${id}`)
       if (response.ok) {
         const data = await response.json()
-        setProduct(data)
+        setProduct(transformProduct(data))
       } else {
         // Fallback: fetch all products and find by ID
         console.log('Individual product endpoint failed, trying fallback...')
-        const allResponse = await fetch('https://theresmac-backend.fly.dev/api/products')
+        const allResponse = await fetch('https://agg-api-hub.fly.dev/api/theresmac/products')
         if (allResponse.ok) {
           const allProducts = await allResponse.json()
-          const found = allProducts.find(p => p.id === id || p.id === parseInt(id))
+          const found = allProducts.find(p => p.id === id || p.slug === id)
           if (found) {
-            setProduct(found)
+            setProduct(transformProduct(found))
           } else {
             console.error('Product not found in product list')
           }
@@ -266,26 +279,9 @@ const ProductDetail = () => {
   }
 
   const fetchPriceHistory = async () => {
-    try {
-      setPriceHistoryLoading(true)
-      const days = parseInt(chartRange)
-      const response = await fetch(`https://theresmac-backend.fly.dev/api/prices/${id}/history?timeframe=${days}`)
-      if (response.ok) {
-        const data = await response.json()
-        console.log('[PriceHistory] API response:', data)
-        setPriceHistoryData(data)
-      } else if (response.status === 404) {
-        // No price history available for this product yet
-        console.log('[PriceHistory] No history data for this product')
-        setPriceHistoryData({ noData: true })
-      } else {
-        console.error('[PriceHistory] API error:', response.status)
-      }
-    } catch (err) {
-      console.error('[PriceHistory] Failed to fetch:', err)
-    } finally {
-      setPriceHistoryLoading(false)
-    }
+    // Price history not yet available via public API
+    setPriceHistoryData({ noData: true })
+    setPriceHistoryLoading(false)
   }
 
   const getPrices = (product) => {
