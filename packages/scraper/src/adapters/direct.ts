@@ -1,7 +1,7 @@
 /**
- * Direct HTTP adapters for B&H, Adorama, CDW, Sweetwater, Target
- * Uses their own search endpoints + cheerio HTML parsing.
- * No API keys needed — be polite with rate limiting.
+ * Direct HTTP adapters for B&H, Adorama (via Firecrawl), Sweetwater, Target
+ * B&H and Adorama use Firecrawl (they block direct scraping with 403).
+ * Sweetwater and Target use direct fetch (no bot protection).
  */
 import type { Adapter, ProductInput, ScraperResult } from '../types.js';
 
@@ -20,18 +20,49 @@ async function fetchHtml(url: string): Promise<string | null> {
   }
 }
 
-function extractJsonPrice(html: string, patterns: RegExp[]): number | null {
+async function firecrawlMarkdown(url: string): Promise<string | null> {
+  const key = process.env.FIRECRAWL_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch('https://api.firecrawl.dev/v1/scrape', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, formats: ['markdown'], onlyMainContent: true }),
+      signal: AbortSignal.timeout(30000),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as { success: boolean; data?: { markdown?: string } };
+    return data.success ? (data.data?.markdown ?? null) : null;
+  } catch {
+    return null;
+  }
+}
+
+function extractPrice(text: string, patterns: RegExp[], msrp?: number | null): number | null {
   for (const re of patterns) {
-    const m = html.match(re);
+    const m = text.match(re);
     if (m?.[1]) {
       const p = parseFloat(m[1].replace(/,/g, ''));
-      if (p > 0) return p;
+      if (p > 0) {
+        // If MSRP provided, sanity-check: must be within 0.3x–2.5x
+        if (msrp && msrp > 0 && (p < msrp * 0.3 || p > msrp * 2.5)) continue;
+        return p;
+      }
+    }
+  }
+  // Fallback: scan for any dollar amount near MSRP
+  if (msrp && msrp > 0) {
+    const amounts = [...text.matchAll(/\$\s*([\d,]+(?:\.\d{2})?)/g)]
+      .map(m => parseFloat(m[1]!.replace(/,/g, '')))
+      .filter(p => p >= msrp * 0.3 && p <= msrp * 2.5);
+    if (amounts.length > 0) {
+      return amounts.sort((a, b) => Math.abs(a - msrp) - Math.abs(b - msrp))[0] ?? null;
     }
   }
   return null;
 }
 
-// ── B&H Photo ─────────────────────────────────────────────────────────────────
+// ── B&H Photo (Firecrawl) ─────────────────────────────────────────────────────
 export const bhAdapter: Adapter = {
   retailer: 'bh',
 
@@ -40,26 +71,24 @@ export const bhAdapter: Adapter = {
     const searchUrl = `https://www.bhphotovideo.com/c/search?Ntt=${query}&N=4294967295&InitialSearch=yes&sts=ma&Top=Search`;
 
     try {
-      const html = await fetchHtml(searchUrl);
-      if (!html) return null;
+      const md = await firecrawlMarkdown(searchUrl);
+      if (!md) return null;
 
-      // B&H embeds product data as JSON-LD or window.__PRELOADED_STATE__
-      const price = extractJsonPrice(html, [
-        /"salePrice"\s*:\s*([\d.]+)/,
-        /"price"\s*:\s*"([\d.]+)"/,
-        /"currentPrice"\s*:\s*([\d.]+)/,
-      ]);
+      const price = extractPrice(md, [
+        /\*\*\$([\d,]+(?:\.\d{2})?)\*\*/,
+        /Price[:\s]+\$([\d,]+(?:\.\d{2})?)/i,
+        /\$([\d,]+(?:\.\d{2})?)\s*(?:Add to Cart|Buy)/i,
+      ], product.msrp);
 
-      // Find first product URL
-      const urlMatch = html.match(/href="(\/c\/product\/[^"]+)"/);
+      const urlMatch = md.match(/\(https:\/\/www\.bhphotovideo\.com\/c\/product\/([^)]+)\)/);
       const productUrl = urlMatch
-        ? `https://www.bhphotovideo.com${urlMatch[1]}`
+        ? `https://www.bhphotovideo.com/c/product/${urlMatch[1]}`
         : `https://www.bhphotovideo.com/c/search?Ntt=${query}`;
 
       if (!price) return null;
 
-      const outOfStock = /out.of.stock|back.?order|sold.out/i.test(html);
-      const backordered = /back.?order/i.test(html);
+      const outOfStock = /out.of.stock|back.?order|sold.out/i.test(md);
+      const backordered = /back.?order/i.test(md);
 
       return {
         retailer: 'bh',
@@ -74,7 +103,7 @@ export const bhAdapter: Adapter = {
   },
 };
 
-// ── Adorama ───────────────────────────────────────────────────────────────────
+// ── Adorama (Firecrawl) ───────────────────────────────────────────────────────
 export const adoramaAdapter: Adapter = {
   retailer: 'adorama',
 
@@ -83,24 +112,24 @@ export const adoramaAdapter: Adapter = {
     const searchUrl = `https://www.adorama.com/l/?searchinfo=${query}`;
 
     try {
-      const html = await fetchHtml(searchUrl);
-      if (!html) return null;
+      const md = await firecrawlMarkdown(searchUrl);
+      if (!md) return null;
 
-      const price = extractJsonPrice(html, [
-        /"price"\s*:\s*([\d.]+)/,
-        /"salePrice"\s*:\s*([\d.]+)/,
-        /class="[^"]*price[^"]*"[^>]*>\$\s*([\d,]+\.?\d*)/i,
-      ]);
+      const price = extractPrice(md, [
+        /\*\*\$([\d,]+(?:\.\d{2})?)\*\*/,
+        /\$([\d,]+(?:\.\d{2})?)\s*(?:Add to Cart|Buy Now)/i,
+        /Price[:\s]+\$([\d,]+(?:\.\d{2})?)/i,
+      ], product.msrp);
 
-      // Match product pages like /AP12345.html — exclude utility/static paths
-      const urlMatch = html.match(/href="(\/[A-Z]{2}[A-Z0-9]+\.html)"/i);
+      // Adorama product URLs: /APXXXXX.html pattern
+      const urlMatch = md.match(/\(https:\/\/www\.adorama\.com\/([A-Z]{2}[A-Z0-9]+\.html)\)/i);
       const productUrl = urlMatch
-        ? `https://www.adorama.com${urlMatch[1]}`
+        ? `https://www.adorama.com/${urlMatch[1]}`
         : `https://www.adorama.com/l/?searchinfo=${query}`;
 
       if (!price) return null;
 
-      const outOfStock = /out.of.stock|sold.out|not.available/i.test(html);
+      const outOfStock = /out.of.stock|sold.out|not.available/i.test(md);
       return { retailer: 'adorama', price, status: outOfStock ? 'out_of_stock' : 'in_stock', url: productUrl };
     } catch (err) {
       console.error(`[adorama] Error:`, err);
