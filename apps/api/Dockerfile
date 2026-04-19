@@ -18,8 +18,8 @@ COPY packages/db/ ./packages/db/
 COPY packages/types/ ./packages/types/
 COPY apps/api/ ./apps/api/
 
-# Generate Prisma client
-RUN cd packages/db && npx prisma generate
+# Generate Prisma client (DATABASE_URL needed for schema validation during generate)
+RUN DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/placeholder" cd packages/db && npx prisma generate
 
 EXPOSE 3001
 
