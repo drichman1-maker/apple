@@ -1,0 +1,42 @@
+name: Daily Scraper
+
+on:
+  schedule:
+    # 8am ET = 12:00 UTC (EDT/summer). Adjust to 13:00 in winter if needed.
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'Site to scrape (theresmac, gpudrip, or all)'
+        required: false
+        default: 'all'
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Scrape TheresMac
+        if: ${{ github.event.inputs.site == 'theresmac' || github.event.inputs.site == 'all' || github.event_name == 'schedule' }}
+        run: npm run scrape:theresmac --workspace=packages/scraper
+        env:
+          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
+          API_BASE: https://agg-api-hub.fly.dev
+
+      - name: Scrape GPU Drip
+        if: ${{ github.event.inputs.site == 'gpudrip' || github.event.inputs.site == 'all' || github.event_name == 'schedule' }}
+        run: npm run scrape:gpudrip --workspace=packages/scraper
+        env:
+          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
+          API_BASE: https://agg-api-hub.fly.dev
