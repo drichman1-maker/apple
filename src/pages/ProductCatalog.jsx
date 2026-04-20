@@ -45,7 +45,8 @@ const ProductCatalog = () => {
         verified: data.verified,
       };
     }
-    return { ...p, prices };
+    const condition = p.isRefurb ? 'refurbished' : 'new';
+    return { ...p, prices, condition };
   };
 
   const fetchProducts = async () => {

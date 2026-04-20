@@ -23,7 +23,7 @@ const Home = () => {
         const filteredProducts = products.filter(p => {
           const cat = (p.category || '').toLowerCase()
           const isMainCategory = mainCategories.includes(cat)
-          const isNew = !p.condition || p.condition === 'new'
+          const isNew = !p.isRefurb
           return isMainCategory && isNew
         })
         console.log(`[Home] Loaded ${filteredProducts.length} new products (excluded refurbished)`)
