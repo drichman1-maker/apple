@@ -3,14 +3,9 @@
 // Update with your actual affiliate IDs after approval
 
 export const affiliateConfig = {
-  // Amazon Associates - replace with your tracking ID after approval
   amazon: 'theresmac-20',
-  
-  // B&H Photo - replace with your KBID after approval
-  bh: 'theresmac_bh',
-  
-  // Adorama - replace with your affiliate ID
-  adorama: 'theresmac_adorama',
+  bh: null,
+  adorama: null,
 }
 
 // Generate affiliate URL with tracking
@@ -43,8 +38,12 @@ export const getAffiliateUrl = (retailer, productName, productSku, directUrl) =>
     apple: `https://apple.com/search/${encodedName}`,
     amazon: `https://amazon.com/s?k=${encodedName}&tag=${affiliateConfig.amazon}`,
     bestbuy: `https://bestbuy.com/site/searchpage.jsp?st=${encodedName}`,
-    bh: `https://bhphotovideo.com/c/search?q=${encodedName}&KBID=${affiliateConfig.bh}`,
-    adorama: `https://adorama.com/search?q=${encodedName}&email=${affiliateConfig.adorama}`,
+    bh: affiliateConfig.bh
+      ? `https://bhphotovideo.com/c/search?q=${encodedName}&KBID=${affiliateConfig.bh}`
+      : `https://bhphotovideo.com/c/search?q=${encodedName}`,
+    adorama: affiliateConfig.adorama
+      ? `https://adorama.com/search?q=${encodedName}&email=${affiliateConfig.adorama}`
+      : `https://adorama.com/search?q=${encodedName}`,
     walmart: `https://walmart.com/search?q=${encodedName}`,
     target: `https://target.com/s?searchTerm=${encodedName}`,
     ebay: `https://ebay.com/sch/i.html?_nkw=${encodedName}`,
