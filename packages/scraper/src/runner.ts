@@ -28,9 +28,9 @@ const ALL_ADAPTERS: Adapter[] = [
 
 // Retailers relevant per site — limits unnecessary API calls
 const SITE_RETAILERS: Record<string, string[]> = {
-  theresmac: ['apple', 'bestbuy', 'amazon', 'ebay', 'walmart', 'target', 'bh', 'adorama', 'sweetwater', 'abt'],
+  theresmac: ['apple', 'bestbuy', 'amazon', 'ebay', 'walmart', 'target', 'bh', 'adorama', 'sweetwater', 'abt', 'microcenter'],
   // Newegg removed: returns wildly incorrect prices from accessory listings
-  gpudrip: ['bestbuy', 'amazon', 'ebay', 'bh', 'adorama', 'microcenter'],
+  gpudrip: ['bestbuy', 'amazon', 'ebay', 'bh', 'adorama', 'microcenter', 'abt'],
   default: ['bestbuy', 'amazon', 'ebay'],
 };
 
