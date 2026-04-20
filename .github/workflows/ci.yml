@@ -17,8 +17,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      # --ignore-scripts: the monorepo root installs workspace packages (including
+      # packages/db whose postinstall runs `prisma generate`); the Vite build
+      # doesn't need them and some lack committed package.json / schemas.
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Build
         run: npx vite build
