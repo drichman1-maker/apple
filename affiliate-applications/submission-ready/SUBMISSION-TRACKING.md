@@ -8,9 +8,9 @@
 - **Key Strengths:** Wellness equipment reviews, fitness technology focus
 - **Status:** Prepared for submission
 
-## 2. ShareASale - MacTrackr
-- **Website:** mactrackr.com
-- **Submission File:** shareasale-mactrackr-submission.md
+## 2. ShareASale - TheresMac
+- **Website:** theresmac.com
+- **Submission File:** shareasale-theresmac-submission.md
 - **Application Link:** https://www.shareasale.com/join/
 - **Estimated Monthly Revenue:** $6,000-$9,000
 - **Key Strengths:** Apple product price tracking, tech deals

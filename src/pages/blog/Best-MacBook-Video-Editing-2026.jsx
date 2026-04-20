@@ -12,7 +12,7 @@ const BestMacBookVideoEditing = () => {
       <header className="blog-header">
         <h1>Best MacBook for Video Editing 2026: M4 Pro vs M3 Max – Complete Guide</h1>
         <p className="meta">
-          <span>February 17, 2026</span> • <span>12 min read</span> • <span>By MacTrackr Team</span>
+          <span>February 17, 2026</span> • <span>12 min read</span> • <span>By TheresMac Team</span>
         </p>
       </header>
 
@@ -163,7 +163,7 @@ const BestMacBookVideoEditing = () => {
 
         <h2>Price Analysis: Getting the Best Deal</h2>
         <p>
-          Using MacTrackr's price comparison, you can save significantly on these machines:
+          Using TheresMac's price comparison, you can save significantly on these machines:
         </p>
         
         <div className="price-comparison">

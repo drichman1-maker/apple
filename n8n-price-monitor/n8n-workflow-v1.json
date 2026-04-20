@@ -1,5 +1,5 @@
 {
-  "name": "MacTrackr Price Monitor v1.0",
+  "name": "TheresMac Price Monitor v1.0",
   "nodes": [
     {
       "parameters": {
@@ -65,7 +65,7 @@
     {
       "parameters": {
         "chatId": "461595428",
-        "text": "=🚨 MacTrackr Price Drop Alert\n\n{{$json.alerts.map(a => `📱 ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (-${{a.drop}}%)`).join('\n')}}\n\n💰 Total potential savings: ${{ $json.alerts.reduce((sum, a) => sum + a.savings, 0) }}\n\n👉 Check mactrackr.com",
+        "text": "=🚨 TheresMac Price Drop Alert\n\n{{$json.alerts.map(a => `📱 ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (-${{a.drop}}%)`).join('\n')}}\n\n💰 Total potential savings: ${{ $json.alerts.reduce((sum, a) => sum + a.savings, 0) }}\n\n👉 Check theresmac.com",
         "options": {}
       },
       "name": "Send Telegram Alert",
@@ -75,10 +75,10 @@
     },
     {
       "parameters": {
-        "fromEmail": "alerts@mactrackr.com",
+        "fromEmail": "alerts@theresmac.com",
         "toEmail": "doug@codemodeapps.com",
-        "subject": "=🚨 MacTrackr: {{$json.alertCount}} Price Drop{{$json.alertCount > 1 ? 's' : ''}} Detected",
-        "text": "=Hi Doug,\n\nWe detected {{$json.alertCount}} price drop{{$json.alertCount > 1 ? 's' : ''}} on MacTrackr:\n\n{{$json.alerts.map(a => `• ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (Save $${{a.savings}})`).join('\n')}}\n\nTotal savings opportunity: ${{ $json.alerts.reduce((sum, a) => sum + a.savings, 0) }}\n\nView all deals: https://mactrackr.com\n\n—\nMacTrackr Price Alerts\nUnsubscribe: https://mactrackr.com/unsubscribe",
+        "subject": "=🚨 TheresMac: {{$json.alertCount}} Price Drop{{$json.alertCount > 1 ? 's' : ''}} Detected",
+        "text": "=Hi Doug,\n\nWe detected {{$json.alertCount}} price drop{{$json.alertCount > 1 ? 's' : ''}} on TheresMac:\n\n{{$json.alerts.map(a => `• ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (Save $${{a.savings}})`).join('\n')}}\n\nTotal savings opportunity: ${{ $json.alerts.reduce((sum, a) => sum + a.savings, 0) }}\n\nView all deals: https://theresmac.com\n\n—\nTheresMac Price Alerts\nUnsubscribe: https://theresmac.com/unsubscribe",
         "options": {}
       },
       "name": "Send Email Alert (Resend)",

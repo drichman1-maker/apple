@@ -7,7 +7,7 @@ const PriceAlerts = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
       <Helmet>
-        <title>Price Alerts | MacTrackr</title>
+        <title>Price Alerts | TheresMac</title>
         <meta name="description" content="Get notified when Apple products drop in price. Coming soon." />
       </Helmet>
       

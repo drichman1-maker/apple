@@ -137,7 +137,7 @@
 
 ---
 
-## 6. Hardware Intelligence / MacTrackr iOS
+## 6. Hardware Intelligence / TheresMac iOS
 **Type:** Apple product price tracking app
 **Screens:** Browse devices, Product detail, Price alerts
 
@@ -177,7 +177,7 @@
 |-----|---------------|-----------|------|
 | LowKeyMode | Navy/Cyan | Purple | Calm, tech, wellness |
 | HealthIndex | Teal/Green | White | Health, clean, fresh |
-| MacTrackr | Apple-style gray | Blue | Tech, premium, Apple |
+| TheresMac | Apple-style gray | Blue | Tech, premium, Apple |
 | MintCondition | Gold/Yellow | Blue | Collectibles, value |
 | GrailWatch | Purple | Pink | Retro, gaming, fun |
 | Appliance Scout | Orange/Red | White | Home, practical |
@@ -211,7 +211,7 @@
 **Colors:** Teal + green
 **Mood:** Health-conscious, data-driven
 
-### 3. MacTrackr
+### 3. TheresMac
 **Concept:** Apple silhouette + price tag, or magnifying glass over Apple logo
 **Colors:** Space gray + blue
 **Mood:** Apple ecosystem, premium, deals
@@ -248,7 +248,7 @@
 ### Immediate Priority (1st Tier Apps)
 - [ ] LowKeyMode: Logo, app icon, color palette
 - [ ] HealthIndex: Logo, app icon, color palette
-- [ ] MacTrackr: Logo, app icon, color palette
+- [ ] TheresMac: Logo, app icon, color palette
 
 ### Secondary Priority
 - [ ] MintCondition: Logo refinements

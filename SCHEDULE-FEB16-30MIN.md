@@ -32,7 +32,7 @@
 |------|-------|------|------------------|
 | 10:00-10:30 | **B1** | Deploy bot to Render | Bot running, /start works |
 | 10:30-11:00 | **B2** | Create @DealAlerts channel | Channel created, bot admin |
-| 11:00-11:30 | **B3** | Integrate MacTrackr scraper | Deals posting automatically |
+| 11:00-11:30 | **B3** | Integrate TheresMac scraper | Deals posting automatically |
 | 11:30-12:00 | **B4** | Test & refine | 3+ test deals posted |
 
 ---
@@ -49,7 +49,7 @@
 
 | Time | Block | Task | Success Criteria |
 |------|-------|------|------------------|
-| 1:00-1:30 | **C1** | Fix MacTrackr backend | /api/health responds 200 |
+| 1:00-1:30 | **C1** | Fix TheresMac backend | /api/health responds 200 |
 | 1:30-2:00 | **C2** | Deploy HealthIndex | Live with privacy page |
 | 2:00-2:30 | **C3** | Deploy Watches aggregator | Vercel URL live |
 | 2:30-3:00 | **C4** | Deploy Books aggregator | Vercel URL live |
@@ -127,7 +127,7 @@ Blocks A4-A7     Blocks B1-B4
 
 ### Must Have (80% of day)
 - [ ] LowKeyMode builds OR Telegram bot live
-- [ ] MacTrackr backend responding
+- [ ] TheresMac backend responding
 - [ ] HealthIndex deployed
 
 ### Nice to Have (15% of day)

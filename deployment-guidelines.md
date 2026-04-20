@@ -207,7 +207,7 @@ const API_URL = process.env.NODE_ENV === 'production'
 
 ---
 
-## 3. MacTrackr — Turborepo + FastAPI + Redis
+## 3. TheresMac — Turborepo + FastAPI + Redis
 
 **Status:** Backend complete, needs Redis + deployment
 **Stack:** Turborepo, FastAPI, PostgreSQL, Redis
@@ -249,7 +249,7 @@ hiredis==2.2.3
 ### Step 3: Deploy Backend to Northflank (Recommended for Docker)
 
 1. [northflank.com](https://northflank.com) → Create Project
-2. Name: `mactrackr`
+2. Name: `theresmac`
 3. Add Service → Docker
 4. Connect GitHub: `drichman1-maker/apple`
 5. Dockerfile Path: `apps/backend/Dockerfile`
@@ -278,7 +278,7 @@ Or Vercel Dashboard:
 
 ### Step 5: Connect Custom Domain
 
-1. Add `mactrackr.com` to Vercel
+1. Add `theresmac.com` to Vercel
 2. Cloudflare DNS → `cname.vercel-dns.com`
 
 ---

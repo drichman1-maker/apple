@@ -2,10 +2,10 @@
 
 ## Account Information
 
-**Website/Business Name:** HealthIndex & MacTrackr  
+**Website/Business Name:** HealthIndex & TheresMac  
 **Website URLs:** 
 - https://healthindex.com (wellness device aggregator)
-- https://mactrackr.com (Apple product price tracker)
+- https://theresmac.com (Apple product price tracker)
 
 **Primary Contact:** Doug Richman  
 **Email:** douglasrichman1@gmail.com
@@ -14,7 +14,7 @@
 
 ## Website Description
 
-HealthIndex and MacTrackr are specialized product comparison and price tracking platforms that help consumers make informed purchasing decisions.
+HealthIndex and TheresMac are specialized product comparison and price tracking platforms that help consumers make informed purchasing decisions.
 
 **HealthIndex** focuses on wellness devices including:
 - Red light therapy devices
@@ -23,7 +23,7 @@ HealthIndex and MacTrackr are specialized product comparison and price tracking 
 - Massage guns and recovery tools
 - Sleep optimization devices
 
-**MacTrackr** specializes in Apple products:
+**TheresMac** specializes in Apple products:
 - Real-time price tracking for Mac, iPhone, iPad, Watch
 - Historical price charts and deal alerts
 - Refurbished and used device aggregation
@@ -77,9 +77,9 @@ We maintain strict FTC compliance:
 **Terms of Service:** https://healthindex.com/terms  
 **About Page:** https://healthindex.com/about  
 
-**Privacy Policy:** https://mactrackr.com/privacy  
-**Terms of Service:** https://mactrackr.com/terms  
-**About Page:** https://mactrackr.com/about
+**Privacy Policy:** https://theresmac.com/privacy  
+**Terms of Service:** https://theresmac.com/terms  
+**About Page:** https://theresmac.com/about
 
 ---
 

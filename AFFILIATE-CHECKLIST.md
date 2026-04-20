@@ -22,7 +22,7 @@
 - Email: doug@codemodeapps.com
 - Phone: [Your phone]
 - Tax ID: [SSN or EIN]
-- Websites: healthindex.app, mactrackr.com, rumbledeals.com
+- Websites: healthindex.app, theresmac.com, rumbledeals.com
 
 ## Post-Approval Actions
 - [ ] Generate tracking links

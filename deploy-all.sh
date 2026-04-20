@@ -19,7 +19,7 @@ deploy_site "/Users/douglasrichman/.openclaw/workspace/mintcondition-pokemon/web
 deploy_site "/Users/douglasrichman/.openclaw/workspace/coincurator-codemode/frontend" "CoinCurator"
 deploy_site "/Users/douglasrichman/.openclaw/workspace/auto-antigravity" "Auto"
 deploy_site "/Users/douglasrichman/.openclaw/workspace/fixed-income-antigravity/frontend" "Fixed Income"
-deploy_site "/Users/douglasrichman/.openclaw/workspace/mactrackr-frontend" "MacTrackr"
+deploy_site "/Users/douglasrichman/.openclaw/workspace/mactrackr-frontend" "TheresMac"
 deploy_site "/Users/douglasrichman/.openclaw/workspace/healthindex-frontend" "Health Index"
 
 echo "All deployments complete!"

@@ -9,7 +9,7 @@
 
 ---
 
-### MacTrackr
+### TheresMac
 **Bio:** Real-time Apple price tracking. Macs, iPhones, Watches, accessories. Get alerts when prices drop or stock hits.
 **Tagline:** Never overpay for Apple again.
 **Pinned tweet idea:** "The MacBook Pro M4 just hit $1,799 at [Retailer]. That's $200 off MSRP. Alert sent to 2,400 users. Here's how price tracking works 🧵"
@@ -42,7 +42,7 @@
 ### HealthIndex
 Wellness machine aggregator 🧘‍♂️ Saunas, red light, recovery gear. Compare prices. Find deals. Link in bio →
 
-### MacTrackr
+### TheresMac
 Apple price tracking  Get alerts when Macs, iPhones & Watches drop. Never miss a deal again. Link in bio →
 
 ### MintCondition
@@ -61,7 +61,7 @@ Video game deals 🎮 Steam, PlayStation, Xbox, Switch. Price drops & restock al
 ### HealthIndex
 Wellness deals + reviews 🧘 Compare before you buy
 
-### MacTrackr
+### TheresMac
 Apple deals tracked daily 📱 Price drop alerts
 
 ### MintCondition
@@ -80,7 +80,7 @@ Game deals found daily 🎮 Steam, PlayStation, Xbox
 | Brand | Primary | Alternative 1 | Alternative 2 |
 |-------|---------|---------------|---------------|
 | HealthIndex | Your home wellness, optimized | Compare. Save. Recover. | Recovery gear, priced right |
-| MacTrackr | Never overpay for Apple again | Apple deals, tracked | Price drops, delivered |
+| TheresMac | Never overpay for Apple again | Apple deals, tracked | Price drops, delivered |
 | MintCondition | Know what your cards are worth | TCG prices, tracked | Your collection's value |
 | DiamondData | The card market, decoded | Baseball cards, valued | Collect smarter |
 | Rumble | Pay less. Play more. | Game deals, found. | Never miss a sale |
@@ -96,7 +96,7 @@ Game deals found daily 🎮 Steam, PlayStation, Xbox
 4. User testimonials/reviews
 5. Industry trends ("Why home wellness is exploding")
 
-### MacTrackr
+### TheresMac
 1. Price drop alerts with screenshots
 2. Buying guides ("Refurbished vs. new MacBook")
 3. Trade-in value tracking
@@ -136,4 +136,4 @@ Game deals found daily 🎮 Steam, PlayStation, Xbox
 - "Into wellness? @healthindex finds the best recovery gear deals"
 
 **Hard cross-promotes (occasional):**
-- "Follow all our deal trackers: @mactrackr @mintcondition @diamonddata @rumble @healthindex"
+- "Follow all our deal trackers: @theresmac @mintcondition @diamonddata @rumble @healthindex"

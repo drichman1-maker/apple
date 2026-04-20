@@ -43,7 +43,7 @@
   
 - [ ] Uptime Kuma self-hosted monitoring
   - Install on spare MacBook Air
-  - Monitor: mactrackr.com, Render, Railway, Fly.io
+  - Monitor: theresmac.com, Render, Railway, Fly.io
   - Alerts: Telegram bot
   - Install cmd: `docker run -d --restart=unless-stopped -p 3001:3001 -v uptime-kuma:/app/data louislam/uptime-kuma:1`
 

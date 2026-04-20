@@ -12,7 +12,7 @@ const WhenMacBooksGoOnSale2026 = () => {
       <header className="blog-header">
         <h1>When Do MacBooks Go on Sale? 2026 Timing Guide</h1>
         <p className="meta">
-          <span>February 18, 2026</span> • <span>7 min read</span> • <span>By MacTrackr Team</span>
+          <span>February 18, 2026</span> • <span>7 min read</span> • <span>By TheresMac Team</span>
         </p>
       </header>
 
@@ -107,7 +107,7 @@ const WhenMacBooksGoOnSale2026 = () => {
           </table>
         </div>
 
-        <h2>How to Track Deals with MacTrackr</h2>
+        <h2>How to Track Deals with TheresMac</h2>
         <ul>
           <li><strong>Price Alerts:</strong> Set target prices for specific MacBook models, and get notified when retailers hit your price point.</li>
           <li><strong>Historical Price Charts:</strong> See how prices have trended over the past 6–12 months.</li>
@@ -171,7 +171,7 @@ const WhenMacBooksGoOnSale2026 = () => {
         <p><strong>Should I buy now or wait for the next sale?</strong> If you need a MacBook immediately, buy it. If your purchase is flexible, waiting for the next major sale can save $200+.</p>
 
         <h2>Conclusion</h2>
-        <p>Timing your MacBook purchase is as important as choosing the right model. The 2026 sale calendar offers multiple opportunities to save, from spring refreshes to Black Friday blowouts. Historical patterns show that patient buyers who wait for transition periods between generations can save 15–25% compared to launch pricing. Set up price alerts on MacTrackr for your target MacBook model, and you'll never miss a deal.</p>
+        <p>Timing your MacBook purchase is as important as choosing the right model. The 2026 sale calendar offers multiple opportunities to save, from spring refreshes to Black Friday blowouts. Historical patterns show that patient buyers who wait for transition periods between generations can save 15–25% compared to launch pricing. Set up price alerts on TheresMac for your target MacBook model, and you'll never miss a deal.</p>
       </section>
     </div>
   );

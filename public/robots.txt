@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://mactrackr.com/sitemap.xml
+Sitemap: https://theresmac.com/sitemap.xml

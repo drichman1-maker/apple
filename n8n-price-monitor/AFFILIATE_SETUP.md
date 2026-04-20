@@ -1,4 +1,4 @@
-# MacTrackr Affiliate Integration
+# TheresMac Affiliate Integration
 
 ## Overview
 Backend now supports affiliate tracking for 6 major retailers. Links are automatically generated on API responses.
@@ -19,14 +19,14 @@ Backend now supports affiliate tracking for 6 major retailers. Links are automat
 ### 1. Apply to Amazon Associates (Priority #1)
 - URL: https://affiliate-program.amazon.com/
 - Requirements: Website with content, privacy policy
-- MacTrackr has: ✅ Privacy policy at /privacy
+- TheresMac has: ✅ Privacy policy at /privacy
 - Approval time: 1-3 days (usually instant for US)
 
 ### 2. Set Environment Variables
 
 ```bash
 # Railway dashboard or .env file
-AMAZON_ASSOCIATES_TAG=mactrackr-20
+AMAZON_ASSOCIATES_TAG=theresmac-20
 APPLE_AFFILIATE_ID=your_phg_id
 BESTBUY_AFFILIATE_ID=your_cj_id
 BH_AFFILIATE_ID=your_bh_kw
@@ -89,7 +89,7 @@ curl https://your-api.com/api/affiliate-status
       "price": 799,
       "inStock": true,
       "url": "https://amazon.com/dp/B0DHTYW7P8",
-      "affiliateUrl": "https://amazon.com/dp/B0DHTYW7P8?tag=mactrackr-20"
+      "affiliateUrl": "https://amazon.com/dp/B0DHTYW7P8?tag=theresmac-20"
     }
   }
 }
@@ -116,7 +116,7 @@ Add `sponsored` rel attribute for SEO compliance.
 
 ### Amazon
 ```
-https://amazon.com/dp/ASIN?tag=mactrackr-20
+https://amazon.com/dp/ASIN?tag=theresmac-20
 ```
 
 ### Apple (PHG)
@@ -171,7 +171,7 @@ curl -s https://your-api.com/api/products/iphone-16-128-unlocked | \
   jq '.prices.amazon.affiliateUrl'
 
 # Expected output:
-# "https://amazon.com/dp/B0DHTYW7P8?tag=mactrackr-20"
+# "https://amazon.com/dp/B0DHTYW7P8?tag=theresmac-20"
 ```
 
 ## Revenue Tracking

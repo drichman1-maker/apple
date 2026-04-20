@@ -7,7 +7,7 @@
 
 ### Before Applying:
 - [ ] Add privacy policy to healthindex.com/privacy
-- [ ] Add privacy policy to mactrackr.com/privacy  
+- [ ] Add privacy policy to theresmac.com/privacy  
 - [ ] Add affiliate disclosure to footer of both sites
 - [ ] Ensure "About" pages are complete
 - [ ] Verify sites are publicly accessible (not just local)
@@ -62,7 +62,7 @@
 <a href="/affiliate-disclosure">Affiliate Disclosure</a></p>
 ```
 
-### MacTrackr.com
+### TheresMac.com
 ```html
 <!-- Add to footer -->
 <p>As an Amazon Associate, we earn from qualifying purchases. 
@@ -79,7 +79,7 @@ Copy content from `privacy-policy-template.md` to:
 - `/var/task/policies/privacy-mactrackr.html`
 
 Customize:
-- [Site Name] → HealthIndex / MacTrackr
+- [Site Name] → HealthIndex / TheresMac
 - [your-email@domain.com] → douglasrichman1@gmail.com
 - [Your Business Name] → Baseline Digital Ventures (or your choice)
 

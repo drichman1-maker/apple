@@ -58,7 +58,7 @@ const About = () => {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-          About MacTrackr
+          About TheresMac
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
           We're on a mission to help Apple fans save money by providing the most comprehensive 
@@ -73,7 +73,7 @@ const About = () => {
             Our Mission
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Apple products are incredible, but they don't have to break the bank. MacTrackr was created 
+            Apple products are incredible, but they don't have to break the bank. TheresMac was created 
             because we believe everyone should have access to the best deals on Apple products. We monitor 
             prices across major retailers 24/7, so you can focus on what matters most – using amazing 
             technology to enhance your life.
@@ -98,7 +98,7 @@ const About = () => {
       {/* Features */}
       <div className="mb-16">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">
-          Why Choose MacTrackr?
+          Why Choose TheresMac?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {features.map((feature, index) => (
@@ -235,10 +235,10 @@ const About = () => {
         <div className="space-y-6">
           <div className="card p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Is MacTrackr free to use?
+              Is TheresMac free to use?
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Yes! MacTrackr is completely free. We make money through affiliate commissions 
+              Yes! TheresMac is completely free. We make money through affiliate commissions 
               when you purchase products through our links, but this never affects the prices you pay.
             </p>
           </div>
@@ -282,7 +282,7 @@ const About = () => {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="mailto:hello@mactrackr.com"
+            href="mailto:hello@theresmac.com"
             className="btn-primary"
           >
             Contact Us

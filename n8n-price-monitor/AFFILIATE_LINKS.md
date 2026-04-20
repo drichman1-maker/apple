@@ -5,8 +5,8 @@
 
 **Format:**
 ```
-https://www.amazon.com/dp/ASIN/?tag=mactrackr-20
-https://www.amazon.com/gp/product/ASIN?tag=mactrackr-20
+https://www.amazon.com/dp/ASIN/?tag=theresmac-20
+https://www.amazon.com/gp/product/ASIN?tag=theresmac-20
 ```
 
 **Notes:**
@@ -92,7 +92,7 @@ https://www.ebay.com/itm/ITEM_ID?campid=CAMPAIGN_ID&toolid=TOOL_ID
 
 ## Implementation Notes
 
-### Current MacTrackr Products
+### Current TheresMac Products
 Products are in backend with prices array:
 ```json
 {
@@ -112,7 +112,7 @@ Products are in backend with prices array:
 ### Affiliate IDs Needed
 | Retailer | Affiliate ID Format | Status |
 |----------|---------------------|--------|
-| Amazon | mactrackr-20 | Need to apply |
+| Amazon | theresmac-20 | Need to apply |
 | Apple | PHG account | Need to apply |
 | Best Buy | CJ account | Need to apply |
 | B&H | B&H affiliate ID | Need to apply |

@@ -1,12 +1,12 @@
 # n8n Price Monitoring Workflow
 
 ## Overview
-Automated price tracking for MacTrackr, Health Index, and other aggregator sites.
+Automated price tracking for TheresMac, Health Index, and other aggregator sites.
 
 ## Workflow Structure
 
 ### 1. Price Check Node (HTTP Request)
-- Endpoint: MacTrackr backend API
+- Endpoint: TheresMac backend API
 - Frequency: Every 6 hours
 - Data: Current prices for tracked products
 
@@ -31,10 +31,10 @@ MACTRACKR_API_URL=https://mactrackr-backend-new.onrender.com/api
 TELEGRAM_BOT_TOKEN=xxx
 TELEGRAM_CHAT_ID=xxx
 SENDGRID_API_KEY=xxx
-FROM_EMAIL=alerts@mactrackr.com
+FROM_EMAIL=alerts@theresmac.com
 ```
 
-## MacTrackr Specific
+## TheresMac Specific
 - Monitor: iPhone 16, MacBook Air M4, iPad Pro M5, Apple Watch Series 11
 - Retailers: Amazon, Best Buy, Adorama, eBay
 - Alert thresholds: 5% price drop = notify, 15% = urgent

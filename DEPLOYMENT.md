@@ -1,4 +1,4 @@
-# MacTrackr Frontend Deployment Guide
+# TheresMac Frontend Deployment Guide
 
 ## Quick Deploy Options
 
@@ -23,7 +23,7 @@ vercel
 **Environment Variables in Vercel:**
 - `VITE_API_URL`: https://your-backend-url.com
 - `VITE_ENV`: production
-- `VITE_APP_NAME`: MacTrackr
+- `VITE_APP_NAME`: TheresMac
 
 ### 2. Netlify
 
@@ -78,7 +78,7 @@ aws s3 sync dist/ s3://your-bucket-name --delete
 ```env
 VITE_API_URL=https://your-backend-api.com
 VITE_ENV=production
-VITE_APP_NAME=MacTrackr
+VITE_APP_NAME=TheresMac
 ```
 
 ### Build Configuration
@@ -93,14 +93,14 @@ The Vite configuration is optimized for production:
 
 ### Custom Domain Setup
 
-1. **Purchase domain** (e.g., mactrackr.com)
+1. **Purchase domain** (e.g., theresmac.com)
 2. **Configure DNS** to point to hosting provider
 3. **Set up SSL certificate** (usually automatic)
 4. **Update environment variables** with production URLs
 
 ### Subdomain Setup
 
-For hosting on a subdomain (e.g., app.mactrackr.com):
+For hosting on a subdomain (e.g., app.theresmac.com):
 
 1. **Update base URL** in vite.config.js if needed
 2. **Configure subdomain** in hosting provider
@@ -242,6 +242,6 @@ npm run preview
 ---
 
 For additional help:
-- 📧 Email: dev@mactrackr.com
+- 📧 Email: dev@theresmac.com
 - 📖 Docs: See README.md
 - 🐛 Issues: GitHub repository issues

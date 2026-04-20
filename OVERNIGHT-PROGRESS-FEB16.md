@@ -6,7 +6,7 @@
 ### SEO & Content (100%)
 - [x] 10 SEO articles written and deployed
 - [x] Articles published to 6 aggregator sites:
-  - MacTrackr (2 articles)
+  - TheresMac (2 articles)
   - LowKeyMode (2 articles)
   - HealthIndex (1 article)
   - MintCondition (2 articles)
@@ -36,14 +36,14 @@
 - [x] Float/Double conversions fixed
 - [x] UI syntax errors resolved
 - [x] Files organized for fresh Xcode project
-- [ ] Backend still needs fix (MacTrackr/HealthIndex)
+- [ ] Backend still needs fix (TheresMac/HealthIndex)
 
 ---
 
 ## 🔄 IN PROGRESS
 
 ### Backend Issues
-- ✅ MacTrackr backend: Simplified version deployed
+- ✅ TheresMac backend: Simplified version deployed
 - ✅ Health endpoint working
 - 🔄 Database integration pending
 
@@ -66,11 +66,11 @@
 ### 10:00 AM - Telegram Bot
 - Deploy bot to Render
 - Create @DealAlerts channel
-- Integrate with MacTrackr scraper
+- Integrate with TheresMac scraper
 - Test deal posting
 
 ### 1:00 PM - Backend Fixes
-- Fix MacTrackr backend env vars
+- Fix TheresMac backend env vars
 - Deploy HealthIndex frontend
 - Connect scrapers to frontends
 
@@ -101,7 +101,7 @@
 
 ### Must Ship (Priority 1)
 1. LowKeyMode builds OR Telegram bot live
-2. MacTrackr backend responding
+2. TheresMac backend responding
 3. HealthIndex deployed
 
 ### Nice to Have (Priority 2)
@@ -118,7 +118,7 @@
 
 ## 🚨 BLOCKERS TO CLEAR
 
-1. **Render Dashboard** - Access to fix MacTrackr backend
+1. **Render Dashboard** - Access to fix TheresMac backend
 2. **eBay API** - Still waiting for exemption response
 3. **DNS Access** - For subdomain setup
 4. **Best Buy Affiliate** - Program reopening status

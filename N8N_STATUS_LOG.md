@@ -11,7 +11,7 @@
 ### What's Done
 - ✅ Workflow built (`n8n-workflow-v1.json`)
 - ✅ Resend account created
-- ✅ Domain verified (mactrackr.com)
+- ✅ Domain verified (theresmac.com)
 - ✅ API key obtained: `re_PjmMuXPP_P6YZVeXFE5dyEK2B6jbj3Prh`
 - ✅ Deployment script created (`deploy-n8n.sh`)
 - ✅ Aggregator dashboard built with monitoring

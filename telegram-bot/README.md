@@ -70,7 +70,7 @@ python bot.py
 Connect to existing scrapers:
 ```python
 async def fetch_deals_from_scrapers():
-    # Call MacTrackr API
+    # Call TheresMac API
     # Call HealthIndex API
     # Call MintCondition API
     # Aggregate and filter
@@ -82,6 +82,6 @@ async def fetch_deals_from_scrapers():
 1. [ ] Create bot with @BotFather
 2. [ ] Set up free public channel
 3. [ ] Deploy bot to Render/Railway
-4. [ ] Integrate with one scraper (MacTrackr)
+4. [ ] Integrate with one scraper (TheresMac)
 5. [ ] Grow to 1000 free subs
 6. [ ] Launch VIP tier

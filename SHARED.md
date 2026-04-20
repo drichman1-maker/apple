@@ -2,7 +2,7 @@
 
 ## ✅ COMPLETED
 
-### MacTrackr
+### TheresMac
 - Fixed product images with verified Apple CDN URLs
 - Added 2026 latest products (M5 MacBooks, M5 iPads, Series 11 Watch, AirPods Pro 3, etc.)
 - Updated FeaturedProducts to show priority: MacBooks → iPads → Watch → AirPods
@@ -32,7 +32,7 @@
 
 ### 2. Affiliate Applications
 - [ ] Final polish Health Index
-- [ ] Final polish MacTrackr
+- [ ] Final polish TheresMac
 - [ ] Submit Amazon Associates application
 - [ ] Submit ShareASale applications
 - [ ] Apply to relevant affiliate programs

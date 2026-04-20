@@ -88,7 +88,7 @@ Generate revenue and value overnight while human team sleeps. Operate within $5 
 ### Task: System Health Checks
 **What to do:**
 1. Every 3 hours (during waking hours only), check:
-   - MacTrackr backend: /api/health
+   - TheresMac backend: /api/health
    - All deployed sites: HTTP 200 check
    - Telegram bot: /start command test
 
@@ -137,7 +137,7 @@ CONTENT CREATED:
 - [Article 2 title] → /articles/drafts/...
 
 SYSTEM STATUS:
-- MacTrackr backend: [UP/DOWN]
+- TheresMac backend: [UP/DOWN]
 - [Site 1]: [UP/DOWN]
 - [Site 2]: [UP/DOWN]
 

@@ -1,4 +1,4 @@
-# MacTrackr Product Update Task
+# TheresMac Product Update Task
 
 ## Objective
 Update the Railway backend (Python FastAPI) with ALL 43 products from the PDF.

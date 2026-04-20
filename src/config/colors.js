@@ -1,4 +1,4 @@
-// Centralized color configuration for MacTrackr
+// Centralized color configuration for TheresMac
 // Prevents hardcoded values across components
 
 export const retailerColors = {

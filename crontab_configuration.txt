@@ -15,7 +15,7 @@
 # DiamondData (FastAPI) - Every 6 hours
 0 */6 * * * /bin/bash /path/to/diamonddata_scraper.sh
 
-# MacTrackr (FastAPI) - Every 2 hours
+# TheresMac (FastAPI) - Every 2 hours
 0 */2 * * * /bin/bash /path/to/mactrackr_scraper.sh
 
 # Log Rotation Configuration (save as /etc/logrotate.d/scrapers)

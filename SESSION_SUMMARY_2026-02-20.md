@@ -1,4 +1,4 @@
-# MacTrackr Project - Session Summary
+# TheresMac Project - Session Summary
 **Date:** Friday, February 20, 2026
 **Duration:** ~4 hours
 
@@ -59,7 +59,7 @@
 |-----------|--------|-------|
 | **Backend API** | ✅ Live | Fly.io, affiliate tracking ready |
 | **Frontend** | ✅ Live | Vercel, mobile fix deployed |
-| **Domain** | ✅ Active | mactrackr.com |
+| **Domain** | ✅ Active | theresmac.com |
 | **Price Monitoring** | 🟡 In Progress | n8n deploying to Railway |
 | **Email Service** | 🟡 In Progress | Resend API key obtained, deploying |
 | **Database** | ❌ Not Started | Need Railway Postgres |
@@ -200,7 +200,7 @@ Today we hit multiple roadblocks:
 **Month 2:** First $100 in affiliate revenue
 **Month 3:** 1,000 email subscribers, $500/month
 
-**The goal:** MacTrackr becomes the go-to price tracker for Apple products — privacy-first, user-owned, revenue-generating.
+**The goal:** TheresMac becomes the go-to price tracker for Apple products — privacy-first, user-owned, revenue-generating.
 
 ---
 

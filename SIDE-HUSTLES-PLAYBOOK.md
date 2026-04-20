@@ -24,7 +24,7 @@ Buy used/refurbished MacBook Airs at discount, resell for profit.
 **Target Margin:** $150-300 per flip
 
 ### Process
-1. Set up alerts on MacTrackr for specific models
+1. Set up alerts on TheresMac for specific models
 2. Check daily on eBay/Facebook/Craigslist
 3. Inspect in person if possible (battery cycle count, screen condition)
 4. Buy only if margin > $150
@@ -32,7 +32,7 @@ Buy used/refurbished MacBook Airs at discount, resell for profit.
 6. List on same platforms + Swappa
 
 ### Tools
-- **MacTrackr** — Your own price alerts
+- **TheresMac** — Your own price alerts
 - **CoconutBattery** — Check battery health
 - **Apple Diagnostics** — Hardware test
 
@@ -118,7 +118,7 @@ Buy products at retail stores (clearance, sales), resell on Amazon/eBay for prof
 - **Keepa** — Price history charts
 - **CamelCamelCamel** — Amazon price tracking
 - **BrickSeek** — Inventory checks at local stores
-- **MacTrackr/MintCondition** — Your own price alerts
+- **TheresMac/MintCondition** — Your own price alerts
 
 ### Buying Criteria
 - **Minimum ROI:** 50% (buy $10, sell for $15+ after fees)

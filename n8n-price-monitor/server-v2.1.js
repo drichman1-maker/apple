@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// MacTrackr API v2.1 - With Affiliate Links
+// TheresMac API v2.1 - With Affiliate Links
 // Deployed: Feb 20, 2026 - Added affiliate tracking
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,7 +17,7 @@ app.use(express.json());
 // ==========================================
 // Placeholder IDs - Replace with real ones after approval
 const AFFILIATE_IDS = {
-  amazon: process.env.AMAZON_ASSOCIATES_TAG || 'mactrackr-20',
+  amazon: process.env.AMAZON_ASSOCIATES_TAG || 'theresmac-20',
   apple: process.env.APPLE_AFFILIATE_ID || 'phg_placeholder',
   bestbuy: process.env.BESTBUY_AFFILIATE_ID || 'cj_placeholder',
   bh: process.env.BH_AFFILIATE_ID || 'bh_placeholder',
@@ -231,7 +231,7 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`MacTrackr API v2.1 - ${products.length} products with affiliate tracking`);
+  console.log(`TheresMac API v2.1 - ${products.length} products with affiliate tracking`);
   console.log(`Affiliate IDs configured: ${Object.values(AFFILIATE_IDS).filter(id => !id.includes('placeholder')).length}/${Object.keys(AFFILIATE_IDS).length}`);
   console.log(`Running on port ${PORT}`);
   console.log(`Health check: http://0.0.0.0:${PORT}/health`);

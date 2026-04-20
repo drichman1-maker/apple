@@ -1,4 +1,4 @@
--- MacTrackr Price Alerts Database Schema
+-- TheresMac Price Alerts Database Schema
 -- Run this on your Railway Postgres instance
 
 -- ==========================================

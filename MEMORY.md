@@ -27,7 +27,7 @@
 
 **We don't collect your data.** Period.
 
-All aggregator sites (MacTrackr, Health Index, MintCondition, etc.) follow this principle:
+All aggregator sites (TheresMac, Health Index, MintCondition, etc.) follow this principle:
 - No user accounts required
 - No tracking cookies
 - No email lists (unless user explicitly opts into price alerts)
@@ -200,7 +200,7 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 
 ---
 
-## MacTrackr - Full Operational State (Feb 17, 2026)
+## TheresMac - Full Operational State (Feb 17, 2026)
 
 **Status: SHIPPED & REVENUE READY** ✅
 
@@ -259,7 +259,7 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 
 | Project | Domain/URL | Status | Backend | Frontend | Notes |
 |---------|-----------|--------|---------|----------|-------|
-| **MacTrackr** | mactrackr.com | 🟢 Live | ✅ Node.js/Express | ✅ React/Vite | Apple price tracker - REVENUE READY |
+| **TheresMac** | theresmac.com | 🟢 Live | ✅ Node.js/Express | ✅ React/Vite | Apple price tracker - REVENUE READY |
 | **Health Index** | healthindex.com | 🟡 In Progress | ✅ Node.js/Express | ✅ Next.js | Medical devices - needs polish |
 | **RumbleGames** | rumbledeals.com | 🟡 In Progress | ✅ Python FastAPI | ❌ Needs build | Video games deals |
 | **MintCondition** | mintcondition.app | 🟢 Ready | ✅ Python Flask | ✅ React | Pokemon cards - DEPLOY NEXT |
@@ -288,14 +288,14 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 ## Deployment Stack
 
 ### Frontend (Vercel)
-- **MacTrackr:** https://mactrackr.com ✅
+- **TheresMac:** https://theresmac.com ✅
 - **Health Index:** https://healthindex-frontend.vercel.app ✅ (pending healthindex.app)
 - **MintCondition:** https://web-eight-lime-62.vercel.app ✅ (pending mintcondition.com)
 - **CoinCurator:** https://frontend-kappa-hazel-34.vercel.app ✅ (pending coincurator.app)
 - **RumbleGames:** https://rumbledeals.com ✅
 
 ### Backend (Render)
-- **MacTrackr API:** mactrackr-backend-new.onrender.com ✅ (free tier)
+- **TheresMac API:** mactrackr-backend-new.onrender.com ✅ (free tier)
 - **Health Index API:** med-device.onrender.com 🔄 (npm fix applied)
 - **CoinCurator API:** Not deployed (render.yaml ready)
 
@@ -305,8 +305,8 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 
 | Project | Repo | Status |
 |---------|------|--------|
-| MacTrackr Frontend | drichman1-maker/apple | ✅ Active |
-| MacTrackr Backend | drichman1-maker/mactrackr-api | ✅ Active |
+| TheresMac Frontend | drichman1-maker/apple | ✅ Active |
+| TheresMac Backend | drichman1-maker/mactrackr-api | ✅ Active |
 | Health Index Frontend | Local only | ⚠️ No remote |
 | Health Index Backend | drichman1-maker/Med-device | ✅ Active |
 | MintCondition | drichman1-maker/grailwatch | ✅ Active |
@@ -319,9 +319,9 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 ## Priority Roadmap (Revised Feb 17, 2026)
 
 **Phase 1: Ship + UI Overhaul (Now)**
-- [x] MacTrackr landing page rebuilt — premium dark professional style
+- [x] TheresMac landing page rebuilt — premium dark professional style
 - [x] HealthIndex landing page rebuilt — premium dark professional style
-- [ ] Deploy updated MacTrackr to Vercel
+- [ ] Deploy updated TheresMac to Vercel
 - [ ] Deploy updated HealthIndex to Vercel
 - [ ] Deploy Books Aggregator (books.mintcondition.app)
 
@@ -337,7 +337,7 @@ $15/mo for infrastructure is nothing. If it makes things work — do it.
 ### Design System Applied (CORRECT)
 - **Background:** Near-black (#0a0a0a)
 - **Surface cards:** #141414 with #262626 borders
-- **Accents:** Cyan for HealthIndex (#06b6d4), Blue for MacTrackr (#3b82f6)
+- **Accents:** Cyan for HealthIndex (#06b6d4), Blue for TheresMac (#3b82f6)
 - **Typography:** Clean, professional, tight letter-spacing
 - **Components:**
   - Pill badges with icons (bordered, rounded-full)
@@ -375,7 +375,7 @@ Match reference images EXACTLY. Don't interpret. The user wants:
 - [ ] Revenue tracking + reinvestment plan
 
 **Active Projects:**
-- ✅ MacTrackr (Apple) - mactrackr.com
+- ✅ TheresMac (Apple) - theresmac.com
 - ✅ Health Index (Wellness) - healthindex.app
 - ✅ MintCondition (Pokemon) - mintcondition.app
 - ✅ CoinCurator (Coins) - coincurator.app
@@ -393,16 +393,16 @@ Ship → Monetize → Reinvest → Ship More
 ## Tonight's Wins (Feb 16, 2026)
 
 ### Sites Shipped: 5/5
-1. **MacTrackr** - Product images + dark mode
+1. **TheresMac** - Product images + dark mode
 2. **Health Index** - Dark mode + TypeScript fixes
 3. **MintCondition** - Production files + articles deployed
 4. **CoinCurator** - Frontend deployed, backend config ready
 5. **RumbleGames** - Verified deployment
 
 ### Commits Made: 7
-- MacTrackr backend fix
-- MacTrackr product images
-- MacTrackr dark mode
+- TheresMac backend fix
+- TheresMac product images
+- TheresMac dark mode
 - Health Index dark mode
 - Health Index TypeScript fix
 - MintCondition production files
@@ -421,7 +421,7 @@ Ship → Monetize → Reinvest → Ship More
 **Render Free Tier Issues:**
 - Free instances spin down after inactivity → 50-second cold starts
 - Impacts user experience significantly
-- Affects: Health Index, MacTrackr backends
+- Affects: Health Index, TheresMac backends
 
 **Current Monthly Costs:**
 - Render: $0 (free tier)
@@ -477,7 +477,7 @@ Ship → Monetize → Reinvest → Ship More
 | $5K MRR | Consider Mac Studio | $2-4K one-time | TBD |
 | 10K DAU | CDN for static assets | +$20/mo | TBD |
 
-### Database Upgrade (MacTrackr Specific)
+### Database Upgrade (TheresMac Specific)
 **Current:** Render Postgres Free (expires March 16, 2026)
 **Issue:** 90-day data retention limit
 **Options:**
@@ -567,7 +567,7 @@ Ship → Monetize → Reinvest → Ship More
 
 **Priority Order:**
 1. Apple refurbished products with pricing + URLs
-2. Price alerts for MacTrackr (n8n workflow)
+2. Price alerts for TheresMac (n8n workflow)
 3. Affiliate applications (Amazon, B&H, Adorama, ShareASale, eBay)
 4. Monorepo discussion (Kimi Moderato for shared frontend/code review)
 
@@ -575,7 +575,7 @@ Ship → Monetize → Reinvest → Ship More
 
 **Ollama on Sparky:** User is asking about setting it up. Analysis needed — need to decide if worth it for local inference.
 
-**Note:** Apply MacTrackr standardization (quality, performance, look) to all other apps.
+**Note:** Apply TheresMac standardization (quality, performance, look) to all other apps.
 
 ---
 
@@ -637,7 +637,7 @@ When users sign up for price alerts, clarify:
 
 ## Growth & Marketing Strategy (Feb 18, 2026)
 
-**Status:** Ready to push hard and fast — focus on MacTrackr over other projects
+**Status:** Ready to push hard and fast — focus on TheresMac over other projects
 **Daily Planning:** Strategy talks each evening
 
 ### Content Marketing
@@ -665,7 +665,7 @@ When users sign up for price alerts, clarify:
 - **Comment with insight, link in profile**
 
 **What NOT to do:**
-- Never post links directly to MacTrackr
+- Never post links directly to TheresMac
 - Never copy/paste marketing text
 - Never argue or be defensive
 

@@ -10,7 +10,7 @@
 - **Deploy:** Vercel/Netlify ready
 - **Next:** Domain connection + affiliate signups
 
-### MacTrackr (apple)
+### TheresMac (apple)
 - **URL:** github.com/drichman1-maker/apple
 - **Status:** Turborepo with backend + frontend
 - **Structure:**
@@ -21,7 +21,7 @@
 
 ## Affiliate Programs Researched
 
-### For MacTrackr (New Macs Only)
+### For TheresMac (New Macs Only)
 1. **Sweetwater** - 3-5%, 30-day cookie, creative focus
 2. **Best Buy** - 1-4%, 7-day cookie, easy signup
 3. **CDW** - 1-3%, 30-day cookie, enterprise
@@ -42,7 +42,7 @@
 - Max 3-4 LLCs total
 
 ### Priorities (Feb 12-21)
-1. MacTrackr (revenue focus)
+1. TheresMac (revenue focus)
 2. Health Index (high ticket)
 3. LowKeyMode 2.0 (Harmonic Resonance spec - rebuild)
 
@@ -56,10 +56,10 @@
 - taskbidder.io
 - coincurator.app
 - mintcondition.app
-- mactrackr.com (implied)
+- theresmac.com (implied)
 
 ## Cron Jobs Set
 - Daily meditation reminder: 9:00 PM ET
 
 ## Next Session Focus
-MacTrackr deployment: backend → web → iOS
+TheresMac deployment: backend → web → iOS

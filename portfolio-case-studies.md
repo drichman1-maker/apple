@@ -1,6 +1,6 @@
 # CodeMode Case Studies
 
-## MacTrackr — Apple Product Intelligence
+## TheresMac — Apple Product Intelligence
 
 **The Challenge**
 Apple products have volatile pricing across retailers. Users need real-time tracking of deals, trade-in values, and stock availability across multiple sources.
@@ -112,7 +112,7 @@ Building a comprehensive game deal aggregator:
 
 # BaselineDesigns Case Studies
 
-## MacTrackr — Apple-Inspired Minimalism
+## TheresMac — Apple-Inspired Minimalism
 
 **Design Challenge**
 Create a UI that feels native to Apple users while presenting complex price data clearly.

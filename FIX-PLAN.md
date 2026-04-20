@@ -1,6 +1,6 @@
-# MacTrackr + Health Index Fix Plan
+# TheresMac + Health Index Fix Plan
 
-## MacTrackr (Priority 1) - 30 min
+## TheresMac (Priority 1) - 30 min
 - [ ] Connect backend API endpoints
 - [ ] Add loading/error states
 - [ ] Fix image placeholders with fallbacks

@@ -1,4 +1,4 @@
-# MacTrackr Price Alerts - Product Requirements Document
+# TheresMac Price Alerts - Product Requirements Document
 
 ## Overview
 Enable users to sign up for price drop alerts via email. When a product's price drops by 5% or more, send an email notification to subscribed users.
@@ -103,9 +103,9 @@ iPhone 16 128GB
 $799 → $699 (12% off)
 
 Buy now: [Affiliate Link]
-View all prices: https://mactrackr.com/product/iphone-16-128-unlocked
+View all prices: https://theresmac.com/product/iphone-16-128-unlocked
 
-You're receiving this because you signed up for price alerts on MacTrackr.
+You're receiving this because you signed up for price alerts on TheresMac.
 Unsubscribe: [Unsubscribe Link]
 ```
 
@@ -120,7 +120,7 @@ Unsubscribe: [Unsubscribe Link]
 ### Phase 2: Frontend (2-3 hours)
 1. Build email signup component
 2. Add to product detail pages
-3. Style to match MacTrackr dark theme
+3. Style to match TheresMac dark theme
 4. Add form validation
 
 ### Phase 3: n8n Integration (1 hour)

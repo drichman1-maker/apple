@@ -25,7 +25,7 @@
 
 | Site | Status | URL | Load Time |
 |------|--------|-----|-----------|
-| MacTrackr | ✅ LIVE | https://mactrackr.com | 188ms |
+| TheresMac | ✅ LIVE | https://theresmac.com | 188ms |
 | Health Index | ✅ LIVE | https://healthindex-frontend.vercel.app | 291ms |
 | MintCondition | ✅ LIVE | https://web-eight-lime-62.vercel.app | 190ms |
 | CoinCurator | ✅ LIVE | https://frontend-kappa-hazel-34.vercel.app | 279ms |
