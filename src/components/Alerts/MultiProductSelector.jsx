@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Search, X, Loader2, Check } from 'lucide-react';
 
-const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+const API_BASE_URL = 'https://agg-api-hub.fly.dev';
 
 const CATEGORIES = ['All', 'MacBook', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods', 'Accessories'];
 
@@ -43,7 +43,7 @@ export default function MultiProductSelector({ selectedProducts = [], onChange, 
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/products`);
+      const response = await fetch(`${API_BASE_URL}/api/theresmac/products`);
       if (!response.ok) throw new Error('Failed to fetch products');
       const data = await response.json();
       const productsList = Array.isArray(data) ? data : (data.products || []);

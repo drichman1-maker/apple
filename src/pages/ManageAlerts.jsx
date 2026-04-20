@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Bell, Trash2, Loader2, AlertTriangle, ArrowLeft, RefreshCw, BellOff, ExternalLink } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+const API_BASE_URL = 'https://agg-api-hub.fly.dev';
 
 export default function ManageAlerts() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,7 +26,7 @@ export default function ManageAlerts() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/alerts?email=${encodeURIComponent(emailToFetch)}`);
+      const response = await fetch(`${API_BASE_URL}/api/theresmac/alerts?email=${encodeURIComponent(emailToFetch)}`);
       if (!response.ok) throw new Error('Failed to fetch alerts');
       const data = await response.json();
       setAlerts(data.alerts || []);
@@ -50,7 +50,7 @@ export default function ManageAlerts() {
     
     setDeletingId(alertId);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/alerts/${alertId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/theresmac/alerts/${alertId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

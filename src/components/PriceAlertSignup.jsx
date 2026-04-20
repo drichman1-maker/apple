@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Bell, Mail, Shield, X, Check, Loader2 } from 'lucide-react';
 import ProductSelector from './Alerts/ProductSelector';
 
-const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+const API_BASE_URL = 'https://agg-api-hub.fly.dev';
 
 export default function PriceAlertSignup({ product: initialProduct, onClose }) {
   const [selectedProduct, setSelectedProduct] = useState(initialProduct || null);
@@ -26,7 +26,7 @@ export default function PriceAlertSignup({ product: initialProduct, onClose }) {
     setStatus(null);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/api/alerts`, {
+      const response = await fetch(`${API_BASE_URL}/api/theresmac/alerts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

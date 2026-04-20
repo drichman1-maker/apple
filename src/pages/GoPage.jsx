@@ -108,7 +108,7 @@ const GoPage = () => {
       referrer: document.referrer,
     }
     if (navigator.sendBeacon) {
-      navigator.sendBeacon('https://theresmac-backend.fly.dev/api/click', JSON.stringify(clickData))
+      navigator.sendBeacon('https://agg-api-hub.fly.dev/api/click', JSON.stringify(clickData))
     }
     
     // Determine redirect URL

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import MultiProductSelector from '../components/Alerts/MultiProductSelector'
 import { useAuth } from '../auth/AuthContext'
 
-const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+const API_BASE_URL = 'https://agg-api-hub.fly.dev';
 const MAX_PRODUCTS = 5;
 
 const PriceAlerts = () => {
@@ -66,7 +66,7 @@ const PriceAlerts = () => {
       
       for (const product of selectedProducts) {
         const targetPrice = targetPrices[product.id];
-        const response = await fetch(`${API_BASE_URL}/api/alerts`, {
+        const response = await fetch(`${API_BASE_URL}/api/theresmac/alerts`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

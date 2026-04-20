@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { ExternalLink, Store, TrendingDown, Grid3X3, List, ArrowLeft } from 'lucide-react'
 import RetailerSortDropdown from '../components/RetailerSortDropdown'
 
-const API_BASE_URL = 'https://theresmac-backend.fly.dev'
+const API_BASE_URL = 'https://agg-api-hub.fly.dev'
 
 // Retailer configuration
 const RETAILER_CONFIG = {
@@ -124,7 +124,7 @@ const RetailerLanding = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`${API_BASE_URL}/api/products`)
+      const response = await fetch(`${API_BASE_URL}/api/theresmac/products`)
       const data = await response.json()
       setAllProducts(data || [])
     } catch (error) {

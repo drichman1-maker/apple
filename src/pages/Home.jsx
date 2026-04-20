@@ -13,7 +13,7 @@ const Home = () => {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await fetch('https://theresmac-backend.fly.dev/api/products')
+      const response = await fetch('https://agg-api-hub.fly.dev/api/theresmac/products')
       if (response.ok) {
         const data = await response.json()
         const products = Array.isArray(data) ? data : (data.products || [])

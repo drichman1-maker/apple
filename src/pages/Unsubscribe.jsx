@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { BellOff, Loader2, Check, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-const API_BASE_URL = 'https://theresmac-backend.fly.dev';
+const API_BASE_URL = 'https://agg-api-hub.fly.dev';
 
 export default function Unsubscribe() {
   const [searchParams] = useSearchParams();
