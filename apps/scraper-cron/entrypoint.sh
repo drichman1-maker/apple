@@ -6,9 +6,11 @@ echo " Scraper run: $(date -u)"
 echo "=============================="
 
 # Only run at 0, 6, 12, 18 UTC — Fly only supports hourly, so we gate here
+# Set FORCE_RUN=1 to bypass the gate for manual/one-off runs
 HOUR=$(date -u +%H | sed 's/^0*//' | grep . || echo "0")
-if [ $(( HOUR % 6 )) -ne 0 ]; then
+if [ "${FORCE_RUN:-0}" != "1" ] && [ $(( HOUR % 6 )) -ne 0 ]; then
   echo "  Skipping — run hours are 0, 6, 12, 18 UTC (current hour: $HOUR)"
+  echo "  Tip: set FORCE_RUN=1 to override the gate"
   echo "=============================="
   exit 0
 fi
