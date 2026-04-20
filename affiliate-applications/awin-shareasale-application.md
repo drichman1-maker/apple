@@ -6,7 +6,7 @@
 **Primary Website:** https://baselinedesigns.com  
 **Secondary Sites:** 
 - https://healthindex.com
-- https://mactrackr.com
+- https://theresmac.com
 - https://mintcondition.com
 - https://rumbledeals.com
 
@@ -27,7 +27,7 @@ We operate a portfolio of specialized product aggregators and price tracking pla
 - Target: Biohackers, health enthusiasts, recovery-focused consumers
 - Content: Product reviews, price comparisons, deal alerts
 
-**MacTrackr (mactrackr.com)**
+**TheresMac (theresmac.com)**
 - Niche: Apple products and accessories
 - Target: Apple ecosystem users, deal hunters, tech enthusiasts
 - Content: Price tracking, deal alerts, buying guides

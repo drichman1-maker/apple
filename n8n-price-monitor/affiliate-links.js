@@ -1,9 +1,9 @@
-// Affiliate Link Builder for MacTrackr
+// Affiliate Link Builder for TheresMac
 // Add this to server.js or as a separate module
 
 // Placeholder affiliate IDs - replace with real ones after approval
 const AFFILIATE_IDS = {
-  amazon: 'mactrackr-20',      // Amazon Associates
+  amazon: 'theresmac-20',      // Amazon Associates
   apple: 'phg_affiliate_id',    // PHG Network
   bestbuy: 'cj_affiliate_id',   // CJ Affiliate
   bh: 'bh_affiliate_kw',        // B&H Photo

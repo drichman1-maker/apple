@@ -49,7 +49,7 @@ Robot Atlas is a price + autonomy index aggregator for consumer robotics, tracki
 5. Add more product categories
 
 ## Integration with Other Sites
-- Share backend infrastructure with MacTrackr
+- Share backend infrastructure with TheresMac
 - Use same price alert system
 - Similar retailer integrations
 - Common autonomy scoring system

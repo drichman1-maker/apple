@@ -1,6 +1,6 @@
 // Shared Component Library Template
 // Apply to: RumbleDeals, BabyGear, Appliances, Robot, SluggerData, MintCondition, CoinCurator, Auto, Fixed Income
-// EXCLUDED: MacTrackr, Health Index
+// EXCLUDED: TheresMac, Health Index
 
 // === USAGE ===
 // 1. Copy relevant components to your project's src/components/ folder

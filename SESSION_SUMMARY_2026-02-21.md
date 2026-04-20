@@ -9,7 +9,7 @@ Built unified monitoring dashboard and made progress on aggregator migrations.
 
 ### 1. Aggregator Dashboard (aggregator-dashboard/)
 - ✅ Created Next.js dashboard for all projects
-- ✅ Real-time status monitoring for MacTrackr/MintCondition/CoinCurator/RumbleDeals
+- ✅ Real-time status monitoring for TheresMac/MintCondition/CoinCurator/RumbleDeals
 - ✅ Dark theme matching existing sites
 - ✅ Migration progress visualization
 - ✅ Quick links to all aggregator sites

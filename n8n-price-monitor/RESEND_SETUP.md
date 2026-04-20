@@ -1,4 +1,4 @@
-# Resend Setup Checklist for MacTrackr Price Alerts
+# Resend Setup Checklist for TheresMac Price Alerts
 
 ## Step 1: Sign Up (2 minutes)
 1. Go to https://resend.com
@@ -8,12 +8,12 @@
 
 ## Step 2: Add Domain (3 minutes)
 1. In Resend dashboard, click "Add Domain"
-2. Enter: `mactrackr.com`
+2. Enter: `theresmac.com`
 3. Choose "Cloudflare" as your DNS provider
 4. Copy the DNS records shown
 
 ## Step 3: Add DNS Records to Cloudflare
-1. Go to https://dash.cloudflare.com → mactrackr.com
+1. Go to https://dash.cloudflare.com → theresmac.com
 2. Click **DNS** tab → **Add Record**
 3. Add each record from Resend:
    
@@ -35,14 +35,14 @@
 ## Step 4: Get API Key (1 minute)
 1. In Resend dashboard, go to **API Keys**
 2. Click **Create API Key**
-3. Name: `MacTrackr Production`
+3. Name: `TheresMac Production`
 4. Copy the key (starts with `re_`)
 
 ## Step 5: Save Credentials
 Save these somewhere secure:
 ```
 RESEND_API_KEY=re_xxxxx
-ALERTS_FROM_EMAIL=alerts@mactrackr.com
+ALERTS_FROM_EMAIL=alerts@theresmac.com
 ```
 
 ## Step 6: Deploy n8n to Railway (after Resend verified)

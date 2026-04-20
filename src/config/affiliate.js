@@ -4,13 +4,13 @@
 
 export const affiliateConfig = {
   // Amazon Associates - replace with your tracking ID after approval
-  amazon: 'mactrackr-20',
+  amazon: 'theresmac-20',
   
   // B&H Photo - replace with your KBID after approval
-  bh: 'mactrackr_bh',
+  bh: 'theresmac_bh',
   
   // Adorama - replace with your affiliate ID
-  adorama: 'mactrackr_adorama',
+  adorama: 'theresmac_adorama',
 }
 
 // Generate affiliate URL with tracking

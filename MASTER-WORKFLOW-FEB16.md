@@ -7,7 +7,7 @@
 |---------|--------|---------|-------------|
 | **LowKeyMode** | 🟡 Xcode issues | Linker errors | Fresh project 8:30 AM |
 | **HealthIndex** | 🟡 Frontend ready | Backend connection | Deploy + connect scraper |
-| **MacTrackr** | 🟡 Backend down | Render env vars | Fix + deploy frontend |
+| **TheresMac** | 🟡 Backend down | Render env vars | Fix + deploy frontend |
 
 ### 2nd Priority (Growth)
 | Project | Status | Next Action |
@@ -50,7 +50,7 @@
 | Time | Task | Owner | Success Criteria |
 |------|------|-------|------------------|
 | 1:00-2:00 | **HealthIndex: Deploy Frontend** | Henry | Live with privacy page |
-| 2:00-3:00 | **MacTrackr: Fix Backend** | Henry + Doug | /api/health responds |
+| 2:00-3:00 | **TheresMac: Fix Backend** | Henry + Doug | /api/health responds |
 | 3:00-4:00 | **Affiliate Applications** | Doug | Amazon, ShareASale submitted |
 | 4:00-5:00 | **Watches/Books: Deploy** | Henry | Both live on Vercel |
 | 5:00-6:00 | **Review + Plan Wednesday** | Both | Clear priorities for next day |
@@ -67,7 +67,7 @@
 
 ### Stream B: Web Aggregators (Henry)
 **Goal:** Deploy all remaining sites
-- Background: Deploy HealthIndex, MacTrackr frontend
+- Background: Deploy HealthIndex, TheresMac frontend
 - Background: Deploy Watches, Books when repos ready
 - Background: Publish SEO articles to all sites
 
@@ -94,7 +94,7 @@
 ### If LowKeyMode Fails After 1 Hour
 ⏸️ Pause → Pivot to Telegram bot → Return tomorrow
 
-### If MacTrackr Backend Fixed
+### If TheresMac Backend Fixed
 ✅ Deploy frontend → Connect scraper → Monitor
 
 ### If eBay API Approved
@@ -107,7 +107,7 @@
 ### Must Have
 - [ ] LowKeyMode builds OR Telegram bot live
 - [ ] HealthIndex deployed
-- [ ] MacTrackr backend responding
+- [ ] TheresMac backend responding
 
 ### Nice to Have
 - [ ] 2+ affiliate applications submitted
@@ -124,7 +124,7 @@
 
 ## BLOCKERS TO CLEAR
 
-1. **Render Dashboard Access** → Fix MacTrackr backend
+1. **Render Dashboard Access** → Fix TheresMac backend
 2. **eBay API Exemption** → Follow up on status
 3. **DNS Access** → Set up subdomains (comics.mintcondition.com, etc.)
 4. **Best Buy Affiliate** → Apply when program reopens

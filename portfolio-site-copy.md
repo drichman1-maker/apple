@@ -81,7 +81,7 @@ RESTful APIs with authentication, rate limiting, and documentation. Built for sc
 ---
 
 ## Selected Work
-*(Link to case studies for MacTrackr, Health Index, DiamondData, MintCondition, Rumble)*
+*(Link to case studies for TheresMac, Health Index, DiamondData, MintCondition, Rumble)*
 
 ---
 
@@ -203,7 +203,7 @@ High-converting landing pages for product launches, feature announcements, and m
 ---
 
 ## Selected Work
-*(Link to case studies for MacTrackr, Health Index, DiamondData, MintCondition, TaskBidder)*
+*(Link to case studies for TheresMac, Health Index, DiamondData, MintCondition, TaskBidder)*
 
 ---
 

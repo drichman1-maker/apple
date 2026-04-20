@@ -2,7 +2,7 @@
 
 ## Meditation Sessions
 1. **First Session (9:00-9:20 PM)**
-   - Worked on MacTrackr product images
+   - Worked on TheresMac product images
    - Fixed Health Index backend npm typo
    - Deployed MintCondition
 
@@ -21,7 +21,7 @@
   - robots.codemodeapps.com
 
 ## Project Status
-1. **MacTrackr** - Live, fully functional
+1. **TheresMac** - Live, fully functional
 2. **Health Index** - Live, backend fixed
 3. **MintCondition** - Live, needs domain
 4. **CoinCurator** - Frontend live, backend ready

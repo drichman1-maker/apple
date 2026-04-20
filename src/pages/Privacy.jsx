@@ -56,7 +56,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Contact</h2>
-            <p>Questions? Contact us at privacy@mactrackr.com</p>
+            <p>Questions? Contact us at privacy@theresmac.com</p>
           </section>
 
           <div className="pt-6 border-t border-[#333]">

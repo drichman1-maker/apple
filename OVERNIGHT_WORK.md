@@ -4,7 +4,7 @@
 
 **All 3 subagents stopped** — needed credentials/access that weren't provided:
 
-1. **MacTrackr Backend Fix** — Needs Render dashboard login
+1. **TheresMac Backend Fix** — Needs Render dashboard login
 2. **SEO Articles Publishing** — Needs site admin access (Vercel/Cloudflare)
 3. **Shared Backend Review** — Needs GitHub repos or local access
 
@@ -24,7 +24,7 @@
    - **Action needed:** Follow up or check status
 
 2. **Twitter/X Handles**
-   - `healthindexhq` and `mactrackrapp` need to be claimed
+   - `healthindexhq` and `theresmacapp` need to be claimed
    - Was on Sunday Feb 15 schedule (today)
    - **Action needed:** Claim handles
 
@@ -61,7 +61,7 @@
 | CodeMode | Vercel ✅ | Static | None | Live |
 | Baseline | Vercel ✅ | Static | None | Live |
 | CoinCurator | Vercel ✅ | Node.js/SQLite | SQLite | Needs PG migration |
-| MacTrackr | Vercel ✅ | FastAPI | PostgreSQL | Crashed (env vars) |
+| TheresMac | Vercel ✅ | FastAPI | PostgreSQL | Crashed (env vars) |
 | Rumble | Vercel ✅ | FastAPI | Unknown | Needs deploy |
 | MintCondition | Vercel ✅ | Flask | Unknown | Needs deploy |
 | HealthIndex | Not built | Not built | Not built | Planning |
@@ -73,7 +73,7 @@
 **Current:** Partially executed—some backends not deployed yet
 
 **Recommendation:** Stick with original plan:
-1. Fix/deploy MacTrackr (immediate)
+1. Fix/deploy TheresMac (immediate)
 2. Deploy Rumble + MintCondition backends
 3. Migrate CoinCurator SQLite→PostgreSQL
 4. Build shared backend in background (Week 2-3)
@@ -130,8 +130,8 @@
 
 ### P0 (Before 9 AM)
 1. Review subagent results from overnight
-2. Check MacTrackr backend status
-3. Claim Twitter handles (healthindexhq, mactrackrapp)
+2. Check TheresMac backend status
+3. Claim Twitter handles (healthindexhq, theresmacapp)
 
 ### P1 (9-11 AM)
 4. LowKeyMode Xcode shipping (as scheduled)

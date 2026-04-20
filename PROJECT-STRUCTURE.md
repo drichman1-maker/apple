@@ -1,8 +1,8 @@
-# MacTrackr Project Structure
+# TheresMac Project Structure
 
 ## Active Projects (USE THESE)
 
-### 1. MacTrackr Frontend
+### 1. TheresMac Frontend
 **Location:** `/mactrackr-frontend/`
 **Type:** React + Vite
 **Current Status:** Ready to deploy
@@ -17,7 +17,7 @@ npm run build  # Creates dist/
 # Deploy with fly deploy
 ```
 
-### 2. MacTrackr API (Monorepo)
+### 2. TheresMac API (Monorepo)
 **Location:** `/price-aggregator-github/price-aggregator-api/`
 **Type:** Python FastAPI
 **Current Status:** Deployed at `https://mactrackr-api-backup.fly.dev`

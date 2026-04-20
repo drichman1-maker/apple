@@ -1,4 +1,4 @@
-# MacTrackr Price Monitor - Deployment Guide
+# TheresMac Price Monitor - Deployment Guide
 
 ## Overview
 - **Products monitored:** 25 (expanded from 10)
@@ -11,7 +11,7 @@
 ### 1. Create Resend Account
 1. Go to https://resend.com
 2. Sign up (free tier: 3,000 emails/day)
-3. Verify domain: `mactrackr.com`
+3. Verify domain: `theresmac.com`
    - Add DNS records in Cloudflare:
      - Type: TXT, Name: `_dmarc`, Value: `v=DMARC1; p=quarantine;`
      - Type: TXT, Name: `resend._domainkey`, Value: [from Resend]
@@ -19,7 +19,7 @@
 4. Get API key from Resend dashboard
 
 ### 2. Verify Sender Email
-- Add `alerts@mactrackr.com` as sender in Resend
+- Add `alerts@theresmac.com` as sender in Resend
 - Verify via email
 
 ## Step 2: Deploy n8n
@@ -95,22 +95,22 @@ Change if backend moves to Render primary.
 
 ## Email Alert Preview
 ```
-Subject: 🚨 MacTrackr: 2 Price Drops Detected
+Subject: 🚨 TheresMac: 2 Price Drops Detected
 
 Hi Doug,
 
-We detected 2 price drops on MacTrackr:
+We detected 2 price drops on TheresMac:
 
 • iPhone 16 Pro 256GB: $1199 → $1099 (Save $100)
 • MacBook Air 13" M4: $1299 → $1199 (Save $100)
 
 Total savings opportunity: $200
 
-View all deals: https://mactrackr.com
+View all deals: https://theresmac.com
 
 —
-MacTrackr Price Alerts
-Unsubscribe: https://mactrackr.com/unsubscribe
+TheresMac Price Alerts
+Unsubscribe: https://theresmac.com/unsubscribe
 ```
 
 ## Products Monitored (25 Total)
@@ -144,7 +144,7 @@ Unsubscribe: https://mactrackr.com/unsubscribe
 ## Next Steps
 
 ### Public Price Alerts (User-facing)
-- Build email signup on mactrackr.com
+- Build email signup on theresmac.com
 - Store user emails in Railway Postgres
 - Add "Watch This Product" button
 - Send batch alerts (daily digest vs instant)

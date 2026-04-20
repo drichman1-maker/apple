@@ -1,4 +1,4 @@
-# MacTrackr Price Monitor v1.0
+# TheresMac Price Monitor v1.0
 
 ## Overview
 Automated price monitoring for 25 Apple products with Telegram + Email alerts.
@@ -21,7 +21,7 @@ See [DEPLOY.md](DEPLOY.md) for detailed setup.
 
 ### 1. Email Setup
 - Create Resend account: https://resend.com
-- Verify `mactrackr.com` domain
+- Verify `theresmac.com` domain
 - Get API key
 
 ### 2. Deploy n8n
@@ -44,7 +44,7 @@ npx n8n
 
 ## Alert Channels
 - **Telegram:** Instant DM to you
-- **Email:** `alerts@mactrackr.com` → `doug@codemodeapps.com`
+- **Email:** `alerts@theresmac.com` → `doug@codemodeapps.com`
 
 ## Monitored Products (25)
 - 8 iPhones (16 series + 15)
@@ -62,4 +62,4 @@ Every 4 hours (6 times/day)
 $0/month (all free tiers)
 
 ## Next Phase
-Build public price alerts for users with email signup on mactrackr.com.
+Build public price alerts for users with email signup on theresmac.com.

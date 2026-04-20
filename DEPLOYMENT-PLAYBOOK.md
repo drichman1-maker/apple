@@ -2,7 +2,7 @@
 ## How to Deploy Projects (Don't Forget This)
 
 **Last Updated:** Feb 16, 2026  
-**Tested With:** Health Index, MacTrackr, RumbleDeals
+**Tested With:** Health Index, TheresMac, RumbleDeals
 
 ---
 
@@ -55,7 +55,7 @@ npx vercel domains add [domain.com]
 **Example:**
 ```bash
 npx vercel domains add healthindex.app
-npx vercel domains add mactrackr.com
+npx vercel domains add theresmac.com
 ```
 
 ### Step 5: Configure DNS (Cloudflare)
@@ -89,10 +89,10 @@ Or check in browser.
 - **Domain:** healthindex.app ✅
 - **Special:** Rebranded from "Aurum Wellness" → "Health Index"
 
-### MacTrackr (React + Vite)
+### TheresMac (React + Vite)
 - **Frontend Repo:** apple
 - **Backend Repo:** mactrackr-api
-- **Frontend Domain:** mactrackr.com ✅
+- **Frontend Domain:** theresmac.com ✅
 - **Backend:** Render (needs env vars)
 - **Build:** `npm run build` (creates dist/)
 - **API URL:** Set in .env.production: `VITE_API_URL=https://mactrackr-backend.onrender.com`
@@ -186,7 +186,7 @@ git push origin main --force
 | Project | Domain | Repo | Status | Backend |
 |---------|--------|------|--------|---------|
 | Health Index | healthindex.app | Med-device | ✅ Live | N/A |
-| MacTrackr | mactrackr.com | apple | ✅ Live | 🔴 Backend 404 (needs Render deploy) |
+| TheresMac | theresmac.com | apple | ✅ Live | 🔴 Backend 404 (needs Render deploy) |
 | RumbleDeals | rumbledeals.com | videogames | ⏳ DNS pending | Render (deploy) |
 
 ## CURRENT GIT/DEPLOY STATUS
@@ -197,8 +197,8 @@ git push origin main --force
 - Deploy: Vercel ✅
 - Mobile: Tested ✅
 
-**MacTrackr:**
-- Frontend Domain: mactrackr.com ✅
+**TheresMac:**
+- Frontend Domain: theresmac.com ✅
 - Frontend Repo: apple ✅
 - Frontend Deploy: Vercel ✅
 - Backend Repo: mactrackr-api 🔴 (needs creation)

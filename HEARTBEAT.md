@@ -14,7 +14,7 @@ Heartbeat runs every hour from 7 AM to 10 PM via cron job. It checks for deals a
 
 ### 1. Reddit Deal Scanning
 **Subreddits monitored:**
-- r/macdeals, r/appleswap, r/buildapcsales (MacTrackr)
+- r/macdeals, r/appleswap, r/buildapcsales (TheresMac)
 - r/pkmntcgtrades, r/pokemontcg (MintCondition)
 - r/coins, r/coincollecting (CoinCurator)
 - r/GameDeals, r/NintendoSwitchDeals (RumbleDeals)

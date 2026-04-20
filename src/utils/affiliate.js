@@ -1,7 +1,7 @@
 // affiliate.js
 // Amazon Associates affiliate link helper
 
-const AMAZON_TAG = 'mactrackr-20';
+const AMAZON_TAG = 'theresmac-20';
 
 // Convert any URL to Amazon affiliate link
 export const toAffiliateLink = (url, retailer = 'amazon') => {

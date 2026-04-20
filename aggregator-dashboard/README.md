@@ -3,7 +3,7 @@
 ## 📊 Dashboard
 
 Unified dashboard showing all price aggregator projects:
-- **MacTrackr** (mactrackr.com) - Apple products ✅ Live
+- **TheresMac** (theresmac.com) - Apple products ✅ Live
 - **MintCondition** (mintcondition.app) - Pokemon cards 🔄 In Progress
 - **CoinCurator** (coincurator.app) - Rare coins 🔄 In Progress
 - **RumbleDeals** (rumbledeals.com) - Video games ⏳ Pending
@@ -33,7 +33,7 @@ Automated Reddit/Twitter monitoring for deal discovery across all categories.
 
 | Project | Reddit Subreddits | Twitter Hashtags |
 |---------|-------------------|------------------|
-| MacTrackr | macdeals, appleswap, buildapcsales | #macdeals, #appledeals |
+| TheresMac | macdeals, appleswap, buildapcsales | #macdeals, #appledeals |
 | MintCondition | pkmntcgtrades, pokemontcg | #pokemoncards, #tcgdeals |
 | CoinCurator | coins, coincollecting | #coincollecting, #numismatics |
 | RumbleDeals | GameDeals, NintendoSwitchDeals | #gamedeals, #nintendoswitch |
@@ -72,7 +72,7 @@ The monitoring system will POST deal alerts to your n8n workflow.
 ## 🔄 Migration Status
 
 ### Completed ✅
-- **MacTrackr**: Fully migrated to shared backend (mactrackr-api-backup.fly.dev)
+- **TheresMac**: Fully migrated to shared backend (mactrackr-api-backup.fly.dev)
 - **Shared Backend**: Python/FastAPI serving multiple categories
 
 ### In Progress 🔄

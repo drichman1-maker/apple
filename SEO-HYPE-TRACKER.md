@@ -72,7 +72,7 @@
 |------|-----------|---------------|-----------|
 | LowKeyMode | ⏳ In dev | @lowkeymodeapp ✅ | ⏳ |
 | HealthIndex | ⏳ Deploying | @healthindexHQ ✅ | ⏳ |
-| MacTrackr | ⏳ Deploying | @mactrackrapp ✅ | ⏳ |
+| TheresMac | ⏳ Deploying | @theresmacapp ✅ | ⏳ |
 | GrailWatch | ✅ Live | ⏳ Need | ⏳ |
 | Fixed Income | ✅ Live | ⏳ Need | ⏳ |
 | MintCondition | ✅ Live | ⏳ Need | ⏳ |

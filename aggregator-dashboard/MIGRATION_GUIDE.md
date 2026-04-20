@@ -4,7 +4,7 @@
 
 | Project | Frontend | Backend | Shared Backend | Status |
 |---------|----------|---------|----------------|--------|
-| **MacTrackr** | ✅ React + Vite | ✅ Render (mactrackr-api) | ✅ mactrackr-api-backup.fly.dev | Live |
+| **TheresMac** | ✅ React + Vite | ✅ Render (mactrackr-api) | ✅ mactrackr-api-backup.fly.dev | Live |
 | **MintCondition** | ✅ React | ✅ Flask (old) | ❌ Needs migration | In Progress |
 | **CoinCurator** | ✅ Next.js | ✅ Node/Express (old) | ❌ Needs migration | In Progress |
 | **RumbleDeals** | ❌ Needs build | ✅ Python FastAPI | ❌ Needs migration | Pending |

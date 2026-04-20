@@ -1,4 +1,4 @@
-# MacTrackr Price Tracking & Alerts - Implementation Package
+# TheresMac Price Tracking & Alerts - Implementation Package
 
 ## 📦 What's Included
 
@@ -38,7 +38,7 @@ railway up
 
 **Environment Variables:**
 ```bash
-AMAZON_ASSOCIATES_TAG=mactrackr-20
+AMAZON_ASSOCIATES_TAG=theresmac-20
 APPLE_AFFILIATE_ID=your_phg_id
 BESTBUY_AFFILIATE_ID=your_cj_id
 BH_AFFILIATE_ID=your_bh_id
@@ -83,7 +83,7 @@ POST /api/newsletter/subscribe
 
 ```bash
 # 1. Sign up at https://resend.com
-# 2. Verify mactrackr.com domain (add DNS records)
+# 2. Verify theresmac.com domain (add DNS records)
 # 3. Get API key
 # 4. Add to n8n workflow + backend
 ```
@@ -159,5 +159,5 @@ n8n-price-monitor/
 
 1. **Want me to deploy n8n now?** (Need Resend API key first)
 2. **Want me to build the backend API for email alerts?** (Need Postgres setup first)
-3. **Want me to update the MacTrackr frontend?** (Need affiliate IDs first)
+3. **Want me to update the TheresMac frontend?** (Need affiliate IDs first)
 

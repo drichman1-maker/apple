@@ -9,7 +9,7 @@ Needs:
 - [ ] SEO optimization for affiliate traffic
 - [ ] Mobile responsiveness polish
 
-## MACTRACKR (mactrackr.com)  
+## MACTRACKR (theresmac.com)  
 Current: Working with real data, basic UI
 Needs:
 - [ ] Better UX/UI polish

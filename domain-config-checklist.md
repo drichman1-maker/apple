@@ -4,7 +4,7 @@
 
 | Site | Current URL | Target Domain | Status |
 |------|-------------|---------------|--------|
-| MacTrackr | https://mactrackr.com | mactrackr.com | ✅ DONE |
+| TheresMac | https://theresmac.com | theresmac.com | ✅ DONE |
 | Health Index | https://healthindex-frontend.vercel.app | healthindex.com | ⏳ PENDING |
 | MintCondition | https://web-eight-lime-62.vercel.app | mintcondition.com | ⏳ PENDING |
 | CoinCurator | https://frontend-kappa-hazel-34.vercel.app | TBD | ⏳ PENDING |
@@ -43,18 +43,18 @@ DNS: Add CNAME record pointing to `cname.vercel-dns.com`
 
 | Backend | Current | Target | Status |
 |---------|---------|--------|--------|
-| MacTrackr API | mactrackr-backend-new.onrender.com | api.mactrackr.com | ⏳ PENDING |
+| TheresMac API | mactrackr-backend-new.onrender.com | api.theresmac.com | ⏳ PENDING |
 | Health Index API | med-device.onrender.com | api.healthindex.com | ⏳ PENDING |
 | CoinCurator API | Not deployed | api.coincurator.com | ⏳ PENDING |
 
 ### Render Custom Domain Setup
 1. Render Dashboard → Service → Settings → Custom Domain
-2. Add: api.mactrackr.com
+2. Add: api.theresmac.com
 3. DNS: Add CNAME pointing to Render service URL
 4. Wait for SSL certificate provisioning
 
 ## Priority Order
-1. MacTrackr (already done)
+1. TheresMac (already done)
 2. RumbleGames (in progress)
 3. MintCondition (high value domain)
 4. Health Index

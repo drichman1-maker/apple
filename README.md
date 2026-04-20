@@ -1,4 +1,4 @@
-# MacTrackr Frontend
+# TheresMac Frontend
 
 A React/Vite application for tracking Apple product prices across multiple retailers.
 
@@ -84,7 +84,7 @@ VITE_ENV=development
 
 ### Production (.env.production)
 ```
-VITE_API_URL=https://api.mactrackr.com
+VITE_API_URL=https://api.theresmac.com
 VITE_ENV=production
 ```
 
@@ -249,10 +249,10 @@ This project is licensed under the MIT License.
 
 ## Support
 
-- 📧 Email: support@mactrackr.com
+- 📧 Email: support@theresmac.com
 - 🐛 Issues: GitHub Issues
 - 📖 Docs: This README
 
 ---
 
-**MacTrackr** - Never miss an Apple deal again! 🍎
+**TheresMac** - Never miss an Apple deal again! 🍎

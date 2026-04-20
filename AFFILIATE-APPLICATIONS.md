@@ -4,7 +4,7 @@
 - **URL:** https://affiliate-program.amazon.com/
 - **Sites to register:**
   1. HealthIndex (healthindex subdomain or vercel URL)
-  2. MacTrackr (mactrackr subdomain or vercel URL)
+  2. TheresMac (theresmac subdomain or vercel URL)
   3. Appliance Scout
   4. MintCondition (Pokémon)
   5. GrailWatch (Comics)
@@ -13,7 +13,7 @@
 
 ## Best Buy Affiliate
 - **URL:** https://www.bestbuy.com/site/best-buy-affiliate-program/pcmcat198500050001.c?id=pcmcat198500050001
-- **Sites:** MacTrackr, Appliance Scout
+- **Sites:** TheresMac, Appliance Scout
 - **Status:** Program restructuring — apply when available
 
 ## AWIN (Home Depot, Lowe's, etc.)
@@ -33,7 +33,7 @@
 
 ## Immediate Actions:
 1. ✅ Add /privacy pages to all sites
-2. ⏳ Deploy HealthIndex/MacTrackr with privacy
+2. ⏳ Deploy HealthIndex/TheresMac with privacy
 3. ⏳ Apply for Amazon Associates
 4. ⏳ Wait for eBay API exemption
 5. ⏳ Apply for other programs

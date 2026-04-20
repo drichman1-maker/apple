@@ -1,6 +1,6 @@
 # TOMORROW'S PLAN - February 18, 2026
 
-## Priority 1: MacTrackr Polish & Revenue
+## Priority 1: TheresMac Polish & Revenue
 - [ ] Ship price alerts (simple: email + target price)
 - [ ] Use n8n for alert automation
 - [ ] Apply Amazon Associates
@@ -45,7 +45,7 @@
 - Standard affiliate programs
 
 ## Priority 4: Social Media Promotion
-- [ ] Twitter/X strategy for MacTrackr
+- [ ] Twitter/X strategy for TheresMac
 - [ ] Reddit posts (r/apple, r/macbook, r/appledeals)
 - [ ] ProductHunt launch prep
 - [ ] Discord/Slack communities

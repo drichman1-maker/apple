@@ -1,7 +1,7 @@
 # 3-Backend Resilience Doctrine
 
 ## Overview
-MacTrackr operates on a **privacy-first, zero-single-point-of-failure** infrastructure. Three independent backends ensure 99.9%+ uptime without relying on any single provider.
+TheresMac operates on a **privacy-first, zero-single-point-of-failure** infrastructure. Three independent backends ensure 99.9%+ uptime without relying on any single provider.
 
 ## The Architecture
 
@@ -95,7 +95,7 @@ Provides unified monitoring for all backends:
 
 **Uptime Kuma Setup (pending):**
 - Install on spare MacBook Air
-- Monitors: mactrackr.com, Render, Railway, Fly.io
+- Monitors: theresmac.com, Render, Railway, Fly.io
 - Alerts: Telegram (461595428)
 
 ```bash
@@ -150,7 +150,7 @@ The shared backend now supports multiple product categories:
 ## Competitive Advantage
 
 **Marketing Angle:**
-> "MacTrackr runs on 3 independent servers for 99.99% uptime. Big Tech aggregators run on one."
+> "TheresMac runs on 3 independent servers for 99.99% uptime. Big Tech aggregators run on one."
 
 **Privacy Angle:**
 > "Your data never stays in one place. Distributed infrastructure = distributed trust."

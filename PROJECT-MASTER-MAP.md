@@ -13,10 +13,10 @@
 | **Backend** | N/A (static) | — |
 | **Notes** | Wellness equipment sourcing, B2B consultative |
 
-### 2. MacTrackr
+### 2. TheresMac
 | Attribute | Value | Status |
 |-----------|-------|--------|
-| **Domain** | mactrackr.com | ✅ DNS configured |
+| **Domain** | theresmac.com | ✅ DNS configured |
 | **GitHub Repo (Frontend)** | drichman1-maker/apple | ✅ Connected |
 | **GitHub Repo (Backend)** | drichman1-maker/mactrackr-api | ⚠️ Need to create/push |
 | **Local Folder (Frontend)** | mactrackr-frontend/ | ✅ Active |
@@ -128,7 +128,7 @@ Need to create repos for:
 | Domain/Subdomain | A Record | CNAME | Vercel Project | Status |
 |------------------|----------|-------|----------------|--------|
 | healthindex.app | 76.76.21.21 | — | healthindex-prod | ✅ Pending propagation |
-| mactrackr.com | 76.76.21.21 | www→vercel | mactrackr-frontend | ✅ Pending propagation |
+| theresmac.com | 76.76.21.21 | www→vercel | mactrackr-frontend | ✅ Pending propagation |
 | heathindex.com | 76.76.21.21 | www→vercel | — | ⚠️ Typo domain (keep?) |
 | *.codemodeapps.com | — | Need CNAME | Various | 🔴 Not configured |
 
@@ -136,8 +136,8 @@ Need to create repos for:
 
 ### Immediate (Today)
 1. ✅ Health Index deployed to healthindex.app
-2. ✅ MacTrackr frontend deployed to mactrackr.com
-3. ⏳ MacTrackr backend deploy to Render
+2. ✅ TheresMac frontend deployed to theresmac.com
+3. ⏳ TheresMac backend deploy to Render
 4. ⏳ Verify DNS propagation (5-60 min)
 5. ⏳ Affiliate applications (Amazon, ShareASale, Best Buy)
 

@@ -1,5 +1,5 @@
 {
-  "name": "MacTrackr Price Monitor v0.1",
+  "name": "TheresMac Price Monitor v0.1",
   "nodes": [
     {
       "parameters": {
@@ -39,7 +39,7 @@
     {
       "parameters": {
         "chatId": "461595428",
-        "text": "=🚨 PRICE DROP ALERT 🚨\n\n{{$json.alerts.map(a => `• ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (${{a.drop}}% drop)`).join('\n')}}\n\nCheck mactrackr.com for details",
+        "text": "=🚨 PRICE DROP ALERT 🚨\n\n{{$json.alerts.map(a => `• ${{a.name}}: $${{a.oldPrice}} → $${{a.newPrice}} (${{a.drop}}% drop)`).join('\n')}}\n\nCheck theresmac.com for details",
         "options": {}
       },
       "name": "Send Telegram Alert",

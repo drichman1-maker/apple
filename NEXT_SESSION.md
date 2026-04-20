@@ -1,11 +1,11 @@
-# Next Session Context - MacTrackr Monorepo
+# Next Session Context - TheresMac Monorepo
 
 ## ✅ Completed (Feb 20, 2026)
 
 ### Infrastructure
 - **Frontend**: https://mactrackr-web.fly.dev (React + Vite)
 - **API**: https://mactrackr-api-backup.fly.dev (FastAPI)
-- **Custom Domain**: mactrackr.com + www certificates created
+- **Custom Domain**: theresmac.com + www certificates created
 - **DNS**: A/AAAA records ready to configure at DNS provider
 
 ### Products
@@ -45,18 +45,18 @@
 ### 1. Domain DNS Configuration
 **Action Required**: Add DNS records at your domain registrar
 ```
-A     mactrackr.com     66.241.124.172
-AAAA  mactrackr.com     2a09:8280:1::d6:9dcc:0
+A     theresmac.com     66.241.124.172
+AAAA  theresmac.com     2a09:8280:1::d6:9dcc:0
 A     www               66.241.124.172
 AAAA  www               2a09:8280:1::d6:9dcc:0
 ```
 
 ### 2. API Subdomain (Optional)
-Set up api.mactrackr.com for cleaner API URLs:
+Set up api.theresmac.com for cleaner API URLs:
 ```bash
 cd price-aggregator-github/price-aggregator-api
-fly certs add api.mactrackr.com --app mactrackr-api-backup
-# Then add CNAME: api.mactrackr.com → mactrackr-api-backup.fly.dev
+fly certs add api.theresmac.com --app mactrackr-api-backup
+# Then add CNAME: api.theresmac.com → mactrackr-api-backup.fly.dev
 ```
 
 ### 3. Missing Products to Add
