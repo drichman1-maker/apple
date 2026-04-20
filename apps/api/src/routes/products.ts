@@ -98,6 +98,43 @@ productsRouter.get('/:slug', async (req: Request<SiteParams & { slug: string }>,
   }
 });
 
+// GET /api/:site/products/:slug/price-history?days=90
+productsRouter.get('/:slug/price-history', async (req: Request<SiteParams & { slug: string }>, res) => {
+  const { site, slug } = req.params;
+  const days = Math.min(parseInt(req.query.days as string) || 90, 365);
+
+  try {
+    const product = await db.product.findUnique({
+      where: { site_slug: { site, slug } },
+      select: { id: true },
+    });
+
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+
+    const since = new Date();
+    since.setDate(since.getDate() - days);
+
+    const history = await db.priceHistory.findMany({
+      where: { productId: product.id, changedAt: { gte: since } },
+      orderBy: { changedAt: 'asc' },
+    });
+
+    res.json({
+      slug,
+      days,
+      history: history.map((h) => ({
+        date: h.changedAt.toISOString(),
+        retailer: h.retailer,
+        price: h.newPrice,
+        status: h.newStatus,
+      })),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch price history' });
+  }
+});
+
 // POST /api/:site/products/:id/click — track affiliate click
 productsRouter.post('/:id/click', async (req: Request<SiteParams & { id: string }>, res) => {
   const { site, id } = req.params;
