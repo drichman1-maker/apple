@@ -41,10 +41,38 @@ scraperRouter.post('/update', async (req, res) => {
       // Skip if manually verified — admin override takes precedence
       if (existing?.verified) { results.skipped++; continue; }
 
+      const msrp = (product.msrp as number | null) ?? 0;
+
+      // ── Price sanity checks ──────────────────────────────────────────────────
+      // 1. MSRP range: if MSRP is known, reject wildly out-of-range prices
+      if (msrp > 0) {
+        if (u.price < msrp * 0.2 || u.price > msrp * 3.0) {
+          console.warn(
+            `[scraper] Sanity fail ${u.productSlug}/${u.retailer}: $${u.price} vs MSRP $${msrp} — skipped`
+          );
+          results.skipped++;
+          continue;
+        }
+      }
+
+      // 2. Large sudden change: if existing price and new price differ by >50%,
+      //    save the price but mark as unverified so admin can review.
+      let largePriceChange = false;
+      if (existing?.price && existing.price > 0) {
+        const changePct = Math.abs((u.price - existing.price) / existing.price);
+        if (changePct > 0.5) {
+          console.warn(
+            `[scraper] Large change ${u.productSlug}/${u.retailer}: $${existing.price} → $${u.price} (${Math.round(changePct * 100)}%) — flagged unverified`
+          );
+          largePriceChange = true;
+        }
+      }
+      // ────────────────────────────────────────────────────────────────────────
+
       await db.retailerPrice.upsert({
         where: { productId_retailer: { productId: product.id, retailer: u.retailer } },
-        create: { productId: product.id, retailer: u.retailer, price: u.price, status: u.status, url: u.url },
-        update: { price: u.price, status: u.status, url: u.url },
+        create: { productId: product.id, retailer: u.retailer, price: u.price, status: u.status, url: u.url, verified: false },
+        update: { price: u.price, status: u.status, url: u.url, ...(largePriceChange ? { verified: false } : {}) },
       });
 
       if (!existing || existing.price !== u.price || existing.status !== u.status) {
