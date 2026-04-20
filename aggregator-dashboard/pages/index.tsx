@@ -208,7 +208,7 @@ export default function Dashboard() {
                     <span className="text-green-400 text-sm font-medium">✓</span>
                   </div>
                   <div>
-                    <p className="text-white font-medium">MacTrackr</p>
+                    <p className="text-white font-medium">TheresMac</p>
                     <p className="text-sm text-gray-400">Fully migrated to shared backend</p>
                   </div>
                 </div>

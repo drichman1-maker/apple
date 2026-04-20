@@ -12,7 +12,7 @@ const M4vsM3UpgradeGuide2026 = () => {
       <header className="blog-header">
         <h1>M4 vs M3: Is the Upgrade Worth It in 2026?</h1>
         <p className="meta">
-          <span>February 18, 2026</span> • <span>10 min read</span> • <span>By MacTrackr Team</span>
+          <span>February 18, 2026</span> • <span>10 min read</span> • <span>By TheresMac Team</span>
         </p>
       </header>
 
@@ -192,7 +192,7 @@ const M4vsM3UpgradeGuide2026 = () => {
         <p><strong>Is the M4 better for gaming?</strong> The M4's improved GPU architecture delivers roughly 20–25% better gaming performance in titles optimized for Apple Silicon.</p>
 
         <h2>Conclusion</h2>
-        <p>The M4 vs M3 decision ultimately comes down to your budget and performance needs. The M4 is objectively the better chip — faster, more efficient, and more future-proof. But the M3 at current sale prices offers exceptional value that's hard to ignore. Compare refurbished M3 vs new M4 prices on MacTrackr to find the best deal for your specific needs and budget.</p>
+        <p>The M4 vs M3 decision ultimately comes down to your budget and performance needs. The M4 is objectively the better chip — faster, more efficient, and more future-proof. But the M3 at current sale prices offers exceptional value that's hard to ignore. Compare refurbished M3 vs new M4 prices on TheresMac to find the best deal for your specific needs and budget.</p>
       </section>
     </div>
   );

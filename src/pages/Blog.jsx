@@ -38,7 +38,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
       <Helmet>
-        <title>Blog | MacTrackr</title>
+        <title>Blog | TheresMac</title>
         <meta name="description" content="Buying guides, comparisons, and deals for Apple products." />
       </Helmet>
       
@@ -48,7 +48,7 @@ const Blog = () => {
           Back to products
         </Link>
         
-        <h1 className="text-3xl font-bold text-white mb-4">MacTrackr Blog</h1>
+        <h1 className="text-3xl font-bold text-white mb-4">TheresMac Blog</h1>
         <p className="text-gray-400 mb-12">Buying guides, specs comparisons, and money-saving tips for Apple products.</p>
 
         <div className="space-y-6">

@@ -12,7 +12,7 @@ const RefurbishedMacMiniWorthSavings2026 = () => {
       <header className="blog-header">
         <h1>Refurbished Mac Mini: Worth the Savings in 2026?</h1>
         <p className="meta">
-          <span>February 18, 2026</span> • <span>8 min read</span> • <span>By MacTrackr Team</span>
+          <span>February 18, 2026</span> • <span>8 min read</span> • <span>By TheresMac Team</span>
         </p>
       </header>
 
@@ -132,7 +132,7 @@ const RefurbishedMacMiniWorthSavings2026 = () => {
         <p><strong>Will a refurbished Mac Mini receive software updates?</strong> Absolutely. Refurbished Macs receive the same software updates as new units.</p>
 
         <h2>Conclusion</h2>
-        <p>A refurbished Mac Mini represents one of the best values in Apple's entire lineup. You get the same performance, warranty, and reliability as a new unit at a significant discount. Find refurbished Mac Mini deals on MacTrackr to compare prices across Apple, Amazon, Best Buy, and other authorized retailers.</p>
+        <p>A refurbished Mac Mini represents one of the best values in Apple's entire lineup. You get the same performance, warranty, and reliability as a new unit at a significant discount. Find refurbished Mac Mini deals on TheresMac to compare prices across Apple, Amazon, Best Buy, and other authorized retailers.</p>
       </section>
     </div>
   );

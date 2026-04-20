@@ -5,8 +5,8 @@ const Privacy = () => {
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
       <Helmet>
-        <title>Privacy Policy | MacTrackr</title>
-        <meta name="description" content="MacTrackr privacy policy - we don't collect your data." />
+        <title>Privacy Policy | TheresMac</title>
+        <meta name="description" content="TheresMac privacy policy - we don't collect your data." />
       </Helmet>
       
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +15,7 @@ const Privacy = () => {
         <div className="space-y-6 text-gray-400">
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">We Don't Collect Your Data</h2>
-            <p>MacTrackr is anonymous by design. We built this site because we were tired of Big Tech tracking every click.</p>
+            <p>TheresMac is anonymous by design. We built this site because we were tired of Big Tech tracking every click.</p>
           </section>
 
           <section>
@@ -40,7 +40,7 @@ const Privacy = () => {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Affiliate Disclosure</h2>
-            <p>MacTrackr participates in affiliate programs (Amazon Associates, B&H Photo, Adorama). When you click a retailer link and make a purchase, we may earn a small commission at no extra cost to you.</p>
+            <p>TheresMac participates in affiliate programs (Amazon Associates, B&H Photo, Adorama). When you click a retailer link and make a purchase, we may earn a small commission at no extra cost to you.</p>
             <p className="mt-3">This doesn't affect which products we show or how we rank them. We show the best prices regardless of affiliate relationships.</p>
           </section>
 
