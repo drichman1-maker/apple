@@ -1,5 +1,6 @@
 import React from 'react'
 import { Edit, Trash2, Bell, BellOff, Check, TrendingDown, TrendingUp } from 'lucide-react'
+import { retailerLabel } from '../../lib/retailers.js'
 
 const AlertCard = ({ alert, onEdit, onDelete, onToggle }) => {
   const {
@@ -26,16 +27,8 @@ const AlertCard = ({ alert, onEdit, onDelete, onToggle }) => {
     })
   }
 
-  const getRetailerDisplayName = (retailerKey) => {
-    const names = {
-      any: 'Any Retailer',
-      apple: 'Apple Store',
-      amazon: 'Amazon',
-      bestbuy: 'Best Buy',
-      bh: 'B&H Photo'
-    }
-    return names[retailerKey] || retailerKey
-  }
+  const getRetailerDisplayName = (retailerKey) =>
+    retailerKey === 'any' ? 'Any Retailer' : retailerLabel(retailerKey)
 
   const getStatusBadge = () => {
     if (isTriggered) {

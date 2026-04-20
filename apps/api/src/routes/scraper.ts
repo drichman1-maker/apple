@@ -89,7 +89,14 @@ scraperRouter.post('/update', async (req, res) => {
 
       results.updated++;
     } catch (err) {
-      console.error(`Scraper update error for ${u.productSlug}/${u.retailer}:`, err);
+      console.error(JSON.stringify({
+        level: 'error',
+        route: 'scraper/update',
+        site,
+        productSlug: u.productSlug,
+        retailer: u.retailer,
+        msg: err instanceof Error ? err.message : String(err),
+      }));
       results.errors++;
     }
   }

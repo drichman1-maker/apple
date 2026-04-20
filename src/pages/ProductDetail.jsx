@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Bell, ShoppingCart, ExternalLink } from 'lucide-react'
 import LoadingSpinner from '../components/UI/LoadingSpinner'
+import { API_URL } from '../lib/env.js'
+import { retailerLabel, retailerSearchUrl } from '../lib/retailers.js'
 
 const ProductDetail = () => {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
+  const [error, setError] = useState(null)
   const [priceHistory, setPriceHistory] = useState([])
   const [loading, setLoading] = useState(true)
   const [alertPrice, setAlertPrice] = useState('')
@@ -19,73 +22,30 @@ const ProductDetail = () => {
   const fetchProductData = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`https://mactrackr-backend-new.onrender.com/api/products/${id}`)
+      setError(null)
+      const response = await fetch(`${API_URL}/api/products/${id}`)
       if (response.ok) {
         const data = await response.json()
         setProduct(data)
+      } else if (response.status === 404) {
+        setProduct(null)
       } else {
-        setProduct(getMockProduct(id))
+        setError(`Failed to load product (HTTP ${response.status})`)
       }
     } catch (err) {
       console.error('Failed to fetch product:', err)
-      setProduct(getMockProduct(id))
+      setError('Failed to load product. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const getMockProduct = (productId) => {
-    return {
-      id: productId,
-      name: 'MacBook Pro 16" M4 Max',
-      category: 'mac',
-      brand: 'Apple',
-      prices: {
-        apple: { price: 2499, inStock: true, url: 'https://apple.com' },
-        bestbuy: { price: 2199, inStock: true, url: 'https://bestbuy.com' },
-        bh: { price: 2249, inStock: true, url: 'https://bhphotovideo.com' },
-        adorama: { price: 2289, inStock: false, url: 'https://adorama.com' }
-      }
-    }
-  }
+  const getRetailerDisplayName = retailerLabel
 
-  // Get retailer display name
-  const getRetailerDisplayName = (retailer) => {
-    const names = {
-      apple: 'Apple',
-      amazon: 'Amazon',
-      walmart: 'Walmart',
-      target: 'Target',
-      bestbuy: 'Best Buy',
-      bh: 'B&H',
-      adorama: 'Adorama',
-      ebay: 'eBay',
-      newegg: 'Newegg'
-    }
-    return names[retailer] || retailer
-  }
-
-  // Get retailer URL
   const getRetailerUrl = (retailer, productName) => {
     const priceData = product.prices[retailer]
-    if (priceData && priceData.url) {
-      return priceData.url
-    }
-    
-    const searchQuery = encodeURIComponent(productName)
-    const urls = {
-      apple: `https://www.apple.com/search/${searchQuery}`,
-      amazon: `https://www.amazon.com/s?k=${searchQuery}`,
-      walmart: `https://www.walmart.com/search?q=${searchQuery}`,
-      target: `https://www.target.com/s?searchTerm=${searchQuery}`,
-      bestbuy: `https://www.bestbuy.com/site/searchpage.jsp?st=${searchQuery}`,
-      bh: `https://www.bhphotovideo.com/c/search?q=${searchQuery}`,
-      adorama: `https://www.adorama.com/search?q=${searchQuery}`,
-      ebay: `https://www.ebay.com/sch/i.html?_nkw=${searchQuery}`,
-      cdw: `https://www.cdw.com/search?q=${searchQuery}`,
-      newegg: `https://www.newegg.com/p/pl?d=${searchQuery}`
-    }
-    return urls[retailer] || '#'
+    if (priceData?.url) return priceData.url
+    return retailerSearchUrl(retailer, productName)
   }
 
   // Mock product image based on category
@@ -104,6 +64,27 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <LoadingSpinner />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="text-center px-4">
+          <p className="text-red-400 mb-2">{error}</p>
+          <button
+            onClick={fetchProductData}
+            className="text-blue-400 hover:underline mt-2 inline-block"
+          >
+            Retry
+          </button>
+          <div className="mt-4">
+            <Link to="/" className="text-gray-500 hover:text-gray-300 text-sm">
+              Back to products
+            </Link>
+          </div>
+        </div>
       </div>
     )
   }

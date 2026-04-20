@@ -40,3 +40,15 @@ jobs:
         env:
           SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
           API_BASE: https://agg-api-hub.fly.dev
+
+      - name: Trigger theresmac.com rebuild
+        if: ${{ (github.event.inputs.site == 'theresmac' || github.event.inputs.site == 'all' || github.event_name == 'schedule') && env.THERESMAC_DEPLOY_HOOK != '' }}
+        env:
+          THERESMAC_DEPLOY_HOOK: ${{ secrets.THERESMAC_DEPLOY_HOOK }}
+        run: curl -sf -X POST "$THERESMAC_DEPLOY_HOOK" > /dev/null
+
+      - name: Trigger gpudrip.com rebuild
+        if: ${{ (github.event.inputs.site == 'gpudrip' || github.event.inputs.site == 'all' || github.event_name == 'schedule') && env.GPUDRIP_DEPLOY_HOOK != '' }}
+        env:
+          GPUDRIP_DEPLOY_HOOK: ${{ secrets.GPUDRIP_DEPLOY_HOOK }}
+        run: curl -sf -X POST "$GPUDRIP_DEPLOY_HOOK" > /dev/null

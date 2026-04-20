@@ -2,12 +2,12 @@
  * Scraper runner — fetches all products for a site, runs adapters in parallel,
  * batches results and POSTs to the unified API's /api/scraper/update endpoint.
  */
+import { z } from 'zod';
 import type { Adapter, ProductInput, ScraperResult } from './types.js';
 import { bestbuyAdapter } from './adapters/bestbuy.js';
 import { ebayAdapter } from './adapters/ebay.js';
 import { amazonAdapter } from './adapters/amazon.js';
 import { appleAdapter } from './adapters/apple.js';
-import { neweggAdapter } from './adapters/newegg.js';
 import { walmartAdapter } from './adapters/walmart.js';
 import { bhAdapter, adoramaAdapter, sweetwaterAdapter, targetAdapter, abtAdapter, microcenterAdapter } from './adapters/direct.js';
 
@@ -16,7 +16,6 @@ const ALL_ADAPTERS: Adapter[] = [
   bestbuyAdapter,
   amazonAdapter,
   ebayAdapter,
-  neweggAdapter,
   walmartAdapter,
   bhAdapter,
   adoramaAdapter,
@@ -29,17 +28,35 @@ const ALL_ADAPTERS: Adapter[] = [
 // Retailers relevant per site — limits unnecessary API calls
 const SITE_RETAILERS: Record<string, string[]> = {
   theresmac: ['apple', 'bestbuy', 'amazon', 'ebay', 'walmart', 'target', 'bh', 'adorama', 'sweetwater', 'abt', 'microcenter'],
-  // Newegg removed: returns wildly incorrect prices from accessory listings
   gpudrip: ['bestbuy', 'amazon', 'ebay', 'bh', 'adorama', 'microcenter', 'abt'],
   default: ['bestbuy', 'amazon', 'ebay'],
 };
+
+const scraperResultSchema = z.object({
+  retailer: z.string().min(1),
+  price: z.number().positive().finite(),
+  status: z.enum(['in_stock', 'out_of_stock', 'backordered', 'not_carried']),
+  url: z.string().url(),
+});
+
+const apiProductSchema = z.object({
+  slug: z.string().min(1),
+  name: z.string().min(1),
+  category: z.string().min(1),
+  msrp: z.number().nullable(),
+  isRefurb: z.boolean().optional(),
+}).passthrough();
 
 async function fetchProducts(site: string): Promise<ProductInput[]> {
   const apiBase = process.env.API_BASE ?? 'https://agg-api-hub.fly.dev';
   const res = await fetch(`${apiBase}/api/${site}/products`);
   if (!res.ok) throw new Error(`Failed to fetch products for ${site}: ${res.status}`);
-  const products = await res.json() as any[];
-  return products.map(p => ({
+  const raw = await res.json();
+  const parsed = z.array(apiProductSchema).safeParse(raw);
+  if (!parsed.success) {
+    throw new Error(`Product list from ${site} failed validation: ${parsed.error.issues.slice(0, 3).map(i => `${i.path.join('.')}: ${i.message}`).join('; ')}`);
+  }
+  return parsed.data.map(p => ({
     slug: p.slug,
     name: p.name,
     // Strip "(Refurbished)" suffix for clean search queries on Amazon/BestBuy/etc.
@@ -73,7 +90,20 @@ async function postUpdates(site: string, updates: Array<ScraperResult & { produc
 /** Rate limit: pause between adapter calls to avoid hammering retailers */
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 
-export async function runScraper(site: string, options: { dryRun?: boolean; limit?: number } = {}) {
+type AdapterStats = { ok: number; notFound: number; notCarried: number; error: number };
+
+export interface ScraperReport {
+  site: string;
+  totalProducts: number;
+  totalResults: number;
+  adapters: Record<string, AdapterStats>;
+  brokenAdapters: string[];
+}
+
+export async function runScraper(
+  site: string,
+  options: { dryRun?: boolean; limit?: number } = {},
+): Promise<ScraperReport> {
   const { dryRun = false, limit } = options;
   const relevantRetailers = new Set(SITE_RETAILERS[site] ?? SITE_RETAILERS.default);
   const adapters = ALL_ADAPTERS.filter(a => relevantRetailers.has(a.retailer));
@@ -88,44 +118,73 @@ export async function runScraper(site: string, options: { dryRun?: boolean; limi
   const batchSize = 20;
   let batchUpdates: Array<ScraperResult & { productSlug: string }> = [];
   let totalResults = 0;
+  const stats: Record<string, AdapterStats> = Object.fromEntries(
+    adapters.map(a => [a.retailer, { ok: 0, notFound: 0, notCarried: 0, error: 0 }]),
+  );
 
   for (let i = 0; i < targets.length; i++) {
     const product = targets[i];
     if (!product) continue;
     console.log(`[${i + 1}/${targets.length}] ${product.name}`);
 
-    // Run all adapters for this product in parallel
+    // Run all adapters for this product in parallel; preserve rejection vs null distinction
     const results = await Promise.allSettled(
-      adapters.map(adapter => adapter.fetch(product).catch(() => null))
+      adapters.map(adapter => adapter.fetch(product)),
     );
 
     results.forEach((result, j) => {
       const adapter = adapters[j];
       if (!adapter) return;
-      if (result.status === 'fulfilled' && result.value && result.value.status !== 'not_carried') {
-        const r = result.value;
-        console.log(`  ✓ ${r.retailer}: $${r.price} (${r.status})`);
-        batchUpdates.push({ ...r, productSlug: product.slug });
-        totalResults++;
-      } else if (result.status === 'rejected') {
-        console.log(`  ✗ ${adapter.retailer}: error`);
+      const s = stats[adapter.retailer]!;
+      if (result.status === 'rejected') {
+        s.error++;
+        console.log(`  ✗ ${adapter.retailer}: threw — ${(result.reason as Error)?.message ?? result.reason}`);
+        return;
       }
+      const r = result.value;
+      if (!r) { s.notFound++; return; }
+      if (r.status === 'not_carried') { s.notCarried++; return; }
+      const validated = scraperResultSchema.safeParse(r);
+      if (!validated.success) {
+        s.error++;
+        console.log(`  ✗ ${adapter.retailer}: invalid result — ${validated.error.issues[0]?.message}`);
+        return;
+      }
+      s.ok++;
+      console.log(`  ✓ ${r.retailer}: $${r.price} (${r.status})`);
+      batchUpdates.push({ ...validated.data, productSlug: product.slug });
+      totalResults++;
     });
 
-    // Flush batch every N products
     if (!dryRun && batchUpdates.length >= batchSize) {
       await postUpdates(site, batchUpdates);
       batchUpdates = [];
     }
 
-    // Polite rate limit between products
     if (i < targets.length - 1) await sleep(1000);
   }
 
-  // Flush remaining
   if (!dryRun && batchUpdates.length > 0) {
     await postUpdates(site, batchUpdates);
   }
 
+  // An adapter is "broken" if it produced zero successes across all products.
+  // Exclude adapters that were category-filtered out (notCarried == total).
+  const brokenAdapters = Object.entries(stats)
+    .filter(([, s]) => s.ok === 0 && s.notCarried < targets.length)
+    .map(([retailer]) => retailer);
+
   console.log(`\n✅ Done — ${totalResults} price points scraped${dryRun ? ' (dry run, not saved)' : ''}`);
+  console.log('\nPer-adapter results:');
+  for (const [retailer, s] of Object.entries(stats)) {
+    const total = s.ok + s.notFound + s.notCarried + s.error;
+    console.log(`  ${retailer.padEnd(12)} ok=${s.ok} notFound=${s.notFound} notCarried=${s.notCarried} error=${s.error} (${total} total)`);
+  }
+  if (brokenAdapters.length > 0) {
+    console.log(`\n⚠️  Broken adapters (zero successes): ${brokenAdapters.join(', ')}`);
+  }
+
+  const report: ScraperReport = { site, totalProducts: targets.length, totalResults, adapters: stats, brokenAdapters };
+  console.log(`\nSCRAPER_REPORT ${JSON.stringify(report)}`);
+  return report;
 }

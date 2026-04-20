@@ -138,48 +138,6 @@ export const adoramaAdapter: Adapter = {
   },
 };
 
-// ── CDW ───────────────────────────────────────────────────────────────────────
-export const cdwAdapter: Adapter = {
-  retailer: 'cdw',
-
-  async fetch(product: ProductInput): Promise<ScraperResult | null> {
-    const query = encodeURIComponent(product.searchName);
-    // CDW has a REST search endpoint
-    const searchUrl = `https://www.cdw.com/search/?key=${query}&filter=cpabcat:Apple`;
-
-    try {
-      const html = await fetchHtml(searchUrl);
-      if (!html) return null;
-
-      const price = extractPrice(html, [
-        /"price"\s*:\s*"([\d.]+)"/,
-        /"listPrice"\s*:\s*"([\d.]+)"/,
-        /data-price="([\d.]+)"/,
-        /class="[^"]*price[^"]*"[^>]*>\$?([\d,]+\.\d{2})/,
-      ], product.msrp);
-
-      const urlMatch = html.match(/href="(\/product\/[^"?#]+)"/);
-      const productUrl = urlMatch
-        ? `https://www.cdw.com${urlMatch[1]}`
-        : `https://www.cdw.com/search/?key=${query}`;
-
-      if (!price) return null;
-
-      const outOfStock = /out.of.stock|backordered/i.test(html);
-      const backordered = /backordered/i.test(html);
-      return {
-        retailer: 'cdw',
-        price,
-        status: backordered ? 'backordered' : outOfStock ? 'out_of_stock' : 'in_stock',
-        url: productUrl,
-      };
-    } catch (err) {
-      console.error(`[cdw] Error:`, err);
-      return null;
-    }
-  },
-};
-
 // ── Sweetwater ────────────────────────────────────────────────────────────────
 export const sweetwaterAdapter: Adapter = {
   retailer: 'sweetwater',

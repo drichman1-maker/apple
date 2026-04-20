@@ -2,11 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import ProductGrid from '../components/Products/ProductGrid'
 import LoadingSpinner from '../components/UI/LoadingSpinner'
+import { API_URL } from '../lib/env.js'
 
 const ProductCatalog = () => {
   const { category } = useParams()
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [activeFilter, setActiveFilter] = useState(category || 'All')
 
   const categories = ['All', 'Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
@@ -16,103 +18,27 @@ const ProductCatalog = () => {
     setActiveFilter(category || 'All')
   }, [category])
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true)
-      try {
-        const url = 'https://mactrackr-backend-new.onrender.com/api/products'
-        const response = await fetch(url)
-        if (response.ok) {
-          const data = await response.json()
-          setProducts(data.products || [])
-        } else {
-          setProducts(getMockProducts())
-        }
-      } catch (error) {
-        console.error('Failed to fetch products:', error)
-        setProducts(getMockProducts())
+  const fetchProducts = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await fetch(`${API_URL}/api/products`)
+      if (response.ok) {
+        const data = await response.json()
+        setProducts(data.products || [])
+      } else {
+        setError(`Failed to load products (HTTP ${response.status})`)
       }
-      setLoading(false)
+    } catch (err) {
+      console.error('Failed to fetch products:', err)
+      setError('Failed to load products. Please try again.')
     }
+    setLoading(false)
+  }
 
+  useEffect(() => {
     fetchProducts()
   }, [])
-
-  const getMockProducts = () => {
-    return [
-      {
-        id: 'macbook-pro-16-m4',
-        name: 'MacBook Pro 16" M4 Max',
-        category: 'mac',
-        brand: 'Apple',
-        prices: {
-          bestbuy: { price: 2199, inStock: true, url: 'https://bestbuy.com' },
-          apple: { price: 2499, inStock: true, url: 'https://apple.com' },
-          bh: { price: 2249, inStock: true, url: 'https://bhphotovideo.com' }
-        },
-        specifications: {
-          ram: '36GB',
-          storage: '1TB',
-          color: 'Space Black',
-          year: '2025'
-        },
-        msrp: 2499
-      },
-      {
-        id: 'iphone-16-pro-max',
-        name: 'iPhone 16 Pro Max 256GB',
-        category: 'iphone',
-        brand: 'Apple',
-        prices: {
-          bh: { price: 1149, inStock: true, url: 'https://bhphotovideo.com' },
-          apple: { price: 1199, inStock: true, url: 'https://apple.com' },
-          amazon: { price: 1149, inStock: true, url: 'https://amazon.com' }
-        },
-        specifications: {
-          storage: '256GB',
-          color: 'Natural Titanium',
-          year: '2025'
-        },
-        msrp: 1199
-      },
-      {
-        id: 'ipad-pro-13-m4',
-        name: 'iPad Pro 13" M4 WiFi+Cell',
-        category: 'ipad',
-        brand: 'Apple',
-        prices: {
-          adorama: { price: 1799, inStock: true, url: 'https://adorama.com' },
-          apple: { price: 1999, inStock: true, url: 'https://apple.com' },
-          amazon: { price: 1849, inStock: true, url: 'https://amazon.com' }
-        },
-        specifications: {
-          ram: '16GB',
-          storage: '1TB',
-          color: 'Silver',
-          year: '2025'
-        },
-        msrp: 1999
-      },
-      {
-        id: 'macbook-air-15-m3',
-        name: 'MacBook Air 15" M3',
-        category: 'mac',
-        brand: 'Apple',
-        prices: {
-          apple: { price: 1399, inStock: true, url: 'https://apple.com' },
-          amazon: { price: 1299, inStock: true, url: 'https://amazon.com' },
-          bestbuy: { price: 1349, inStock: true, url: 'https://bestbuy.com' }
-        },
-        specifications: {
-          ram: '24GB',
-          storage: '512GB',
-          color: 'Midnight',
-          year: '2024'
-        },
-        msrp: 1499
-      }
-    ]
-  }
 
   // Filter products by category with strict matching
   const filteredProducts = useMemo(() => {
@@ -140,6 +66,22 @@ const ProductCatalog = () => {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
         <LoadingSpinner size="large" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="text-center px-4">
+          <p className="text-red-400 mb-2">{error}</p>
+          <button
+            onClick={fetchProducts}
+            className="text-blue-400 hover:underline mt-2 inline-block"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     )
   }

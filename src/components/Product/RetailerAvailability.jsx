@@ -1,19 +1,8 @@
 import React from 'react'
 import { ExternalLink } from 'lucide-react'
+import { retailerLabel } from '../../lib/retailers.js'
 
 const RetailerAvailability = ({ prices }) => {
-  const retailerNames = {
-    apple: 'Apple',
-    amazon: 'Amazon',
-    walmart: 'Walmart',
-    target: 'Target',
-    bestbuy: 'Best Buy',
-    bh: 'B&H Photo',
-    adorama: 'Adorama',
-    ebay: 'eBay',
-    cdw: 'CDW'
-  }
-
   const sortedPrices = Object.entries(prices)
     .map(([retailer, data]) => ({ retailer, ...data }))
     .sort((a, b) => a.price - b.price)
@@ -33,7 +22,7 @@ const RetailerAvailability = ({ prices }) => {
           >
             <div className="flex items-center gap-3">
               <span className="text-white font-medium">
-                {retailerNames[retailer] || retailer}
+                {retailerLabel(retailer)}
               </span>
               <span 
                 className={`w-2 h-2 rounded-full ${
