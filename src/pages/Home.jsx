@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, TrendingDown, Sparkles, ArrowRight } from 'lucide-react'
+import { API_URL } from '../lib/env.js'
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([])
@@ -12,7 +13,7 @@ const Home = () => {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await fetch('https://mactrackr-backend-new.onrender.com/api/products')
+      const response = await fetch(`${API_URL}/api/products`)
       if (response.ok) {
         const data = await response.json()
         // Select featured products: cheapest MBA, MBP, iPad Pro, iPhone, Mac mini

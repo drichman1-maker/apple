@@ -1,17 +1,8 @@
 import React from 'react'
 import { ExternalLink, Clock } from 'lucide-react'
+import { retailerLabel } from '../../lib/retailers.js'
 
 const PriceComparison = ({ prices }) => {
-  const getRetailerDisplayName = (retailer) => {
-    const names = {
-      apple: 'Apple Store',
-      amazon: 'Amazon',
-      bestbuy: 'Best Buy',
-      bh: 'B&H Photo'
-    }
-    return names[retailer] || retailer
-  }
-
   const getRetailerLogo = (retailer) => {
     // In a real app, these would be actual logo images
     const logos = {
@@ -47,7 +38,7 @@ const PriceComparison = ({ prices }) => {
               <div>
                 <div className="flex items-center space-x-2">
                   <h4 className="font-medium text-gray-900 dark:text-white">
-                    {getRetailerDisplayName(retailer)}
+                    {retailerLabel(retailer)}
                   </h4>
                   {price === lowestPrice && (
                     <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">

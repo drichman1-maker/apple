@@ -2,7 +2,7 @@
  * Unified Monitoring System for Price Aggregators
  * 
  * This module provides Reddit and Twitter monitoring for deal discovery
- * across all aggregator projects (MacTrackr, MintCondition, CoinCurator)
+ * across all aggregator projects (TheresMac, MintCondition, CoinCurator)
  * 
  * Integrates with n8n webhook workflow for automated alerts
  */
@@ -20,7 +20,7 @@ const web_search = async ({ query, count = 10, freshness = 'pw' }: {
 };
 
 export interface MonitoringConfig {
-  project: 'mactrackr' | 'mintcondition' | 'coincurator' | 'rumbledeals';
+  project: 'theresmac' | 'mintcondition' | 'coincurator' | 'rumbledeals';
   redditSubreddits: string[];
   twitterHashtags: string[];
   keywords: string[];
@@ -42,7 +42,7 @@ export interface DealAlert {
 // Project-specific monitoring configurations
 const MONITORING_CONFIGS: MonitoringConfig[] = [
   {
-    project: 'mactrackr',
+    project: 'theresmac',
     redditSubreddits: ['macdeals', 'appleswap', 'buildapcsales', 'frugalmalefashion'],
     twitterHashtags: ['#macdeals', '#appledeals', '#macbook'],
     keywords: ['MacBook', 'iPad', 'iPhone', 'AirPods', 'deal', 'sale', 'price drop'],

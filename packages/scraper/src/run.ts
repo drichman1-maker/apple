@@ -34,7 +34,16 @@ if (!site) {
   process.exit(1);
 }
 
-runScraper(site, { dryRun, limit }).catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
-});
+runScraper(site, { dryRun, limit })
+  .then(report => {
+    const enabledAdapters = Object.keys(report.adapters).length;
+    // Alert only when a majority of adapters are broken (isolated retailer outage != pipeline failure)
+    if (enabledAdapters > 0 && report.brokenAdapters.length >= Math.ceil(enabledAdapters / 2)) {
+      console.error(`\nExiting non-zero: ${report.brokenAdapters.length}/${enabledAdapters} adapters returned zero successes.`);
+      process.exit(2);
+    }
+  })
+  .catch(err => {
+    console.error('Fatal error:', err);
+    process.exit(1);
+  });

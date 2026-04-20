@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { getProductImage } from '../../utils/productImages'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
 import { getAffiliateUrl } from '../../config/affiliate'
+import { retailerLabel } from '../../lib/retailers.js'
 
 const ProductCard = ({ product }) => {
   const { isNew, isRefurbished } = useProductCondition()
@@ -58,24 +59,7 @@ const ProductCard = ({ product }) => {
   const savingsFromMsrp = msrpPrice - minPrice
   const savingsPercentFromMsrp = msrpPrice > 0 ? Math.round((savingsFromMsrp / msrpPrice) * 100) : 0
 
-  const getRetailerDisplayName = (retailer) => {
-    const names = {
-      apple: 'Apple',
-      amazon: 'Amazon',
-      walmart: 'Walmart',
-      target: 'Target',
-      bestbuy: 'Best Buy',
-      bh: 'B&H',
-      adorama: 'Adorama',
-      ebay: 'eBay',
-      cdw: 'CDW',
-      newegg: 'Newegg',
-      hyperice: 'Hyperice',
-      rei: 'REI',
-      rogue: 'Rogue'
-    }
-    return names[retailer] || retailer
-  }
+  const getRetailerDisplayName = retailerLabel
 
   const getCategoryDisplay = (category) => {
     const categories = {

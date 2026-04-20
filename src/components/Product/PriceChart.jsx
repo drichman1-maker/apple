@@ -9,6 +9,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts'
+import { retailerLabel } from '../../lib/retailers.js'
 
 const PriceChart = ({ data }) => {
   const colors = {
@@ -42,11 +43,7 @@ const PriceChart = ({ data }) => {
                   style={{ backgroundColor: entry.color }}
                 />
                 <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
-                  {entry.dataKey === 'apple' ? 'Apple' :
-                   entry.dataKey === 'amazon' ? 'Amazon' :
-                   entry.dataKey === 'bestbuy' ? 'Best Buy' :
-                   entry.dataKey === 'bh' ? 'B&H Photo' :
-                   entry.dataKey}:
+                  {retailerLabel(entry.dataKey)}:
                 </span>
                 <span className="text-sm font-medium text-gray-900 dark:text-white">
                   ${Math.round(entry.value)}
@@ -91,13 +88,7 @@ const PriceChart = ({ data }) => {
               fontSize: '14px'
             }}
             formatter={(value) => (
-              <span className="capitalize">
-                {value === 'apple' ? 'Apple' :
-                 value === 'amazon' ? 'Amazon' :
-                 value === 'bestbuy' ? 'Best Buy' :
-                 value === 'bh' ? 'B&H Photo' :
-                 value}
-              </span>
+              <span className="capitalize">{retailerLabel(value)}</span>
             )}
           />
           {Object.keys(colors).map((retailer) => (

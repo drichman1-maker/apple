@@ -14,9 +14,9 @@ interface AggregatorStatus {
 
 const AGGREGATORS: AggregatorStatus[] = [
   {
-    id: 'mactrackr',
-    name: 'MacTrackr',
-    domain: 'mactrackr.com',
+    id: 'theresmac',
+    name: 'TheresMac',
+    domain: 'theresmac.com',
     status: 'healthy',
     products: 38,
     lastUpdate: '2 min ago',
