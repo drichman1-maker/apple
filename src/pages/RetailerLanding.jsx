@@ -86,6 +86,14 @@ const RETAILER_CONFIG = {
     description: 'Leading marketplace for refurbished electronics.',
     pros: ['Significant savings', '1-year warranty', '30-day returns'],
     cons: ['All products are refurbished', 'Not latest generation models'],
+  },
+  abt: {
+    name: 'ABT',
+    displayName: 'ABT Electronics',
+    color: '#C8102E',
+    description: 'Family-owned electronics retailer with competitive Apple pricing and free shipping on most orders.',
+    pros: ['Free shipping', 'Price matching', 'Authorized Apple reseller', 'Excellent service'],
+    cons: ['Single physical location (Illinois)', 'Smaller selection'],
   }
 }
 

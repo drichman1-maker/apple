@@ -67,6 +67,7 @@ const ProductCard = ({ product }) => {
       cdw: 'CDW',
       newegg: 'Newegg',
       microcenter: 'Micro Center',
+      abt: 'ABT',
       hyperice: 'Hyperice',
       rei: 'REI',
       rogue: 'Rogue'
