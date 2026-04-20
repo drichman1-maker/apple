@@ -1,0 +1,96 @@
+// Reconstructed from TypeScript usage in apps/api and packages/db/src.
+// The live production DB (agg-api-hub.fly.dev) is the source of truth for
+// any drift; run `prisma db pull` against it to regenerate this file
+// once DATABASE_URL is available to the maintainer.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Site {
+  theresmac
+  gpudrip
+  healthindex
+  babygear
+  rumbledeals
+  robotatlas
+}
+
+enum StockStatus {
+  in_stock
+  out_of_stock
+  backordered
+  not_carried
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  site      Site
+  slug      String
+  name      String
+  category  String
+  msrp      Float?
+  specs     Json?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prices          RetailerPrice[]
+  priceHistory    PriceHistory[]
+  affiliateClicks AffiliateClick[]
+
+  @@unique([site, slug], name: "site_slug")
+  @@index([site])
+}
+
+model RetailerPrice {
+  id           String      @id @default(cuid())
+  productId    String
+  retailer     String
+  price        Float
+  status       StockStatus
+  url          String
+  affiliateUrl String?
+  verified     Boolean     @default(false)
+  updatedAt    DateTime    @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, retailer], name: "productId_retailer")
+  @@index([retailer])
+}
+
+model PriceHistory {
+  id         String       @id @default(cuid())
+  productId  String
+  retailer   String
+  oldPrice   Float?
+  newPrice   Float
+  oldStatus  StockStatus?
+  newStatus  StockStatus
+  changedBy  String
+  changedAt  DateTime     @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, changedAt])
+  @@index([retailer])
+}
+
+model AffiliateClick {
+  id        String   @id @default(cuid())
+  productId String
+  retailer  String
+  site      Site
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([site, createdAt])
+}

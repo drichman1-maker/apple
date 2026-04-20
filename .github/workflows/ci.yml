@@ -17,11 +17,8 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # --ignore-scripts: packages/db postinstall runs `prisma generate` but the
-      # schema isn't committed yet (tracked separately). Vite only needs root
-      # JS deps.
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Build
         run: npx vite build
@@ -38,10 +35,27 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Typecheck
         run: npx tsc --noEmit -p packages/scraper
+
+  check-api:
+    name: Typecheck api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit -p apps/api
 
   build-aggregator-dashboard:
     name: Build admin dashboard
