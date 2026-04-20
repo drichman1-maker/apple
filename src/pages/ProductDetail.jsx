@@ -279,9 +279,23 @@ const ProductDetail = () => {
   }
 
   const fetchPriceHistory = async () => {
-    // Price history not yet available via public API
-    setPriceHistoryData({ noData: true })
-    setPriceHistoryLoading(false)
+    if (!id) return
+    setPriceHistoryLoading(true)
+    try {
+      const days = chartRange === '30d' ? 30 : chartRange === '60d' ? 60 : 90
+      const res = await fetch(`https://agg-api-hub.fly.dev/api/theresmac/products/${id}/price-history?days=${days}`)
+      if (!res.ok) { setPriceHistoryData({ noData: true }); return }
+      const data = await res.json()
+      if (!data.history || data.history.length < 2) {
+        setPriceHistoryData({ noData: true })
+      } else {
+        setPriceHistoryData(data)
+      }
+    } catch {
+      setPriceHistoryData({ noData: true })
+    } finally {
+      setPriceHistoryLoading(false)
+    }
   }
 
   const getPrices = (product) => {
