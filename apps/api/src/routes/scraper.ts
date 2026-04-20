@@ -38,9 +38,6 @@ scraperRouter.post('/update', async (req, res) => {
         where: { productId_retailer: { productId: product.id, retailer: u.retailer } },
       });
 
-      // Skip if manually verified — admin override takes precedence
-      if (existing?.verified) { results.skipped++; continue; }
-
       const msrp = (product.msrp as number | null) ?? 0;
 
       // ── Price sanity checks ──────────────────────────────────────────────────
@@ -72,6 +69,7 @@ scraperRouter.post('/update', async (req, res) => {
       await db.retailerPrice.upsert({
         where: { productId_retailer: { productId: product.id, retailer: u.retailer } },
         create: { productId: product.id, retailer: u.retailer, price: u.price, status: u.status, url: u.url, verified: false },
+        // Large price changes reset verified so admin reviews; normal updates preserve existing verified state
         update: { price: u.price, status: u.status, url: u.url, ...(largePriceChange ? { verified: false } : {}) },
       });
 
