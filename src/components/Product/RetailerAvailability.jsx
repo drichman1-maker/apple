@@ -1,7 +1,7 @@
 import React from 'react'
 import { ExternalLink } from 'lucide-react'
 
-const RetailerAvailability = ({ prices }) => {
+const RetailerAvailability = ({ prices, productName = '' }) => {
   const retailerNames = {
     apple: 'Apple',
     amazon: 'Amazon',
@@ -65,7 +65,7 @@ const RetailerAvailability = ({ prices }) => {
                 ${price.toLocaleString()}
               </span>
               <a
-                href={url || '#'}
+                href={`/go/${retailer}?url=${encodeURIComponent(url || '')}&query=${encodeURIComponent(productName)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded-lg transition-colors flex items-center gap-2"

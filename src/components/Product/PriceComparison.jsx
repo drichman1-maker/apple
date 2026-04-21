@@ -1,7 +1,7 @@
 import React from 'react'
 import { ExternalLink, Clock } from 'lucide-react'
 
-const PriceComparison = ({ prices }) => {
+const PriceComparison = ({ prices, productName = '' }) => {
   const getRetailerDisplayName = (retailer) => {
     const names = {
       apple: 'Apple Store',
@@ -76,12 +76,12 @@ const PriceComparison = ({ prices }) => {
                 ${price}
               </div>
               <a
-                href={url}
+                href={`/go/${retailer}?url=${encodeURIComponent(url || '')}&query=${encodeURIComponent(productName)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`inline-flex items-center text-sm font-medium mt-1 ${
-                  inStock 
-                    ? 'text-apple-blue hover:text-blue-600' 
+                  inStock
+                    ? 'text-apple-blue hover:text-blue-600'
                     : 'text-gray-400 cursor-not-allowed'
                 } transition-colors duration-200`}
                 onClick={!inStock ? (e) => e.preventDefault() : undefined}

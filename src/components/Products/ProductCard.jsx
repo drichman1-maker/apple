@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useProductCondition } from '../../contexts/ProductConditionContext'
-import { handleRedirect } from '../../utils/redirect'
 
 const ProductCard = ({ product }) => {
   const { isRefurbished } = useProductCondition()
@@ -236,9 +235,12 @@ const ProductCard = ({ product }) => {
           {prices.slice(0, 3).map(({ retailer, price, verified }) => {
             const condition = getRetailerCondition(retailer);
             return (
-              <button
+              <a
                 key={retailer}
-                onClick={() => handleRedirect(product.id, retailer, product)}
+                href={`/go/${retailer}?url=${encodeURIComponent(prices.find(p => p.retailer === retailer)?.url || '')}&query=${encodeURIComponent(product.name)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 className="flex items-center justify-between w-full px-3 py-2 bg-[#1a1a1a] hover:bg-[#262626] border border-[#262626] hover:border-blue-500/30 rounded-lg transition-colors text-left"
               >
                 <div className="flex items-center gap-2">
@@ -255,7 +257,7 @@ const ProductCard = ({ product }) => {
                     <span className="text-[9px] px-1.5 py-0.5 rounded border bg-yellow-500/10 border-yellow-500/30 text-yellow-400">Check Stock</span>
                   )}
                 </div>
-              </button>
+              </a>
             );
           })}
           {prices.length > 3 && (
