@@ -18,7 +18,7 @@ model Product {
   imageUrl     String?
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
-  Alert        Alert[]
+  alerts       Alert[]
   priceHistory PriceHistory[]
   prices       RetailerPrice[]
 
@@ -70,21 +70,21 @@ model AffiliateClick {
 }
 
 model Alert {
-  id          String    @id
+  id          String    @id @default(cuid())
   productId   String
   email       String
   targetPrice Float?
   isActive    Boolean   @default(true)
   triggeredAt DateTime?
   createdAt   DateTime  @default(now())
-  Product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([email])
   @@index([productId])
 }
 
 model EmailSubscription {
-  id        String   @id
+  id        String   @id @default(cuid())
   email     String
   site      Site
   isActive  Boolean  @default(true)
