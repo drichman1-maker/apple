@@ -19,6 +19,12 @@ export interface ScraperResult {
 
 export interface Adapter {
   retailer: string;
+  /**
+   * If defined, returns true only for categories this retailer actually sells.
+   * When false, the runner skips calling `fetch` — preventing wasted HTTP
+   * calls and wrong-product matches from retailers that don't stock the item.
+   */
+  supportsCategory?(category: string): boolean;
   /** Returns null if product not found or adapter is unconfigured */
   fetch(product: ProductInput): Promise<ScraperResult | null>;
 }

@@ -1,0 +1,16 @@
+app = "agg-scraper-cron"
+primary_region = "ewr"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  API_BASE = "https://agg-api-hub.fly.dev"
+
+# One-shot worker — machine stops when entrypoint exits; no http_service.
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
