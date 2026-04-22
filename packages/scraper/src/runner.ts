@@ -127,13 +127,23 @@ export async function runScraper(
     if (!product) continue;
     console.log(`[${i + 1}/${targets.length}] ${product.name}`);
 
+    // Category allowlist: skip adapters that don't sell this category at all.
+    // Counts as notCarried so it doesn't trip the "broken adapter" detector.
+    const activeAdapters = adapters.filter(a => {
+      if (a.supportsCategory && !a.supportsCategory(product.category)) {
+        stats[a.retailer]!.notCarried++;
+        return false;
+      }
+      return true;
+    });
+
     // Run all adapters for this product in parallel; preserve rejection vs null distinction
     const results = await Promise.allSettled(
-      adapters.map(adapter => adapter.fetch(product)),
+      activeAdapters.map(adapter => adapter.fetch(product)),
     );
 
     results.forEach((result, j) => {
-      const adapter = adapters[j];
+      const adapter = activeAdapters[j];
       if (!adapter) return;
       const s = stats[adapter.retailer]!;
       if (result.status === 'rejected') {

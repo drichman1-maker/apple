@@ -41,9 +41,13 @@ scraperRouter.post('/update', async (req, res) => {
       const msrp = (product.msrp as number | null) ?? 0;
 
       // ── Price sanity checks ──────────────────────────────────────────────────
-      // 1. MSRP range: if MSRP is known, reject wildly out-of-range prices
+      // 1. MSRP range: if MSRP is known, reject out-of-range prices.
+      // Tight range (0.5x–1.8x) blocks scraper misfires like $49 iPhones and
+      // third-party marketplace listings without blocking real sales (Apple
+      // rarely discounts >30%, rarely marks up >50%). Refurb products have
+      // their own MSRP so this applies to the correct reference price.
       if (msrp > 0) {
-        if (u.price < msrp * 0.2 || u.price > msrp * 3.0) {
+        if (u.price < msrp * 0.5 || u.price > msrp * 1.8) {
           console.warn(
             `[scraper] Sanity fail ${u.productSlug}/${u.retailer}: $${u.price} vs MSRP $${msrp} — skipped`
           );
