@@ -14,6 +14,8 @@ const RETAILER_CONFIG = {
   microcenter: { label: 'Micro Center', color: 'text-amber-400', bg: 'bg-amber-500/10' },
 }
 
+const CATEGORIES = ['Mac', 'iPad', 'iPhone', 'Watch', 'AirPods']
+
 // Spec icons mapping
 const SPEC_ICONS = {
   chip: Cpu,
@@ -33,13 +35,14 @@ const Compare = () => {
   const [selectedProducts, setSelectedProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0])
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const { products: data } = await getProducts()
         if (Array.isArray(data) && data.length > 0) {
-          setProducts(data.slice(0, 24))
+          setProducts(data)
         } else {
           setError('No products available')
         }
@@ -52,6 +55,11 @@ const Compare = () => {
     }
     fetchProducts()
   }, [])
+
+  const filteredProducts = products.filter(p => {
+    if (!p.category) return false
+    return String(p.category).toLowerCase().trim() === activeCategory.toLowerCase()
+  })
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -191,8 +199,26 @@ const Compare = () => {
             <h2 className="text-lg font-semibold text-white mb-4">
               Select Products ({selectedProducts.length}/4)
             </h2>
+
+            {/* Category Pills */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeCategory === cat
+                      ? 'bg-white text-black'
+                      : 'bg-[#1a1a1a] text-gray-400 border border-[#333] hover:border-[#555] hover:text-white'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {products.slice(0, 24).map(product => {
+              {filteredProducts.slice(0, 24).map(product => {
                 const isSelected = selectedProducts.includes(product.id)
                 const bestPrice = getBestPrice(product)
                 
